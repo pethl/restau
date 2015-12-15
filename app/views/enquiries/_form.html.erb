@@ -1,0 +1,28 @@
+  
+<%= form_for(@enquiry) do |f| %>
+  <% if @enquiry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@enquiry.errors.count, "error") %> prohibited this enquiry from being saved:</h2>
+
+      <ul>
+      <% @enquiry.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<%= params[:col_day] %>
+  <div class="field">
+    <%= f.label :col_day %><br>
+    <%= f.date_select :col_day %>
+  </div>
+  <div class="field">
+    <%= f.label :col_time %><br>
+    <%= f.time_select :col_time, :minute_step => 15 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+</div></div>

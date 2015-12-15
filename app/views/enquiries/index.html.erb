@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Enquiries</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Collection day</th>
+      <th>Collection time</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @enquiries.each do |enquiry| %>
+      <tr>
+        <td><%= enquiry.col_day %></td>
+        <td><%= enquiry.col_time %></td>
+        <td><%= link_to 'Show', enquiry %></td>
+        <td><%= link_to 'Edit', edit_enquiry_path(enquiry) %></td>
+        <td><%= link_to 'Destroy', enquiry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Enquiry', new_enquiry_path %>

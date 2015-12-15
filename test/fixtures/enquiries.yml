@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  col_day: 2015-12-15
+  col_time: 2015-12-15 16:39:44
+
+two:
+  col_day: 2015-12-15
+  col_time: 2015-12-15 16:39:44

@@ -1,0 +1,8 @@
+category_id,name,desc,weight,price,status,sort,feeds
+1,brisket bun,slow and low smoked brisket and gravy in a white bun,250g,6.50,Live,1,1
+1,pulled pork bun,slow and low smoked pulled pork shoulder and gravy in a white bun,250g,6.00,Live,2,1
+1,chicken bun,slow and low smoked chicken and salad in a white bun,250g,6.50,Live,3,1
+2,brisket box,a pile of smoked brisket with fries and beans or slaw,350g,10.50,Live,4,2
+2,pulled pork box,a pile of smoked pulled pork with fries and beans or slaw,350g,9.00,Live,5,2
+2,wing box,a pile of smoked chicken wings with fries and beans or slaw,350g,9.00,Live,6,2
+4,rack of ribs,a full rack of Hang Fire famous slow smoked pork ribs with dry rub,600g,12.00,Live,7,2

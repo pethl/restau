@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Col day:</strong>
+  <%= @enquiry.col_day %>
+</p>
+
+<p>
+  <strong>Col time:</strong>
+  <%= @enquiry.col_time %>
+</p>
+
+<%= link_to 'Edit', edit_enquiry_path(@enquiry) %> |
+<%= link_to 'Back', enquiries_path %>

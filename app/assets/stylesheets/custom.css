@@ -1,0 +1,8 @@
+@import "bootstrap";
+
+.button_custom_width {
+    width: 140px !important;
+}
+.top_pad {
+    margin-top: 1cm;
+}
