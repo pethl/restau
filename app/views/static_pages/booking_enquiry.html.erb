@@ -1,13 +1,13 @@
 <br>
 <div class="row">
-  <div class="col-md-4 col-md-offset-4">
+  <div class="col-md-6 col-md-offset-3">
   
-  
+   <div class="well well-small">
     <h3  class="text-center">When do you want your table?</h3>
     <br><br>
     
     <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
-   
+  
    <p  class="text-center">
     Book day
     <%= date_select('booking', 'booking_date', :order => [:day, :month, :year], default: 1.day.from_now)  %>
@@ -17,7 +17,7 @@
    <p  class="text-center">
    Book Time
    <select name="booking[booking_time_hour]">
-     <option value="">Select Hour</option>
+     <option value="-">Select Hour</option>
      <option value="11">11</option>
      <option value="12">12</option>
      <option value="13">13</option>
@@ -33,13 +33,11 @@
     <select name="booking[booking_time_min]">
       <option value="-">Select Min</option>
       <option value="00">00</option>
-      <option value="15">15</option>
       <option value="30">30</option>
-      <option value="45">45</option>
     </select>
  </p> 
    
-      <br>  
+      <br>      
    <p  class="text-center">
    Number of Diners
       <select name="booking[number_of_diners]">
@@ -54,12 +52,10 @@
         <option value="8">8</option>
       </select>
    </p> 
-   
-   <% hidden_field :table_id, "2" %>
-   
+         <br>  
         <center>
           <%= submit_tag "CHECK FOR TABLE", name: nil, class: "btn btn-success" %>   
              <% end %>
          </center>
-</div>
+</div></div>
 </div>

@@ -7,172 +7,75 @@
     <%= submit_tag "Search" %>
 <% end %>
 
-<br>
 <h3>Showing bookings for : <%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %></h3>
 <br>
+ <% @results = reformat_bookings_into_single_line(@bookings_by_table) %>
 
-<TABLE class="table table-bordered">
-<tr>
-<th>Table</th>
-<th colspan="2" style="text-align:center">11.00</th>
-<th colspan="2" style="text-align:center">12.00</th>
-<th colspan="2" style="text-align:center">13.00</th>
-<th colspan="2" style="text-align:center">14.00</th>
-<th colspan="2" style="text-align:center">15.00</th>
-<th colspan="2" style="text-align:center">16.00</th>
-<th colspan="2" style="text-align:center">17.00</th>
-<th colspan="2" style="text-align:center">18.00</th>
-<th colspan="2" style="text-align:center">19.00</th>
-<th colspan="2" style="text-align:center">20.00</th>
-<th colspan="2" style="text-align:center">21.00</th>
-<th colspan="2" style="text-align:center">22.00</th>
-<th colspan="2" style="text-align:center">23.00</th>
-</tr>
-<tr>
-<td></td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-<td>0</td>
-<td>30</td>
-</tr>
-
-
- <% @bookings_by_table.each do |table_id, bookings| %>
-   <tr><td></td>
-      <td colspan="10"><%= Table.where(:id => table_id).first.reference %>:
-      <%= Table.where(:id => table_id).first.desc %></td>
-   </tr>
- <% bookings.each do |booking| %>
-
-<tr>
-<td><%= link_to booking.name, edit_booking_path(booking.id) %></td>
-
-<%  if has_booking(booking.booking_time, 11, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-    
-<% if has_booking(booking.booking_time, 11, 30)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-  
-<% if has_booking(booking.booking_time, 12, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-    
-<% if has_booking(booking.booking_time, 12, 30)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-  
-<% if has_booking(booking.booking_time, 13, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-  
-<% if has_booking(booking.booking_time, 13, 30)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 14, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-  
-<% if has_booking(booking.booking_time, 14, 30)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 15, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-  
-<% if has_booking(booking.booking_time, 15, 30)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 16, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-  
-<% if has_booking(booking.booking_time, 16, 30)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 17, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 17, 30)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 18, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 18, 30)== true %>
-   <td class="success">...</td>
-    <% else %><td></td><% end %>
+ <TABLE class="table table-bordered">
+ <tr>
+ <th></th>
+ <th colspan="2" style="text-align:center">11.00</th>
+ <th colspan="2" style="text-align:center">12.00</th>
+ <th colspan="2" style="text-align:center">13.00</th>
+ <th colspan="2" style="text-align:center">14.00</th>
+ <th colspan="2" style="text-align:center">15.00</th>
+ <th colspan="2" style="text-align:center">16.00</th>
+ <th colspan="2" style="text-align:center">17.00</th>
+ <th colspan="2" style="text-align:center">18.00</th>
+ <th colspan="2" style="text-align:center">19.00</th>
+ <th colspan="2" style="text-align:center">20.00</th>
+ <th colspan="2" style="text-align:center">21.00</th>
+ <th colspan="2" style="text-align:center">22.00</th>
+ <th colspan="2" style="text-align:center">23.00</th>
+ </tr>
+ <tr>
+ <td></td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ <td>0</td>
+ <td>30</td>
+ </tr>
+ 
+ <% @results.each do |key, array| %>
+   <tr>
+      <td><%= Table.where(:id => key).first.reference %>:
+      <%= Table.where(:id => key).first.desc %></td>
+ <% array.each do |entry| %>
    
-<% if has_booking(booking.booking_time, 19, 0)== true %>
-  <td class="success">...</td>
- <% else %><td></td><% end %>
+   <% case entry[1] %>
+     <% when 1 %>
+      <td class="success"></td>
+   <% when 2 %>
+     <td class="danger">...</td>
+    <% when 0 %>
+    <td></td>
+    <% end %>
+   <% end %>
+</tr>
+<% end %>
+</table> 
 
-<% if has_booking(booking.booking_time, 19, 30)== true %>
-  <td class="success">...</td>
- <% else %><td></td><% end %>
 
-<% if has_booking(booking.booking_time, 20, 0)== true %>
-  <td class="success">...</td>
- <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 20, 30)== true %>
-  <td class="success">...</td>
- <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 21, 0)== true %>
-  <td class="success">...</td>
- <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 21, 30)== true %>
-  <td class="success">...</td>
-   <% else %><td></td><% end %>
-    
-<% if has_booking(booking.booking_time, 22, 0)== true %>
-   <td class="success">...</td>
-  <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 22, 30)== true %>
-   <td class="success">...</td>
-    <% else %><td></td><% end %>
-       
-<% if has_booking(booking.booking_time, 23, 0)== true %>
-  <td class="success">...</td>
- <% else %><td></td><% end %>
-
-<% if has_booking(booking.booking_time, 23, 30)== true %>
-  <td class="success">...</td>
-   <% else %><td></td><% end %>
-  
-  </tr>
-  <% end %>  <% end %>
-</table>
+ 

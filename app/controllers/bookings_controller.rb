@@ -4,7 +4,12 @@ class BookingsController < ApplicationController
   def booking_confirmation
     @booking  = params[:booking]
     
-    #customer selected parameters
+ #   Rails.logger.debug("xxxxxxx_params: #{params[:booking].inspect}")
+ if (params[:booking][:number_of_diners])== "0" || (params[:booking][:booking_time_hour])== "-" || (params[:booking][:booking_time_min])=="-"
+   return redirect_to static_pages_booking_enquiry_path(@booking), notice: 'Please enter required time and number of diners'      
+ end
+ 
+     #customer selected parameters
     number_of_diners = params[:booking][:number_of_diners]
     booking_time_hour = params[:booking][:booking_time_hour]
     booking_time_min = params[:booking][:booking_time_min]
@@ -14,8 +19,9 @@ class BookingsController < ApplicationController
     booking_time = (booking_time_hour+":"+booking_time_min+":00").to_s
     booking_time_early = (booking_time.to_time - (1.hour + 59.minutes)).to_s
     booking_time_late = (booking_time.to_time + (1.hour + 59.minutes)).to_s
-    booking_date = (booking_date_year + "-" + booking_date_month + "-" + booking_date_day).to_s
-    
+    booking_date = (booking_date_year + "-" + booking_date_month + "-" + booking_date_day).to_s   
+ 
+
     #work out if there is a table free
     #first get all tables that match number of diners
     tables = Table.where("min_seats = ? OR max_seats >= ?", number_of_diners,number_of_diners).pluck(:id)
@@ -26,9 +32,7 @@ class BookingsController < ApplicationController
     tables.each do |table|
         
        if ((Booking.where("booking_date = ? AND table_id = ? AND booking_time BETWEEN ? AND ?", booking_date, table, booking_time_early, booking_time_late).count) == 0)
-            
-        Rails.logger.debug("FOUND ZERO CREATE BOOKING")
-        
+       
         @booking = Booking.create(number_of_diners: number_of_diners, 
          booking_time: booking_time, booking_date: booking_date, table_id: table )
         @booking.save
@@ -44,12 +48,9 @@ class BookingsController < ApplicationController
   # GET /bookings
   # GET /bookings.json
   def index
-  #  @bookings = Booking.all
-  #  @bookings = Booking.search(params[:search])
   @bookings = []
    if params[:search]
      @bookings = Booking.search(params[:search])
-     # @bookings= @bookings.sort_by {|k, v| v[:table_id] }
      @bookings_by_table = @bookings.group_by { |t| t.table_id }
       Rails.logger.debug("bookings_by_table: #{@bookings_by_table.inspect}")
      params[:search]= []
