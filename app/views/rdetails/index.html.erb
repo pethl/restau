@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Rdetails</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Restaurant</th>
+      <th>Booking duration</th>
+      <th>Min booking</th>
+      <th>Max booking</th>
+      <th>Last booking time</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rdetails.each do |rdetail| %>
+      <tr>
+        <td><%= rdetail.restaurant_id %></td>
+        <td><%= rdetail.booking_duration %></td>
+        <td><%= rdetail.min_booking %></td>
+        <td><%= rdetail.max_booking %></td>
+        <td><%= rdetail.last_booking_time %></td>
+        <td><%= link_to 'Show', rdetail %></td>
+        <td><%= link_to 'Edit', edit_rdetail_path(rdetail) %></td>
+        <td><%= link_to 'Destroy', rdetail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Rdetail', new_rdetail_path %>

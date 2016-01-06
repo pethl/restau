@@ -1,0 +1,2 @@
+module RdetailsHelper
+end

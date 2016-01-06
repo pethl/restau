@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  resources :customers
+  resources :bookings do
+      collection { post :booking_confirmation }
+    end  
+  resources :tables do
+      collection { post :booking_enquiry }
+    end  
+  resources :rdetails
+  resources :restaurants
+  resources :accounts
   resources :enquiries
   resources :categories
   resources :products do
@@ -12,11 +22,13 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   
   get '/home' => 'static_pages#home'
-  get '/home' => 'static_pages#day_picker'
+  get '/day_picker' => 'static_pages#day_picker'
+  get '/booking_enquiry' => 'static_pages#booking_enquiry'
   
   get "static_pages/home"
   get "static_pages/day_picker"
-  
+  get "static_pages/booking_enquiry"
+  get "static_pages/booking_confirm"  
   
 
   # Example of regular route:

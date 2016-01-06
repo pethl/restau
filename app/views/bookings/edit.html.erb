@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <h3  class="text-center">A table is available at
+    <%= @booking.booking_time.strftime('%H:%M') %><br>
+     on <%= @booking.booking_date.strftime('%A, %d %B %Y') %><br>
+     for  <%= @booking.number_of_diners %> people.</h3>
+    <br>
+
+<%= form_for(@booking) do |builder| %>
+  <% if @booking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+
+      <ul>
+      <% @booking.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table class="table">
+  <body>
+  <th style="width: 50%"></th>
+  <th style="width: 50%"></th>
+  
+  <p><center>Please enter your contact details to confirm your booking.</center></p>
+  <tr>
+  <td>MGMT:Table Assignment:</td><td style="text-align:left">
+  <%= Table.where(:id => @booking.table_id).first.reference %></td>
+  </tr>
+  
+  <tr>
+  <td><%= builder.label :name %></td>
+  <td> <%= builder.text_field :name, :style => "width: 200px;"  %></td>
+  </tr>
+  <tr>
+  <td><%= builder.label :phone %></td>
+  <td> <%= builder.text_field :phone, :style => "width: 200px;"  %></td>
+  </tr>
+  <tr>
+  <td><%= builder.label :email %></td>
+  <td> <%= builder.text_field :email, :style => "width: 250px;"  %></td>
+  </tr>
+  <tr>
+  <td><%= builder.label :accessible, "Accessible Table?" %></td>
+  <td><%= builder.check_box :accessible %></td>
+  </tr>
+  <tr>
+  <td> <%= builder.label :child_friendly, "Child Friendly Table?" %></td>
+    <td>  <%= builder.check_box :child_friendly %></td>
+    </tr>  
+    <tr>
+    <td  style="text-align:center"  colspan="2">
+   
+    <div class="actions">
+   
+     <%= button_tag(type: 'submit', class: "btn btn-success") do %>
+       Confirm My Booking
+     <% end %>
+     </div>
+    
+    </td></tr>
+  </body>
+  </table>
+       <% end %>
+
+ 
+
+

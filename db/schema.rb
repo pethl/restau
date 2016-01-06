@@ -11,16 +11,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151215163944) do
+ActiveRecord::Schema.define(version: 20160104150447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "company_name"
+    t.string   "primary_contact"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.integer  "table_id"
+    t.integer  "customer_id"
+    t.date     "booking_date"
+    t.time     "booking_time"
+    t.integer  "number_of_diners"
+    t.boolean  "accessible"
+    t.boolean  "child_friendly"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.string   "reference"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "phone"
+    t.string   "email"
+    t.text     "desc"
+    t.boolean  "accessible"
+    t.boolean  "child_friendly"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "enquiries", force: :cascade do |t|
@@ -41,6 +76,40 @@ ActiveRecord::Schema.define(version: 20151215163944) do
     t.integer  "feeds"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "rdetails", force: :cascade do |t|
+    t.integer  "restaurant_id"
+    t.decimal  "booking_duration"
+    t.integer  "min_booking"
+    t.integer  "max_booking"
+    t.time     "last_booking_time"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "restaurants", force: :cascade do |t|
+    t.integer  "account_id"
+    t.string   "name"
+    t.string   "location"
+    t.string   "website"
+    t.string   "primary_contact"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "tables", force: :cascade do |t|
+    t.integer  "restaurant_id"
+    t.string   "reference"
+    t.text     "desc"
+    t.integer  "min_seats"
+    t.integer  "max_seats"
+    t.boolean  "accessible"
+    t.boolean  "child_friendly"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
 end

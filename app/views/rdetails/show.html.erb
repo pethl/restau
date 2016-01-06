@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Restaurant:</strong>
+  <%= @rdetail.restaurant_id %>
+</p>
+
+<p>
+  <strong>Booking duration:</strong>
+  <%= @rdetail.booking_duration %>
+</p>
+
+<p>
+  <strong>Min booking:</strong>
+  <%= @rdetail.min_booking %>
+</p>
+
+<p>
+  <strong>Max booking:</strong>
+  <%= @rdetail.max_booking %>
+</p>
+
+<p>
+  <strong>Last booking time:</strong>
+  <%= @rdetail.last_booking_time %>
+</p>
+
+<%= link_to 'Edit', edit_rdetail_path(@rdetail) %> |
+<%= link_to 'Back', rdetails_path %>

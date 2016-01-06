@@ -6,6 +6,10 @@ class StaticPagesController < ApplicationController
   
   def day_picker
   end
+  
+  def booking_confirm
+    @booking = params[:booking]
+  end
  
 
 end

@@ -1,0 +1,46 @@
+<%= form_for(@booking) do |builder| %>
+  <% if @booking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+
+      <ul>
+      <% @booking.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= builder.label :table_id %><br>
+    <%= builder.collection_select :table_id, Table.all, :id, :reference %>
+
+  </div>
+  <div class="field">
+    <%= builder.label :customer_id %><br>
+    <%= builder.number_field :customer_id %>
+  </div>
+  <div class="field">
+    <%= builder.label :booking_date %><br>
+    <%= builder.date_select :booking_date %>
+  </div>
+  <div class="field">
+    <%= builder.label :booking_time %><br>
+ <%= time_select :builder, :booking_time %>
+  </div>
+  <div class="field">
+    <%= builder.label :number_of_diners %><br>
+    <%= builder.select :number_of_diners, options_for_select(Range.new(1,8)) %></td>
+  </div>
+  <div class="field">
+    <%= builder.label :accessible %><br>
+    <%= builder.check_box :accessible %>
+  </div>
+  <div class="field">
+    <%= builder.label :child_friendly %><br>
+    <%= builder.check_box :child_friendly %>
+  </div>
+  <div class="actions">
+    <%= builder.submit %>
+  </div>
+<% end %>

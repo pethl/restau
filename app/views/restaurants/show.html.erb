@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h2>  <%= @restaurant.name %>
+</h2>
+
+
+<p>
+  <strong>Account:</strong>
+  <%= Account.where(:id =>@restaurant.account_id).first.company_name %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @restaurant.location %>
+</p>
+
+<p>
+  <strong>Website:</strong>
+  <%= @restaurant.website %>
+</p>
+
+<p>
+  <strong>Primary contact:</strong>
+  <%= @restaurant.primary_contact %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @restaurant.email %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @restaurant.phone %>
+</p>
+<br>
+<p>
+  <strong>Tables</strong>
+  <% if @restaurant.tables.any? %>
+  <% @restaurant.tables.each do |table| %>
+    <li><%= link_to table.reference, table %> - ( <%= table.min_seats %> to <%= table.max_seats %> ) - <%= table.desc %></li>
+    <% end %>
+        <% end %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
+<%= link_to 'Back', restaurants_path %>

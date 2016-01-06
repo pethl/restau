@@ -1,0 +1,37 @@
+<%= form_for(@rdetail) do |f| %>
+  <% if @rdetail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@rdetail.errors.count, "error") %> prohibited this rdetail from being saved:</h2>
+
+      <ul>
+      <% @rdetail.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :restaurant_id %><br>
+    <%= f.number_field :restaurant_id %>
+  </div>
+  <div class="field">
+    <%= f.label :booking_duration %><br>
+    <%= f.text_field :booking_duration %>
+  </div>
+  <div class="field">
+    <%= f.label :min_booking %><br>
+    <%= f.number_field :min_booking %>
+  </div>
+  <div class="field">
+    <%= f.label :max_booking %><br>
+    <%= f.number_field :max_booking %>
+  </div>
+  <div class="field">
+    <%= f.label :last_booking_time %><br>
+    <%= f.time_select :last_booking_time %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

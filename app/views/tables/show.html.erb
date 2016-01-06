@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Restaurant:</strong>
+  <%= Restaurant.where(:id =>@table.restaurant_id).first.name %>
+  
+</p>
+
+<p>
+  <strong>Reference:</strong>
+  <%= @table.reference %>
+</p>
+
+<p>
+  <strong>Desc:</strong>
+  <%= @table.desc %>
+</p>
+
+<p>
+  <strong>Min seats:</strong>
+  <%= @table.min_seats %>
+</p>
+
+<p>
+  <strong>Max seats:</strong>
+  <%= @table.max_seats %>
+</p>
+
+<p>
+  <strong>Accessible:</strong>
+  <%= @table.accessible %>
+</p>
+
+<p>
+  <strong>Child friendly:</strong>
+  <%= @table.child_friendly %>
+</p>
+
+<%= link_to 'Edit', edit_table_path(@table) %> |
+<%= link_to 'Back', tables_path %>

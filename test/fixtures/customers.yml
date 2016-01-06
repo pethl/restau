@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  phone: MyString
+  email: MyString
+  desc: MyText
+  accessible: false
+  child_friendly: false
+
+two:
+  name: MyString
+  phone: MyString
+  email: MyString
+  desc: MyText
+  accessible: false
+  child_friendly: false

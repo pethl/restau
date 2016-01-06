@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Tables</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Restaurant</th>
+      <th>Reference</th>
+      <th>Desc</th>
+      <th>Min seats</th>
+      <th>Max seats</th>
+      <th>Accessible</th>
+      <th>Child friendly</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tables.each do |table| %>
+      <tr>
+        <td><%= Restaurant.where(:id => table.restaurant_id).first.name %></td>
+        <td><%= table.reference %></td>
+        <td><%= table.desc %></td>
+        <td><%= table.min_seats %></td>
+        <td><%= table.max_seats %></td>
+        <td><%= table.accessible %></td>
+        <td><%= table.child_friendly %></td>
+        <td><%= link_to 'Show', table %></td>
+        <td><%= link_to 'Edit', edit_table_path(table) %></td>
+        <td><%= link_to 'Destroy', table, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Table', new_table_path %><br>
+<%= link_to 'New Booking', new_booking_path %>

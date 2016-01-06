@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  restaurant_id: 1
+  reference: MyString
+  desc: MyText
+  min_seats: 1
+  max_seats: 1
+  accessible: false
+  child_friendly: false
+
+two:
+  restaurant_id: 1
+  reference: MyString
+  desc: MyText
+  min_seats: 1
+  max_seats: 1
+  accessible: false
+  child_friendly: false

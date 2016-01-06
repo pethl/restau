@@ -1,0 +1,36 @@
+<br><br>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+
+    <h3  class="text-center">A table is available at:</h3>
+    <br><br>
+    
+    <table class="table">
+    <body>
+    <tr>
+    <td>Date:</td><td style="text-align:center">
+    <%= params[:booking][:booking_date_day] %>/<%= params[:booking][:booking_date_month] %>/<%= params[:booking][:booking_date_year] %></td>
+    </tr>
+    <tr>
+    <td>Time:</td><td style="text-align:center">
+    <%= params[:booking][:booking_time_hour] %>:<%= params[:booking][:booking_time_min] %></td>
+    </tr>
+    <tr>
+    <td>Number of Diners:</td><td style="text-align:center">
+    <%= params[:booking][:number_of_diners] %></td>
+    </tr>
+    </body>
+    </table>
+
+    <%= form_tag booking_confirm_bookings_path do |f| %>      
+  
+    <center>
+      <%= submit_tag "BOOK THIS TABLE NOW", name: "booking", value: @booking,class: "btn btn-success" %>   
+    
+       <% end %>
+     </center>
+</div>
+  </div>
+
+   

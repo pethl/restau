@@ -16,9 +16,6 @@ class EnquiriesController < ApplicationController
   def new
         @enquiry = Enquiry.new
       end
-      
-    @enquiry = Enquiry.new
-  end
 
   # GET /enquiries/1/edit
   def edit

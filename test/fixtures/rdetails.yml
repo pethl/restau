@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  restaurant_id: 1
+  booking_duration: 9.99
+  min_booking: 1
+  max_booking: 1
+  last_booking_time: 2015-12-23 12:26:08
+
+two:
+  restaurant_id: 1
+  booking_duration: 9.99
+  min_booking: 1
+  max_booking: 1
+  last_booking_time: 2015-12-23 12:26:08

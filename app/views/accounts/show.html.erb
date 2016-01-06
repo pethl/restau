@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h2>
+  <%= @account.company_name %>
+</h2>
+
+<p>
+  <strong>Primary contact:</strong>
+  <%= @account.primary_contact %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @account.email %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @account.phone %>
+</p>
+<br>
+<p>
+  <strong>Restaurants</strong>
+  <% if @account.restaurants.any? %>
+  <% @account.restaurants.each do |restaurant| %>
+    <li><%= restaurant.name %>, <%= restaurant.location %> </li>
+    <% end %>
+        <% end %>
+</p>
+
+<%= link_to 'Edit', edit_account_path(@account) %> |
+<%= link_to 'Back', accounts_path %>
