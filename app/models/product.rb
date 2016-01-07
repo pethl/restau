@@ -8,6 +8,7 @@ class Product < ActiveRecord::Base
     
     default_scope { order('sort ASC') } 
  
+    belongs_to :category
   
   STATUS_TYPES = ["Live", "Suspended"]
   

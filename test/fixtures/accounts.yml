@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  company_name: MyString
-  primary_contact: MyString
-  email: MyString
-  phone: MyString
+  company_name: Hang Fire Smoke House
+  primary_contact: Shauna Guinn
+  email: hangfirebbq@gmail.com
+  phone: 07803293552
 
 two:
-  company_name: MyString
-  primary_contact: MyString
-  email: MyString
-  phone: MyString
+  company_name: Second Account Name
+  primary_contact: Lisa Pethick
+  email: pethicklisa@gmail.com
+  phone: 07713401729

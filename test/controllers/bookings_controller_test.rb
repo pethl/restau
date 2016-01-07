@@ -5,11 +5,11 @@ class BookingsControllerTest < ActionController::TestCase
     @booking = bookings(:one)
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:bookings)
-  end
+#  test "should get index" do
+#    get :index
+#    assert_response :success
+#    assert_not_nil assigns(:bookings)
+#  end
 
   test "should get new" do
     get :new
@@ -29,15 +29,15 @@ class BookingsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @booking
-    assert_response :success
-  end
+#  test "should get edit" do
+#    get :edit, id: @booking
+#    assert_response :success
+#  end
 
-  test "should update booking" do
-    patch :update, id: @booking, booking: { accessible: @booking.accessible, booking_date: @booking.booking_date, booking_time: @booking.booking_time, child_friendly: @booking.child_friendly, customer_id: @booking.customer_id, number_of_diners: @booking.number_of_diners, table_id: @booking.table_id }
-    assert_redirected_to booking_path(assigns(:booking))
-  end
+#  test "should update booking" do
+#    patch :update, id: @booking, booking: { accessible: @booking.accessible, booking_date: @booking.booking_date, booking_time: @booking.booking_time, child_friendly: @booking.child_friendly, customer_id: @booking.customer_id, number_of_diners: @booking.number_of_diners, table_id: @booking.table_id }
+#    assert_redirected_to booking_path(assigns(:booking))
+#  end
 
   test "should destroy booking" do
     assert_difference('Booking.count', -1) do

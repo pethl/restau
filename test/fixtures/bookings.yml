@@ -1,19 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  table_id: 1
-  customer_id: 1
+  table: SK1
   booking_date: 2015-12-23
   booking_time: 2015-12-23 12:26:18
-  number_of_diners: 1
+  number_of_diners: 4
   accessible: false
   child_friendly: false
 
 two:
-  table_id: 1
-  customer_id: 1
+  table: SK2
   booking_date: 2015-12-23
   booking_time: 2015-12-23 12:26:18
-  number_of_diners: 1
+  number_of_diners: 2
   accessible: false
   child_friendly: false

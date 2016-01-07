@@ -1,19 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  account_id: 1
-  name: MyString
-  location: MyString
-  website: MyString
-  primary_contact: MyString
-  email: MyString
-  phone: MyString
+  account: one
+  name: Hang Fire Southern Kitchen
+  location: Pumphouse, Barry
+  website: hangfiresouthernkitchen.com
+  primary_contact: Sam Evans
+  email: hfsouthernkitchen@gmail.com
+  phone: 07713401729
 
 two:
-  account_id: 1
-  name: MyString
-  location: MyString
-  website: MyString
-  primary_contact: MyString
-  email: MyString
-  phone: MyString
+  account: one
+  name: Hang Fire Other Restaurant
+  location: Swansea
+  website: hangfireotherrestaurant.com
+  primary_contact: Sam Smith
+  email: hfotherrestaurant@gmail.com
+  phone: 08813401729

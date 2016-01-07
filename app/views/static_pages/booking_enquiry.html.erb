@@ -8,9 +8,17 @@
     
     <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
   
-   <p  class="text-center">
+     <p  class="text-center">
+     Restaurant
+          <select name="booking[restaurant]">
+        <option value="<%= Restaurant.first.name %>"><%= Restaurant.first.name %></option>
+      </select>
+      </p>
+      <br>
+  
+ <p  class="text-center">
     Book day
-    <%= date_select('booking', 'booking_date', :order => [:day, :month, :year], default: 1.day.from_now)  %>
+    <%= date_select('booking', 'booking_date', :order => [ :month, :day, :year], default: 1.day.from_now)  %>
     </p>
     
    <br>  

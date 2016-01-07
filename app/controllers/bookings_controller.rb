@@ -3,13 +3,15 @@ class BookingsController < ApplicationController
   
   def booking_confirmation
     @booking  = params[:booking]
-    
- #   Rails.logger.debug("xxxxxxx_params: #{params[:booking].inspect}")
+ 
+ #1) check to ensure all form fields are filled   
  if (params[:booking][:number_of_diners])== "0" || (params[:booking][:booking_time_hour])== "-" || (params[:booking][:booking_time_min])=="-"
    return redirect_to static_pages_booking_enquiry_path(@booking), notice: 'Please enter required time and number of diners'      
  end
  
      #customer selected parameters
+    restaurant = params[:booking][:restaurant]
+    restaurant_id = Restaurant.where(:name => restaurant).first.id
     number_of_diners = params[:booking][:number_of_diners]
     booking_time_hour = params[:booking][:booking_time_hour]
     booking_time_min = params[:booking][:booking_time_min]
@@ -21,10 +23,20 @@ class BookingsController < ApplicationController
     booking_time_late = (booking_time.to_time + (1.hour + 59.minutes)).to_s
     booking_date = (booking_date_year + "-" + booking_date_month + "-" + booking_date_day).to_s   
  
+ #2) check to ensure booking is in future
+    if booking_date.to_date < Date.today+1.day
+      return redirect_to static_pages_booking_enquiry_path(@booking), notice: 'Bookings can only be made for future dates, please amend date and try again.'      
+    end
+
+#3) check to ensure booking is not Monday or Tuesday
+   if ("Monday, Tuesday").include? booking_date.to_date.strftime("%A")
+     return redirect_to static_pages_booking_enquiry_path(@booking), notice: 'The restaurant is closed on Mondays and Tuesdays, please amend date and try again.'      
+   end
 
     #work out if there is a table free
+    
     #first get all tables that match number of diners
-    tables = Table.where("min_seats = ? OR max_seats >= ?", number_of_diners,number_of_diners).pluck(:id)
+    tables = Table.where("restaurant_id = ? AND (min_seats = ? OR max_seats >= ?)", restaurant_id, number_of_diners,number_of_diners).pluck(:id)
     Rails.logger.debug("TABLES MATCHING SEATS SEARCH: #{tables}")
     
      @booking=[]
@@ -95,7 +107,7 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
-        format.html { redirect_to @booking, notice: 'Booking was successfully updated.' }
+        format.html { redirect_to @booking, notice: 'Booking has been confirmed.' }
         format.json { render :show, status: :ok, location: @booking }
       else
         format.html { render :edit }

@@ -22,10 +22,12 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   
   get '/home' => 'static_pages#home'
+   get '/help' => 'static_pages#help'
   get '/day_picker' => 'static_pages#day_picker'
   get '/booking_enquiry' => 'static_pages#booking_enquiry'
   
   get "static_pages/home"
+  get "static_pages/help"
   get "static_pages/day_picker"
   get "static_pages/booking_enquiry"
   get "static_pages/booking_confirm"  
