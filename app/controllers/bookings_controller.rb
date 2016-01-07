@@ -46,7 +46,7 @@ class BookingsController < ApplicationController
        if ((Booking.where("booking_date = ? AND table_id = ? AND booking_time BETWEEN ? AND ?", booking_date, table, booking_time_early, booking_time_late).count) == 0)
        
         @booking = Booking.create(number_of_diners: number_of_diners, 
-         booking_time: booking_time, booking_date: booking_date, table_id: table )
+         booking_time: booking_time, booking_date: booking_date, table_id: table, status: 'Held' )
         @booking.save
             redirect_to edit_booking_path(@booking) and return
         end
@@ -55,6 +55,13 @@ class BookingsController < ApplicationController
         if @booking.empty?
           redirect_to static_pages_booking_enquiry_path(@booking), notice: 'Sorry, we have no tables at this time and date.Would you like to adjust your request and try again?'       
         end
+  end
+  
+  def booking_cancellation
+     Rails.logger.debug("cancellation: #{params[:booking]}")
+     booking_id = params[:booking]
+     Booking.update(booking_id, :status => 'Cancelled', :cancelled_at => Time.now)
+      redirect_to edit_booking_path(booking_id)
   end
   
   # GET /bookings
@@ -67,7 +74,7 @@ class BookingsController < ApplicationController
       Rails.logger.debug("bookings_by_table: #{@bookings_by_table.inspect}")
      params[:search]= []
    else
-     @bookings = Booking.where(:booking_date => Date.today)
+     @bookings = Booking.where(:booking_date => Date.today, :status => "Confirmed")
      @bookings_by_table = @bookings.group_by { |t| t.table_id }
    end
   end
@@ -134,6 +141,6 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:table_id, :customer_id, :booking_date, :booking_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
+      params.require(:booking).permit(:table_id, :customer_id, :booking_date, :booking_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
     end
 end

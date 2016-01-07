@@ -30,14 +30,14 @@ module BookingsHelper
     
     bookings_per_table = one_days_booking_grouped_by_table # does nothing just simpler name
     
-    bookings_per_table.each do |table, bookings| #take each set from hash, a table and its bookings
+    bookings_per_table.sort_by(&:first).each do |table, bookings| #take each set from hash, a table and its bookings
       #go through each booking and match the booking_time to a period_start
      Rails.logger.debug("table: #{table}")
       #this hash contains all the time period slots we need to match to  
       table_hash = { 11.0 => 0, 11.3 => 0, 12.0 => 0, 12.3 => 0, 13.0 => 0, 13.3 => 0, 14.0 => 0, 14.3 => 0, 15.0 => 0, 15.3 => 0, 16.0 => 0, 16.3 => 0, 17.0 => 0, 17.3 => 0, 18.0 => 0, 18.3 => 0, 19.0 => 0, 19.3 => 0, 20.0 => 0, 20.3 => 0, 21.0 => 0, 21.3 => 0, 22.0 => 0, 22.3 => 0, 23.0 => 0, 23.3 => 0, 24.0 => 0 }
     
       bookings.each do |booking| 
-        
+        if booking.status == "Confirmed"  #THIS IS A BAD WORK AROUND SHOULD BE IN PREVIOUS SEARCH PARAMS
         booking_start = get_float_time(booking.booking_time) #response is formatted as float
         booking_end = get_float_time(booking.booking_time + (1.hour + 59.minutes))  #response is formatted as float
         
@@ -48,7 +48,10 @@ module BookingsHelper
             if booking_start == key
               table_hash[key] = 2 
             end
+           
         end
+      else
+      end 
        
       end
       #before the end of this segment, we commit the table_hash to result hash using the table ID as key

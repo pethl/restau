@@ -1,17 +1,17 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <% if @booking.status == "Held" %>
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
 
     <h3  class="text-center">A table is available at
     <%= @booking.booking_time.strftime('%H:%M') %><br>
-     on <%= @booking.booking_date.strftime('%A, %d %B %Y') %><br>
-     for  <%= @booking.number_of_diners %> people.</h3>
+    on <%= @booking.booking_date.strftime('%A, %d %B %Y') %><br>
+    for  <%= @booking.number_of_diners %> people.</h3>
     <br>
 
 <%= form_for(@booking) do |builder| %>
   <% if @booking.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
-
       <ul>
       <% @booking.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -49,22 +49,58 @@
   </tr>
   <tr>
   <td> <%= builder.label :child_friendly, "Child Friendly Table?" %></td>
-    <td>  <%= builder.check_box :child_friendly %></td>
-    </tr>  
-    <tr>
-    <td  style="text-align:center"  colspan="2">
-   
-    <div class="actions">
-   
+  <td>  <%= builder.check_box :child_friendly %></td>
+  </tr>  
+  <tr>
+  <td  style="text-align:center"  colspan="2">
+ 
+
+   <%= builder.hidden_field :status, :value => "Confirmed" %>
+  
+  <div class="actions">
      <%= button_tag(type: 'submit', class: "btn btn-success") do %>
        Confirm My Booking
      <% end %>
-     </div>
+</div>
+</td></tr>
+</body>
+</table>
+<% end %>
+</div></div>
+       
+       <% elsif  @booking.status == "Confirmed" %>
+       
+       <div class="row">
+       <div class="col-md-4 col-md-offset-4">
+       <br>
+       <h3><%= @booking.name%></h3>
+       Your Booking:<br><br>
+        <%= @booking.booking_time.strftime('%H:%M') %>
+       on <%= @booking.booking_date.strftime('%A, %d %B %Y') %><br>
+       for  <%= @booking.number_of_diners %> people.</h3>
+       <br><br>  
+     
+       <% if (@booking.booking_date - DateTime.now) > 1 %> 
+                 
+        <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+        <%= hidden_field_tag(:booking, @booking.id) %>
+        <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning" %>   
+       <% end%> 
     
-    </td></tr>
-  </body>
-  </table>
-       <% end %>
+         <% else %> 
+         <p>Bookings cannot be cancelled online within 1 day of the booking. Please call the restaurant on 02920 666777. </p>
+         <% end%> 
+    
+           <% elsif  @booking.status == "Cancelled" %>
+           <div class="row">
+           <div class="col-md-4 col-md-offset-4">
+           <br>
+           <h3><%= @booking.name%></h3> <br>
+           Your booking was cancelled on<br><strong><%= @booking.cancelled_at.strftime('%A, %d %B %Y at %H:%M') %></strong>.<br><br>
+           If you want to rebook please use the link below<br>  <%= link_to "Reserve a Table", static_pages_booking_enquiry_path %></button></td>
+    
+       </div></div>
+      <% end %>
 
  
 

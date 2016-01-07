@@ -1,6 +1,3 @@
-<p id="notice"><%= notice %></p>
-
-
 <br>
 <%= form_tag(bookings_path, :method => "get", id: "search-form") do %>
     <%= date_select :search, params[:search], placeholder: "Search by booking date" %>
@@ -76,6 +73,50 @@
 </tr>
 <% end %>
 </table> 
+
+<br><br>
+Booking details for :<%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %>
+<br><br>
+
+<table class="table ">
+  <thead>
+    <tr>
+      <th>Table</th>
+      <th>Customer</th>
+      <th>Number</th>
+      <th>Booking time</th>
+      <th>Number of diners</th>
+      <th>Accessible</th>
+      <th>Child friendly</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bookings_by_table.sort_by(&:first).each do |table, bookings| %>
+     
+   **BUG HERE NEED TO REMOVE UNCONFIRMED BOOKINGS**
+      <tr>
+        <td colspan="5" ><% unless table.nil? %>
+          <%= Table.where(:id => table).first.reference %> - <%= Table.where(:id => table).first.desc %><% end %></td>
+      </tr>
+          <% bookings = bookings.sort_by { |hsh| hsh[:booking_time] }%>
+            <% bookings.each do |booking| %>
+              <% if booking.status == "Confirmed" %>
+        <tr>
+        <td></td>
+        <td><strong><%= booking.name %></strong></td>
+        <td><%= booking.phone %></td>
+       
+        <td><%= booking.booking_time.strftime('%H:%M')   %></td>
+        <td><%= booking.number_of_diners %></td>
+        <td><%= booking.accessible %></td>
+        <td><%= booking.child_friendly %></td>
+      </tr>
+    <% end %>    <% end %><% end %>
+  </tbody>
+</table>
+
 
 
  

@@ -30,8 +30,9 @@
   <%= @booking.child_friendly %>
 </p>
 
-
-
-<%= link_to 'Edit', edit_booking_path(@booking) %> |
-<%= link_to 'Back', bookings_path %>
+<p  class="text-center">
+ <button type="button" class="btn btn-warning btn-lg">
+   <%= link_to "Cancel My Booking", edit_booking_path(@booking) %>
+</button>
+</p> 
 </div></div>

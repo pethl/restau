@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   resources :customers
   resources :bookings do
-      collection { post :booking_confirmation }
+      collection { post :booking_confirmation };
+      collection { post :booking_cancellation }
     end  
   resources :tables do
       collection { post :booking_enquiry }
