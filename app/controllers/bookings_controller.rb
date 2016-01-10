@@ -114,7 +114,7 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
-        format.html { redirect_to @booking, notice: 'Booking has been confirmed.' }
+        format.html { redirect_to @booking }
         format.json { render :show, status: :ok, location: @booking }
       else
         format.html { render :edit }
@@ -128,7 +128,7 @@ class BookingsController < ApplicationController
   def destroy
     @booking.destroy
     respond_to do |format|
-      format.html { redirect_to bookings_url, notice: 'Booking was successfully destroyed.' }
+      format.html { redirect_to static_pages_booking_enquiry_path }
       format.json { head :no_content }
     end
   end

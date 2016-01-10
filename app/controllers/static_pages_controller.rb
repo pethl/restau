@@ -16,6 +16,22 @@ class StaticPagesController < ApplicationController
   
   def booking_enquiry
   end
- 
+  
+  def hfsk_home
+  end
+  
+  def hfsk_about
+  end
+  
+  def hfsk_menu
+  end
+  
+  def download_pdf
+    send_file(
+      "#{Rails.root}/public/Sample_Menu_V1.pdf",
+      filename: "Sample_Menu_V1.pdf",
+      type: "application/pdf"
+    )
+  end
 
 end

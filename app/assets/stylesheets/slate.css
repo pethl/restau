@@ -1155,6 +1155,9 @@ hr {
   margin-bottom: 20px;
   border: 0;
   border-top: 1px solid #1c1e22;
+  height: 1px;
+  color: #ff9900;
+  background-color: #ff9900;
 }
 .sr-only {
   position: absolute;

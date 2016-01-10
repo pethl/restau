@@ -1,14 +1,19 @@
   <% if @booking.status == "Held" %>
     <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-8 col-md-offset-2  ">
 
-    <h3  class="text-center">A table is available at
-    <%= @booking.booking_time.strftime('%H:%M') %><br>
-    on <%= @booking.booking_date.strftime('%A, %d %B %Y') %><br>
-    for  <%= @booking.number_of_diners %> people.</h3>
+    <h3  class="text-center">A table is available for  <%= @booking.number_of_diners %> people
+   at <br><%= @booking.booking_time.strftime('%H:%M') %>
+    on <%= @booking.booking_date.strftime('%A, %d %B %Y') %>.<br>
+  </h3>
+  </div></div> 
+  
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4  ">
     <br>
 
-<%= form_for(@booking) do |builder| %>
+<%= form_for (@booking) do |builder| %>
+    
   <% if @booking.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
@@ -20,53 +25,40 @@
     </div>
   <% end %>
 
-  <table class="table">
-  <body>
-  <th style="width: 50%"></th>
-  <th style="width: 50%"></th>
-  
-  <p><center>Please enter your contact details to confirm your booking.</center></p>
-  <tr>
-  <td>MGMT:Table Assignment:</td><td style="text-align:left">
-  <%= Table.where(:id => @booking.table_id).first.reference %></td>
-  </tr>
-  
-  <tr>
-  <td><%= builder.label :name %></td>
-  <td> <%= builder.text_field :name, :style => "width: 200px;"  %></td>
-  </tr>
-  <tr>
-  <td><%= builder.label :phone %></td>
-  <td> <%= builder.text_field :phone, :style => "width: 200px;"  %></td>
-  </tr>
-  <tr>
-  <td><%= builder.label :email %></td>
-  <td> <%= builder.text_field :email, :style => "width: 250px;"  %></td>
-  </tr>
-  <tr>
-  <td><%= builder.label :accessible, "Accessible Table?" %></td>
-  <td><%= builder.check_box :accessible %></td>
-  </tr>
-  <tr>
-  <td> <%= builder.label :child_friendly, "Child Friendly Table?" %></td>
-  <td>  <%= builder.check_box :child_friendly %></td>
-  </tr>  
-  <tr>
-  <td  style="text-align:center"  colspan="2">
+  <p><center>Please enter details to confirm your booking.</center></p>
  
-
-   <%= builder.hidden_field :status, :value => "Confirmed" %>
+  <div class="input-group margin-bottom-sm">
+    <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+    <%= builder.text_field :phone, :style => "width: 250px;", :placeholder => "contact name"  %>
+   </div>
+  <div class="input-group margin-bottom-sm">
+    <span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
+    <%= builder.text_field :phone, :style => "width: 250px;", :placeholder => "phone number"  %>
+   </div>
+   <div class="input-group margin-bottom-sm">
+     <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+     <%= builder.text_field :email, :style => "width: 250px;", :placeholder => "email address"  %>
+    </div>
+    <br>
+  
+   <%= builder.hidden_field :status, :value => "Confirmed" %>  
   
   <div class="actions">
+  <center>
      <%= button_tag(type: 'submit', class: "btn btn-success") do %>
        Confirm My Booking
+     <% end %>  
+     
+     <button type="button" class="btn btn-warning button_custom_width">
+        <%= link_to "I don't want this", @booking, method: :delete, data: { confirm: 'Are you sure?' } %>
+     </button></center>
+     
      <% end %>
-</div>
-</td></tr>
-</body>
-</table>
-<% end %>
-</div></div>
+   
+     <br><br><br>MGMT:Table Assignment:
+       <%= Table.where(:id => @booking.table_id).first.reference %><br>
+       </div></div>
+
        
        <% elsif  @booking.status == "Confirmed" %>
        

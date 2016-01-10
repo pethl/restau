@@ -26,12 +26,23 @@ Rails.application.routes.draw do
    get '/help' => 'static_pages#help'
   get '/day_picker' => 'static_pages#day_picker'
   get '/booking_enquiry' => 'static_pages#booking_enquiry'
+   get '/download_pdf' => 'static_pages#download_pdf'
+  
+  get '/hfsk_home' => 'static_pages#hfsk_home'
+   get '/hfsk_about' => 'static_pages#hfsk_about'
+   get '/hfsk_menu' => 'static_pages#hfsk_menu'
+    get '/hfsk_booking' => 'static_pages#booking_enquiry'
   
   get "static_pages/home"
   get "static_pages/help"
   get "static_pages/day_picker"
   get "static_pages/booking_enquiry"
   get "static_pages/booking_confirm"  
+  
+  get "static_pages/hfsk_home"
+  get "static_pages/hfsk_menu"
+  get "static_pages/hfsk_about"
+
   
 
   # Example of regular route:

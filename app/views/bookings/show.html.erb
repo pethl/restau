@@ -1,16 +1,16 @@
 <div class="row">
   <div class="col-md-4 col-md-offset-4"><br>
-  <h3  class="text-center">It's done!</h3>
+  <h3  class="text-center">It's done <%= @booking.name%>!</h3>
   <br>
   
    <h4  class="text-center">
-   Hi <strong><%= @booking.name%></strong>,<br>
-   thanks for your booking.<br><br>
+  
+   Thanks for your booking.<br><br>
    We have sent an email to 
    <%= @booking.email %> to confirm your table for 
-   <%= @booking.number_of_diners %> people at 
-   <%= @booking.booking_time.strftime('%H:%M') %> on
-   <%= @booking.booking_date.strftime('%A, %d %B %Y') %>.<br><br>
+   <strong><%= @booking.number_of_diners %></strong> people at 
+   <strong><%= @booking.booking_time.strftime('%H:%M') %></strong>  on
+   <strong><%= @booking.booking_date.strftime('%A, %d %B %Y') %></strong> .<br><br>
    We look forward to welcoming you.
    <br><br>
    <i><strong>Hang Fire Southern Kitchen</strong></i>
