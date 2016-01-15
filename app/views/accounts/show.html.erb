@@ -1,3 +1,6 @@
+<%= render 'layouts/header' %>
+<div style="padding-top:10px;"> 
+
 
 
 <h2>
@@ -23,7 +26,9 @@
   <strong>Restaurants</strong>
   <% if @account.restaurants.any? %>
   <% @account.restaurants.each do |restaurant| %>
-    <li><%= restaurant.name %>, <%= restaurant.location %> </li>
+    <ul>
+    <li><p><%= restaurant.name %>, <%= restaurant.location %></p> </li>
+    </ul>
     <% end %>
         <% end %>
 </p>

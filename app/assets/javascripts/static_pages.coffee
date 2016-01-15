@@ -3,3 +3,5 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
 $('[data-behaviour~=datepicker]').datepicker()
+
+$('form').on 'show', '.datepicker', (event) ->

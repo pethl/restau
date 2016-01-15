@@ -23,15 +23,18 @@ Rails.application.routes.draw do
   root 'static_pages#home'
   
   get '/home' => 'static_pages#home'
-   get '/help' => 'static_pages#help'
+  get '/help' => 'static_pages#help'
   get '/day_picker' => 'static_pages#day_picker'
   get '/booking_enquiry' => 'static_pages#booking_enquiry'
-   get '/download_pdf' => 'static_pages#download_pdf'
+  get '/download_pdf' => 'static_pages#download_pdf'
+   
   
   get '/hfsk_home' => 'static_pages#hfsk_home'
-   get '/hfsk_about' => 'static_pages#hfsk_about'
-   get '/hfsk_menu' => 'static_pages#hfsk_menu'
-    get '/hfsk_booking' => 'static_pages#booking_enquiry'
+  get '/hfsk_about' => 'static_pages#hfsk_about'
+  get '/hfsk_blog' => 'static_pages#hfsk_blog'
+  get '/hfsk_booking' => 'static_pages#booking_enquiry'
+  get '/hfsk_location' => 'static_pages#hfsk_location'
+  get '/hfsk_get_in_touch' => 'static_pages#hfsk_get_in_touch'
   
   get "static_pages/home"
   get "static_pages/help"
@@ -40,8 +43,10 @@ Rails.application.routes.draw do
   get "static_pages/booking_confirm"  
   
   get "static_pages/hfsk_home"
-  get "static_pages/hfsk_menu"
+  get "static_pages/hfsk_blog"
   get "static_pages/hfsk_about"
+  get "static_pages/hfsk_location"
+  get "static_pages/hfsk_get_in_touch"
 
   
 

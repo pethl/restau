@@ -2,24 +2,7 @@ class TablesController < ApplicationController
   before_action :set_table, only: [:show, :edit, :update, :destroy]
 
   def booking_enquiry
-    #customer selected parameters
-    number_of_diners = params[:booking][:number_of_diners]
-    booking_time_hour = params[:booking][:booking_time_hour]
-    booking_time_min = params[:booking][:booking_time_min]
-    booking_date_day = params[:booking]["booking_date(3i)"]
-    booking_date_month = params[:booking]["booking_date(2i)"]
-    booking_date_year = params[:booking]["booking_date(1i)"]
-  
-        @booking = {:number_of_diners => number_of_diners,
-          :booking_time_min => booking_time_min,
-           :booking_time_hour => booking_time_hour,
-        :booking_date_day => booking_date_day,
-      :booking_date_month => booking_date_month,
-    :booking_date_year => booking_date_year}
-    
-    # table id will come from the code to search for an approprate table
-
- redirect_to static_pages_booking_confirm_path(:booking => @booking)
+   
   end
   
   
@@ -27,6 +10,7 @@ class TablesController < ApplicationController
   # GET /tables.json
   def index
     @tables = Table.all
+    @tables_by_restaurant = @tables.group_by { |t| t.restaurant_id }
   end
 
   # GET /tables/1

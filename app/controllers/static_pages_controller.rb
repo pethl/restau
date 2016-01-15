@@ -26,6 +26,12 @@ class StaticPagesController < ApplicationController
   def hfsk_menu
   end
   
+  def hfsk_location
+  end
+  
+  def hfsk_get_in_touch
+  end
+  
   def download_pdf
     send_file(
       "#{Rails.root}/public/Sample_Menu_V1.pdf",

@@ -1,24 +1,29 @@
+<%= render 'layouts/header' %>
+<div style="padding-top:10px;"> 
+<h2>Tables</h2>
 
-<h1>Tables</h1>
+<% @tables_by_restaurant.each do |restaurant, tables| %>
 
+  
 <table class="table">
   <thead>
     <tr>
-      <th>Restaurant</th>
-      <th>Reference</th>
-      <th>Desc</th>
-      <th>Min seats</th>
-      <th>Max seats</th>
-      <th>Accessible</th>
-      <th>Child friendly</th>
-      <th colspan="3"></th>
+      <th style="width: 5%">Ref</th>
+      <th style="width: 25%">Desc</th>
+      <th style="width: 6%">Min seats</th>
+      <th style="width: 6%">Max seats</th>
+      <th style="width: 8%">Accessible</th>
+      <th style="width: 8%">Child friendly</th>
+      <th colspan="3" style="width: 13%"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @tables.each do |table| %>
+  <tr colspan="3">
+  <h4><%= Restaurant.where(:id => restaurant).first.name %></h4>
+  </tr>
+    <% tables.each do |table| %>
       <tr>
-        <td><%= Restaurant.where(:id => table.restaurant_id).first.name %></td>
         <td><%= table.reference %></td>
         <td><%= table.desc %></td>
         <td><%= table.min_seats %></td>
@@ -31,7 +36,9 @@
       </tr>
     <% end %>
   </tbody>
+      <% end %>
 </table>
+
 
 <br>
 

@@ -5,6 +5,7 @@ class RestaurantsController < ApplicationController
   # GET /restaurants.json
   def index
     @restaurants = Restaurant.all
+    @restaurants_by_account = @restaurants.group_by { |t| t.account_id }
   end
 
   # GET /restaurants/1

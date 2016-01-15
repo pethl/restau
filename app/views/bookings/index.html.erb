@@ -1,29 +1,61 @@
-<br>
+<%= render 'layouts/header' %>
+<div style="padding-top:20px;"> 
+
+<br> 
+
+<script type="text/javascript">
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        </script>
+        
 <%= form_tag(bookings_path, :method => "get", id: "search-form") do %>
-    <%= date_select :search, params[:search], placeholder: "Search by booking date" %>
+ 
+    <input class="datepicker" data-provide='datepicker' id="search" name=[search] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true >   
+    
     <%= submit_tag "Search" %>
 <% end %>
+<br>
+<table class="table table-bordered table-condensed"><tr>
+<% array = booking_count_by_day(Date.today)%>
+<% array.each do |d| %>
+<td><center><small>
+ <%= d[0].strftime("%a, %d") %><br>
+  <%= d[1] %><small>
+  </center>
+ </td>
+ <% end %>
+</tr></table>
+<br>
 
-<h3>Showing bookings for : <%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %></h3>
+
+
+<% if @bookings == 0 %>
+    <br>
+  <h5>No bookings for this date</h5>
+
+  <% else %>
+  
+<h3><%= @bookings.count %> bookings for : <%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %></h3>
+
 <br>
  <% @results = reformat_bookings_into_single_line(@bookings_by_table) %>
 
  <TABLE class="table table-bordered">
  <tr>
  <th></th>
- <th colspan="2" style="text-align:center">11.00</th>
- <th colspan="2" style="text-align:center">12.00</th>
- <th colspan="2" style="text-align:center">13.00</th>
- <th colspan="2" style="text-align:center">14.00</th>
- <th colspan="2" style="text-align:center">15.00</th>
- <th colspan="2" style="text-align:center">16.00</th>
- <th colspan="2" style="text-align:center">17.00</th>
- <th colspan="2" style="text-align:center">18.00</th>
- <th colspan="2" style="text-align:center">19.00</th>
- <th colspan="2" style="text-align:center">20.00</th>
- <th colspan="2" style="text-align:center">21.00</th>
- <th colspan="2" style="text-align:center">22.00</th>
- <th colspan="2" style="text-align:center">23.00</th>
+ <th colspan="2" style="text-align:center">10am</th>
+ <th colspan="2" style="text-align:center">11am</th>
+ <th colspan="2" style="text-align:center">12am</th>
+ <th colspan="2" style="text-align:center">13pm</th>
+ <th colspan="2" style="text-align:center">14pm</th>
+ <th colspan="2" style="text-align:center">15pm</th>
+ <th colspan="2" style="text-align:center">16pm</th>
+ <th colspan="2" style="text-align:center">17pm</th>
+ <th colspan="2" style="text-align:center">18pm</th>
+ <th colspan="2" style="text-align:center">19pm</th>
+ <th colspan="2" style="text-align:center">20pm</th>
+ <th colspan="2" style="text-align:center">21pm</th>
+ <th colspan="2" style="text-align:center">22pm</th>
+ <th colspan="2" style="text-align:center">23pm</th>
  </tr>
  <tr>
  <td></td>
@@ -53,19 +85,28 @@
  <td>30</td>
  <td>0</td>
  <td>30</td>
+ <td>0</td>
+ <td>30</td>
  </tr>
- 
+
  <% @results.each do |key, array| %>
    <tr>
-      <td><%= Table.where(:id => key).first.reference %>:
-      <%= Table.where(:id => key).first.desc %></td>
+      <td>
+      <%= Table.where(:id => key).first.reference %>:
+      <%= Table.where(:id => key).first.desc %>
+     </td>
+      
  <% array.each do |entry| %>
    
-   <% case entry[1] %>
+   <% case entry[1][0] %>
      <% when 1 %>
-      <td class="success"></td>
+      <td class="success">
+        <div data-toggle="tooltip" title="tooltip" data-placement="top" container='body' >
+        ..
+        </div>
+     </td>
    <% when 2 %>
-     <td class="danger">...</td>
+     <td class="danger"><%= entry[1][1]%></td>
     <% when 0 %>
     <td></td>
     <% end %>
@@ -75,8 +116,8 @@
 </table> 
 
 <br><br>
-Booking details for :<%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %>
-<br><br>
+<h6>Booking details for : <%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %></h6>
+<br>
 
 <table class="table ">
   <thead>
@@ -95,16 +136,15 @@ Booking details for :<%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %
   <tbody>
     <% @bookings_by_table.sort_by(&:first).each do |table, bookings| %>
      
-   **BUG HERE NEED TO REMOVE UNCONFIRMED BOOKINGS**
       <tr>
         <td colspan="5" ><% unless table.nil? %>
-          <%= Table.where(:id => table).first.reference %> - <%= Table.where(:id => table).first.desc %><% end %></td>
+         <u> <%= Table.where(:id => table).first.reference %> - <%= Table.where(:id => table).first.desc %><% end %>  </u></td>
       </tr>
           <% bookings = bookings.sort_by { |hsh| hsh[:booking_time] }%>
             <% bookings.each do |booking| %>
-              <% if booking.status == "Confirmed" %>
+             
         <tr>
-        <td></td>
+        <td>[<%= booking.id %>]</td>
         <td><strong><%= booking.name %></strong></td>
         <td><%= booking.phone %></td>
        
@@ -113,10 +153,13 @@ Booking details for :<%= @bookings.first.booking_date.strftime('%A, %d %B %Y') %
         <td><%= booking.accessible %></td>
         <td><%= booking.child_friendly %></td>
       </tr>
-    <% end %>    <% end %><% end %>
+    <% end %>    <% end %>
   </tbody>
 </table>
 
-
-
+<% end %>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
  

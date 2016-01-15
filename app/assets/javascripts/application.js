@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.js
+//= require bootstrap-datepicker
 //= require bootstrap/collapse
 //= require bootstrap/transition
 //= require bootstrap/modal

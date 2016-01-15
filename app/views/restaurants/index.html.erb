@@ -1,26 +1,30 @@
-<p id="notice"><%= notice %></p>
+<%= render 'layouts/header' %>
+<div style="padding-top:10px;"> 
 
-<h1>Restaurants</h1>
+<h2>Restaurants</h2><br>
+
+<% @restaurants_by_account.each do |account, restaurants| %>
+
 
 <table class="table">
   <thead>
     <tr>
-      <th>Account</th>
       <th>Name</th>
       <th>Location</th>
       <th>Website</th>
       <th>Primary contact</th>
       <th>Email</th>
       <th>Phone</th>
-      <th># Tables</th>
+      <th>Table Count</th>
       <th colspan="3"></th>
     </tr>
   </thead>
-
+  <tr colspan="3">
+  <h4><%= Account.where(:id => account).first.company_name %></h4>
+  </tr>
   <tbody>
     <% @restaurants.each do |restaurant| %>
       <tr>
-        <td><%= Account.where(:id => restaurant.account_id).first.company_name %></td>
         <td><%= restaurant.name %></td>
         <td><%= restaurant.location %></td>
         <td><%= restaurant.website %></td>
@@ -32,8 +36,8 @@
         <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
         <td><%= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
-    <% end %>
-  </tbody>
+    <% end %> <% end %>
+  </tbody>  
 </table>
 
 <br>

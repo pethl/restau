@@ -26,6 +26,9 @@ gem 'heroku'
 
 gem 'bootstrap-sass', '~> 3.2.0'
 
+#datepicker
+gem 'bootstrap-datepicker-rails'
+
 
 group :development do
   gem 'guard-minitest', '~> 2.3.2' # https://github.com/guard/guard-minitest

@@ -1,34 +1,32 @@
-<br>
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-  
-   <div class="well well-small">
-   <center><%= image_tag "HF-Logo-Lndscape.jpg", size: "600x160" %></center>
-   	  <br>
+<%= render 'layouts/external_header' %>
    
-    <h3  class="text-center">When do you want your table?</h3>
-    <br><br>
-    
+<%= render 'static_pages/side_welcome_open_hours'%>
+
+   <!-- Instructions: This is the table booking section. -->  
+
+    <div class="col-md-5">
+    <h4><i class="fa fa-check-square-o fa-fw"></i><strong>  BOOK A TABLE</strong> </h4>
+  
+    <table><tr><td>
     <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
   
-     <p  class="text-center">
-     Restaurant
-          <select name="booking[restaurant]">
+      <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
+      <tr><td style="width: 5%"></td><td style="width: 40%"></td><td style="width: 50%"></td><td style="width: 5%"></td></tr>
+      
+      <tr><td></td><td>Restaurant:</td>
+          <td><select name="booking[restaurant]">
         <option value="<%= Restaurant.first.name %>"><%= Restaurant.first.name %></option>
-      </select>
-      </p>
-      <br>
-  
- <p  class="text-center">
-    Book day
-    <%= date_select('booking', 'booking_date', :order => [ :month, :day, :year], default: 1.day.from_now)  %>
-    </p>
-    
-   <br>  
-   <p  class="text-center">
-   Book Time
-   <select name="booking[booking_time_hour]">
-     <option value="-">Select Hour</option>
+      </select></td>
+      <td></td></tr>
+      
+      <tr><td></td><td>Date:</td>
+         <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true >   
+     </td>
+      <td></td></tr>
+         
+      <tr><td></td><td>Time:</td>
+          <td> <select name="booking[booking_time_hour]">
+     <option value="-">Hour</option>
      <option value="11">11</option>
      <option value="12">12</option>
      <option value="13">13</option>
@@ -42,17 +40,15 @@
      <option value="21">21</option>     
    </select>
     <select name="booking[booking_time_min]">
-      <option value="-">Select Min</option>
+      <option value="-">Min</option>
       <option value="00">00</option>
       <option value="30">30</option>
-    </select>
- </p> 
-   
-      <br>      
-   <p  class="text-center">
-   Number of Diners
-      <select name="booking[number_of_diners]">
-        <option value="0">Select Number</option>
+    </select></td>
+      <td></td></tr>
+      
+      <tr><td></td><td>People:</td>
+          <td><select name="booking[number_of_diners]">
+        <option value="0">Select</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -61,12 +57,82 @@
         <option value="6">6</option>
         <option value="7">7</option>
         <option value="8">8</option>
-      </select>
-   </p> 
-         <br>  
-        <center>
-          <%= submit_tag "CHECK FOR TABLE", name: nil, class: "btn btn-success" %>   
-             <% end %>
-         </center>
-</div></div>
+      </select></td>
+      <td></td></tr>
+      
+      <tr><td></td><td></td>
+          <td>  <%= submit_tag "CHECK FOR AVAILABLITY", name: nil, class: "btn btn-success" %>   
+             <% end %></td>
+      <td></td></tr>
+      </table>
+     
+      </td></tr></table>
+      
+      
+      <!-- Instructions: This is the function room booking section. -->  
+      <br>
+       <h4><i class="fa fa-user-secret fa-fw"></i><strong>  BOOK OUR PRIVATE ROOM</strong> </h4>
+  
+       <table><tr><td>
+       <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
+  
+         <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
+         <tr><td style="width: 5%"></td><td style="width: 40%"></td><td style="width: 50%"></td><td style="width: 5%"></td></tr>
+      
+         <tr><td></td><td>Restaurant:</td>
+             <td><select name="booking[function_room]">
+           <option value="<%= Restaurant.first.name %>">Speakeasy Private Room</option>
+         </select></td>
+         <td></td></tr>
+      
+         <tr><td></td><td>Date:</td>
+            <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true >   
+        </td>
+         <td></td></tr>
+         
+   <tr><td></td><td>Session:</td>
+          <td><select name="booking[session]">
+        <option value="0">Select</option>
+        <option value="1">Lunch</option>
+        <option value="2">Dinner</option>
+      </select></td>
+      <td></td></tr>
+      
+         <tr><td></td><td>People:</td>
+             <td><select name="booking[number_of_diners]">
+           <option value="0">Select</option>
+           <option value="1">1-8</option>
+           <option value="2">9-16</option>
+         </select></td>
+         <td></td></tr>
+      
+         <tr><td></td><td></td>
+             <td>  <%= submit_tag "CHECK FOR AVAILABLITY", name: nil, class: "btn btn-success" %>   
+                <% end %></td>
+         <td></td></tr>
+         </table>
+     
+         </td></tr></table>
+      
+
 </div>
+
+<!-- Instructions: This is the menu section. -->  
+
+   <div class="col-md-3" style="padding-top:50px;">
+     <h4><i class="fa fa-bars fa-fw"></i><strong>  MENU</strong> </h4>
+    <h6> <i class="fa fa-file-pdf-o"></i>
+     <%= link_to 'Click to see our sample menu for the main dining room', download_pdf_url, style: 'color:#FFFFFF;' %></strong><br><br>
+     <br><br><br><br><br><br>
+     <h6> <i class="fa fa-file-pdf-o"></i>
+      <%= link_to 'Click to see our sample menu for the speakeasy private room', download_pdf_url, style: 'color:#FFFFFF;' %></strong><br><br>
+    
+     </div></h6>
+
+
+<br><br><br><br><br>
+
+ 
+ 
+   
+   

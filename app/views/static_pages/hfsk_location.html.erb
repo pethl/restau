@@ -1,0 +1,39 @@
+<%= render 'layouts/external_header' %>
+
+<%= render 'static_pages/side_welcome_open_hours'%>
+
+ 
+<!-- Instructions: This is the location section. -->  
+
+  <div class="col-md-4">
+ <h4><i class="fa fa-map-marker fa-fw"></i><strong> WHERE TO FIND US</strong> </h4>
+  <h5>Come and see us at: The Pumphouse, Barry, BR00 0XX.
+  <br>Free parking is available on-site.</h5>
+  <style>
+        #map {
+          width: 350px;
+          height: 230px;
+        }
+      </style>
+      <script>
+            function initialize() {
+              var mapCanvas = document.getElementById('map');
+              var mapOptions = {
+                center: new google.maps.LatLng(51.399660, -3.278211),
+                zoom: 16,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+              }
+              var map = new google.maps.Map(mapCanvas, mapOptions)
+            }
+   
+            google.maps.event.addDomListener(window, 'page:load', initialize);
+          </script>
+  <div id="map"></div>
+  <br>
+  </div>
+ 
+  </div>
+  <br><br><br><br><br><br><br>
+   
+ 
+ 

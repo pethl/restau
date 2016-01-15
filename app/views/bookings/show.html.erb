@@ -1,38 +1,51 @@
-<div class="row">
-  <div class="col-md-4 col-md-offset-4"><br>
-  <h3  class="text-center">It's done <%= @booking.name%>!</h3>
+<%= render 'layouts/external_header' %>
+
+<!-- Instructions: This is the welcome section. -->  
+
+  <div class="row">
+  <div class="col-md-4">
+    <%= image_tag "HF-Logo-Lndscape.jpg", size: "250x180" %>
+      <br>
+       <h5><strong><i> BBC FOOD AWARD WINNING BBQ </i></strong></h5>
+      <br>
+
+<!-- Instructions: This is the opening hours section. -->  
+
+      <h3><i class="fa fa-clock-o fa-fw"></i> OPENING HOURS</h3>
+      <table class="table-condensed" style="border: 1; text-align:left;">
+      <tr><td style="width: 13%"></td><td style="width: 25%">Wed:</td><td style="width: 40%">5pm - 11pm</td><td style="width: 22%"></td></tr>
+      <tr><td></td><td>Thurs:</td><td>5pm - 11pm</td><td></td></tr>
+      <tr><td></td><td>Fri:</td><td>5pm - 11pm</td><td></td></tr>
+      <tr><td></td><td>Sat:</td><td>10am - 12pm</td><td></td></tr>
+      <tr><td></td><td>Sun:</td><td>10am - 6pm</td><td></td></tr>
+      <tr><td></td><td>Mon:</td><td>Closed</td><td></td></tr>
+       <tr><td></td><td>Tues:</td><td>Closed</td><td></td></tr>
+      </table>
+
+   </div>
+
+   <!-- Instructions: This is the booking collect contact information section. -->  
+
+   <div class="col-md-5">
+   <h3><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h3><br>
+
+ 
+  <div class="well well-sm">
+  <h4>You're booked <%= @booking.name%>!</h4>
   <br>
   
-   <h4  class="text-center">
-  
-   Thanks for your booking.<br><br>
+   <h5>
    We have sent an email to 
    <%= @booking.email %> to confirm your table for 
    <strong><%= @booking.number_of_diners %></strong> people at 
    <strong><%= @booking.booking_time.strftime('%H:%M') %></strong>  on
    <strong><%= @booking.booking_date.strftime('%A, %d %B %Y') %></strong> .<br><br>
-   We look forward to welcoming you.
-   <br><br>
-   <i><strong>Hang Fire Southern Kitchen</strong></i>
-   
-   </h4>
-   <br><br>
+   We look forward to welcoming you. </h5>
+   <h5><i>Regards, </i></h5>
+   <h4><i><strong>Hang Fire Southern Kitchen</strong></i><h4>
+<br>
+  <h5>Made a mistake?<br>
+   <%= link_to "Click here to cancel a booking", edit_booking_path(@booking) %></h5>
 
-
-
-<p>
-  <strong>Accessible:</strong>
-  <%= @booking.accessible %>
-</p>
-
-<p>
-  <strong>Child friendly:</strong>
-  <%= @booking.child_friendly %>
-</p>
-
-<p  class="text-center">
- <button type="button" class="btn btn-warning btn-lg">
-   <%= link_to "Cancel My Booking", edit_booking_path(@booking) %>
-</button>
 </p> 
-</div></div>
+</div></div></div>
