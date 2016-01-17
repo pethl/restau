@@ -3,7 +3,7 @@
 <!-- Instructions: This is the background image. -->  
  
 <style> body {
-     background-image: url("/assets/HF-072.jpg");
+     background-image: url("/assets/Rib_Background.jpg");
       background-color: #000000;
      background-repeat: no-repeat;
      background-position: left top;
@@ -16,16 +16,19 @@
  <br>
  <div class="row" style="padding-top:10px;"> 
  </div>
-<div class="row" style="background-color: #000000; "> 
-<br>
-    <div class="col-md-1"><center><a href="/hfsk_home"><i class="fa fa-home" style='color: #FFFFFF;'></i></a></center></div>
-    <div class="col-md-2"><center><%= link_to "WHERE TO FIND US", static_pages_hfsk_location_path, class: 'ex_head_link' %></center></div>
-    <div class="col-md-2"><center><%= link_to "BOOK A TABLE", static_pages_booking_enquiry_path, class: 'ex_head_link' %></center></div>
-    <div class="col-md-2"><center><%= link_to "ABOUT HANG FIRE", static_pages_hfsk_about_path, class: 'ex_head_link' %></center></div>
-    <div class="col-md-2"><center><%= link_to "GET IN TOUCH", static_pages_hfsk_get_in_touch_path, class: 'ex_head_link' %></center></div>
-    <div class="col-md-2"><center><%= link_to "NEWS ON OUR BLOG", static_pages_hfsk_blog_path, class: 'ex_head_link' %></center></div>
-    <div class="col-md-1"><center><a href="/home"><i class="fa fa-stop-circle-o" style='color: #FFFFFF;'></i></a></center></div> 
-    <br><br>
+<div class="row" style="background-color: #000000"> 
+<table class="table" style="background-color: #000000">
+<tr>
+<td style="width: 5%"><center><br><a href="/hfsk_home"><i class="fa fa-home" style='color: #FFFFFF;'></i></a></center></td>
+<td style="width: 10%"><center><br><%= link_to "WHERE TO FIND US", static_pages_hfsk_location_path, class: 'ex_head_link' %></center></td>
+<td style="width: 10%"><center><br><%= link_to "BOOK A TABLE", static_pages_booking_enquiry_path, class: 'ex_head_link' %></center></td>
+<td style="width: 7%"><center><br><%= link_to "MENU", static_pages_hfsk_menu_path, class: 'ex_head_link' %></center></td>
+<td style="width: 10%"><center><br><%= link_to "ABOUT HANG FIRE", static_pages_hfsk_about_path, class: 'ex_head_link' %></center></td>
+<td style="width: 10%"><center><br><%= link_to "GET IN TOUCH", static_pages_hfsk_get_in_touch_path, class: 'ex_head_link' %></center></td>
+<td style="width: 13%"><center><br><%= link_to "NEWS FROM OUR BLOG", static_pages_hfsk_blog_path, class: 'ex_head_link' %></center></td>
+<td style="width: 5%"><center><br><a href="/home"><i class="fa fa-stop-circle-o" style='color: #FFFFFF;'></i></a></center></td>
+</tr>
+</table>
  </div>  
   
  <!-- Instructions: This is the social media section. -->  

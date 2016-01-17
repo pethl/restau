@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get '/hfsk_booking' => 'static_pages#booking_enquiry'
   get '/hfsk_location' => 'static_pages#hfsk_location'
   get '/hfsk_get_in_touch' => 'static_pages#hfsk_get_in_touch'
+  get '/hfsk_menu' => 'staic_pages#hfsk_menu'
   
   get "static_pages/home"
   get "static_pages/help"
@@ -47,6 +48,7 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_about"
   get "static_pages/hfsk_location"
   get "static_pages/hfsk_get_in_touch"
+  get "static_pages/hfsk_menu"
 
   
 
