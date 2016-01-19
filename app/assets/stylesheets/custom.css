@@ -1,4 +1,4 @@
-@import "bootstrap";
+
 
 .button_custom_width {
     width: 140px !important;
@@ -23,3 +23,12 @@ a href {
 	  color: "#FFFFFF";
 }
 
+.photo_img {
+  max-width: 95%;
+  max-height: 15em;
+  width: auto !important;
+}
+p {
+  color: white !important; 	
+}
+  

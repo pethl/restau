@@ -1,13 +1,17 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
-<h1>Categories</h1>
+<div class="col-md-10">
+<h2>Categories</h2><br>
 
 <table class="table">
-  <thead>
+ <thead>
     <tr>
       <th>Name</th>
       <th>Reference</th>
-      <th colspan="3"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -16,9 +20,13 @@
       <tr>
         <td><%= category.name %></td>
         <td><%= category.reference %></td>
-        <td><%= link_to 'Show', category %></td>
-        <td><%= link_to 'Edit', edit_category_path(category) %></td>
-        <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to edit_category_path(category), class: 'btn btn-success btn-xs' do %>
+             <span class="fa fa-pencil-square-o""></span>
+             <% end %> 
+             |
+            <%= link_to category, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' }, class: 'btn btn-warning btn-xs' do %>
+              <span class="fa fa-trash""></span>
+             <% end %> </td>
       </tr>
     <% end %>
   </tbody>

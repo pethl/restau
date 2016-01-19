@@ -1,4 +1,11 @@
-<h1>Restaurant Details</h1>
+
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+<h2>Restaurant Details</h2>
 
 <table>
   <thead>
@@ -8,7 +15,7 @@
       <th>Min booking</th>
       <th>Max booking</th>
       <th>Last booking time</th>
-      <th colspan="3"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -20,9 +27,13 @@
         <td><%= rdetail.min_booking %></td>
         <td><%= rdetail.max_booking %></td>
         <td><%= rdetail.last_booking_time %></td>
-        <td><%= link_to 'Show', rdetail %></td>
-        <td><%= link_to 'Edit', edit_rdetail_path(rdetail) %></td>
-        <td><%= link_to 'Destroy', rdetail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to edit_rdetail_path(rdetail), class: 'btn btn-success btn-xs' do %>
+             <span class="fa fa-pencil-square-o""></span>
+             <% end %> 
+             |
+            <%= link_to rdetail, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' }, class: 'btn btn-warning btn-xs' do %>
+              <span class="fa fa-trash""></span>
+             <% end %> </td>
       </tr>
     <% end %>
   </tbody>

@@ -1,4 +1,4 @@
-<%= form_for(@table) do |f| %>
+<%= bootstrap_form_for(@table, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
   <% if @table.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@table.errors.count, "error") %> prohibited this table from being saved:</h2>
@@ -11,36 +11,20 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :restaurant_id %><br>
+ 
     <%= f.collection_select :restaurant_id, Restaurant.all, :id, :name %>
-
-  </div>
-  <div class="field">
-    <%= f.label :reference %><br>
+  
     <%= f.text_field :reference %>
-  </div>
-  <div class="field">
-    <%= f.label :desc %><br>
+  
     <%= f.text_area :desc %>
-  </div>
-  <div class="field">
-    <%= f.label :min_seats %><br>
+  
     <%= f.number_field :min_seats %>
-  </div>
-  <div class="field">
-    <%= f.label :max_seats %><br>
+ 
     <%= f.number_field :max_seats %>
-  </div>
-  <div class="field">
-    <%= f.label :accessible %><br>
-    <%= f.check_box :accessible %>
-  </div>
-  <div class="field">
-    <%= f.label :child_friendly %><br>
-    <%= f.check_box :child_friendly %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  
+    <div class="col-sm-offset-2 col-sm-10">
+     <div class="actions">
+        <%= f.submit class: "btn btn-primary" %>
+     </div></div>
+
 <% end %>

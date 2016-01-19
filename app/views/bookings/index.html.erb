@@ -1,7 +1,9 @@
-<%= render 'layouts/header' %>
-<div style="padding-top:20px;"> 
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
-<br> 
+<div class="col-md-10">
 
 <script type="text/javascript">
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
@@ -92,9 +94,8 @@
  <% @results.each do |key, array| %>
    <tr>
       <td>
-      <%= Table.where(:id => key).first.reference %>:
-      <%= Table.where(:id => key).first.desc %>
-     </td>
+      <%= Table.where(:id => key).first.reference %>
+           </td>
       
  <% array.each do |entry| %>
    

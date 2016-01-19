@@ -1,4 +1,9 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
 
 <p>
   <strong>Name:</strong>
@@ -42,3 +47,4 @@
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>
+</div></div>

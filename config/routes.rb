@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :users
   resources :customers
   resources :bookings do
       collection { post :booking_confirmation };
@@ -15,6 +16,12 @@ Rails.application.routes.draw do
   resources :products do
     		 collection { post :import }
        end
+   resources :sessions, only: [:new, :create, :destroy]
+
+  get    'login'   => 'sessions#new'
+  post   'login'   => 'sessions#create'
+  delete 'logout'  => 'sessions#destroy'
+
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -35,7 +42,7 @@ Rails.application.routes.draw do
   get '/hfsk_booking' => 'static_pages#booking_enquiry'
   get '/hfsk_location' => 'static_pages#hfsk_location'
   get '/hfsk_get_in_touch' => 'static_pages#hfsk_get_in_touch'
-  get '/hfsk_menu' => 'staic_pages#hfsk_menu'
+  get '/hfsk_menu' => 'static_pages#hfsk_menu'
   
   get "static_pages/home"
   get "static_pages/help"
@@ -49,6 +56,7 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_location"
   get "static_pages/hfsk_get_in_touch"
   get "static_pages/hfsk_menu"
+  get "sessions/new"
 
   
 

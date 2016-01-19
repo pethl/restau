@@ -1,20 +1,25 @@
-<%= render 'layouts/header' %>
-<div style="padding-top:10px;"> 
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+
 <h2>Tables</h2>
+<b><%= link_to '+ add new Table', new_table_path %><br>
 
 <% @tables_by_restaurant.each do |restaurant, tables| %>
 
-  
 <table class="table">
   <thead>
     <tr>
       <th style="width: 5%">Ref</th>
       <th style="width: 25%">Desc</th>
-      <th style="width: 6%">Min seats</th>
-      <th style="width: 6%">Max seats</th>
-      <th style="width: 8%">Accessible</th>
-      <th style="width: 8%">Child friendly</th>
-      <th colspan="3" style="width: 13%"></th>
+      <th style="width: 8%;text-align:center">Min seats</th>
+      <th style="width: 8%;text-align:center">Max seats</th>
+      <th style="width: 10%;text-align:center">Accessible</th>
+      <th style="width: 10%;text-align:center">Child friendly</th>
+      <th style="width: 8%"></th>
     </tr>
   </thead>
 
@@ -22,25 +27,28 @@
   <tr colspan="3">
   <h4><%= Restaurant.where(:id => restaurant).first.name %></h4>
   </tr>
-    <% tables.each do |table| %>
+    <% tables.sort_by { |h| h[:reference] }.each do |table| %>
       <tr>
         <td><%= table.reference %></td>
         <td><%= table.desc %></td>
-        <td><%= table.min_seats %></td>
-        <td><%= table.max_seats %></td>
-        <td><%= table.accessible %></td>
-        <td><%= table.child_friendly %></td>
-        <td><%= link_to 'Show', table %></td>
-        <td><%= link_to 'Edit', edit_table_path(table) %></td>
-        <td><%= link_to 'Destroy', table, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td style="text-align:center"><%= table.min_seats %></td>
+        <td style="text-align:center"><%= table.max_seats %></td>
+        <td style="text-align:center"><%= table.accessible %></td>
+        <td style="text-align:center"><%= table.child_friendly %></td>
+        <td>
+            <%= link_to edit_table_path(table), class: 'btn btn-success btn-xs' do %>
+             <span class="fa fa-pencil-square-o""></span>
+             <% end %> 
+             |
+            <%= link_to table, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' }, class: 'btn btn-warning btn-xs' do %>
+              <span class="fa fa-trash""></span>
+             <% end %> </td>
       </tr>
     <% end %>
   </tbody>
       <% end %>
 </table>
 
-
 <br>
 
-<%= link_to 'New Table', new_table_path %><br>
-<%= link_to 'New Booking', new_booking_path %>
+<%= link_to '+ add new Booking', new_booking_path %><b>

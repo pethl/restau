@@ -14,26 +14,45 @@
 
  <!-- Instructions: This is the header routing links. -->  
  <br>
- <div class="row" style="padding-top:10px;"> 
- </div>
-<div class="row" style="background-color: #000000"> 
-<table class="table" style="background-color: #000000">
-<tr>
-<td style="width: 5%"><center><br><a href="/hfsk_home"><i class="fa fa-home" style='color: #FFFFFF;'></i></a></center></td>
-<td style="width: 10%"><center><br><%= link_to "WHERE TO FIND US", static_pages_hfsk_location_path, class: 'ex_head_link' %></center></td>
-<td style="width: 10%"><center><br><%= link_to "BOOK A TABLE", static_pages_booking_enquiry_path, class: 'ex_head_link' %></center></td>
-<td style="width: 7%"><center><br><%= link_to "MENU", static_pages_hfsk_menu_path, class: 'ex_head_link' %></center></td>
-<td style="width: 10%"><center><br><%= link_to "ABOUT HANG FIRE", static_pages_hfsk_about_path, class: 'ex_head_link' %></center></td>
-<td style="width: 10%"><center><br><%= link_to "GET IN TOUCH", static_pages_hfsk_get_in_touch_path, class: 'ex_head_link' %></center></td>
-<td style="width: 13%"><center><br><%= link_to "NEWS FROM OUR BLOG", static_pages_hfsk_blog_path, class: 'ex_head_link' %></center></td>
-<td style="width: 5%"><center><br><a href="/home"><i class="fa fa-stop-circle-o" style='color: #FFFFFF;'></i></a></center></td>
-</tr>
-</table>
- </div>  
-  
+ <div class="row" style="padding-top:8px;"> 
+
+ <nav class="navbar navbar-inverse navbar-static-top nav-justified">
+ <div class="container-fluid">
+ <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+     
+    </div>
+    
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+       <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+         <ul class="nav navbar-nav">
+           <li class="active"><a href="/hfsk_home"><i class="fa fa-home" style='color: #FFFFFF;'><span class="sr-only">(current)</span></i></a></li>
+           <li><%= link_to "WHERE TO FIND US", static_pages_hfsk_location_path, class: 'ex_head_link' %></li>
+           <li><%= link_to "BOOK A TABLE", static_pages_booking_enquiry_path, class: 'ex_head_link' %></li>
+           <li><%= link_to "MENU", static_pages_hfsk_menu_path, class: 'ex_head_link' %></li>
+           <li><%= link_to "ABOUT HANG FIRE", static_pages_hfsk_about_path, class: 'ex_head_link' %></li>
+           <li><%= link_to "GET IN TOUCH", static_pages_hfsk_get_in_touch_path, class: 'ex_head_link' %></li>
+           <li><%= link_to "NEWS FROM OUR BLOG", static_pages_hfsk_blog_path, class: 'ex_head_link' %></li>
+         </ul>
+         
+         <ul class="nav navbar-nav navbar-right">
+           <li><a href="/home"><i class="fa fa-stop-circle-o" style='color: #FFFFFF;'></i></a></li> 
+         </ul>
+       </div><!-- /.navbar-collapse -->
+   </div><!-- /.container-fluid -->
+ </nav>
+</div><!-- /.padding -->
+
  <!-- Instructions: This is the social media section. -->  
   <div class="row"> 
-  <div class="col-md-4 col-md-offset-8" style="padding-top:10px;">
+  <div class="col-md-4 col-md-offset-8">
   <ul class="list-inline"> 
      <li><a href="https://www.facebook.com/pages/Hang-Fire-Smokehouse/203591489778567"><i class="fa fa-facebook fa-fw fa-3x" style='color: #FFFFFF;'></i></a>
      </li> 

@@ -1,4 +1,4 @@
-<%= form_for(@account) do |f| %>
+<%= bootstrap_form_for(@account, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
   <% if @account.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:</h2>
@@ -11,23 +11,14 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :company_name %><br>
     <%= f.text_field :company_name %>
-  </div>
-  <div class="field">
-    <%= f.label :primary_contact %><br>
     <%= f.text_field :primary_contact %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
     <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :phone %><br>
     <%= f.text_field :phone %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  
+    <div class="col-sm-offset-2 col-sm-10">
+     <div class="actions">
+        <%= f.submit class: "btn btn-primary" %>
+     </div></div>
+ 
 <% end %>

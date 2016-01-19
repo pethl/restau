@@ -21,10 +21,11 @@ gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
-gem 'bcrypt'
+gem 'bcrypt-ruby', '3.1.2'
 gem 'heroku'
 
 gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap_form'
 
 #datepicker
 gem 'bootstrap-datepicker-rails'

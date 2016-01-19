@@ -1,0 +1,34 @@
+<%= render 'layouts/header' %>
+<div style="padding-top:10px;"> 
+
+
+<%= bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+   
+    <%= f.text_field :name %>
+ 
+    <%= f.text_field :position %>
+ 
+    <%= f.text_field :email %>
+ 
+    <%= f.text_field :phone %>
+ 
+    <%= f.text_field :password, :placeholder => "Must be at least 6 characters long" %>
+ 
+    <%= f.text_field :password_confirmation %>
+ <div class="col-sm-offset-2 col-sm-10">
+  <div class="actions">
+     <%= f.submit class: "btn btn-primary" %>
+  </div></div>
+<% end %>
+

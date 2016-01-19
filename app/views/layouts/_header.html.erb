@@ -13,32 +13,46 @@
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">.. <span class="caret"></span></a>
               <ul class="dropdown-menu" aria-labelledby="themes">
-                    
-           <li><a href="../accounts/">Accounts</a></li>
+              <% if logged_in? %> 
+            <li><%= link_to "Log out", logout_path, method: "delete" %><li>
                 <li class="divider"></li>
-            <li><a href="../restaurants/">Restaurants</a></li>
+            <li><a href="/accounts/">Accounts</a></li>
                 <li class="divider"></li>
-            <li><a href="../rdetails/">Restaurant Details</a></li>
+            <li><a href="/restaurants/">Restaurants</a></li>
+                <li class="divider"></li>
+            <li><a href="/rdetails/">Restaurant Details</a></li>
                  <li class="divider"></li>
-            <li><a href="../products/">Product</a></li>
+            <li><a href="/products/">Product</a></li>
                 <li class="divider"></li>
-            <li><a href="../categories/">Category</a></li>
+            <li><a href="/categories/">Category</a></li>
                 <li class="divider"></li>
-            <li><a href="../tables/">Tables</a></li>
+            <li><a href="/tables/">Tables</a></li>
                 <li class="divider"></li>
             <li><a href="/bookings/">Bookings</a></li>
                 <li class="divider"></li>
-            <li><a href="../customers/">Customers</a></li>
+            <li><a href="/customers/">Customers</a></li>
+                <li class="divider"></li>
+            <li><a href="/users/">Staff</a></li>
                 <li class="divider"></li>
             <li><a href="/booking_enquiry/">Booking Enquiry</a></li>
                 <li class="divider"></li>
-            <li><a href="../enquiries/">Takeaway</a></li>
+            <li><a href="/enquiries/">Takeaway</a></li>
                 <li class="divider"></li>
             <li><a href="/hfsk_home/">HFSK External Site Home</a></li>
+            <% else %>
+            <li><a href="../login/">Log In</a></li>    
+            <% end %>
+            
             </ul> </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="http://builtwithbootstrap.com/" target="_blank">HF</a></li> 
+          
+           <% if logged_in? %> 
+              <li><a><%= current_user.name %></a></li>
+             <% else %>
+             <li><a href="http://builtwithbootstrap.com/" target="_blank">HF</a></li>  
+             <% end %>
+           
           </ul>
 
         </div>
