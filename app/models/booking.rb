@@ -11,9 +11,6 @@ class Booking < ActiveRecord::Base
 #  validates :email, :on => :update, format:  { with: VALID_EMAIL_REGEX }, :exclusion =>  { :in => %w(your@email.com), :message => " : Please enter a contact email." }
   
   def self.search(search)
-#    new_search = Date.new search["(1i)"].to_i, search["(2i)"].to_i, search["(3i)"].to_i
-#     no longer using date-select so dont need this extra formatting
-
 # => get Confirmed bookings only
      where("booking_date = ? AND status = ?", "#{search}", "Confirmed") 
   end

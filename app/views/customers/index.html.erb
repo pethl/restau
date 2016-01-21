@@ -6,6 +6,26 @@
 <div class="col-md-10">
 <h2>Customers</h2><br>
 
+
+<%= form_tag customers_path, method: :get, :class => "form-inline" do %>
+
+    <h6>Search by:
+    <%= text_field(:customer, :name, :placeholder => "Name") %>
+    
+    or
+    <%= text_field(:customer, :phone, :placeholder => "Phone") %>
+    or
+    <%= text_field(:customer, :email, :placeholder => "Email") %>
+  
+  <button type="submit" class="btn btn-default">Search</button>
+<% end %>
+<br>
+
+<% if @customers == 0 %>
+    <br>
+  <h5>Search for customer</h5>
+
+  <% else %>
 <table class="table">
   <thead>
     <tr>
@@ -39,7 +59,7 @@
     <% end %>
   </tbody>
 </table>
-
+    <% end %>
 <br>
 
 <%= link_to 'New Customer', new_customer_path %>

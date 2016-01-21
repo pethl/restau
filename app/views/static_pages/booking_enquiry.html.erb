@@ -2,6 +2,17 @@
    
 <%= render 'static_pages/side_welcome_open_hours'%>
 
+<!-- Instructions: This is the menu section. -->  
+
+   <div class="col-md-3" style="padding-top:50px;">
+    <h6><b><font color=#9ACD32>PLEASE NOTE</font></b></h6>
+    <h6>We only book tables for half of our restaurant
+    to make sure we have plenty of room for walk in customers. 
+    <br><br>We have a lovely cocktail bar downstairs for you to chill, have a tasty drink or two and listen to some sweet tunes while a table becomes available. 
+    <br><br>We'd recommend booking if you're a larger number (over 6 people), have access needs or have children. 
+     </div></h6>
+
+
    <!-- Instructions: This is the table booking section. -->  
 
     <div class="col-md-5">
@@ -13,41 +24,46 @@
       <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
       <tr><td style="width: 5%"></td><td style="width: 40%"></td><td style="width: 50%"></td><td style="width: 5%"></td></tr>
       
-      <tr><td></td><td>Restaurant:</td>
-          <td><select name="booking[restaurant]">
-        <option value="<%= Restaurant.first.name %>"><%= Restaurant.first.name %></option>
-      </select></td>
-      <td></td></tr>
+      <tr>
+      <td></td>
+      <td>Room:</td>
+      <td><b>Main Restaurant</b></td>
+      <td></td>
+      </tr>
       
-      <tr><td></td><td>Date:</td>
-         <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true >   
-     </td>
-      <td></td></tr>
-         
-      <tr><td></td><td>Time:</td>
-          <td> <select name="booking[booking_time_hour]">
-     <option value="-">Hour</option>
-     <option value="11">11</option>
-     <option value="12">12</option>
-     <option value="13">13</option>
-     <option value="14">14</option>
-     <option value="15">15</option>
-     <option value="16">16</option>
-     <option value="17">17</option>
-     <option value="18">18</option>
-     <option value="19">19</option>
-     <option value="20">20</option>
-     <option value="21">21</option>     
-   </select>
-    <select name="booking[booking_time_min]">
-      <option value="-">Min</option>
-      <option value="00">00</option>
-      <option value="30">30</option>
-    </select></td>
-      <td></td></tr>
+      <tr>
+      <td></td>
+      <td>Date:</td>
+      <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true data-date-orientation="bottom" >   
+      </td>
+      <td></td>
+      </tr>
       
-      <tr><td></td><td>People:</td>
-          <td><select name="booking[number_of_diners]">
+      <% grouped_options = [
+            ['Select', ['Hour']],
+     ['Wed, Thurs, Fri',[['5PM','17'],['6PM','18'],['7PM','19'],['8PM','20'],['9PM','21']]],
+     ['Sat, Sun',[['10AM','10'],['11AM','11'],['12 NOON','12'],['1PM','13'],['2PM','14'],['3PM','15'],['4PM','16'],['5PM','17'],['6PM','18'],['7PM','19'],['8PM','20'],['9PM','21']]]
+    ] %>
+      
+      <tr>
+      <td></td>
+      <td>Time:</td>
+      <td> <%= select_tag 'booking[booking_time_hour]', grouped_options_for_select(grouped_options) %>
+      
+          <select name="booking[booking_time_min]">
+            <option value="--">Min</option>
+            <option value="00">00</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+          </select></td>
+      <td></td>
+      </tr>
+      
+      <tr>
+      <td></td>
+      <td>People:</td>
+      <td><select name="booking[number_of_diners]">
         <option value="0">Select</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -57,18 +73,24 @@
         <option value="6">6</option>
         <option value="7">7</option>
         <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
       </select></td>
-      <td></td></tr>
+      <td></td>
+      </tr>
+      <input id="restaurant_id" name="booking[restaurant]" type="hidden" value="<%= Restaurant.first.name %>">
       
-      <tr><td></td><td></td>
-          <td>  <%= submit_tag "CHECK FOR AVAILABLITY", name: nil, class: "btn btn-success" %>   
+      <tr>
+      <td></td>
+      <td></td>
+      <td>  <%= submit_tag "CHECK FOR AVAILABLITY", name: nil, class: "btn btn-success btn-sm" %>   
              <% end %></td>
-      <td></td></tr>
+      <td></td>
+      </tr>
       </table>
      
       </td></tr></table>
-      
-      
+         
       <!-- Instructions: This is the function room booking section. -->  
       <br>
        <h4><i class="fa fa-user-secret fa-fw"></i><strong>  BOOK OUR PRIVATE ROOM</strong> </h4>
@@ -79,35 +101,39 @@
          <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
          <tr><td style="width: 5%"></td><td style="width: 40%"></td><td style="width: 50%"></td><td style="width: 5%"></td></tr>
       
-         <tr><td></td><td>Restaurant:</td>
-             <td><select name="booking[function_room]">
-           <option value="<%= Restaurant.first.name %>">Speakeasy Private Room</option>
-         </select></td>
+         <tr><td></td><td>Room:</td>
+         <td><b>Private Dining Room</b></td>
          <td></td></tr>
+      
+         <tr><td></td><td>Session:</td>
+                <td><select name="booking[session]">
+              <option value="0">Select</option>
+              <option value="1">Lunch</option>
+              <option value="2">Dinner</option>
+            </select></td>
+            <td></td></tr>
       
          <tr><td></td><td>Date:</td>
-            <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true >   
+            <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true " >   
         </td>
          <td></td></tr>
-         
-   <tr><td></td><td>Session:</td>
-          <td><select name="booking[session]">
-        <option value="0">Select</option>
-        <option value="1">Lunch</option>
-        <option value="2">Dinner</option>
-      </select></td>
-      <td></td></tr>
-      
+           
          <tr><td></td><td>People:</td>
              <td><select name="booking[number_of_diners]">
-           <option value="0">Select</option>
-           <option value="1">1-8</option>
-           <option value="2">9-16</option>
+             <option value="0">Select</option>
+             <option value="1">11</option>
+             <option value="2">12</option>
+             <option value="3">13</option>
+             <option value="4">14</option>
+             <option value="5">15</option>
+             <option value="6">16</option>
+             <option value="7">17</option>
+             <option value="8">18</option>
          </select></td>
          <td></td></tr>
       
          <tr><td></td><td></td>
-             <td>  <%= submit_tag "CHECK FOR AVAILABLITY", name: nil, class: "btn btn-success" %>   
+             <td>  <%= submit_tag "CHECK FOR AVAILABLITY", name: nil, class: "btn btn-success btn-sm" %>   
                 <% end %></td>
          <td></td></tr>
          </table>
@@ -117,14 +143,6 @@
 
 </div>
 
-<!-- Instructions: This is the menu section. -->  
-
-   <div class="col-md-3" style="padding-top:50px;">
-    <h6><strong> Please note</strong> , we only book tables for half of our restaurant. 
-    <br><br>This way, we can make sure we have plenty of room for walk in customers. 
-    <br><br>We have a lovely cocktail bar downstairs for you to chill, have a tasty drink or two and listen to some sweet tunes while a table becomes available. 
-    <br><br>We'd recommend booking if you're a larger number (over 6 people), have access needs or have children. 
-     </div></h6>
 
 
 <br><br><br><br><br>

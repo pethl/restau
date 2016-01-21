@@ -15,8 +15,10 @@ class BookingsController < ApplicationController
     number_of_diners = params[:booking][:number_of_diners]
     booking_time_hour = params[:booking][:booking_time_hour]
     booking_time_min = params[:booking][:booking_time_min]
+    Rails.logger.debug("booking_time_min: #{booking_time_min}")
     booking_date = params[:booking][:booking_date]
     booking_time = (booking_time_hour+":"+booking_time_min+":00").to_s
+     Rails.logger.debug("booking_time: #{booking_time}")
     booking_time_early = (booking_time.to_time - (1.hour + 59.minutes)).to_s
     booking_time_late = (booking_time.to_time + (1.hour + 59.minutes)).to_s
  

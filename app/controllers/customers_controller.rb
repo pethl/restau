@@ -4,7 +4,24 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
-    @customers = Customer.all
+    #  @customers = Customer.all
+    
+    @customers = []
+    #take params from search on Index view, or if no search, assume todays date
+    #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
+     if params[:customer]
+       @customers = Customer.search(params[:customer])
+             if @customers.any?
+               params[:customer]= []
+               @customers
+             else
+               params[:customer]= []
+               @customers = 0
+             end
+     else
+       @customers = 0
+       params[:customer]= []
+     end
   end
 
   # GET /customers/1

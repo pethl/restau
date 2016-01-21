@@ -1,49 +1,24 @@
-<div class="row">
-<div class="col-md-2">
-<%= render 'layouts/sidebar' %>
-</div>
-
-<div class="col-md-10">
-
-<!-- Instructions: This is the welcome section. -->  
-
-  <div class="row">
-  <div class="col-md-4">
-    <%= image_tag "HF-Logo-Lndscape.jpg", size: "250x180" %>
-      <br>
-       <h5><strong><i> BBC FOOD AWARD WINNING BBQ </i></strong></h5>
-      <br>
-
-<!-- Instructions: This is the opening hours section. -->  
-
-      <h3><i class="fa fa-clock-o fa-fw"></i> OPENING HOURS</h3>
-      <table class="table-condensed" style="border: 1; text-align:left;">
-      <tr><td style="width: 13%"></td><td style="width: 25%">Wed:</td><td style="width: 40%">5pm - 11pm</td><td style="width: 22%"></td></tr>
-      <tr><td></td><td>Thurs:</td><td>5pm - 11pm</td><td></td></tr>
-      <tr><td></td><td>Fri:</td><td>5pm - 11pm</td><td></td></tr>
-      <tr><td></td><td>Sat:</td><td>10am - 12pm</td><td></td></tr>
-      <tr><td></td><td>Sun:</td><td>10am - 6pm</td><td></td></tr>
-      <tr><td></td><td>Mon:</td><td>Closed</td><td></td></tr>
-       <tr><td></td><td>Tues:</td><td>Closed</td><td></td></tr>
-      </table>
-
-   </div>
+<%= render 'layouts/external_header' %>
+   
+<%= render 'static_pages/side_welcome_open_hours'%>
 
    <!-- Instructions: This is the booking collect contact information section. -->  
 
-   <div class="col-md-5">
+  <div class="col-md-5">
    <h3><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h3><br>
-
 
    <% if @booking.status == "Held" %>
 
-    <div class="well">
+     <table class="table">
+     <tr>
+     <td style="width: 10%"></td>
+     <td style="width: 80%">
 
-    <h5>A table is available for  <%= @booking.number_of_diners %> people at 
+    <h6>A table is available for  <%= @booking.number_of_diners %> people at 
           <br><%= @booking.booking_time.strftime('%H:%M') %>
           on <%= @booking.booking_date.strftime('%A, %d %B %Y') %>.
-    </h5><br>
-
+    </h6>
+    <br>
     <%= form_for (@booking) do |builder| %>
  
         <% if @booking.errors.any? %>
@@ -55,61 +30,81 @@
             <% end %>
             </ul>
           </div>
-        <% end %>
+      <% end %>
 
-  <h6>Please enter details to confirm your booking.</h6>
-
+ <div>Please enter details to confirm your booking.</div>
   <div class="input-group margin-bottom-sm">
     <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-    <%= builder.text_field :name, :style => "width: 250px;", :placeholder => "contact name"  %>
+    <%= builder.text_field :name, :style => "width: 250px;", :placeholder => "full name please!"  %>
    </div>
   <div class="input-group margin-bottom-sm">
     <span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
     <%= builder.text_field :phone, :style => "width: 250px;", :placeholder => "phone number"  %>
    </div>
-   <div class="input-group margin-bottom-sm">
-     <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-     <%= builder.text_field :email, :style => "width: 250px;", :placeholder => "email address"  %>
-    </div><br>
+  <div class="input-group margin-bottom-sm">
+   <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+   <%= builder.text_field :email, :style => "width: 250px; text-color: #ffffff", :placeholder => "email address"  %>
+  </div>
+  <br>
+  <div>Do you need a child seat?</div>
+
+    <div class="input-group margin-bottom-sm">
+      <span class="input-group-addon"><i class="fa fa-child fa-fw"></i></span>
+      <div style="display:inline">
+     
+         <%= builder.label :child_friendly, "Yes", :value => "true"  %>
+         <%= builder.radio_button :child_friendly, true %>
+         
+         <%= builder.label :child_friendly, "No", :value => "false" %>
+         <%= builder.radio_button :child_friendly, false, :checked => true %>
+          
+      </div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+        </div>
+    <br>
 
    <%= builder.hidden_field :status, :value => "Confirmed" %>  
 
   <div class="actions">
-   <%= submit_tag "Confirm my booking", name: nil, class: "btn btn-success" %>    
-  
+   <%= submit_tag "Confirm booking", name: nil, class: "btn btn-success button_custom_width" %> 
+      
      <button type="button" class="btn btn-warning button_custom_width">
         <%= link_to "I don't want this", @booking, method: :delete, data: { confirm: 'Are you sure?' } %>
      </button>
+      </div>
 
   <% end %>
-  </div>
   
-
-  </div></div></div>
+      </td>
+      <td style="width: 10%"></td>
+      </tr>
+     <table>
+     </div>
+ 
 
      <!-- Instructions: This is the booking confirmation section. -->  
     
        <% elsif  @booking.status == "Confirmed" %>
     
-       <div class="well well-sm">
+       <table class="table">
+       <tr>
+       <td style="width: 5%"></td>
+       <td style="width: 90%">
    
-       <h5><strong>Hello 
-         <%= @booking.name%></strong>,</h5><br>
-         <h6>You have a booking
-         for  <%= @booking.number_of_diners %> people, at 
-          <%= @booking.booking_time.strftime('%H:%M') %> on <%= @booking.booking_date.strftime('%A, %d %B %Y') %>.<br>
-          <br>Your table can accomodate <%= table_min_max(@booking)[0][0] %> to <%= table_min_max(@booking)[0][1] %> diners, so no need to contact us if your party size changes, but still fits the table.
+       <h5>Hello 
+         <%= @booking.name%>,</h5><br>
+         <h6>You have a booking for  <%= @booking.number_of_diners %> people, at 
+         <%= @booking.booking_time.strftime('%H:%M') %><br>
+         on <%= @booking.booking_date.strftime('%A, %d %B %Y') %>.<br>
           <br>
-          <br>We look forward to welcoming you.<br>
-          <i>Regards, </i></h6><br>
-          <h5><i><strong>Hang Fire Southern Kitchen</strong></i><h5>
-       <br>
+          <br>See you soon.<br>
+         
+       <br><br><br>
          
        <% if (@booking.booking_date - DateTime.now) > 1 %> 
-          <h5>Made a mistake?</h5>
+          <h6><i>Made a mistake?</i></h6>
               <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
               <%= hidden_field_tag(:booking, @booking.id) %>
-              <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning" %>   
+              <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning btn-sm" %>   
              <% end%> 
              </div></div></div>
    
@@ -131,7 +126,10 @@
            </div>
       <% end %>
 
-      </div>
-    </div> 
+      </td>
+      <td style="width: 5%"></td>
+      </tr>
+     <table>
+
 
 
