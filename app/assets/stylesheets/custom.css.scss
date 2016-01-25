@@ -1,5 +1,11 @@
-
-
+body {
+     background: asset_url('Rib-Background2.gif');
+      background-color: #000000;
+     background-repeat: no-repeat;
+     background-position: left top;
+     background-size: 100% auto;
+     margin-right: 0px;
+ }
 .button_custom_width {
     width: 150px !important;
 }
