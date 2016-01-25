@@ -5,423 +5,48 @@
 
 <div class="col-md-10">
 
-<script type="text/javascript">
-        $(function () { $("[data-toggle='tooltip']").tooltip(); });
-        </script>
-        
-<%= form_tag(bookings_path, :method => "get", id: "search-form") do %>
- 
-    <input class="datepicker" data-provide='datepicker' id="search" name=[search] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true >   
-    
-    <%= submit_tag "Search" %>
-<% end %>
-<br>
-<table class="table table-bordered table-condensed"><tr>
-<% array = booking_count_by_day(Date.today)%>
-<% array.each do |d| %>
-<td><center><small>
- <%= d[0].strftime("%a, %d") %><br>
-  <%= d[1] %><small>
-  </center>
- </td>
- <% end %>
-</tr></table>
+<!-- Instructions: The search form. -->  
 
-
-<% if @bookings == 0 %>
-    <br>
-  <h5>No bookings for this date</h5>
-  
-<% else %>
-  
-  <% if [3,4,5].include? @bookings.first.booking_date_time.wday %>
-<h3><%= @bookings.count %> bookings for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
-
-<br>
-
- <TABLE class="table table-bordered table-condensed table-hover">
- <tr>
- <th ></th>
- <th colspan="4" style="text-align:center">17pm</th>
- <th colspan="4" style="text-align:center">18pm</th>
- <th colspan="4" style="text-align:center">19pm</th>
- <th colspan="4" style="text-align:center">20pm</th>
- <th colspan="4" style="text-align:center">21pm</th>
- <th colspan="4" style="text-align:center">22pm</th>
- <th colspan="2" style="text-align:center">23pm</th>
- </tr>
- <tr>
- <td></td>
- <td><small>00</td>
- <td><small>15</td>
- <td><small>30</td>
- <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
- <td><small>30</td>
- <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
- <td><small>30</td>
- <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
- <td><small>30</td>
- <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
- <td><small>30</td>
- <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
- <td><small>30</td>
- <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
-
- </tr>
-
-
-   <% @bookings.each do |booking| %>
-  <tbody>
-  <tr>
-  <td style=white-space:nowrap;><small><%= link_to booking.name, edit_booking_path(booking.id) %></small>
-  <% if booking.child_friendly == true %>
-    <i class="fa fa-child fa-fw"></i>
-    <% else %>
-    <% end %>
-  </td>
-    
- 
-  <% a= has_booking(booking.booking_date_time, 17, 0, booking.number_of_diners) %>
-  <% if a == false  %>
-   <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-  <% a = has_booking(booking.booking_date_time, 17, 15, booking.number_of_diners) %>
-  <% if a == false  %>
-   <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-   <% a= has_booking(booking.booking_date_time, 17, 30, booking.number_of_diners) %>
-   <% if a == false  %>
-    <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-   <% a = has_booking(booking.booking_date_time, 17, 45, booking.number_of_diners) %>
-   <% if a == false  %>
-    <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-    <% a= has_booking(booking.booking_date_time, 18, 0, booking.number_of_diners) %>
-    <% if a == false  %>
-     <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 18, 15, booking.number_of_diners) %>
-    <% if a == false  %>
-     <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-     <% a= has_booking(booking.booking_date_time, 18, 30, booking.number_of_diners) %>
-     <% if a == false  %>
-      <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-     <% a = has_booking(booking.booking_date_time, 18, 45, booking.number_of_diners) %>
-     <% if a == false  %>
-      <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-      
-      <% a= has_booking(booking.booking_date_time, 19, 0, booking.number_of_diners) %>
-      <% if a == false  %>
-       <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-      <% a = has_booking(booking.booking_date_time, 19, 15, booking.number_of_diners) %>
-      <% if a == false  %>
-       <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-       <% a= has_booking(booking.booking_date_time, 19, 30, booking.number_of_diners) %>
-       <% if a == false  %>
-        <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-       <% a = has_booking(booking.booking_date_time, 19, 45, booking.number_of_diners) %>
-       <% if a == false  %>
-        <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-        <% a= has_booking(booking.booking_date_time, 20, 0, booking.number_of_diners) %>
-        <% if a == false  %>
-         <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-        <% a = has_booking(booking.booking_date_time, 20, 15, booking.number_of_diners) %>
-        <% if a == false  %>
-         <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-         <% a= has_booking(booking.booking_date_time, 20, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-          <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-         <% a = has_booking(booking.booking_date_time, 20, 45, booking.number_of_diners) %>
-         <% if a == false  %>
-          <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-          
-          <% a= has_booking(booking.booking_date_time, 21, 0, booking.number_of_diners) %>
-          <% if a == false  %>
-           <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-          <% a = has_booking(booking.booking_date_time, 21, 15, booking.number_of_diners) %>
-          <% if a == false  %>
-           <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-           <% a= has_booking(booking.booking_date_time, 21, 30, booking.number_of_diners) %>
-           <% if a == false  %>
-            <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-           <% a = has_booking(booking.booking_date_time, 21, 45, booking.number_of_diners) %>
-           <% if a == false  %>
-            <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-          
-            <% a= has_booking(booking.booking_date_time, 22, 0, booking.number_of_diners) %>
-            <% if a == false  %>
-             <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-            <% a = has_booking(booking.booking_date_time, 22, 15, booking.number_of_diners) %>
-            <% if a == false  %>
-             <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-             <% a= has_booking(booking.booking_date_time, 22, 30, booking.number_of_diners) %>
-             <% if a == false  %>
-              <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-             <% a = has_booking(booking.booking_date_time, 22, 45, booking.number_of_diners) %>
-             <% if a == false  %>
-              <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-   
- 
-              <% a= has_booking(booking.booking_date_time, 23, 0, booking.number_of_diners) %>
-              <% if a == false  %>
-               <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-              <% a = has_booking(booking.booking_date_time, 23, 15, booking.number_of_diners) %>
-              <% if a == false  %>
-               <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-   
-    </tr>
-    <% end %>
-    <tbody>
-  </table> 
-  <% else %>
-  ---------
-  <h3><%= @bookings.count %> bookings for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
-
+  <%= form_tag(bookings_path, :method => "get", id: "search-form") do %>
+      <input class="datepicker" data-provide='datepicker' id="search" name=[search] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true >   
+      <%= submit_tag "Search" %>
+  <% end %>
   <br>
 
-  <TABLE class="table table-bordered table-condensed table-hover">
-  <tr>
-   <th></th>
-   <th colspan="2" style="text-align:center">10am</th>
-   <th colspan="2" style="text-align:center">11am</th>
-   <th colspan="2" style="text-align:center">12am</th>
-   <th colspan="2" style="text-align:center">13pm</th>
-   <th colspan="2" style="text-align:center">14pm</th>
-   <th colspan="2" style="text-align:center">15pm</th>
-   <th colspan="2" style="text-align:center">16pm</th>
-   <th colspan="2" style="text-align:center">17pm</th>
-   <th colspan="2" style="text-align:center">18pm</th>
-   <th colspan="2" style="text-align:center">19pm</th>
-   <th colspan="2" style="text-align:center">20pm</th>
-   <th colspan="2" style="text-align:center">21pm</th>
-   <th colspan="2" style="text-align:center">22pm</th>
-   <th colspan="2" style="text-align:center">23pm</th>
-   </tr>
-   <tr>
-   <td></td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   <td>0</td>
-   <td>30</td>
-   </tr>
+<!-- Instructions: The bookings summary table, for next 14 days. -->  
 
+  <%= render 'bookings/coming_bookings_summary' %>
 
-     <% @bookings.each do |booking| %>
-  <tbody>
-    <tr>
-    <td><%= link_to booking.name, edit_booking_path(booking.id) %>
-    <% if booking.child_friendly == "TRUE" %>
-      <i class="fa fa-child fa-fw"></i>
-      <% else %>
-      <% end %>
-    </td>
+<!-- Instructions: If no bookings handle. -->  
+
+  <% if @bookings == 0 %>
+      <br>
+    <h5>No bookings for this date</h5>
+  <% else %>
+
+<!-- Instructions: If day is Wed, Thurs or Fri. -->  
   
-    <%  a = has_booking(booking.booking_date_time, 11, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-      
-    <% a = has_booking(booking.booking_date_time, 11, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-    
-    <% a = has_booking(booking.booking_date_time, 12, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-      
-    <% a = has_booking(booking.booking_date_time, 12, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-    
-    <% a = has_booking(booking.booking_date_time, 13, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-    
-    <% a = has_booking(booking.booking_date_time, 13, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
+  <% if [3,4,5].include? @bookings.first.booking_date_time.wday %>
+    <h3><%= @bookings.count %> bookings for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+
+    <%= render 'bookings/evening_index_grid' %>
+ 
+  <% else %>
   
-    <% a = has_booking(booking.booking_date_time, 14, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-    
-    <% a = has_booking(booking.booking_date_time, 14, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
+<!-- Instructions: If day is Sat or Sun. -->  
+ 
+  <h3><%= @bookings.count %> bookings for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+
+  <%= render 'bookings/morning_index_grid' %>
   
-    <% a = has_booking(booking.booking_date_time, 15, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-    
-    <% a = has_booking(booking.booking_date_time, 15, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 16, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-    
-    <% a = has_booking(booking.booking_date_time, 16, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 17, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 17, 30, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 18, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-   <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 18, 30, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-     
-    <% a = has_booking(booking.booking_date_time, 19, 0, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 19, 30, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 20, 0, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 20, 30, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 21, 0, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 21, 30, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-      
-    <% a = has_booking(booking.booking_date_time, 22, 0, booking.number_of_diners) %>
-         <% if a == false  %>
-           <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 22, 30, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-         
-    <% a = has_booking(booking.booking_date_time, 23, 0, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 23, 30, booking.number_of_diners) %>
-      <% if a == false  %>
-        <td></td><% else %><td class="success"><%= a.second %></td><% end %>
-    
-      </tr>
-      <% end %>
-        </tbody>
-    </table> 
-  ---------
+  <%= render 'bookings/evening_index_grid' %>
+
   <% end %>
-
-<br><br>
-<h6>Booking details for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h6>
+  
+<!-- Instructions: Bookings simple details list. -->  
 <br>
-
-<TABLE class="table table-bordered table-condensed ">
-  <thead>
-    <tr>
-      
-      <th>Customer</th>
-      <th>Contact</th>
-      <th><center>Booking time</center></th>
-      <th><center>Number of diners</center></th>
-      <th><center>Child Seat?</center></th>
-    </tr>
-  </thead>
-  <tbody>
-     
-            <% @bookings.each do |booking| %>
-             
-        <tr>
-        <td><strong><%= booking.name %></strong></td>
-        <td><%= booking.phone %> / <%= booking.email %></td>
-        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
-        <td><center><%= booking.number_of_diners %></center></td>
-        <td><center>
-           <% if booking.child_friendly  %>
-              <b><font color=#9ACD32>YES</font></b>
-              <% else %>
-              No
-            <% end %></center></td>
-      </tr>
-    <% end %>  
-    <tr>
-    <td colspan="3" style="text-align:right">Total Diners Count:</td>
-    <td ><center><b><%= get_sum_from_array_for_field(@bookings) %></center></b></td>
-    <td></td></tr>
-  </tbody>
-</table>
+  <%= render 'bookings/simple_index' %>
 
 <% end %>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
+<br>
  

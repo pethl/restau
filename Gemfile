@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
+#recomended by heroku
+ruby '2.2.2'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Using Postgres database
@@ -22,13 +24,17 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 gem 'bcrypt-ruby', '3.1.2'
-gem 'heroku'
+# no longer needed according to heroku
+#gem 'heroku'
 
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'bootstrap_form'
 
 #datepicker
 gem 'bootstrap-datepicker-rails'
+
+#recomended to make asset pipeline work
+gem 'rails_12factor', group: :production
 
 
 group :development do

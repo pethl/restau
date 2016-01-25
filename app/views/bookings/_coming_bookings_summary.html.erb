@@ -1,0 +1,14 @@
+
+<h6>Booking details for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h6>
+<br>
+
+<table class="table table-bordered table-condensed"><tr>
+<% array = booking_count_by_day(Date.today)%>
+<% array.each do |d| %>
+<td><center><small>
+ <%= d[0].strftime("%a, %d") %><br>
+  <%= d[1] %><small>
+  </center>
+ </td>
+ <% end %>
+</tr></table>

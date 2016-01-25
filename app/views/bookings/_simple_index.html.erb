@@ -1,0 +1,40 @@
+
+<h6>Booking details for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h6>
+<br>
+
+<TABLE class="table table-bordered table-condensed ">
+  <thead>
+    <tr>
+      
+      <th>Customer</th>
+      <th>Contact</th>
+      <th><center>Booking time</center></th>
+      <th><center>Number of diners</center></th>
+      <th><center>Child Seat?</center></th>
+    </tr>
+  </thead>
+  <tbody>
+     
+            <% @bookings.each do |booking| %>
+             
+        <tr>
+        <td><strong><%= booking.name %></strong></td>
+        <td><%= booking.phone %> / <%= booking.email %></td>
+        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+        <td><center><%= booking.number_of_diners %></center></td>
+        <td><center>
+           <% if booking.child_friendly  %>
+              <b><font color=#9ACD32>YES</font></b>
+              <% else %>
+              No
+            <% end %></center></td>
+      </tr>
+    <% end %>  
+    <tr>
+    <td colspan="3" style="text-align:right">Total Diners Count:</td>
+    <td ><center><b><%= get_sum_from_array_for_field(@bookings) %></center></b></td>
+    <td></td></tr>
+  </tbody>
+</table>
+
+ 
