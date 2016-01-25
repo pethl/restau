@@ -9,7 +9,6 @@
 
 <% @restaurants_by_account.each do |account, restaurants| %>
 
-
 <table class="table">
   <thead>
     <tr>
@@ -17,9 +16,6 @@
       <th>Location</th>
       <th>Website</th>
       <th>Primary contact</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Table Count</th>
       <th></th>
     </tr>
   </thead>
@@ -29,13 +25,12 @@
   <tbody>
     <% @restaurants.each do |restaurant| %>
       <tr>
-        <td><%= restaurant.name %></td>
+        <td><%= link_to restaurant.name, rdetail_path(restaurant.id) %></td>
         <td><%= restaurant.location %></td>
         <td><%= restaurant.website %></td>
-        <td><%= restaurant.primary_contact %></td>
-        <td><%= restaurant.email %></td>
-        <td><%= restaurant.phone %></td>
-        <td class="text-center" ><%= table_count(restaurant.id) %></td>
+        <td><%= restaurant.primary_contact %><br>
+        Email: <%= restaurant.email %><br>
+        Phone:<%= restaurant.phone %></td>
         <td> <%= link_to edit_restaurant_path(restaurant), class: 'btn btn-success btn-xs' do %>
              <span class="fa fa-pencil-square-o""></span>
              <% end %> 
@@ -44,7 +39,9 @@
               <span class="fa fa-trash""></span>
              <% end %> </td>
       </tr>
-    <% end %> <% end %>
+     
+    <% end %> 
+      <% end %>
   </tbody>  
 </table>
 

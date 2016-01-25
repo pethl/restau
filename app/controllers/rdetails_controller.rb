@@ -10,6 +10,7 @@ class RdetailsController < ApplicationController
   # GET /rdetails/1
   # GET /rdetails/1.json
   def show
+    
   end
 
   # GET /rdetails/new
@@ -69,6 +70,6 @@ class RdetailsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rdetail_params
-      params.require(:rdetail).permit(:restaurant_id, :booking_duration, :min_booking, :max_booking, :last_booking_time)
+      params.require(:rdetail).permit(:restaurant_id, :booking_duration, :min_booking, :max_booking, :max_diners_at_current_time, :last_booking_time, :max_current_diners, :current_diners_window_start, :current_diners_window_end, :big_table_count, :large_table_count)
     end
 end

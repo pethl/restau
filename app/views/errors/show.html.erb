@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ref:</strong>
+  <%= @error.ref %>
+</p>
+
+<p>
+  <strong>Msg:</strong>
+  <%= @error.msg %>
+</p>
+
+<p>
+  <strong>Desc:</strong>
+  <%= @error.desc %>
+</p>
+
+<%= link_to 'Edit', edit_error_path(@error) %> |
+<%= link_to 'Back', errors_path %>

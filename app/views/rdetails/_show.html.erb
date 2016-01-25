@@ -1,12 +1,4 @@
-<div class="row">
-<div class="col-md-2">
-<%= render 'layouts/sidebar' %>
-</div>
-
-
 <div class="col-md-6">
-<h2>Restaurant Details</h2>
-
      <table class="table">
      <tbody>
         <tr>
@@ -23,16 +15,8 @@
         <tr><td>Min booking:</td><td><%= @rdetail.min_booking %></td></tr>
         <tr><td>Max booking:</td><td><%= @rdetail.max_booking %></td></tr>
         <tr><td>Last booking time:</td><td><%= @rdetail.last_booking_time %></td></tr>
-        <tr><td>Maximum Diners Seated at Same Time:</td><td><%= @rdetail.max_diners_at_current_time %></td></tr>
-        <tr><td>Maximum Concurrent Diners:</td><td><%= @rdetail.max_current_diners %></td></tr>
-        <tr><td>Current Diners Window Before (mins):</td><td><%= @rdetail.current_diners_window_start %></td></tr>
-        <tr><td>Current Diners Window After (mins):</td><td><%= @rdetail.current_diners_window_end %></td></tr>
-        <tr><td>How many tables of 9 or 10:</td><td><%= @rdetail.big_table_count %></td></tr>
-        <tr><td>How many tables of 7 or 8:</td><td><%= @rdetail.large_table_count %></td></tr>
- 
       </tr>
       <br>
   </tbody>
 </table>
-</div>
 </div>

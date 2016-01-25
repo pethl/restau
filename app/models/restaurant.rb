@@ -11,4 +11,6 @@ class Restaurant < ActiveRecord::Base
    validates :phone, presence: true 
    validates :email, presence: true 
    
+    default_scope { order('id ASC') }
+   
 end

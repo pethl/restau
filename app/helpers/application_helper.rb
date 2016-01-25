@@ -13,4 +13,6 @@ module ApplicationHelper
     Table.where(:restaurant_id => restaurant_id).count
   end
   
+  
+
 end

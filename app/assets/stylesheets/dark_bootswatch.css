@@ -77,7 +77,7 @@ mark {
   color: #000;
 }
 small {
-  font-size: 80%;
+  font-size: 60%;
 }
 sub,
 sup {
@@ -2335,7 +2335,7 @@ th {
   background-color: #080808;
 }
 .table-hover > tbody > tr:hover {
-  background-color: #282828;
+  background-color: #aaaaaa;
 }
 table col[class*="col-"] {
   position: static;
@@ -2367,7 +2367,7 @@ table th[class*="col-"] {
 .table-hover > tbody > tr.active:hover > td,
 .table-hover > tbody > tr:hover > .active,
 .table-hover > tbody > tr.active:hover > th {
-  background-color: #1b1b1b;
+  background-color: #aaaaaa;
 }
 .table > thead > tr > td.success,
 .table > tbody > tr > td.success,
@@ -2388,7 +2388,7 @@ table th[class*="col-"] {
 .table-hover > tbody > tr.success:hover > td,
 .table-hover > tbody > tr:hover > .success,
 .table-hover > tbody > tr.success:hover > th {
-  background-color: #669a00;
+  background-color: #aaaaaa;
 }
 .table > thead > tr > td.info,
 .table > tbody > tr > td.info,

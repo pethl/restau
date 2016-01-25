@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :errors
   resources :users
   resources :customers
   resources :bookings do

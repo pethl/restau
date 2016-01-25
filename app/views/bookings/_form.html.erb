@@ -16,13 +16,10 @@
     <%= f.number_field :number_of_diners %>
   </div>
   <div class="field">
-    <%= f.label :booking_time %><br>
-    <%= f.time_select :booking_time %>
+    <%= f.label :booking_date_time %><br>
+    <%= f.datetime_select :booking_time %>
   </div>
-  <div class="field">
-    <%= f.label :booking_date %><br>
-    <%= f.date_select :booking_date %>
-  </div>
+  
   <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name %>

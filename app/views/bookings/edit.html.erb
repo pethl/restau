@@ -15,8 +15,8 @@
      <td style="width: 80%">
 
     <h6>A table is available for  <%= @booking.number_of_diners %> people at 
-          <br><%= @booking.booking_time.strftime('%H:%M') %>
-          on <%= @booking.booking_date.strftime('%A, %d %B %Y') %>.
+          <br><%= @booking.booking_date_time.strftime('%H:%M') %>
+          on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.
     </h6>
     <br>
     <%= form_for (@booking) do |builder| %>
@@ -74,11 +74,7 @@
 
   <% end %>
   
-      </td>
-      <td style="width: 10%"></td>
-      </tr>
-     <table>
-     </div>
+    
  
 
      <!-- Instructions: This is the booking confirmation section. -->  
@@ -93,14 +89,14 @@
        <h5>Hello 
          <%= @booking.name%>,</h5><br>
          <h6>You have a booking for  <%= @booking.number_of_diners %> people, at 
-         <%= @booking.booking_time.strftime('%H:%M') %><br>
-         on <%= @booking.booking_date.strftime('%A, %d %B %Y') %>.<br>
+         <%= @booking.booking_date_time.strftime('%H:%M') %><br>
+         on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.<br>
           <br>
           <br>See you soon.<br>
          
        <br><br><br>
          
-       <% if (@booking.booking_date - DateTime.now) > 1 %> 
+       <% if (@booking.booking_date_time - DateTime.now) > 1 %> 
           <h6><i>Made a mistake?</i></h6>
               <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
               <%= hidden_field_tag(:booking, @booking.id) %>
@@ -114,7 +110,7 @@
          <p>Bookings cannot be cancelled online within 1 day of the booking. Please call the restaurant on 02920 666777. </p>
          <% end%> 
  
-         <% elsif  @booking.status == "Cancelled" %>
+      <% elsif  @booking.status == "Cancelled" %>
         
             <div class="well well-sm">
            <br>

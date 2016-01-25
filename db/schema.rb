@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160118134341) do
+ActiveRecord::Schema.define(version: 20160125105456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,13 +33,15 @@ ActiveRecord::Schema.define(version: 20160118134341) do
     t.integer  "number_of_diners"
     t.boolean  "accessible"
     t.boolean  "child_friendly"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "name"
     t.string   "email"
     t.string   "phone"
     t.string   "status"
     t.datetime "cancelled_at"
+    t.integer  "restaurant_id"
+    t.datetime "booking_date_time"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -67,6 +69,14 @@ ActiveRecord::Schema.define(version: 20160118134341) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "errors", force: :cascade do |t|
+    t.string   "ref"
+    t.string   "msg"
+    t.text     "desc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string   "name"
     t.decimal  "price"
@@ -86,8 +96,14 @@ ActiveRecord::Schema.define(version: 20160118134341) do
     t.integer  "min_booking"
     t.integer  "max_booking"
     t.time     "last_booking_time"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "current_diners_window_start"
+    t.integer  "current_diners_window_end"
+    t.integer  "big_table_count"
+    t.integer  "large_table_count"
+    t.integer  "max_current_diners"
+    t.integer  "max_diners_at_current_time"
   end
 
   create_table "restaurants", force: :cascade do |t|

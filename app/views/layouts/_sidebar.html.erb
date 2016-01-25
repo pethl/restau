@@ -1,6 +1,10 @@
 <br><br><br>
 
-<h6><br><br>
+<h6> <% if logged_in? %> 
+              Hi <%= current_user.name %>
+             <% else %>
+             <li><a href="http://builtwithbootstrap.com/" target="_blank">HF</a></li>  
+             <% end %><br><br>
 
             <%= link_to "Log out", logout_path, method: "delete" %><br>
             
@@ -11,6 +15,8 @@
             <a href="/restaurants/">Restaurants</a><br>
                 
             <a href="/rdetails/">Restaurant Details</a><br>
+            
+            <a href="/errors/">Error Messages</a><br>
                  
             <a href="/products/">Product</a><br>
                 

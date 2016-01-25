@@ -1,4 +1,4 @@
-<%= form_for(@rdetail) do |f| %>
+<%= bootstrap_form_for(@rdetail, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-5") do |f| %>
   <% if @rdetail.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@rdetail.errors.count, "error") %> prohibited this rdetail from being saved:</h2>
@@ -11,26 +11,18 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :restaurant_id %><br>
-    <%= f.number_field :restaurant_id %>
-  </div>
-  <div class="field">
-    <%= f.label :booking_duration %><br>
+    <%= f.collection_select :restaurant_id, Restaurant.all, :id, :name %>
     <%= f.text_field :booking_duration %>
-  </div>
-  <div class="field">
-    <%= f.label :min_booking %><br>
     <%= f.number_field :min_booking %>
-  </div>
-  <div class="field">
-    <%= f.label :max_booking %><br>
     <%= f.number_field :max_booking %>
-  </div>
-  <div class="field">
-    <%= f.label :last_booking_time %><br>
     <%= f.time_select :last_booking_time %>
-  </div>
+     <%= f.number_field :max_diners_at_current_time, :label => "Maximum Number of Diners Seated at Same Time"  %>
+     <%= f.number_field :max_current_diners, :label => "Maximum Number of Concurrent Diners"  %>
+     <%= f.number_field :current_diners_window_start, :label => "Number of minutes, before booking, included in Current Diners calc" %>
+      <%= f.number_field :current_diners_window_end, :label => "Number of minutes, after booking, included in Current Diners calc" %>
+      <%= f.number_field :big_table_count, :label => "How many tables of 9 or 10" %>
+      <%= f.number_field :large_table_count, :label => "How many tables of 7 or 8" %>
+  
   <div class="col-sm-offset-2 col-sm-10">
    <div class="actions">
       <%= f.submit class: "btn btn-primary" %>
