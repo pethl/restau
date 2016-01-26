@@ -15,14 +15,15 @@
 
    <!-- Instructions: This is the table booking section. -->  
 
-    <div class="col-md-5">
+    <div class="col-md-4">
     <h4><i class="fa fa-check-square-o fa-fw"></i><strong>  BOOK A TABLE</strong> </h4>
   
-    <table><tr><td>
+    <table class="table">
+    <tr><td>
     <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
   
       <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
-      <tr><td style="width: 5%"></td><td style="width: 40%"></td><td style="width: 50%"></td><td style="width: 5%"></td></tr>
+      <tr><td style="width: 5%"></td><td style="width: 20%"></td><td style="width: 70%"></td><td style="width: 5%"></td></tr>
       
       <tr>
       <td></td>
@@ -42,7 +43,7 @@
       <% grouped_options = [
             ['Select', ['Hour']],
      ['Wed, Thurs, Fri',[['5PM','17'],['6PM','18'],['7PM','19'],['8PM','20'],['9PM','21']]],
-     ['Sat, Sun',[['10AM','10'],['11AM','11'],['12 NOON','12'],['1PM','13'],['2PM','14'],['3PM','15'],['4PM','16'],['5PM','17'],['6PM','18'],['7PM','19'],['8PM','20'],['9PM','21']]]
+     ['Sat, Sun',[['10AM','10'],['11AM','11'],['12 NOON','12'],['1PM','13'],['2PM','14'],['3PM','15'],['4PM','16'],['5PM','17'],['6PM (Sat only)','18'],['7PM (Sat only)','19'],['8PM (Sat only)','20'],['9PM (Sat only)','21']]]
     ] %>
       
       <tr>
@@ -95,11 +96,11 @@
       <br>
        <h4><i class="fa fa-user-secret fa-fw"></i><strong>  BOOK OUR PRIVATE ROOM</strong> </h4>
   
-       <table><tr><td>
+       <table class="table"><tr><td>
        <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
   
          <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
-         <tr><td style="width: 5%"></td><td style="width: 40%"></td><td style="width: 50%"></td><td style="width: 5%"></td></tr>
+         <tr><td style="width: 5%"></td><td style="width: 20%"></td><td style="width: 70%"></td><td style="width: 5%"></td></tr>
       
          <tr><td></td><td>Room:</td>
          <td><b>Private Dining Room</b></td>

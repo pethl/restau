@@ -24,7 +24,7 @@ module BookingsHelper
   
   def has_booking(booking_time, hr, min, number_of_diners) 
     
-    if number_of_diners >7
+    if number_of_diners >8
       time = 165
     elsif number_of_diners >5
       time = 135
@@ -37,9 +37,7 @@ module BookingsHelper
     period_start = (hr.to_s + "." + min.to_s).to_f
     
   if (booking_start..booking_end).include?(period_start) 
-    answer = [2, number_of_diners]
-    Rails.logger.debug("xxxxxxxxxxxxx_answer : #{answer}")  
-   
+    answer = [2, number_of_diners] 
     return answer
   else
       return false 

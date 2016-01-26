@@ -12,9 +12,6 @@ class Rdetail < ActiveRecord::Base
  default_scope { order('id ASC') }
  
  def self.get_value(restaurant_id,field_name)
-   Rails.logger.debug("xxxxxxxxxxxxx_field_name : #{field_name}")  
-
-   
    field_name = field_name.to_sym
    answer = where(:restaurant_id => restaurant_id).first
    return answer[field_name]

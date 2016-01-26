@@ -28,12 +28,18 @@ class Booking < ActiveRecord::Base
         return Error.get_msg("103")    
       end
       
-   #4) check to ensure booking is within opening hours per day
-      if ([3,4,5].include? (params[:booking_date]).to_date.wday) &&
-        ([10,11,12,13,14,15,16].include? (params[:booking_time_hour]).to_i)
-       return Error.get_msg("104")      
+    #4) check to ensure booking is within opening hours, w,t,f 
+       if ([3,4,5].include? (params[:booking_date]).to_date.wday) &&
+         ([10,11,12,13,14,15,16].include? (params[:booking_time_hour]).to_i)
+        return Error.get_msg("104")      
       end
-  end
+  
+    #5) check to ensure booking is within opening hours sunday
+       if ([0].include? (params[:booking_date]).to_date.wday) &&
+         ([18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
+        return Error.get_msg("105")      
+     end    
+   end
   
   
   # CREATE A BOOKING OBJECT FROM FORM RAW PARAMS  
@@ -93,16 +99,11 @@ class Booking < ActiveRecord::Base
    
      @existing_bookings.each do |existing_booking| 
     
-   if ((existing_booking.booking_date_time > start) && (existing_booking.booking_date_time < finish))
-         @bookings_at_current_time << existing_booking
-         Rails.logger.debug("xxxxxxxxxxxxx_existing booking time : #{existing_booking.booking_date_time}") 
-         Rails.logger.debug("xxxxxxxxxxxxx_BOOKING_INCLUDED : #{existing_booking.id}") 
-       else
-         Rails.logger.debug("xxxxxxxxxxxxx_existing booking time : #{existing_booking.booking_date_time}") 
-          Rails.logger.debug("xxxxxxxxxxxxx_BOOKING_EXCLUDED : #{existing_booking.id}") 
-              
-       end
-      end
+     if ((existing_booking.booking_date_time >= start) && (existing_booking.booking_date_time <= finish))
+           @bookings_at_current_time << existing_booking
+         else          
+         end
+        end
       Rails.logger.debug("xxxxxxxxxxxxx_bookings_at_current_time (2) : #{@bookings_at_current_time.count}")  
       
       # TOTAL DINERS COUNT FOR CURRENT BOOKING WINDOW
@@ -113,9 +114,10 @@ class Booking < ActiveRecord::Base
       Rails.logger.debug("xxxxxxxxxxxxx_number_of_current_diners : #{@number_of_current_diners}")  
       
       # TOTAL DINERS COUNT FOR CURRENT TIME
-      
       @diners_at_same_start_time = 0
-      @bookings_at_same_start_time = Booking.where(:booking_date_time => @booking[:booking_date_time])
+    #  @bookings_at_same_start_time = Booking.where(:booking_date_time => @booking[:booking_date_time])
+      @bookings_at_same_start_time = Booking.where("booking_date_time = ? AND status = ?", @booking[:booking_date_time], "Confirmed")
+
       @diners_at_same_start_time = @bookings_at_same_start_time.to_a.sum do |booking_at_same_start_time|
               booking_at_same_start_time.number_of_diners
             end
@@ -123,38 +125,44 @@ class Booking < ActiveRecord::Base
       
  
        
-    if (@number_of_current_diners < (@max_current_diners - @diners)) && ((@diners_at_same_start_time+@diners) < (@max_diners_at_same_start_time+1))
+  if (@number_of_current_diners < (@max_current_diners - @diners)) && ((@diners_at_same_start_time+@diners) < (@max_diners_at_same_start_time+1))
    
-
-      # deal with big groups, only n bookings of 9 or 10 allowed in a day, because can't set end time for large groups so dont know when they will end
-          if  (([9,10].include? @diners) && (@big_tables_count < @big_table_max))
-              @booking = Booking.new(@booking)
-              @booking.save
-              return @booking
-      
-      # also for bookings of 7 or 8, large groups, max set in system parameters
-          elsif (([7,8].include? @diners) && (@large_tables_count < @large_table_max))
-               @booking = Booking.new(@booking)
-               @booking.save
-               return @booking
-           
-           elsif ([1,2,3,4,5,6].include? @diners)
-             @booking = Booking.new(@booking)
-             @booking.save
-             return @booking
-                  
-            else   
-              @booking=[]
-                return @booking 
-          end
-          
-    else
-      @booking=[]
-        return @booking 
-       
+    case @diners
+    when 9,10
+      if (@big_tables_count < @big_table_max)
+          @booking = Booking.new(@booking)
+          @booking.save
+          return @booking
+        else
+        #Error for too many big groups, return Integer to prevent automated re-book
+        return 107
+      end
+    when 8, 7 
+        if (@large_tables_count < @large_table_max)
+          @booking = Booking.new(@booking)
+          @booking.save
+          return @booking
+        else
+          #Error for too many large groups, return Integer to prevent automated re-book
+        return 108
+      end
+    when 1,2,3,4,5,6
+       @booking = Booking.new(@booking)
+       @booking.save
+       return @booking
+     else 
+        #Error for ++current diners or ++diners at same time, return string for automated re-book
+        msg = "Try again"
+       return msg
     end
-    
-  end
+  end #case statement end
+
+ else 
+   #Error for ++current diners or ++diners at same time, return string for automated re-book
+   msg = "Try again"
+  return msg
+end #starer if end 
+  
   
   def self.search(search)
     # get Confirmed bookings only

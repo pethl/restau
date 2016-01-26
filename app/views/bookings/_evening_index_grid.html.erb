@@ -7,7 +7,6 @@
  <th colspan="4" style="text-align:center">20pm</th>
  <th colspan="4" style="text-align:center">21pm</th>
  <th colspan="4" style="text-align:center">22pm</th>
- <th colspan="2" style="text-align:center">23pm</th>
  </tr>
  <tr>
  <td></td>
@@ -35,9 +34,6 @@
  <td><small>15</td>
  <td><small>30</td>
  <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
-
  </tr>
 
    <% @bookings.each do |booking| %>
@@ -148,15 +144,6 @@
              <% a = has_booking(booking.booking_date_time, 22, 45, booking.number_of_diners) %>
              <% if a == false  %>
               <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-   
- 
-              <% a= has_booking(booking.booking_date_time, 23, 0, booking.number_of_diners) %>
-              <% if a == false  %>
-               <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-              <% a = has_booking(booking.booking_date_time, 23, 15, booking.number_of_diners) %>
-              <% if a == false  %>
-               <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
    
     </tr>
     <% end %>

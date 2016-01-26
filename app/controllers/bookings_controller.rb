@@ -2,25 +2,73 @@ class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :edit, :update, :destroy]
   
   def booking_confirmation
-    # run validation
+    # run validation # if clean create booking object
     validate = Booking.validate_params(params[:booking])
+    if validate.blank?
+        
+      # run formatting 
+      @to_booking = Booking.format_booking(params[:booking])
+       
+      # attempt booking
+      @booking = Booking.can_book(@to_booking)
+      Rails.logger.debug("xxxxxxxxxxxxx_First Call to Booking : #{@booking.inspect}")  
       
-      # if clean create booking object
-      if validate.blank?
-        # get formatted @booking 
-        @to_booking = Booking.format_booking(params[:booking])
+      if @booking.is_a? Integer
+      # specific error msge returned, cannot book
+      redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(@booking) }
+      
+      elsif @booking.is_a? String  
+        # try booking 15 mins earlier unless time is 5pm
+              b_time = @to_booking[:booking_date_time]
+              if (b_time.hour ==17 && b_time.min == 0)
+               # do not change the booking time
+              else
+               @to_booking[:booking_date_time] = (b_time-15.minutes)
+                Rails.logger.debug("xxxxxxxxxxxxx_revised booking time (less 15, except 5) : #{@to_booking.inspect}")
+              end
+          
+          # try to re-book with revised time (once)
+          @booking = Booking.can_book(@to_booking) 
+          Rails.logger.debug("xxxxxxxxxxxxx_Second Call to Booking : #{@booking.inspect}")  
+    
+             if @booking.is_a? String
+               #-------------------------------
+               # try booking 30 mins later unless time is 21.15
+                     b_time = @to_booking[:booking_date_time]
+                     if (b_time.hour ==21 && b_time.min == 15)
+                      # do not change the booking time
+                     else
+                      @to_booking[:booking_date_time] = (b_time+30.minutes)
+                       Rails.logger.debug("xxxxxxxxxxxxx_revised booking time (add 30, except 9.15) : #{@to_booking.inspect}")
+                     end
+          
+                  # try to re-book with revised time (twice)
+                 @booking = Booking.can_book(@to_booking) 
+                 Rails.logger.debug("xxxxxxxxxxxxx_Third Call to Booking : #{@booking.inspect}")  
+    
+                    if @booking.is_a? String
+                      msg = "Sorry we do not have a table within 15 mins +/- this time. Please try earlier or later."
+                      redirect_to static_pages_booking_enquiry_path, :flash => { :warning => msg }
+                   else
+                      redirect_to edit_booking_path(@booking), notice: Error.get_msg(111)
+                   end 
+               #-------------------------------
+            else
+               redirect_to edit_booking_path(@booking), notice: Error.get_msg(110)
+            end 
+      
+      elsif @booking.is_a? Object
+         #original booking successful, proceed to confirmation
+         redirect_to edit_booking_path(@booking)  
+     
+       else  
+         #Non-specific, system error.
+         redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(109) }
+       end 
         
-         # try to book
-         @booking = Booking.can_book(@to_booking)
-         if @booking.blank?
-           redirect_to static_pages_booking_enquiry_path(@booking), notice: 'Sorry, we cannot accomodate your party at this time and date. Would you like to adjust your request and try again?'   
-         else
-           redirect_to edit_booking_path(@booking)
-         end 
-        
-      else
-        # send user back to booking page
-        redirect_to static_pages_booking_enquiry_path(@booking), notice: validate
+      else # if validation comes back with error
+        # send user back to booking page and display specific validation error msg
+        redirect_to static_pages_booking_enquiry_path, :flash => { :warning => validate }
       end
 
       
@@ -94,6 +142,7 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
+        BookingMailer.booking_confirmation_successful(@booking).deliver_now
         format.html { redirect_to @booking }
         format.json { render :show, status: :ok, location: @booking }
       else
