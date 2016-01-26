@@ -31,15 +31,25 @@
 
     <%= render 'bookings/evening_index_grid' %>
  
-  <% else %>
+  <% elsif @bookings.first.booking_date_time.wday == 6%>
   
-<!-- Instructions: If day is Sat or Sun. -->  
+<!-- Instructions: If day is Sat. -->  
  
   <h3><%= @bookings.count %> bookings for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
 
   <%= render 'bookings/morning_index_grid' %>
   
   <%= render 'bookings/evening_index_grid' %>
+
+  <% else %>
+  
+<!-- Instructions: If day is Sun. -->  
+ 
+  <h3><%= @bookings.count %> bookings for : <%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+
+  <%= render 'bookings/morning_index_grid' %>
+  
+  <%= render 'bookings/sun_evening_index_grid' %>
 
   <% end %>
   

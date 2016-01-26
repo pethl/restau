@@ -20,8 +20,13 @@
    If you have not receive your confirmation email, please get in touch via the website.<br><br>
    See you soon.</h6>
    <br>
-   <h6><i>Made a mistake?</i><br>
-   <%= link_to "Click here to cancel a booking", edit_booking_path(@booking) %></h6>
+   <h6><i>Made a mistake?</i></h6>
+       <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+       <%= hidden_field_tag(:booking, @booking.id) %>
+       <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
+      <% end%> 
+   
+   <br>
  </td><td style="width: 5%"></td></tr>
     <table>
 </div></div>
