@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 Account.create(company_name: 'Hang Fire Smoke House Co', primary_contact: 'Shauna Guinn', email: 'hangfirebbq@gmail.com', phone:'07803293552')
-Restaurant.create(name: 'Hang Fire Southern Kitchen', location: 'Pump House, Barry', website: 'hangfirebbq.com', primary_contact: 'Sam Evans', email: 'hangfirebbq@gmail.com', phone:'07803293552')
+Restaurant.create(account_id: '1', name: 'Hang Fire Southern Kitchen', location: 'Pump House, Barry', website: 'hangfirebbq.com', primary_contact: 'Sam Evans', email: 'hangfirebbq@gmail.com', phone:'07803293552')
 Rdetail.create(restaurant_id: '1', booking_duration: '2', min_booking: '1', max_booking: '10', max_diners_at_current_time: '23', max_current_diners: '40', current_diners_window_start: '90', current_diners_window_end: '45', big_table_count: '2', large_table_count: '4')
 Error.create(ref: '101', msg: 'Please enter all required information.', desc: 'Validation - Booking enquiry : Check all fields have been entered.')
 Error.create(ref: '102', msg: 'Bookings can only be made for future dates, please amend date and try again.', desc: 'Validation - Booking enquiry : Check booking in future.')
