@@ -36,8 +36,10 @@
       <tr>
       <td></td>
       <td>Date:</td>
-      <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-end-date=[30-11-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true data-date-orientation="bottom" >   
-      data-date-start-date=[08-03-2016]
+      <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-start-date=[08-03-2016] data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-end-date=[30-11-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true data-date-orientation="bottom" >   
+      
+      
+      
       </td>
       <td></td>
       </tr>
@@ -99,52 +101,13 @@
        <h4><i class="fa fa-user-secret fa-fw"></i><strong>  BOOK OUR PRIVATE ROOM</strong> </h4>
   
        <table class="table"><tr><td>
-       <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
-  
-         <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
-         <tr><td style="width: 5%"></td><td style="width: 20%"></td><td style="width: 70%"></td><td style="width: 5%"></td></tr>
-      
-         <tr><td></td><td>Room:</td>
-         <td><b>Private Dining Room</b></td>
-         <td></td></tr>
-      
-         <tr><td></td><td>Session:</td>
-                <td><select name="booking[session]">
-              <option value="0">Select</option>
-              <option value="1">Lunch</option>
-              <option value="2">Dinner</option>
-            </select></td>
-            <td></td></tr>
-      
-         <tr><td></td><td>Date:</td>
-            <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true " >   
-        </td>
-         <td></td></tr>
-           
-         <tr><td></td><td>People:</td>
-             <td><select name="booking[number_of_diners]">
-             <option value="0">Select</option>
-             <option value="1">11</option>
-             <option value="2">12</option>
-             <option value="3">13</option>
-             <option value="4">14</option>
-             <option value="5">15</option>
-             <option value="6">16</option>
-             <option value="7">17</option>
-             <option value="8">18</option>
-         </select></td>
-         <td></td></tr>
-      
-         <tr><td></td><td></td>
-             <td>  <%= submit_tag "CHECK FOR AVAILABLITY", name: nil, class: "btn btn-success btn-sm" %>   
-                <% end %></td>
-         <td></td></tr>
-         </table>
+      <h4>COMING SOON...</h4>
      
          </td></tr></table>
       
 
 </div>
+
 
 
 

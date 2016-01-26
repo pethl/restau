@@ -2,7 +2,7 @@
   <body>
     <p>Hi  <%= @booking.name %>,</p>
     <p>This email confirms your your booking at <b>Hang Fire Southern Kitchen</b>, Barry on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %> 
-    was cancelled today at <%= @booking.cancelled_at.strftime('%H:%M') %>.</p>
+    was cancelled today at <%= @booking.cancelled_at.to_time.strftime('%H:%M') %>.</p>
     <>
     <p>Use this link to book again: 
     

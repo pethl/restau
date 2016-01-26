@@ -77,7 +77,7 @@ class BookingsController < ApplicationController
      Rails.logger.debug("cancellation: #{params[:booking]}")
      booking_id = params[:booking]
      Booking.update(booking_id, :status => 'Cancelled', :cancelled_at => Time.now)
-     BookingMailer.booking_cancellation(@booking).deliver_now
+     BookingMailer.booking_cancellation(@booking).deliver_now!
       redirect_to edit_booking_path(booking_id)
   end
   

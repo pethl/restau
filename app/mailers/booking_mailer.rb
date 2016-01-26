@@ -4,14 +4,15 @@ class BookingMailer < ActionMailer::Base
   def booking_confirmation_successful(booking)
     @booking = booking
     if @booking
-      mail(to: 'contacthangfirebbq@gmail.com', subject: "Booking Confirmation for :#{@booking.name} ").deliver
+      mail(to: @booking.email, subject: "Booking Confirmation for: #{@booking.name} ")
+      mail(to: 'contacthangfirebbq@gmail.com', subject: "Booking Confirmation for: #{@booking.name} ")
     end
   end
   
   def booking_cancellation(booking)
     @booking = booking
      if @booking
-      mail(to: 'contacthangfirebbq@gmail.com', subject: "Booking Cancellation for :#{@booking.name} ").deliver
+      mail(to: @booking.email, subject: "Booking Cancellation for: #{@booking.name} ")
     end
   end
   
