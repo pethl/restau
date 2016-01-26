@@ -19,6 +19,7 @@
     <h4><i class="fa fa-check-square-o fa-fw"></i><strong>  BOOK A TABLE</strong> </h4>
   
     <table class="table">
+    <tr><td><center>Online bookings for Today <br>must be confirmed before 17:15.</td></tr>
     <tr><td>
     <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
   
@@ -35,7 +36,8 @@
       <tr>
       <td></td>
       <td>Date:</td>
-      <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-start-date=[08-03-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true data-date-orientation="bottom" >   
+      <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-end-date=[30-11-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true data-date-orientation="bottom" >   
+      data-date-start-date=[08-03-2016]
       </td>
       <td></td>
       </tr>
@@ -43,7 +45,7 @@
       <% grouped_options = [
             ['Select', ['Hour']],
      ['Wed, Thurs, Fri',[['5PM','17'],['6PM','18'],['7PM','19'],['8PM','20'],['9PM','21']]],
-     ['Sat, Sun',[['10AM','10'],['11AM','11'],['12 NOON','12'],['1PM','13'],['2PM','14'],['3PM','15'],['4PM','16'],['5PM','17'],['6PM (Sat only)','18'],['7PM (Sat only)','19'],['8PM (Sat only)','20'],['9PM (Sat only)','21']]]
+     ['Sat, Sun',[['10AM','10'],['11AM','11'],['12 NOON','12'],['1PM','13'],['2PM','14'],['3PM','15'],['4PM','16'],['5PM (Sat only)','17'],['6PM (Sat only)','18'],['7PM (Sat only)','19'],['8PM (Sat only)','20'],['9PM (Sat only)','21']]]
     ] %>
       
       <tr>

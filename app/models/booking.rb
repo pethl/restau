@@ -18,25 +18,31 @@ class Booking < ActiveRecord::Base
        return Error.get_msg("101") 
       end 
  
-    #2) check to ensure booking is in future
-      if (params[:booking_date]).to_date < Date.today+1.day
+    #2) check to ensure booking is not in the past
+      if (params[:booking_date]).to_date < Date.today
         return Error.get_msg("102") 
       end
     
-    #3) check to ensure booking is not Monday or Tuesday
+    #3) check to ensure booking for TODAY is completed before 17:15
+      if (params[:booking_date]).to_date == Date.today && Time.now > "17:15:00"
+        Rails.logger.debug("0000000_check time before 17:15 : #{Time.now}")  
+        return Error.get_msg("112") 
+      end
+    
+    #4) check to ensure booking is not Monday or Tuesday
       if ([1,2].include? (params[:booking_date]).to_date.wday)
         return Error.get_msg("103")    
       end
       
-    #4) check to ensure booking is within opening hours, w,t,f 
+    #5) check to ensure booking is within opening hours, w,t,f 
        if ([3,4,5].include? (params[:booking_date]).to_date.wday) &&
          ([10,11,12,13,14,15,16].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("104")      
       end
   
-    #5) check to ensure booking is within opening hours sunday
+    #6) check to ensure booking is within opening hours sunday
        if ([0].include? (params[:booking_date]).to_date.wday) &&
-         ([18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
+         ([17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("105")      
      end    
    end

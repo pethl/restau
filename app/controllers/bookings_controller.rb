@@ -11,7 +11,6 @@ class BookingsController < ApplicationController
        
       # attempt booking
       @booking = Booking.can_book(@to_booking)
-      Rails.logger.debug("xxxxxxxxxxxxx_First Call to Booking : #{@booking.inspect}")  
       
       if @booking.is_a? Integer
       # specific error msge returned, cannot book
@@ -19,12 +18,13 @@ class BookingsController < ApplicationController
       
       elsif @booking.is_a? String  
         # try booking 15 mins earlier unless time is 5pm
-              b_time = @to_booking[:booking_date_time]
-              if (b_time.hour ==17 && b_time.min == 0)
-               # do not change the booking time
+             # b_time = @to_booking[:booking_date_time]
+              b_time = @to_booking[:booking_date_time].hour.to_s + ":" + @to_booking[:booking_date_time].min.to_s
+              b_day = @to_booking[:booking_date_time].wday
+              if (b_time=="17:00") || (([6,0].include? b_day) && (b_time=="10:0"))
+                  # do not change the booking time
               else
-               @to_booking[:booking_date_time] = (b_time-15.minutes)
-                Rails.logger.debug("xxxxxxxxxxxxx_revised booking time (less 15, except 5) : #{@to_booking.inspect}")
+               @to_booking[:booking_date_time] = (@to_booking[:booking_date_time]-15.minutes)
               end
           
           # try to re-book with revised time (once)
@@ -34,13 +34,12 @@ class BookingsController < ApplicationController
              if @booking.is_a? String
                #-------------------------------
                # try booking 30 mins later unless time is 21.15
-                     b_time = @to_booking[:booking_date_time]
-                     if (b_time.hour ==21 && b_time.min == 15)
+                     b_time = @to_booking[:booking_date_time].hour.to_s + ":" + @to_booking[:booking_date_time].min.to_s
+                      if (b_time=="21:15") # no need for sunday check here as latest they can book is 16.45
                       # do not change the booking time
-                     else
-                      @to_booking[:booking_date_time] = (b_time+30.minutes)
-                       Rails.logger.debug("xxxxxxxxxxxxx_revised booking time (add 30, except 9.15) : #{@to_booking.inspect}")
-                     end
+                      else
+                      @to_booking[:booking_date_time] = (@to_booking[:booking_date_time]+30.minutes)
+                      end
           
                   # try to re-book with revised time (twice)
                  @booking = Booking.can_book(@to_booking) 
@@ -70,7 +69,6 @@ class BookingsController < ApplicationController
         # send user back to booking page and display specific validation error msg
         redirect_to static_pages_booking_enquiry_path, :flash => { :warning => validate }
       end
-
       
 
   end
