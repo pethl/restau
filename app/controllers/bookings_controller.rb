@@ -141,7 +141,7 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
-        BookingMailer.booking_confirmation_successful(@booking).deliver_now
+        BookingMailer.booking_confirmation(@booking).deliver_now
         format.html { redirect_to @booking }
         format.json { render :show, status: :ok, location: @booking }
       else
