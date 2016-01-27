@@ -33,6 +33,9 @@ gem 'bootstrap_form'
 #datepicker
 gem 'bootstrap-datepicker-rails'
 
+# for contact us form, based on railscast 326
+gem 'active_attr'
+
 #recomended to make asset pipeline work
 gem 'rails_12factor', group: :production
 

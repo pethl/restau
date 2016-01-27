@@ -30,7 +30,7 @@ class StaticPagesController < ApplicationController
   end
   
   def hfsk_get_in_touch
-    @customer = Customer.new
+      @message = Message.new
   end
   
   def download_pdf

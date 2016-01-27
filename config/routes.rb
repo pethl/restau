@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'messages/new'
+  post   'messages/create'   => 'messages#create'
+
   resources :errors
   resources :users
   resources :customers
