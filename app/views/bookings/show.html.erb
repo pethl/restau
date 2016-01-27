@@ -2,11 +2,12 @@
    
 <%= render 'static_pages/side_welcome_open_hours'%>
 
-   <!-- Instructions: This is the booking collect contact information section. -->  
+   <!-- Instructions: This is the confirmed booking show section. -->  
 
-   <div class="col-md-5">
-   <h3><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h3><br>
+  <div class="col-md-5">
+  <h3><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h3><br>
 
+  <% if @booking.status == "Confirmed" %>
   <table>
   <tr>
   <td style="width: 5%"></td>
@@ -25,8 +26,49 @@
        <%= hidden_field_tag(:booking, @booking.id) %>
        <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
       <% end%> 
-   
    <br>
- </td><td style="width: 5%"></td></tr>
-    <table>
-</div></div>
+  </td><td style="width: 5%"></td>
+  </tr>
+  <table>
+  
+  <% elsif @booking.status == "Cancelled" %>
+  
+  <table class="table">
+  <tr>
+  <td style="width: 5%"></td>
+  <td style="width: 90%">
+       <br>
+       <h6>Hello <%= @booking.name%>, <br><br>
+       <b>This booking was cancelled:</b> on <strong><%= @booking.cancelled_at.strftime('%A, %d %B %Y at %H:%M') %></strong>.<br>
+       <br> <br>
+       Why not book again?<h4>  <%= link_to "Book a Table", static_pages_booking_enquiry_path %></h5</td>
+       </h6>
+  
+  </td>
+  <td style="width: 5%"></td>
+  </tr>
+ <table>
+  <% else %>
+  
+  <table class="table">
+  <tr>
+  <td style="width: 5%"></td>
+  <td style="width: 90%">
+       <br>
+       <h6>Booking Incomplete, <br><br>
+      <br>
+       This booking was not confirmed at time of booking and is void.</strong><br>
+       <br> <br>
+       Why not book again?<h4>  <%= link_to "Book a Table", static_pages_booking_enquiry_path %></h5</td>
+       </h6>
+  
+  </td>
+  <td style="width: 5%"></td>
+  </tr>
+ <table>
+        
+ <% end %>
+  
+  </div></div>
+  
+  
