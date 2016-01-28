@@ -17,7 +17,6 @@
 
     <div class="col-md-4">
     <h4><i class="fa fa-check-square-o fa-fw"></i><strong>  BOOK A TABLE</strong> </h4>
-  
     <table class="table">
     <tr><td><center>Online bookings for Today <br>must be confirmed before 17:15.</td></tr>
     <tr><td>
@@ -37,49 +36,33 @@
       <td></td>
       <td>Date:</td>
       <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" data-date-start-date=[08-03-2016] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-end-date=[30-11-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true data-date-orientation="bottom" >   
-      
-      
-      </td>
+       </td>
       <td></td>
       </tr>
       
       <% grouped_options = [
-            ['Select', ['Hour']],
+            ['Select', ['hour']],
      ['Wed, Thurs, Fri',[['5PM','17'],['6PM','18'],['7PM','19'],['8PM','20'],['9PM','21']]],
      ['Sat, Sun',[['10AM','10'],['11AM','11'],['12 NOON','12'],['1PM','13'],['2PM','14'],['3PM','15'],['4PM','16'],['5PM (Sat only)','17'],['6PM (Sat only)','18'],['7PM (Sat only)','19'],['8PM (Sat only)','20'],['9PM (Sat only)','21']]]
     ] %>
+    <% diner_options = ["people",1,2,3,4,5,6,7,8,9,10] %>
+     <% min_options = ["min",00,15,30,45] %>
       
       <tr>
       <td></td>
       <td>Time:</td>
-      <td> <%= select_tag 'booking[booking_time_hour]', grouped_options_for_select(grouped_options) %>
-      
-          <select name="booking[booking_time_min]">
-            <option value="--">Min</option>
-            <option value="00">00</option>
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="45">45</option>
-          </select></td>
+      <td> <%= select_tag 'booking[booking_time_hour]', grouped_options_for_select(grouped_options), class:"form-control input-sm" %>
+      <%= select_tag 'booking[booking_time_min]', options_for_select(min_options), class:"form-control input-sm" %>
+      </td>
       <td></td>
       </tr>
       
       <tr>
       <td></td>
       <td>People:</td>
-      <td><select name="booking[number_of_diners]">
-        <option value="0">Select</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select></td>
+      <td>
+      <%= select_tag 'booking[number_of_diners]', options_for_select(diner_options), class:"form-control input-sm" %>
+      </td>
       <td></td>
       </tr>
       <input id="restaurant_id" name="booking[restaurant]" type="hidden" value="Hang Fire Southern Kitchen">
