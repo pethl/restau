@@ -3,31 +3,25 @@
 <%= render 'static_pages/side_welcome_news'%>
 
  
-<!-- Instructions: This is the contact us section. -->  
+<!-- Instructions: This is the contact us section.: uses non-table model message and emails out content -->  
 
   <div class="col-md-4">
  <h5><i class="fa fa-comment fa-fw"></i><strong> CONTACT HANG FIRE</strong> </h5>
 	
 	<h6>To get in touch, please fill in your details here and we'll get back to you quicker than it takes to smoke a brisket.  </h6>
-	<br>
+	
 	 <%= render 'messages/new' %>
 	 
-  
-<br> 
+<br><br> 
 
 <!-- Instructions: This is the mailing list section. -->  
 
   <h5><i class="fa fa-envelope fa-fw"></i><strong>  JOIN OUR MAILING LIST</strong> </h5>
   
   <h6>Be the first to know about Hang Fire news including our specials, offers and news.<br>We promise not to spam!</h6>
-  <form>
-     <div class="input-group ">
-       <input type="email" name="EMAIL" class="form-control" id="mce-EMAIL" placeholder="Email address...">
-       <span class="input-group-btn">
-         <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary">Subscribe!</button>
-     </span>
- 	</div>
- 	</form>
+ 
+   <%= render 'customers/new'%>
+   
   </div>
   </div>
 

@@ -42,16 +42,22 @@ class CustomersController < ApplicationController
   # POST /customers.json
   def create
     @customer = Customer.new(customer_params)
+    
+    if Customer.where(:email => @customer.email).count == 1
+      redirect_to @customer, notice: 'We already have you on the list!'
+    else
 
     respond_to do |format|
       if @customer.save
-        format.html { redirect_to @customer, notice: 'Customer was successfully created.' }
+        format.html { redirect_to static_pages_hfsk_get_in_touch_path, notice: "Thanks - You are now subscribed to Hang Fire news!" }
         format.json { render :show, status: :created, location: @customer }
       else
-        format.html { render :new }
+        @message = Message.new
+        format.html { render 'static_pages/hfsk_get_in_touch' }
         format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
     end
+  end
   end
 
   # PATCH/PUT /customers/1
@@ -86,6 +92,6 @@ class CustomersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_params
-      params.require(:customer).permit(:name, :phone, :email, :desc, :accessible, :child_friendly)
+      params.require(:customer).permit(:name, :phone, :email, :desc, :subscribed, :accessible, :child_friendly)
     end
 end

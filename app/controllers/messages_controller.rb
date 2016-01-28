@@ -7,8 +7,9 @@ class MessagesController < ApplicationController
     @message = Message.new(params[:message])
         if @message.valid?
           MessageMailer.send_message(@message).deliver_now
-          redirect_to static_pages_hfsk_get_in_touch_path, notice: "Message sent! Thank you for contacting us."
+          redirect_to static_pages_hfsk_get_in_touch_path, notice: "Message sent! Thank you for contacting Hang Fire."
         else
+          @customer = Customer.new
           render 'static_pages/hfsk_get_in_touch'
         end
   end
