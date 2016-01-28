@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'messages/new'
   post   'messages/create'   => 'messages#create'
+  post   'customers/subscribe'   => 'customers#subscribe'
 
   resources :errors
   resources :users

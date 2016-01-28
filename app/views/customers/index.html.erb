@@ -4,8 +4,7 @@
 </div>
 
 <div class="col-md-10">
-<h2>Customers</h2><br>
-
+<h2>Customers</h2>
 
 <%= form_tag customers_path, method: :get, :class => "form-inline" do %>
 
@@ -21,7 +20,7 @@
 <br>
 
 <% if @customers == 0 %>
-    <br>
+
   <h5>Search for customer</h5>
 
   <% else %>
@@ -41,8 +40,7 @@
       <tr>
         <td><%= customer.name %></td>
         <td><%= customer.phone %></td>
-        <td><%= customer.email%>
-              
+        <td><%= link_to customer.email, customer_path(customer) %>
         </td>
         <td style="text-align:center"><% if customer.subscribed == TRUE  %>
         <span class="fa fa-check""></span>

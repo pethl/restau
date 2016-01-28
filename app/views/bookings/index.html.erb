@@ -7,10 +7,17 @@
 
 <!-- Instructions: The search form. -->  
 
+<div class="row">
+<div class="col-md-4">
+
   <%= form_tag(bookings_path, :method => "get", id: "search-form") do %>
       <input class="datepicker" data-provide='datepicker' id="search" name=[search] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true >   
       <%= submit_tag "Search" %>
   <% end %>
+  </div>
+  <div class="col-md-4">
+  <button type="button" class="btn btn-warning btn-sm"><%= link_to "Management: Create Booking", new_booking_path %></button>
+  </div>
   <br>
 
 <!-- Instructions: The bookings summary table, for next 14 days. -->  

@@ -1,0 +1,36 @@
+<br>
+<h6>Booking details matching customer's email address:'</h6>
+
+<TABLE class="table table-bordered table-condensed table-hover">
+  <thead>
+    <tr>
+      <th>Booking Date</th>
+      <th><center>Booking Time</center></th>
+      <th>Customer</th>
+      <th>Contact</th>
+      <th><center>Diners</center></th>
+      <th><center>Child Seat?</center></th>
+    </tr>
+  </thead>
+  <tbody>
+     
+            <% @bookings.each do |booking| %>
+             
+        <tr>
+        <td><%= booking.booking_date_time.strftime('%a, %d %B %Y') %></td>
+        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+        <td><strong><%= booking.name %></strong></td>
+        <td><%= booking.phone %></td>
+        <td><center><%= booking.number_of_diners %></center></td>
+        <td><center>
+           <% if booking.child_friendly  %>
+              <b><font color=#9ACD32>YES</font></b>
+              <% else %>
+              No
+            <% end %></center></td>
+      </tr>
+    <% end %>  
+    </tbody>
+</table>
+
+ 

@@ -1,4 +1,5 @@
-<%= form_for(@booking) do |f| %>
+<%= bootstrap_form_for(@booking, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
+
   <% if @booking.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
@@ -11,28 +12,27 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :number_of_diners %><br>
-    <%= f.number_field :number_of_diners %>
+     <%= f.collection_select :restaurant_id, Restaurant.all, :id, :name %>
+    <%= f.datetime_select :booking_date_time, :minute_step => 15 %>
+    <%= f.select :number_of_diners, options_for_select(1..12) %>
+    <%= f.text_field :name, placeholder: "Customer Name" %>
+    <%= f.text_field :phone, placeholder: "Customer Phone (OPTIONAL)" %>
+    <%= f.text_field :email, value: "adminhangfirebbq@gmail.com" %>
+    <%= f.hidden_field :status, value: "Confirmed" %>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          
+           <%= f.check_box :child_friendly, label: "Child seat required?" %>
+         
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :booking_date_time %><br>
-    <%= f.datetime_select :booking_time %>
-  </div>
+  <div class="col-sm-offset-2 col-sm-10">
+      <div class="actions">
+         <%= f.submit class: "btn btn-primary" %>
+      </div></div>
   
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :phone %><br>
-    <%= f.text_field :phone %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

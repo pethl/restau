@@ -4,7 +4,8 @@
 </div>
 
 <div class="col-md-10">
-
+<br>
+<h4>Customer Details:</h4>
 <p>
   <strong>Name:</strong>
   <%= @customer.name %>
@@ -26,14 +27,11 @@
 </p>
 
 <p>
-  <strong>Accessible:</strong>
-  <%= @customer.accessible %>
+  <strong>Subscribed to Newsletter?</strong>
+  <%= @customer.subscribed %>
 </p>
 
-<p>
-  <strong>Child friendly:</strong>
-  <%= @customer.child_friendly %>
-</p>
+<%= render 'bookings/very_simple_index' %>
 
 <%= link_to 'Edit', edit_customer_path(@customer) %> |
 <%= link_to 'Back', customers_path %>

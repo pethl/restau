@@ -4,8 +4,6 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
-    #  @customers = Customer.all
-    
     @customers = []
     #take params from search on Index view, or if no search, assume todays date
     #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
@@ -27,6 +25,8 @@ class CustomersController < ApplicationController
   # GET /customers/1
   # GET /customers/1.json
   def show
+    @customer = Customer.find(params[:id])
+    @bookings = Booking.where(:email => @customer[:email])
   end
 
   # GET /customers/new
@@ -40,7 +40,7 @@ class CustomersController < ApplicationController
 
   # POST /customers
   # POST /customers.json
-  def create
+  def subscribe
     @customer = Customer.new(customer_params)
     
     if Customer.where(:email => @customer.email).count == 1
@@ -59,6 +59,23 @@ class CustomersController < ApplicationController
     end
   end
   end
+
+  # POST /customers
+  # POST /customers.json
+  def create
+    @customer = Customer.new(customer_params)
+   
+    respond_to do |format|
+      if @customer.save
+        format.html { redirect_to @customer, notice: 'Customer was successfully created.' }
+        format.json { render :show, status: :created, location: @customer }
+      else
+        format.html { render 'new' }
+        format.json { render json: @customer.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   # PATCH/PUT /customers/1
   # PATCH/PUT /customers/1.json

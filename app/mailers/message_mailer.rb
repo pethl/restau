@@ -5,7 +5,7 @@ class MessageMailer < ApplicationMailer
     @message = message
      Rails.logger.debug("__________message: #{@message}")
     if @message
-      mail(to: 'contacthangfirebbq@gmail.com', subject: "Website Enquiry: #{@message.subject}")
+      mail(to: 'hangfirebbq@gmail.com', subject: "Website Enquiry: #{@message.subject}")
     end
   end
 end
