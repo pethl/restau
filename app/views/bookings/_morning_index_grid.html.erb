@@ -51,6 +51,10 @@
     <i class="fa fa-child fa-fw"></i>
     <% else %>
     <% end %>
+    <% if booking.source == "Management" %>
+    <i class="fa fa-briefcase fa-fw"></i>
+      <% else %>
+      <% end %> 
   </td>  
  
   <% a= has_booking(booking.booking_date_time, 10, 0, booking.number_of_diners) %>

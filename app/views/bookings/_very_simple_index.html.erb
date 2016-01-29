@@ -10,6 +10,7 @@
       <th>Contact</th>
       <th><center>Diners</center></th>
       <th><center>Child Seat?</center></th>
+      <th><center>Booking Source</th>
     </tr>
   </thead>
   <tbody>
@@ -28,6 +29,7 @@
               <% else %>
               No
             <% end %></center></td>
+            <td><center><%= booking.source %></td>
       </tr>
     <% end %>  
     </tbody>

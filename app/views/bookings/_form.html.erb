@@ -1,4 +1,4 @@
-<%= bootstrap_form_for(@booking, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
+<%= bootstrap_form_for(@booking, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-6") do |f| %>
 
   <% if @booking.errors.any? %>
     <div id="error_explanation">
@@ -19,6 +19,7 @@
     <%= f.text_field :phone, placeholder: "Customer Phone (OPTIONAL)" %>
     <%= f.text_field :email, value: "adminhangfirebbq@gmail.com" %>
     <%= f.hidden_field :status, value: "Confirmed" %>
+    <%= f.hidden_field :source, value: "Management" %>
     
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
@@ -32,7 +33,7 @@
   </div>
   <div class="col-sm-offset-2 col-sm-10">
       <div class="actions">
-         <%= f.submit class: "btn btn-primary" %>
+         <%= f.submit class:"btn btn-primary" %>
       </div></div>
   
 <% end %>

@@ -124,7 +124,11 @@ class BookingsController < ApplicationController
   # POST /bookings.json
   def create
     @booking = Booking.new(booking_params)
-
+    if @booking.name.blank? 
+      redirect_to new_booking_path(@booking), :flash => { :warning => "NOT BOOKED : Please enter Customer Name" }
+    else
+      Rails.logger.debug("55555555555_IN_MGMMT_BOOKING_SAVE: #{@booking}")  
+   
     respond_to do |format|
       if @booking.save
         format.html { redirect_to @booking, notice: 'Booking was successfully created.' }
@@ -135,6 +139,7 @@ class BookingsController < ApplicationController
       end
     end
   end
+  end
 
   # PATCH/PUT /bookings/1
   # PATCH/PUT /bookings/1.json
@@ -142,6 +147,7 @@ class BookingsController < ApplicationController
     respond_to do |format|
       if @booking.update(booking_params)
         BookingMailer.booking_confirmation(@booking).deliver_now
+        Customer.write_contact(@booking)
         format.html { redirect_to @booking }
         format.json { render :show, status: :ok, location: @booking }
       else
@@ -170,6 +176,6 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
+      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
     end
 end

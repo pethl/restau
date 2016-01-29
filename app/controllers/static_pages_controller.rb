@@ -15,7 +15,7 @@ class StaticPagesController < ApplicationController
   end
   
   def booking_enquiry
-    @booking = Booking.new
+    
   end
   
   def hfsk_home

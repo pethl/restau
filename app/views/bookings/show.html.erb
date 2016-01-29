@@ -2,12 +2,12 @@
    
 <%= render 'static_pages/side_welcome_open_hours'%>
 
-   <!-- Instructions: This is the confirmed booking show section. -->  
+<!-- Instructions: This is the confirmed booking show section. -->  
 
   <div class="col-md-5">
   <h3><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h3><br>
 
-  <% if @booking.status == "Confirmed" %>
+  <% if (@booking.status == "Confirmed") && (@booking.source == "Online") %>
   <table>
   <tr>
   <td style="width: 5%"></td>
@@ -30,8 +30,35 @@
   </td><td style="width: 5%"></td>
   </tr>
   <table>
+ 
+  <!-- Instructions: This is the cancelled booking show section. -->  
   
-  <% elsif @booking.status == "Cancelled" %>
+    <% elsif (@booking.status == "Confirmed") && (@booking.source == "Management") %>
+    <table>
+    <tr>
+    <td style="width: 5%"></td>
+    <td style="width: 90%">
+    <h6>Booking made for: <b><%= @booking.name%>  </b>
+     <br>
+    Date  :  <%= @booking.booking_date_time.strftime('%A %d %B %Y') %><br>
+    Time  :  <%= @booking.booking_date_time.strftime('%H:%M') %><br>
+    Diners: <%= @booking.number_of_diners %></h6>
+    <br>
+    <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+    <br>
+     <h6><i>Made a mistake?</i></h6>
+         <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+         <%= hidden_field_tag(:booking, @booking.id) %>
+         <%= submit_tag "CANCEL THIS BOOKING", name: nil, class: "btn btn-warning btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
+        <% end%> 
+     <br>
+    </td><td style="width: 5%"></td>
+    </tr>
+    <table>
+  
+<!-- Instructions: This is the cancelled booking show section. -->  
+  
+  <% elsif (@booking.status == "Cancelled") && (@booking.source == "Online") %>
   
   <table class="table">
   <tr>
@@ -48,6 +75,9 @@
   <td style="width: 5%"></td>
   </tr>
  <table>
+ 
+ <!-- Instructions: This is the unconfirmed/abandonned booking show section. -->  
+ 
   <% else %>
   
   <table class="table">

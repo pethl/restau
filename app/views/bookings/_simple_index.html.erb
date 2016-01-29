@@ -11,6 +11,7 @@
       <th><center>Booking time</center></th>
       <th><center>Number of diners</center></th>
       <th><center>Child Seat?</center></th>
+      <th><center>Booking Source</center></th>
     </tr>
   </thead>
   <tbody>
@@ -28,6 +29,7 @@
               <% else %>
               No
             <% end %></center></td>
+             <td><center><%= booking.source %></td>
       </tr>
     <% end %>  
     <tr>

@@ -54,6 +54,7 @@ class Booking < ActiveRecord::Base
     @booking[:restaurant_id] = Restaurant.where(:name => (params[:restaurant])).first.id
     @booking[:number_of_diners] = params[:number_of_diners].to_i
     @booking[:status] = 'Held'
+    @booking[:source] = 'Online'
     temp_booking_date = params[:booking_date].to_date
     temp_hour = params[:booking_time_hour].to_i
     temp_min = params[:booking_time_min].to_i
