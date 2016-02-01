@@ -1294,7 +1294,7 @@ h5,
 }
 h6,
 .h6 {
-  font-size: 16px;
+  font-size: 18px;
 }
 p {
   margin: 0 0 10px;
@@ -1451,6 +1451,9 @@ ol ol {
   padding-right: 5px;
   color: #FFFFFF;
 }
+
+.fa:hover{color:#FFFFCC !important;}
+
 dl {
   margin-top: 0;
   margin-bottom: 20px;
@@ -4300,7 +4303,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
-  text-decoration: none;
+  font-weight: bold;
 }
 .navbar-brand > img {
   display: block;
@@ -4619,6 +4622,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-brand:focus {
   color: #ffffff;
   background-color: transparent;
+  font-weight: bold;
 }
 .navbar-inverse .navbar-text {
   color: #ffffff;
@@ -4629,12 +4633,14 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #ffffff;
+  font-weight: bold;
   background-color: transparent;
 }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
   color: #ffffff;
+  font-weight: bold;
   background-color: transparent;
 }
 .navbar-inverse .navbar-nav > .disabled > a,

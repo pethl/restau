@@ -8,7 +8,6 @@
     <h6><b><font color=#9ACD32>PLEASE NOTE</font></b></h6>
     <h6>We only book tables for half of our restaurant
     to make sure we have plenty of room for walk in customers. 
-    <br><br>We have a lovely cocktail bar downstairs for you to chill, have a tasty drink or two and listen to some sweet tunes while a table becomes available. 
     <br><br>We'd recommend booking if you're a larger number (over 6 people), have access needs or have children. 
      </div></h6>
 
@@ -16,7 +15,7 @@
    <!-- Instructions: This is the table booking section. -->  
 
     <div class="col-md-4">
-    <h4><i class="fa fa-check-square-o fa-fw"></i><strong>  BOOK A TABLE</strong> </h4>
+    <br>
     <table class="table">
     <tr><td><center>Online bookings for Today <br>must be confirmed before 17:15.</td></tr>
     <tr><td>
@@ -27,14 +26,7 @@
       
       <tr>
       <td></td>
-      <td>Room:</td>
-      <td><b>Main Restaurant</b></td>
-      <td></td>
-      </tr>
-      
-      <tr>
-      <td></td>
-      <td>Date:</td>
+      <td>Date</td>
       <td><input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]" data-date-start-date=[08-03-2016] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-date-end-date=[30-11-2016] data-date-autoclose=[true] data-date-format=dd-mm-yyyy  data-date-today-highlight=true data-date-orientation="bottom" >   
        </td>
       <td></td>
@@ -50,7 +42,7 @@
       
       <tr>
       <td></td>
-      <td>Time:</td>
+      <td>Time</td>
       <td> <%= select_tag 'booking[booking_time_hour]', grouped_options_for_select(grouped_options), class:"form-control input-sm" %>
       <%= select_tag 'booking[booking_time_min]', options_for_select(min_options), class:"form-control input-sm" %>
       </td>
@@ -59,7 +51,7 @@
       
       <tr>
       <td></td>
-      <td>People:</td>
+      <td>People</td>
       <td>
       <%= select_tag 'booking[number_of_diners]', options_for_select(diner_options), class:"form-control input-sm" %>
       </td>

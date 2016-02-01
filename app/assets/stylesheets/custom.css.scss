@@ -1,5 +1,5 @@
 body {
-	 background-image: image-url('Rib-Background2.gif');
+	 background-image: image-url('Rib-Background3.png');
      background-color: #000000;
      background-repeat: no-repeat;
      background-position: left top;
@@ -13,13 +13,6 @@ body {
     margin-top: 1cm;
 }
 
-.ex_head_link {
-	 color: white !important;
-}
-
-td .tooltip {
-    position:absolute
-}
 
 a href {
 	  color: "#FFFFFF";
@@ -34,9 +27,15 @@ a href {
   max-height: 15em;
   width: auto !important;
 }
+.photo_img2 {
+  max-width: 65%;
+  max-height: 15em;
+  width: auto !important;
+}
 p {
   color: white !important; 	
 }
+
 input[type="text"]{
 color:#303030 !important
 }

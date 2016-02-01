@@ -7,18 +7,25 @@
       
   <% end %>
   
-  <form>
-     <div class="input-group">
-       <%= f.text_field :email, class:"form-control input-sm" %>
-       
-        <%= f.hidden_field :subscribed, :value => TRUE %>
-       
-       <span class="input-group-btn">
-         <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary btn-sm">Subscribe!</button>
-     </span>
- 	</div>
- 	</form>
   
- 
+  <table class="table">
+  <tr><td>
   
-<% end %>
+  <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
+  <tr><td style="width: 5%"></td><td style="width: 20%"></td><td style="width: 70%"></td><td style="width: 5%"></td></tr>
+ <tr><td></td><td>Email</td><td><%= f.text_field :email, :style => "width: 280px;", class:"form-control input-sm" %></td><td></td></tr>
+  
+ <tr><td></td><td></td><td>
+  <%= f.hidden_field :subscribed, :value => TRUE %>
+     <div class="actions">
+      <%= f.submit "Subscribe!", class: "btn btn-success btn-sm" %>
+     </div>
+  <% end %>
+  </td><td></td></tr>
+  </table>
+
+  </td>
+  </tr>
+  </table>
+  
+

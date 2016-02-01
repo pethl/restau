@@ -1,5 +1,8 @@
 
-  <%= form_for(@message, url: messages_create_url) do |f| %>
+<table class="table">
+<tr><td>
+    <%= form_for(@message, url: messages_create_url) do |f| %>
+    
   <% if @message.errors.any? %>
     <div class="error_messages">
       <h6>You have <%= pluralize(@message.errors.count, "error") %>:</h6>
@@ -11,32 +14,23 @@
     </div>
   <% end %>
   
-  
-  <div class="input-group margin-bottom-sm">
-    <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-    <%= f.text_field :name, :style => "width: 280px;", :placeholder => " full name"  %>
-   </div>
-  <div class="input-group margin-bottom-sm">
-    <span class="input-group-addon"><i class="fa fa-phone fa-fw"></i></span>
-    <%= f.text_field :phone, :style => "width: 280px;", :placeholder => " phone number (optional)"  %>
-   </div>
-  <div class="input-group margin-bottom-sm">
-    <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-    <%= f.text_field :email, :style => "width: 280px;", :placeholder => " email address"  %>
-   </div>
-   <div class="input-group margin-bottom-sm">
-     <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-     <%= f.select :subject, options_for_select([["select subject", ""], "Amend My Booking", "Accessibility Query", "Dietary Query", "Press Query", "General Question"]), {}, class:"form-control input-sm" %>
-    </div>
-   <div class="input-group margin-bottom-sm">
-    <span class="input-group-addon"><i class="fa fa-quote-right fa-fw"></i></span>
-    <%= f.text_area :message, :style => "width: 280px; height: 60px", :placeholder => " message"  %>
-   </div>
-
-     <div class="actions pull-right">
-      <%= f.submit "Send Message", class: "btn btn-primary btn-sm" %>
+  <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
+  <tr><td style="width: 5%"></td><td style="width: 20%"></td><td style="width: 70%"></td><td style="width: 5%"></td></tr>
+ <tr><td></td><td>Name</td><td><%= f.text_field :name, :style => "width: 280px;", :placeholder => " full name please!"  %></td><td></td></tr>
+ <tr><td></td><td>Phone</td><td><%= f.text_field :phone, :style => "width: 280px;", :placeholder => " (optional)"  %></td><td></td></tr>
+ <tr><td></td><td>Email</td><td> <%= f.text_field :email, :style => "width: 280px;" %></td><td></td></tr>
+ <tr><td></td><td>Subject</td><td><%= f.select :subject, options_for_select([["select subject", ""], "Amend My Booking", "Accessibility Query", "Dietary Query", "Press Query", "General Question"]), {}, class:"form-control input-sm" %></td><td></td></tr>
+ <tr><td></td><td>Message</td><td><%= f.text_field :message, :style => "width: 280px; height: 40px"  %></td><td></td></tr>
+ <tr><td></td><td></td><td>
+     <div class="actions">
+      <%= f.submit "Send Message", class: "btn btn-success btn-sm" %>
      </div>
   <% end %>
+  </td><td></td></tr>
+  </table>
+</td>
+  </tr>
+  </table>
   
   
   
