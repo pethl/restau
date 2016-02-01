@@ -34,9 +34,9 @@ class Booking < ActiveRecord::Base
         return Error.get_msg("103")    
       end
       
-    #5) check to ensure booking is within opening hours, w,t,f 
-       if ([3,4,5].include? (params[:booking_date]).to_date.wday) &&
-         ([10,11,12,13,14,15,16].include? (params[:booking_time_hour]).to_i)
+    #5) check to ensure booking is within opening hours, w,t
+       if ([3,4].include? (params[:booking_date]).to_date.wday) &&
+         ([12,13,14,15,16].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("104")      
       end
   

@@ -2,38 +2,37 @@
 
 <h6> <% if logged_in? %> 
               Hi <%= current_user.name %>
-             <% else %>
-             <li><a href="http://builtwithbootstrap.com/" target="_blank">HF</a></li>  
-             <% end %><br><br>
-
-            <%= link_to "Log out", logout_path, method: "delete" %><br>
-            
-            <a href="../login/">Log In</a><br><br>    
-            
-            <a href="/accounts/">Accounts</a><br>
+              <br><br>
+              <%= link_to "Log out", logout_path, method: "delete" %><br>
+            <br>
+              <a href="/accounts/">Accounts</a><br>
                 
-            <a href="/restaurants/">Restaurants</a><br>
+              <a href="/restaurants/">Restaurants</a><br>
                 
-            <a href="/rdetails/">Restaurant Details</a><br>
+              <a href="/rdetails/">Restaurant Details</a><br>
             
-            <a href="/errors/">Error Messages</a><br>
+              <a href="/errors/">Error Messages</a><br>
                  
-            <a href="/products/">Product</a><br>
+              <a href="/products/">Product</a><br>
                 
-            <a href="/categories/">Category</a><br>
+              <a href="/categories/">Category</a><br>
                 
-            <a href="/tables/">Tables</a><br>
+              <a href="/tables/">Tables</a><br>
                 
-            <a href="/bookings/">Bookings</a><br>
+              <a href="/bookings/">Bookings</a><br>
                 
-            <a href="/customers/">Customers</a><br>
+              <a href="/customers/">Customers</a><br>
                 
-            <a href="/users/">Staff</a><br>
+              <a href="/users/">Staff</a><br>
                 
-            <a href="/booking_enquiry/">Booking Enquiry</a><br>
+              <a href="/booking_enquiry/">Booking Enquiry</a><br>
                 
-            <a href="/enquiries/">Takeaway</a><br>
+              <a href="/enquiries/">Takeaway</a><br>
                 
-            <a href="/hfsk_home/">HFSK Site</a><br>
+              <a href="/hfsk_home/">HFSK Site</a><br>
+             <% else %>
+              <a href="../login/">Log In</a><br><br>    
+             
+               <% end %><br><br>
 
 </h6>

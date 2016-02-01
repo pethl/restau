@@ -5,17 +5,16 @@
 
 <div class="row">
   <div class="span6 offset3">
-    <%= form_for(:session, url: login_path) do |f| %>
-
-      <%= f.label :email %>
+  
+      <%= bootstrap_form_for(:session, url: login_path, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-5") do |f| %>
+      
       <%= f.text_field :email %>
-
-      <%= f.label :password %>
       <%= f.password_field :password %>
 <br>
+<div class="col-sm-offset-3 col-sm-10">
 
       <%= f.submit "Log in", class: "btn btn-large btn-primary" %>
     <% end %>
-
+  </div>
   </div>
 </div>
