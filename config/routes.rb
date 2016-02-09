@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   get '/day_picker' => 'static_pages#day_picker'
   get '/booking_enquiry' => 'static_pages#booking_enquiry'
   get '/download_pdf' => 'static_pages#download_pdf'
+  get '/download_jpg' => 'static_pages#download_jpg'
    
   
   get '/hfsk_home' => 'static_pages#hfsk_home'

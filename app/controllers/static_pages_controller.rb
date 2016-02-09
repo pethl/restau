@@ -42,5 +42,13 @@ class StaticPagesController < ApplicationController
       type: "application/pdf"
     )
   end
+  
+  def download_jpg
+    send_file(
+      "#{Rails.root}/public/HFSK_Sample_mains.jpg",
+      filename: "HFSK_Sample_mains.jpg",
+      type: "application/jpg"
+    )
+  end
 
 end
