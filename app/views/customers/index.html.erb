@@ -14,15 +14,22 @@
     <%= text_field(:customer, :phone, :placeholder => "Phone") %>
     or
     <%= text_field(:customer, :email, :placeholder => "Email") %>
-  
-  <button type="submit" class="btn btn-default">Search</button>
+  <br><br>
+  <button type="submit" class="btn btn-primary btn-lg">Search for Customer</button>
 <% end %>
 <br>
 
 <% if @customers == 0 %>
-
-  <h5>Search for customer</h5>
-
+  
+<br><br>
+  <p><b>Search tips:</b></p>
+  <ul>
+  <li>Use one critiera only for each search</li>
+  <li>Name search - is case sensitive, so try searching by part a unique part of the name or surname</li>
+  <li>Phone search - try any part of the number, full number not needed</li>
+  <li>Email search - LOWER CASE, try any part of the email, avoid searching on "gmail.com"</li>
+  </ul>
+ 
   <% else %>
 <table class="table">
   <thead>
@@ -62,4 +69,4 @@
     <% end %>
 <br>
 
-<%= link_to 'New Customer', new_customer_path %>
+<%= link_to 'Create New Customer', new_customer_path %>

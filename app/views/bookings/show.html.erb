@@ -5,8 +5,7 @@
 <!-- Instructions: This is the confirmed booking show section. -->  
 
   <div class="col-md-5">
-  <h3><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h3><br>
-
+ 
   <% if (@booking.status == "Confirmed") && (@booking.source == "Online") %>
   <table>
   <tr>
@@ -38,11 +37,19 @@
     <tr>
     <td style="width: 5%"></td>
     <td style="width: 90%">
-    <h6>Booking made for: <b><%= @booking.name%>  </b>
+    <h6>Booking successful for: </h6>
      <br>
-    Date  :  <%= @booking.booking_date_time.strftime('%A %d %B %Y') %><br>
-    Time  :  <%= @booking.booking_date_time.strftime('%H:%M') %><br>
-    Diners: <%= @booking.number_of_diners %></h6>
+     <table class="table">
+     <tr><td>Name</td><td><b><%= @booking.name%>  </b></td>
+     </tr>
+     <tr><td>Date</td><td><%= @booking.booking_date_time.strftime('%A %d %B %Y') %></td>
+     </tr>
+     <tr><td>Time</td><td><%= @booking.booking_date_time.strftime('%H:%M') %></td>
+     </tr>
+     <tr><td>Diners</td><td><%= @booking.number_of_diners %></td>
+     </tr>
+     </table>
+   
     <br>
     <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
     <br>
