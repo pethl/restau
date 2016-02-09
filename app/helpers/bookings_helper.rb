@@ -1,11 +1,27 @@
 module BookingsHelper
   
+  def booking_made_on_this_day(date)
+    Booking.where("created_at BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where(:status => "Confirmed").count
+  end
   
-  def table_min_max(booking)
-    min_max =[]
-    table = Table.where(:id => booking.table_id)
-    min_max << [table[0].min_seats, table[0].max_seats]
-    return min_max 
+  def booking_made_in_this_week(date)
+    Booking.where("created_at BETWEEN ? AND ?", date.beginning_of_week.beginning_of_day, date.end_of_week.end_of_day).where(:status => "Confirmed").count
+  end
+  
+  def booking_made_in_this_month(date)
+    Booking.where("created_at BETWEEN ? AND ?", date.beginning_of_month.beginning_of_day, date.end_of_month.end_of_day).where(:status => "Confirmed").count
+  end
+
+  def booking_cancelled_on_this_day(date)
+    Booking.where("cancelled_at BETWEEN ? AND ?", date.beginning_of_day.beginning_of_day, date.end_of_day.end_of_day).where(:status => "Cancelled").count
+  end
+  
+  def booking_cancelled_in_this_week(date)
+    Booking.where("cancelled_at BETWEEN ? AND ?", date.beginning_of_week.beginning_of_day, date.end_of_week.end_of_day).where(:status => "Cancelled").count
+  end
+  
+  def booking_cancelled_in_this_month(date)
+    Booking.where("cancelled_at BETWEEN ? AND ?", date.beginning_of_month.beginning_of_day, date.end_of_month.end_of_day).where(:status => "Cancelled").count
   end
   
   
@@ -21,6 +37,12 @@ module BookingsHelper
     return array
   end
   
+  def table_min_max(booking)
+    min_max =[]
+    table = Table.where(:id => booking.table_id)
+    min_max << [table[0].min_seats, table[0].max_seats]
+    return min_max 
+  end
   
   def has_booking(booking_time, hr, min, number_of_diners) 
     

@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
+
+<div class="col-md-5">
+<h4>Booking Activity Report</h4>
+<br>
+
+<!-- Instructions: The new bookings table -->  
+
+<table class="table">
+ 
+<tr>
+  <td colspan=3><h4>New Bookings by Day</h4></td>
+</tr>
+
+<tr>
+ <td></td>
+ <td>Today (<%= Date.today%>):</td>
+ <td><%= booking_made_on_this_day(Date.today) %></td>
+  </tr>
+
+<tr>
+ <td></td>
+ <td>Yesterday (<%= Date.yesterday %>):</td>
+ <td><%= booking_made_on_this_day(Date.yesterday) %></td>
+  </tr>  
+ 
+<tr>
+  <td colspan=3><h4>New Bookings by Week</h4></td>
+</tr>
+
+<tr>
+ <td></td>
+ <td>This Week<br> (<%= Date.today.beginning_of_week %> to <%= Date.today.end_of_week %>):</td>
+ <td><%= booking_made_in_this_week(Date.today) %></td>
+  </tr>  
+  <tr>
+  <td></td>
+  <td>Last Week<br> (<%= (Date.today-7.days).beginning_of_week %> to <%= (Date.today-7.days).end_of_week %>):</td>
+  <td><%= booking_made_in_this_week(Date.today-7.days) %></td>
+    </tr> 
+  
+    <tr>
+      <td colspan=3><h4>New Bookings by Month</h4></td>
+    </tr>
+
+    <tr>
+    <td></td>
+    <td>This Month<br> (<%= Date.today.beginning_of_month %> to <%= Date.today.end_of_month %>):</td>
+    <td><%= booking_made_in_this_month(Date.today) %></td>
+      </tr>  
+    <tr><td></td>
+    <td>Last Month<br> (<%= (Date.today.last_month).beginning_of_month %> to <%= (Date.today.last_month).end_of_month %>):</td>
+      <td><%= booking_made_in_this_month(Date.today.last_month) %></td>
+        </tr> 
+
+</table>
+
+<!-- Instructions: The cancelled bookings table -->  
+
+<table class="table">
+ 
+<tr>
+  <td colspan=3><h4>Bookings Cancelled by Day</h4></td>
+</tr>
+
+<tr>
+ <td></td>
+ <td>Today (<%= Date.today%>):</td>
+ <td><%= booking_cancelled_on_this_day(Date.today) %></td>
+  </tr>
+
+<tr>
+ <td></td>
+ <td>Yesterday (<%= Date.yesterday %>):</td>
+ <td><%= booking_cancelled_on_this_day(Date.yesterday) %></td>
+  </tr>  
+ 
+<tr>
+  <td colspan=3><h4>Bookings Cancelled by Week</h4></td>
+</tr>
+
+<tr>
+ <td></td>
+ <td>This Week<br> (<%= Date.today.beginning_of_week %> to <%= Date.today.end_of_week %>):</td>
+ <td><%= booking_cancelled_in_this_week(Date.today) %></td>
+  </tr>  
+  <tr>
+  <td></td>
+  <td>Last Week<br> (<%= (Date.today-7.days).beginning_of_week %> to <%= (Date.today-7.days).end_of_week %>):</td>
+  <td><%= booking_cancelled_in_this_week(Date.today-7.days) %></td>
+    </tr> 
+  
+    <tr>
+      <td colspan=3><h4>Bookings Cancelled by Month</h4></td>
+    </tr>
+
+    <tr>
+    <td></td>
+    <td>This Month<br> (<%= Date.today.beginning_of_month %> to <%= Date.today.end_of_month %>):</td>
+    <td><%= booking_cancelled_in_this_month(Date.today) %></td>
+      </tr>  
+    <tr><td></td>
+    <td>Last Month<br> (<%= (Date.today.last_month).beginning_of_month %> to <%= (Date.today.last_month).end_of_month %>):</td>
+      <td><%= booking_cancelled_in_this_month(Date.today.last_month) %></td>
+        </tr> 
+
+</table>
+
+</div>

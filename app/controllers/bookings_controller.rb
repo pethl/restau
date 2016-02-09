@@ -1,5 +1,6 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :create, :basic_report, :calendar]
   
   def booking_confirmation
     # run validation # if clean create booking object
@@ -17,14 +18,14 @@ class BookingsController < ApplicationController
       redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(@booking) }
       
       elsif @booking.is_a? String  
-        # try booking 15 mins earlier unless time is 5pm
+        # try booking 30 mins earlier unless time is 5pm
              # b_time = @to_booking[:booking_date_time]
               b_time = @to_booking[:booking_date_time].hour.to_s + ":" + @to_booking[:booking_date_time].min.to_s
               b_day = @to_booking[:booking_date_time].wday
-              if (b_time=="17:00") || (([6,0].include? b_day) && (b_time=="10:0"))
+              if (b_time=="17:00") || (([5,6,0].include? b_day) && (b_time=="12:0"))
                   # do not change the booking time
               else
-               @to_booking[:booking_date_time] = (@to_booking[:booking_date_time]-15.minutes)
+               @to_booking[:booking_date_time] = (@to_booking[:booking_date_time]-30.minutes)
               end
           
           # try to re-book with revised time (once)
@@ -33,12 +34,12 @@ class BookingsController < ApplicationController
     
              if @booking.is_a? String
                #-------------------------------
-               # try booking 30 mins later unless time is 21.15
+               # try booking 60 mins later unless time is 21.15
                      b_time = @to_booking[:booking_date_time].hour.to_s + ":" + @to_booking[:booking_date_time].min.to_s
-                      if (b_time=="21:15") # no need for sunday check here as latest they can book is 16.45
+                      if (b_time=="21:00") # no need for sunday check here as latest they can book is 16.45
                       # do not change the booking time
                       else
-                      @to_booking[:booking_date_time] = (@to_booking[:booking_date_time]+30.minutes)
+                      @to_booking[:booking_date_time] = (@to_booking[:booking_date_time]+60.minutes)
                       end
           
                   # try to re-book with revised time (twice)
@@ -46,7 +47,7 @@ class BookingsController < ApplicationController
                  Rails.logger.debug("xxxxxxxxxxxxx_Third Call to Booking : #{@booking.inspect}")  
     
                     if @booking.is_a? String
-                      msg = "Sorry we do not have a table within 15 mins +/- this time. Please try earlier or later."
+                      msg = "Sorry we do not have a table within 30 mins +/- this time. Please try earlier or later."
                       redirect_to static_pages_booking_enquiry_path, :flash => { :warning => msg }
                    else
                       redirect_to edit_booking_path(@booking), notice: Error.get_msg(111)
@@ -87,15 +88,15 @@ class BookingsController < ApplicationController
   @bookings = []
   #take params from search on Index view, or if no search, assume todays date
   #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
-   if params[:search]
+   if !params[:search].blank?
      @bookings = Booking.search(params[:search])
-     if @bookings.any?
-      @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+       if @bookings.any?
+        @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
       
-     else
-       @bookings = 0
-     end
-     params[:search]= []
+       else
+         @bookings = 0
+       end
+       params[:search]= []
    else
      @bookings = Booking.where(:booking_date => Date.today, :status => "Confirmed")
        if @bookings.any?
@@ -104,6 +105,8 @@ class BookingsController < ApplicationController
          @bookings = 0
        end
    end
+   
+ else
   end
 
   # GET /bookings/1
@@ -126,8 +129,7 @@ class BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
     if @booking.name.blank? 
       redirect_to new_booking_path(@booking), :flash => { :warning => "NOT BOOKED : Please enter Customer Name" }
-    else
-      Rails.logger.debug("55555555555_IN_MGMMT_BOOKING_SAVE: #{@booking}")  
+    else 
    
     respond_to do |format|
       if @booking.save
@@ -167,6 +169,18 @@ class BookingsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def basic_report
+  end
+  
+  def calendar
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    Rails.logger.debug("in calendar_date: #{params[:date]}")
+    @bookings = booking_made_in_this_month(@date)
+     Rails.logger.debug("in calendar_b_count: #{@bookings.count}")
+    @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}  
+       Rails.logger.debug("in calendar_b_group: #{@bookings_by_date}")
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -178,4 +192,17 @@ class BookingsController < ApplicationController
     def booking_params
       params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
     end
+    
+    # Confirms a logged-in user.
+        def logged_in_user
+          unless logged_in?
+           
+            flash[:danger] = "Please log in."
+            redirect_to login_url
+          end
+        end
+        
+        def booking_made_in_this_month(date)
+          Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_month.beginning_of_day, date.end_of_month.end_of_day).where(:status => "Confirmed")
+        end
 end

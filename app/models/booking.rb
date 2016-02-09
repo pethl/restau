@@ -1,6 +1,8 @@
 class Booking < ActiveRecord::Base
   belongs_to :table
   
+   default_scope { order('booking_date_time DESC') }
+  
   validates :restaurant_id, presence: true 
   validates :booking_date_time, presence: true 
   validates :number_of_diners, presence: true  

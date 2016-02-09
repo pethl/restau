@@ -4,7 +4,8 @@
               Hi <%= current_user.name %>
               <br><br>
               <%= link_to "Log out", logout_path, method: "delete" %><br>
-            <br>
+              <br>
+              <b>Company Pages</b>
               <a href="/accounts/">Accounts</a><br>
                 
               <a href="/restaurants/">Restaurants</a><br>
@@ -12,24 +13,23 @@
               <a href="/rdetails/">Restaurant Details</a><br>
             
               <a href="/errors/">Error Messages</a><br>
-                 
-              <a href="/products/">Product</a><br>
-                
-              <a href="/categories/">Category</a><br>
-                
-              <a href="/tables/">Tables</a><br>
-                
-              <a href="/bookings/">Bookings</a><br>
+               
+              <a href="/bookings/">Search Bookings</a><br>
+              
+              <a href="/basic_report/">Booking Activity</a><br>
+              
+              <a href="/calendar/">Booking Calendar</a><br>
+              
+              <a href="/bookings/new/">Make a Booking</a><br>
                 
               <a href="/customers/">Customers</a><br>
                 
               <a href="/users/">Staff</a><br>
-                
+              <br>
+              <b>External Pages </b> 
               <a href="/booking_enquiry/">Booking Enquiry</a><br>
                 
-              <a href="/enquiries/">Takeaway</a><br>
-                
-              <a href="/hfsk_home/">HFSK Site</a><br>
+              <a href="/hfsk_home/">Hang Fire Southern Kitchen</a><br>
              <% else %>
               <a href="../login/">Log In</a><br><br>    
              

@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
+
+<div class="col-md-10">
+<h4>Booking Calendar</h4>
+<br>
+
+<div id="bookings">
+
+<h2 id="month">
+  <%= link_to "<", url_for(date: @date.prev_month) %>
+  <%= @date.strftime("%B %Y") %>   
+  <%= link_to ">", date: @date.next_month %>
+</h2>
+
+ <%= calendar @date do |date| %>
+   <%= date.day %>
+   
+   <% if @bookings_by_date[date] %>
+<br>
+     <b><font color=#9ACD32>Bookings: 
+     <%= @bookings_by_date[date].count %></font></b>
+      
+   <% end %>
+ <% end %>
+</div>
