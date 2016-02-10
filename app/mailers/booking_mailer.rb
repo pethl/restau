@@ -1,5 +1,5 @@
 class BookingMailer < ActionMailer::Base
-  default from: 'contacthangfirebbq@gmail.com'
+  default from: 'hangfirebarry@gmail.com'
 
   def booking_confirmation_customer(booking)
     @booking = booking
@@ -11,7 +11,7 @@ class BookingMailer < ActionMailer::Base
   def booking_confirmation_mgmt(booking)
     @booking = booking
     if @booking
-      mail(to: 'bookings@hangfiresouthernkitchen.com', subject: "New Booking for: #{@booking.name} ")
+      mail(to: 'hangfirebarry@gmail.com', subject: "New Booking for: #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
   
@@ -25,7 +25,7 @@ class BookingMailer < ActionMailer::Base
   def booking_cancellation_mgmt(booking)
     @booking = Booking.find(booking)
      if @booking
-      mail(to: 'bookings@hangfiresouthernkitchen.com', subject: "Booking Cancellation for: #{@booking.name} ")
+      mail(to: 'hangfirebarry@gmail.com', subject: "Booking Cancellation for: #{@booking.name} ")
     end
   end
   
