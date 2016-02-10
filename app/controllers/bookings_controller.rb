@@ -1,6 +1,7 @@
 class BookingsController < ApplicationController
+  before_action :logged_in_user, only: [:index, :create, :basic_report, :calendar, :mgmt_edit]
   before_action :set_booking, only: [:show, :edit, :update, :destroy, :mgmt_edit]
-  before_action :logged_in_user, only: [:index, :create, :basic_report, :calendar]
+  
   
   def all_bookings
     @bookings = Booking.all
