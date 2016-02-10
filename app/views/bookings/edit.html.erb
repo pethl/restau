@@ -94,7 +94,6 @@
          
        <br><br><br>
          
-       <% if (@booking.booking_date_time - DateTime.now) > 1 %> 
           <h6><i>Made a mistake?</i></h6>
               <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
               <%= hidden_field_tag(:booking, @booking.id) %>
@@ -102,11 +101,7 @@
              <% end%> 
              </div></div></div>
  
-         <% else %> 
       
-         <p>Bookings cannot be cancelled online within 1 day of the booking. Please call the restaurant on 02920 666777. </p>
-         <% end%> 
- 
       <% elsif  @booking.status == "Cancelled" %>
         
       <table class="table">
