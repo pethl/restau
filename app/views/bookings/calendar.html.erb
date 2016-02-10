@@ -10,7 +10,7 @@
 <div id="bookings">
 
 <h2 id="month">
-  <%= link_to "<", url_for(date: @date.prev_month) %>
+  <%= link_to "<", date: @date.prev_month %>
   <%= @date.strftime("%B %Y") %>   
   <%= link_to ">", date: @date.next_month %>
 </h2>
@@ -22,6 +22,12 @@
 <br>
      <b><font color=#9ACD32>Bookings: 
      <%= @bookings_by_date[date].count %></font></b>
+     
+    <%= form_tag(bookings_path, :method => "get", id: "search-form", :value => date) do %>
+      <input id="search" name="search" type="hidden" value=<%= date %> >
+     
+      <small><center>  <%= submit_tag "go" %></small>
+    <% end %>
       
    <% end %>
  <% end %>

@@ -4,33 +4,9 @@
 </div>
 
 <div class="col-md-10">
-<h2>Customers</h2>
+<h2>All Customers</h2>
 
-<%= form_tag customers_path, method: :get, :class => "form-inline" do %>
 
-    <h6>Search by:
-    <%= text_field(:customer, :name, :placeholder => "Name") %>
-    or
-    <%= text_field(:customer, :phone, :placeholder => "Phone") %>
-    or
-    <%= text_field(:customer, :email, :placeholder => "Email") %>
-  <br><br>
-  <button type="submit" class="btn btn-primary btn-lg">Search for Customer</button>
-<% end %>
-<br>
-
-<% if @customers == 0 %>
-  
-<br><br>
-  <p><b>Search tips:</b></p>
-  <ul>
-  <li>Use one critiera only for each search</li>
-  <li>Name search - is case sensitive, so try searching by part a unique part of the name or surname</li>
-  <li>Phone search - try any part of the number, full number not needed</li>
-  <li>Email search - LOWER CASE, try any part of the email, avoid searching on "gmail.com"</li>
-  </ul>
- 
-  <% else %>
 <table class="table">
   <thead>
     <tr>
@@ -68,8 +44,7 @@
     <% end %>
   </tbody>
 </table>
-    <% end %>
+  
 <br>
 
-<%= link_to 'Create New Customer', new_customer_path, style: 'color:#FFFFFF;' %><br>
-<%= link_to 'View All Customers', all_customers_path, style: 'color:#FFFFFF;' %>
+

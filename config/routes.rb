@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   resources :customers
   resources :bookings do
       collection { post :booking_confirmation };
-      collection { post :booking_cancellation }
+      collection { post :booking_cancellation };
+      collection { post :mgmt_edit }
     end  
   resources :tables do
       collection { post :booking_enquiry }
@@ -41,7 +42,10 @@ Rails.application.routes.draw do
   get '/download_pdf' => 'static_pages#download_pdf'
   get '/download_jpg' => 'static_pages#download_jpg'
   get '/basic_report' => 'bookings#basic_report'
-   get '/calendar' => 'bookings#calendar'
+  get '/calendar' => 'bookings#calendar'
+  get '/all_customers' => 'customers#all_customers'
+  get '/all_bookings' => 'bookings#all_bookings'
+  get '/mgmt_edit_booking' => 'bookings#mgmt_edit'
    
   
   get '/hfsk_home' => 'static_pages#hfsk_home'

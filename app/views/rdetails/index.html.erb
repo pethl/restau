@@ -13,6 +13,9 @@
      <tbody>
         <tr>
         <td><b><%= Restaurant.where(:id => rdetail.restaurant_id).first.name %></b></td>
+        
+         <% if current_user.admin?  %>
+        
         <td><%= link_to edit_rdetail_path(rdetail), class: 'btn btn-success btn-xs' do %>
              <span class="fa fa-pencil-square-o""></span>
              <% end %> 
@@ -20,11 +23,12 @@
             <%= link_to rdetail, method: :delete, data: { confirm: 'Are you sure you want to delete this record?' }, class: 'btn btn-warning btn-xs' do %>
               <span class="fa fa-trash""></span>
              <% end %> </td>
+             
+             <% else %>
+             <td></td>
+             <% end %>
+             
       </tr>
-        <tr><td>Booking duration:</td><td><%= rdetail.booking_duration %></td></tr>
-        <tr><td>Min booking:</td><td><%= rdetail.min_booking %></td></tr>
-        <tr><td>Max booking:</td><td><%= rdetail.max_booking %></td></tr>
-        <tr><td>Last booking time:</td><td><%= rdetail.last_booking_time %></td></tr>
         <tr><td>Maximum Diners Seated at Same Time:</td><td><%= rdetail.max_diners_at_current_time %></td></tr>
         <tr><td>Maximum Concurrent Diners:</td><td><%= rdetail.max_current_diners %></td></tr>
         <tr><td>Current Diners Window Before (mins):</td><td><%= rdetail.current_diners_window_start %></td></tr>
@@ -37,5 +41,6 @@
 </table>
 <% end %>
 <br>
-
+ <% if current_user.admin?  %>
 <%= link_to 'New Rdetail', new_rdetail_path %>
+<% end %>

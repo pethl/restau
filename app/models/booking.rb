@@ -12,6 +12,7 @@ class Booking < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, :on => :update, format:  { with: VALID_EMAIL_REGEX }, :exclusion =>  { :in => %w(your@email.com), :message => " : Please enter a contact email." }
   
+  
   # VALIDATION ROUTINES FOR BOOKING FORM
   def self.validate_params(params)
     
@@ -27,7 +28,6 @@ class Booking < ActiveRecord::Base
     
     #3) check to ensure booking for TODAY is completed before 17:15
       if (params[:booking_date]).to_date == Date.today && Time.now > "17:15:00"
-        Rails.logger.debug("0000000_check time before 17:15 : #{Time.now}")  
         return Error.get_msg("112") 
       end
     
@@ -113,14 +113,14 @@ class Booking < ActiveRecord::Base
          else          
          end
         end
-      Rails.logger.debug("xxxxxxxxxxxxx_bookings_at_current_time (2) : #{@bookings_at_current_time.count}")  
+      Rails.logger.debug("BOOKING_LOGING_bookings_at_current_time : #{@bookings_at_current_time.count}")  
       
       # TOTAL DINERS COUNT FOR CURRENT BOOKING WINDOW
       @number_of_current_diners= 0
       @number_of_current_diners = @bookings_at_current_time.to_a.sum do |booking_at_current_time|
               booking_at_current_time.number_of_diners
             end
-      Rails.logger.debug("xxxxxxxxxxxxx_number_of_current_diners : #{@number_of_current_diners}")  
+      Rails.logger.debug("BOOKING_LOGING_number_of_current_diners : #{@number_of_current_diners}")  
       
       # TOTAL DINERS COUNT FOR CURRENT TIME
       @diners_at_same_start_time = 0
@@ -130,7 +130,7 @@ class Booking < ActiveRecord::Base
       @diners_at_same_start_time = @bookings_at_same_start_time.to_a.sum do |booking_at_same_start_time|
               booking_at_same_start_time.number_of_diners
             end
-      Rails.logger.debug("xxxxxxxxxxxxx_diners_at_same_start_time : #{@diners_at_same_start_time}")  
+      Rails.logger.debug("BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
       
  
        

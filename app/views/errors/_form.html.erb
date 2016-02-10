@@ -12,9 +12,14 @@
   <% end %>
 
     <%= f.text_field :ref %>
-    <%= f.text_field :msg %>
+    <%= f.text_area :msg %>
     <%= f.text_area :desc %>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
   <div class="actions">
   <%= f.submit class: "btn btn-primary" %>
+  </div>
+</div>
   </div>
 <% end %>

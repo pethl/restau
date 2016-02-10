@@ -33,10 +33,8 @@ class Customer < ActiveRecord::Base
         @customer = Customer.new(name: @booking.name, email: @booking.email, phone: @booking.phone)
         
           if @customer.save
-            Rails.logger.debug("000000000000_CUSTOMER_SAVE_RECORD : #{@customer.inspect}")  
-          else
-            Rails.logger.debug("000000000000_CUSTOMER_DID NOT SAVE_RECORD : #{@customer.inspect}")  
-          end
+           else
+             end
         end
 
   

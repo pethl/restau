@@ -1,6 +1,10 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: [:show, :edit, :update, :destroy]
+  before_action :set_booking, only: [:show, :edit, :update, :destroy, :mgmt_edit]
   before_action :logged_in_user, only: [:index, :create, :basic_report, :calendar]
+  
+  def all_bookings
+    @bookings = Booking.all
+  end
   
   def booking_confirmation
     # run validation # if clean create booking object
@@ -122,6 +126,10 @@ class BookingsController < ApplicationController
   # GET /bookings/1/edit
   def edit
   end
+  
+  # GET /bookings/1/edit
+  def mgmt_edit
+  end
 
   # POST /bookings
   # POST /bookings.json
@@ -148,7 +156,9 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
+        unless @booking.email =="adminhangfirebbq@gmail.com"
         BookingMailer.booking_confirmation(@booking).deliver_now
+      end
         Customer.write_contact(@booking)
         format.html { redirect_to @booking }
         format.json { render :show, status: :ok, location: @booking }

@@ -6,6 +6,7 @@
               <%= link_to "Log out", logout_path, method: "delete" %><br>
               <br>
               <b>Company Pages</b>
+               <% if current_user.admin?  %>
               <a href="/accounts/">Accounts</a><br>
                 
               <a href="/restaurants/">Restaurants</a><br>
@@ -13,6 +14,7 @@
               <a href="/rdetails/">Restaurant Details</a><br>
             
               <a href="/errors/">Error Messages</a><br>
+              <% end %>
                
               <a href="/bookings/">Search Bookings</a><br>
               

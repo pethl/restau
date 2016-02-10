@@ -1,3 +1,11 @@
+<div class="row">
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
+
+<div class="col-md-10">
+<h3>Management Edit Booking</h3>
+
 <%= bootstrap_form_for(@booking, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-6") do |f| %>
 
   <% if @booking.errors.any? %>
@@ -17,7 +25,7 @@
     <%= f.select :number_of_diners, options_for_select(1..12, f.object.number_of_diners ) %>
     <%= f.text_field :name, placeholder: "Customer Name" %>
     <%= f.text_field :phone, placeholder: "Customer Phone (if unknown enter 0000)" %>
-    <%= f.text_field :email, value: "adminhangfirebbq@gmail.com" %>
+    <%= f.text_field :email %>
     <%= f.hidden_field :status, value: "Confirmed" %>
     <%= f.hidden_field :source, value: "Management" %>
     
@@ -31,9 +39,18 @@
       </div>
     </div>
  
+ <% if f.object.source == "Management" %>
+   <h4>
+   Any updates to this booking will be emailed to the customer.<br>
+   PLEASE ENSURE YOU HAVE AGREEMENT TO MAKE THIS CHANGE</h4>
+   <% end %>
+ 
   <div class="col-sm-offset-2 col-sm-10">
       <div class="actions">
-         <%= f.submit "Complete Booking", class: "btn btn-primary" %>
+         <%= f.submit "Update Booking", class: "btn btn-primary" %>
       </div></div>
   
 <% end %>
+
+<%= link_to 'Show', @booking %> |
+<%= link_to 'Back', bookings_path %>

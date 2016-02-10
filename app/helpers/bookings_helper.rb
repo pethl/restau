@@ -37,11 +37,12 @@ module BookingsHelper
     return array
   end
   
-  def table_min_max(booking)
-    min_max =[]
-    table = Table.where(:id => booking.table_id)
-    min_max << [table[0].min_seats, table[0].max_seats]
-    return min_max 
+  def get_float_time(time)
+    hour = time.hour
+    min = time.min
+    float_time = hour.to_s + "." + min.to_s
+    float_time = float_time.to_f
+    return float_time
   end
   
   def has_booking(booking_time, hr, min, number_of_diners) 
@@ -67,13 +68,7 @@ module BookingsHelper
   
   end  
   
-  def get_float_time(time)
-    hour = time.hour
-    min = time.min
-    float_time = hour.to_s + "." + min.to_s
-    float_time = float_time.to_f
-    return float_time
-  end
+
   
   def reformat_bookings_into_single_line(one_days_booking_grouped_by_table)
     @result = Hash.new #this is the final hash we will return containing one hash per table for display
