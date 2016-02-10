@@ -84,7 +84,7 @@ class BookingsController < ApplicationController
      booking_id = params[:booking]
      Booking.update(booking_id, :status => 'Cancelled', :cancelled_at => Time.now)
      BookingMailer.booking_cancellation_customer(booking_id).deliver_now
-     BookingMailer.booking_cancellation_mgmt(booking_id).deliver_now
+   #  BookingMailer.booking_cancellation_mgmt(booking_id).deliver_now
       redirect_to edit_booking_path(booking_id)
   end
   
@@ -160,7 +160,7 @@ class BookingsController < ApplicationController
       if @booking.update(booking_params)
         unless @booking.email =="adminhangfirebbq@gmail.com"
         BookingMailer.booking_confirmation_customer(@booking).deliver_now
-        BookingMailer.booking_confirmation_mgmt(@booking).deliver_now
+  #      BookingMailer.booking_confirmation_mgmt(@booking).deliver_now
       end
         Customer.write_contact(@booking)
         format.html { redirect_to @booking }
