@@ -17,7 +17,7 @@ class Booking < ActiveRecord::Base
   def self.validate_params(params)
     
     #1) check to ensure all form fields are filled   
-      if (params[:number_of_diners])== "0" || (params[:booking_time_hour])== "-" || (params[:booking_time_min])=="--" || (params[:booking_date].blank?)
+      if (params[:number_of_diners])== "0" || (params[:booking_time_hour])== "hour" || (params[:booking_time_min])=="min" || (params[:booking_date].blank?)
        return Error.get_msg("101") 
       end 
  
