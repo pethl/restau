@@ -26,8 +26,6 @@
     <%= f.text_field :name, placeholder: "Customer Name" %>
     <%= f.text_field :phone, placeholder: "Customer Phone (if unknown enter 0000)" %>
     <%= f.text_field :email %>
-    <%= f.hidden_field :status, value: "Confirmed" %>
-    <%= f.hidden_field :source, value: "Management" %>
     
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
@@ -39,7 +37,7 @@
       </div>
     </div>
  
- <% if f.object.source == "Management" %>
+ <% if f.object.source == "Online" %>
    <h4>
    Any updates to this booking will be emailed to the customer.<br>
    PLEASE ENSURE YOU HAVE AGREEMENT TO MAKE THIS CHANGE</h4>

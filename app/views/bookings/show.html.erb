@@ -20,6 +20,10 @@
    If you have not receive your confirmation email, please get in touch via the website.<br><br>
    See you soon.</h6>
    <br>
+   <% if logged_in? %> 
+     <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+     <% end %>
+     
    <h6><i>Made a mistake?</i></h6>
        <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
        <%= hidden_field_tag(:booking, @booking.id) %>
@@ -30,7 +34,7 @@
   </tr>
   <table>
  
-  <!-- Instructions: This is the cancelled booking show section. -->  
+  <!-- Instructions: This is the mgmt booking show section. -->  
   
     <% elsif (@booking.status == "Confirmed") && (@booking.source == "Management") %>
     <table>
@@ -51,7 +55,10 @@
      </table>
    
     <br>
-    <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+    <% if logged_in? %> 
+      <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+      <% end %>
+     
     <br>
      <h6><i>Made a mistake?</i></h6>
          <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
