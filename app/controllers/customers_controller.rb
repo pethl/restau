@@ -49,7 +49,7 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
     
     if Customer.where(:email => @customer.email).count == 1
-      redirect_to @customer, notice: 'We already have you on the list!'
+      redirect_to static_pages_hfsk_get_in_touch_path, notice: 'We already have you on the list!'
     else
 
     respond_to do |format|
