@@ -100,7 +100,7 @@
           <h6><i>Made a mistake?</i></h6>
               <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
               <%= hidden_field_tag(:booking, @booking.id) %>
-              <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning btn-sm" %>   
+              <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
              <% end%> 
              </div></div></div>
  
@@ -122,6 +122,9 @@
            <br> <br>
            Why not book again?<h4>  <%= link_to "Book a Table", static_pages_booking_enquiry_path %></h5</td>
            </h6>
+           <% if logged_in? %> 
+             <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+             <% end %>
              </div>
            </div>
       <% end %>

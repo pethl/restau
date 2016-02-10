@@ -4,14 +4,75 @@
   </div>
 
 <div class="col-md-10">
-
-<
+<h4>All Bookings</h4>
   
 <!-- Instructions: Bookings simple details list. -->  
 <br>
-  <%= render 'bookings/simple_index' %>
-
-
+<TABLE class="table table-bordered table-condensed ">
+  <thead>
+    <tr>
+    <th>Status</th>
+      <th>Customer</th>
+      <th>Contact</th>
+      <th><center>Booking Date</center></th>
+      <th><center>Booking time</center></th>
+      <th><center>Diners</center></th>
+      <th><center>Child Seat?</center></th>
+      <th><center>Source</center></th>
+       <th>Edit</th>
+       <th>Cancel</th>
+    </tr>
+  </thead>
+  <tbody>
+     
+            <% @bookings.each do |booking| %>
+             
+        <tr>
+        <% if booking.status == "Cancelled" %>
+        <td class="danger"><%= booking.status %><br><small>[<%= booking.cancelled_at.strftime('%d %b %y') %>]</td>
+        <% elsif booking.status == "Confirmed" %>
+         <td class="success"><%= booking.status %></td>
+         <% else %>
+         <td><%= booking.status %></td>
+         <% end %>
+        
+        <td><strong><%= booking.name %></strong></td>
+        <td><small><%= booking.phone %> / <%= booking.email %></td>
+         <td><center><%= booking.booking_date_time.strftime('%d %b %Y') %></center></td>
+        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+        <td><center><%= booking.number_of_diners %></center></td>
+        <td><center>
+           <% if booking.child_friendly  %>
+              <b><font color=#9ACD32>YES</font></b>
+              <% else %>
+              No
+            <% end %></center></td>
+             <td><center><small><%= booking.source %></td>
+             <td><center>
+             
+             <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
+               <input id="booking" name="id" type="hidden" value=<%= booking.id %> >
+     
+               <%= button_tag( :class => "btn btn-success btn-sm") do %>
+                  <i class="fa fa-pencil-square-o"></i>
+               <% end %>
+              <% end %>
+             </td>
+             <td><center>
+             <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+             <%= hidden_field_tag(:booking, booking.id) %>
+             <%= button_tag( :class => "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" }) do %>
+                <i class="fa fa-undo"></i>
+             <% end %>
+             
+              
+            <% end%> 
+             </td>
+      </tr>
+    <% end %>  
+   
+  </tbody>
+</table>
 <br>
-</div></div>
+</div>
  

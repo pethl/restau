@@ -84,6 +84,9 @@
        <br> <br>
        Why not book again?<h4>  <%= link_to "Book a Table", static_pages_booking_enquiry_path %></h5</td>
        </h6>
+       <% if logged_in? %> 
+      <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+      <% end %>
   
   </td>
   <td style="width: 5%"></td>
