@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show]
-  before_action :logged_in_user, only: [:index, :edit, :update]
+  before_action :set_user, only: [:show, :update]
+  before_action :logged_in_user, only: [:index, :show]
+  before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy  
 
   # GET /users
@@ -32,7 +33,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        log_in @user
+       
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -89,7 +90,7 @@ class UsersController < ApplicationController
     # Confirms the correct user.
        def correct_user
          @user = User.find(params[:id])
-         redirect_to(root_url) unless current_user?(@user)
+         redirect_to(users_url) unless current_user?(@user)
        end
        
      # Redirects to stored location (or to the default).

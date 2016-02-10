@@ -1,6 +1,3 @@
-<%= render 'layouts/header' %>
-<div style="padding-top:10px;"> 
-
 
 <%= bootstrap_form_for(@user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
   <% if @user.errors.any? %>
@@ -19,13 +16,13 @@
  
     <%= f.text_field :position %>
  
-    <%= f.text_field :email %>
+    <%= f.email_field :email %>
  
     <%= f.text_field :phone %>
  
-    <%= f.text_field :password, :placeholder => "Must be at least 6 characters long" %>
+    <%= f.password_field :password, :placeholder => "Must be at least 6 characters long" %>
  
-    <%= f.text_field :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
  <div class="col-sm-offset-2 col-sm-10">
   <div class="actions">
      <%= f.submit class: "btn btn-primary" %>

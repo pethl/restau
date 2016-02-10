@@ -1,31 +1,32 @@
-<%= render 'layouts/header' %>
-<div style="padding-top:40px;"> 
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
+<div class="col-md-5">
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Position:</strong>
-  <%= @user.position %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @user.phone %>
-</p>
-
-<p>
-  <strong>Admin:</strong>
-  <%= @user.admin %>
-</p>
-
+<h2>Staff</h2>
+<table class="table">
+<tr>
+  <td>Name:</td>
+  <td><h4><strong><%= @user.name %></strong></h4></td>
+</tr>
+<tr>
+  <td>Position:</td>
+  <td> <strong><%= @user.position %></strong></td>
+</tr>
+<tr>
+  <td>Email:</td>
+  <td><strong><%= @user.email %></strong></td>
+</tr>
+<tr>
+  <td>Phone:</td>
+  <td><strong><%= @user.phone %></strong></td>
+</tr>
+<tr>
+  <td>Admin:</td>
+  <td> <strong> <%= @user.admin %></strong></td>
+</tr>
+</table>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

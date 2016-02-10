@@ -6,7 +6,9 @@
 <div class="col-md-10">
 
 <h2>Staff</h2>
+ <% if current_user.admin?  %>
 <b><%= link_to '+ add new User', new_user_path %></b>
+<% end %>
 
 <table class="table table-condensed">
   <thead>
@@ -28,13 +30,22 @@
         <td><%= user.email %></td>
         <td><%= user.phone %></td>
         <td><%= user.admin %></td>
-        <td><%= link_to edit_user_path(user), class: 'btn btn-success btn-xs' do %>
-                   <span class="fa fa-pencil-square-o""></span>
-                <% end %>
-               |
-              <%= link_to user, method: :delete, data: { confirm: 'Are you sure you want to delete this person?' }, class: 'btn btn-danger btn-xs' do %>
-               <span class="fa fa-trash""></span>
-             <% end %> </td>
+         <% if current_user.admin?  %>
+           <td><%= link_to edit_user_path(user), class: 'btn btn-success btn-xs' do %>
+                      <span class="fa fa-pencil-square-o""></span>
+                   <% end %>
+                  |
+                 <%= link_to user, method: :delete, data: { confirm: 'Are you sure you want to delete this person?' }, class: 'btn btn-danger btn-xs' do %>
+                  <span class="fa fa-trash""></span>
+                <% end %> </td>
+            <% elsif logged_in? && current_user?(user)  %>
+            <td><%= link_to edit_user_path(user), class: 'btn btn-success btn-xs' do %>
+                       <span class="fa fa-pencil-square-o""></span>
+                    <% end %></td>
+             
+            <td></td>
+            <% end %> 
+             
       </tr>
     <% end %>
   </tbody>
