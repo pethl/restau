@@ -15,23 +15,24 @@
             
               <a href="/errors/">Error Messages</a><br>
               <% end %>
-               
-              <a href="/bookings/">Search Bookings</a><br>
-              
-              <a href="/basic_report/">Booking Activity</a><br>
-              
-              <a href="/calendar/">Booking Calendar</a><br>
-              
-              <a href="/bookings/new/">Make a Booking</a><br>
-                
-              <a href="/customers/">Customers</a><br>
-                
-              <a href="/users/">Staff</a><br>
+             <%= link_to "Search Bookings", bookings_url, style: 'color:#d3d3d3;'%>
               <br>
+             <%= link_to "Booking Activity", basic_report_path, style: 'color:#d3d3d3;'%>
+              <br>
+              <%= link_to "Booking Calendar", calendar_path, style: 'color:#d3d3d3;'%>
+              <br>
+              <%= link_to "Make a Booking", new_booking_path, style: 'color:#d3d3d3;'%>
+                <br>
+              <%= link_to "Customers", customers_url, style: 'color:#d3d3d3;'%>
+              <br>
+              <%= link_to "Staff", users_url, style: 'color:#d3d3d3;'%>
+             
+              <br><br>
               <b>External Pages </b> 
-              <a href="/booking_enquiry/">Booking Enquiry</a><br>
-                
-              <a href="/hfsk_home/">Hang Fire Southern Kitchen</a><br>
+              <%= link_to "Booking Enquiry", booking_enquiry_url, style: 'color:#ffffe0;'%>
+                <br>
+                 <%= link_to "Hang Fire Southern Kitchen", hfsk_home_url, style: 'color:#ffffe0;'%>
+             
              <% else %>
              <%= link_to "Log In", login_url, style: 'color:#FFFFFF;'%>
               

@@ -108,11 +108,11 @@ class Booking < ActiveRecord::Base
    
      @existing_bookings.each do |existing_booking| 
     
-     if ((existing_booking.booking_date_time >= start) && (existing_booking.booking_date_time <= finish))
+         if ((existing_booking.booking_date_time >= start) && (existing_booking.booking_date_time <= finish))
            @bookings_at_current_time << existing_booking
          else          
          end
-        end
+      end
       Rails.logger.debug("BOOKING_LOGING_bookings_at_current_time : #{@bookings_at_current_time.count}")  
       
       # TOTAL DINERS COUNT FOR CURRENT BOOKING WINDOW
