@@ -11,6 +11,7 @@
       <th><center>Diners</center></th>
       <th><center>Child Seat?</center></th>
       <th><center>Booking Source</th>
+      <th><center>Edit</th>
     </tr>
   </thead>
   <tbody>
@@ -30,6 +31,16 @@
               No
             <% end %></center></td>
             <td><center><%= booking.source %></td>
+            <td><center>
+            
+            <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
+              <input id="booking" name="id" type="hidden" value=<%= booking.id %> >
+    
+              <%= button_tag( :class => "btn btn-success btn-sm") do %>
+                 <i class="fa fa-pencil-square-o"></i>
+              <% end %>
+             <% end %>
+            </td>
       </tr>
     <% end %>  
     </tbody>

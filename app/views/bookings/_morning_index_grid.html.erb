@@ -1,8 +1,7 @@
  <TABLE class="table table-bordered table-condensed table-hover">
  <tr>
  <th ></th>
- <th colspan="4" style="text-align:center">10am</th>
- <th colspan="4" style="text-align:center">11am</th>
+ <th colspan="2" style="text-align:center">11am</th>
  <th colspan="4" style="text-align:center">Noon</th>
  <th colspan="4" style="text-align:center">13pm</th>
  <th colspan="4" style="text-align:center">14pm</th>
@@ -11,12 +10,6 @@
  </tr>
  <tr>
  <td></td>
- <td><small>00</td>
- <td><small>15</td>
- <td><small>30</td>
- <td><small>45</td>
- <td><small>00</td>
- <td><small>15</td>
  <td><small>30</td>
  <td><small>45</td>
  <td><small>00</td>
@@ -56,31 +49,7 @@
       <% else %>
       <% end %> 
   </td>  
- 
-  <% a= has_booking(booking.booking_date_time, 10, 0, booking.number_of_diners) %>
-  <% if a == false  %>
-   <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-  <% a = has_booking(booking.booking_date_time, 10, 15, booking.number_of_diners) %>
-  <% if a == false  %>
-   <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-   <% a= has_booking(booking.booking_date_time, 10, 30, booking.number_of_diners) %>
-   <% if a == false  %>
-    <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-   <% a = has_booking(booking.booking_date_time, 10, 45, booking.number_of_diners) %>
-   <% if a == false  %>
-    <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-    <% a= has_booking(booking.booking_date_time, 11, 0, booking.number_of_diners) %>
-    <% if a == false  %>
-     <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
-    <% a = has_booking(booking.booking_date_time, 11, 15, booking.number_of_diners) %>
-    <% if a == false  %>
-     <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
-  
+   
      <% a= has_booking(booking.booking_date_time, 11, 30, booking.number_of_diners) %>
      <% if a == false  %>
       <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>

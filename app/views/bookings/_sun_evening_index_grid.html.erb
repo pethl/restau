@@ -1,12 +1,13 @@
 <TABLE class="table table-bordered table-condensed table-hover">
 <tr>
 <th ></th>
-<th colspan="4" style="text-align:center">17pm</th>
-<th colspan="4" style="text-align:center">18pm</th>
-<th colspan="4" style="text-align:center">CLOSED</th>
-<th colspan="4" style="text-align:center">CLOSED</th>
-<th colspan="4" style="text-align:center">CLOSED</th>
-<th colspan="4" style="text-align:center">CLOSED</th>
+<th colspan="4" style="text-align:center">12</th>
+<th colspan="4" style="text-align:center">1pm</th>
+<th colspan="4" style="text-align:center">2pm</th>
+<th colspan="4" style="text-align:center">3pm</th>
+<th colspan="4" style="text-align:center">4pm</th>
+<th colspan="4" style="text-align:center">5pm</th>
+<th colspan="4" style="text-align:center">6pm</th>
 </tr>
 <tr>
 <td></td>
@@ -34,12 +35,14 @@
 <td><small>15</td>
 <td><small>30</td>
 <td><small>45</td>
+<td><small>00</td>
+<td><small>15</td>
+<td><small>30</td>
+<td><small>45</td>
 </tr>
 
   <% @bookings.each do |booking| %>
-    
-    <% unless booking.booking_date_time.hour < 16 %>
-
+   
  <tbody>
  <tr>
  <td style=white-space:nowrap;><small><%= link_to booking.name, edit_booking_path(booking.id) %></small>
@@ -53,58 +56,117 @@
      <% end %> 
  </td>  
 
- <% a= has_booking(booking.booking_date_time, 17, 0, booking.number_of_diners) %>
+ <% a= has_booking(booking.booking_date_time, 12, 0, booking.number_of_diners) %>
  <% if a == false  %>
   <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
- <% a = has_booking(booking.booking_date_time, 17, 15, booking.number_of_diners) %>
+ <% a = has_booking(booking.booking_date_time, 12, 15, booking.number_of_diners) %>
  <% if a == false  %>
   <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
-  <% a= has_booking(booking.booking_date_time, 17, 30, booking.number_of_diners) %>
+  <% a= has_booking(booking.booking_date_time, 12, 30, booking.number_of_diners) %>
   <% if a == false  %>
    <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
-  <% a = has_booking(booking.booking_date_time, 17, 45, booking.number_of_diners) %>
+  <% a = has_booking(booking.booking_date_time, 12, 45, booking.number_of_diners) %>
   <% if a == false  %>
    <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
-   <% a= has_booking(booking.booking_date_time, 18, 0, booking.number_of_diners) %>
+   <% a= has_booking(booking.booking_date_time, 13, 0, booking.number_of_diners) %>
    <% if a == false  %>
     <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
-   <% a = has_booking(booking.booking_date_time, 18, 15, booking.number_of_diners) %>
+   <% a = has_booking(booking.booking_date_time, 13, 15, booking.number_of_diners) %>
    <% if a == false  %>
     <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
-    <% a= has_booking(booking.booking_date_time, 18, 30, booking.number_of_diners) %>
+    <% a= has_booking(booking.booking_date_time, 13, 30, booking.number_of_diners) %>
     <% if a == false  %>
      <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
-    <% a = has_booking(booking.booking_date_time, 18, 45, booking.number_of_diners) %>
+    <% a = has_booking(booking.booking_date_time, 13, 45, booking.number_of_diners) %>
     <% if a == false  %>
      <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+
+     <% a= has_booking(booking.booking_date_time, 14, 0, booking.number_of_diners) %>
+     <% if a == false  %>
+      <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
  
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   <td></td>
-   
+     <% a = has_booking(booking.booking_date_time, 14, 15, booking.number_of_diners) %>
+     <% if a == false  %>
+      <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+      <% a= has_booking(booking.booking_date_time, 14, 30, booking.number_of_diners) %>
+      <% if a == false  %>
+       <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+      <% a = has_booking(booking.booking_date_time, 14, 45, booking.number_of_diners) %>
+      <% if a == false  %>
+       <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+       <% a= has_booking(booking.booking_date_time, 15, 0, booking.number_of_diners) %>
+       <% if a == false  %>
+        <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+       <% a = has_booking(booking.booking_date_time, 15, 15, booking.number_of_diners) %>
+       <% if a == false  %>
+        <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+        <% a= has_booking(booking.booking_date_time, 15, 30, booking.number_of_diners) %>
+        <% if a == false  %>
+         <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+        <% a = has_booking(booking.booking_date_time, 15, 45, booking.number_of_diners) %>
+        <% if a == false  %>
+         <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+         <% a= has_booking(booking.booking_date_time, 16, 0, booking.number_of_diners) %>
+         <% if a == false  %>
+          <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+         <% a = has_booking(booking.booking_date_time, 16, 15, booking.number_of_diners) %>
+         <% if a == false  %>
+          <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+          <% a= has_booking(booking.booking_date_time, 16, 30, booking.number_of_diners) %>
+          <% if a == false  %>
+           <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+          <% a = has_booking(booking.booking_date_time, 16, 45, booking.number_of_diners) %>
+          <% if a == false  %>
+           <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+           <% a= has_booking(booking.booking_date_time, 17, 0, booking.number_of_diners) %>
+           <% if a == false  %>
+            <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+           <% a = has_booking(booking.booking_date_time, 17, 15, booking.number_of_diners) %>
+           <% if a == false  %>
+            <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+            <% a= has_booking(booking.booking_date_time, 17, 30, booking.number_of_diners) %>
+            <% if a == false  %>
+             <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+            <% a = has_booking(booking.booking_date_time, 17, 45, booking.number_of_diners) %>
+            <% if a == false  %>
+             <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+             <% a= has_booking(booking.booking_date_time, 18, 0, booking.number_of_diners) %>
+             <% if a == false  %>
+              <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+             <% a = has_booking(booking.booking_date_time, 18, 15, booking.number_of_diners) %>
+             <% if a == false  %>
+              <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+              <% a= has_booking(booking.booking_date_time, 18, 30, booking.number_of_diners) %>
+              <% if a == false  %>
+               <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
+              <% a = has_booking(booking.booking_date_time, 18, 45, booking.number_of_diners) %>
+              <% if a == false  %>
+               <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
+ 
   
    </tr>
-   <% end %>
+  
    <% end %>
    <tbody>
  </table> 
