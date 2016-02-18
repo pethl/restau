@@ -189,9 +189,7 @@ class BookingsController < ApplicationController
   
   def calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
-    Rails.logger.debug("in calendar_date: #{params[:date]}")
-    @bookings = booking_made_in_this_month(@date)
-     Rails.logger.debug("in calendar_b_count: #{@bookings.count}")
+    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_month.beginning_of_day, @date.end_of_month.end_of_day).where(:status => "Confirmed")
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}  
        Rails.logger.debug("in calendar_b_group: #{@bookings_by_date}")
   end
