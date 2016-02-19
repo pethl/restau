@@ -81,12 +81,18 @@ class BookingsController < ApplicationController
   end
   
   def booking_cancellation
-     Rails.logger.debug("cancellation: #{params[:booking]}")
-     booking_id = params[:booking]
+    validate = Booking.validate_cancellation(params)
+    booking_id = params[:booking]
+    @booking = Booking.find(booking_id)
+    
+    if validate.blank?
      Booking.update(booking_id, :status => 'Cancelled', :cancelled_at => Time.now)
      BookingMailer.booking_cancellation_customer(booking_id).deliver_now
      BookingMailer.booking_cancellation_mgmt(booking_id).deliver_now
       redirect_to edit_booking_path(booking_id)
+    else
+      redirect_to edit_booking_path(booking_id), :flash => { :warning => validate }
+    end
   end
   
   # GET /bookings

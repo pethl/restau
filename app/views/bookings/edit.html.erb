@@ -89,16 +89,21 @@
          <h6>You have a booking for  <%= @booking.number_of_diners %> people, at 
          <%= @booking.booking_date_time.strftime('%H:%M') %><br>
          on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.<br>
-          <br>
+          
           <br>See you soon.<br>
          
-       <br><br><br>
+       <br><br>
          
-          <h6><i>Made a mistake?</i></h6>
-              <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
-              <%= hidden_field_tag(:booking, @booking.id) %>
-              <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
-             <% end%> 
+       <h6><i>Made a mistake?</i></h6>
+       To cancel your booking please enter the <br>
+       <font color=#9ACD32>phone number</font>
+       <b> OR </b>
+        <font color=#9ACD32>email address</font> given at time of booking to validate your identify, then click button:<br><br>
+           <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+           <%= hidden_field_tag(:booking, @booking.id) %>
+           <%= text_field_tag 'validation_text', nil, placeholder: 'phone or email...', class:"form-control input"%>
+           <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
+          <% end%>  
              </div></div></div>
  
       
