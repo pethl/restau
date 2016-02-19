@@ -2,7 +2,7 @@ class Booking < ActiveRecord::Base
   belongs_to :table
   
    default_scope { order('booking_date_time DESC') }
-  
+   
   validates :restaurant_id, presence: true 
   validates :booking_date_time, presence: true 
   validates :number_of_diners, presence: true  
@@ -171,6 +171,21 @@ class Booking < ActiveRecord::Base
    msg = "Try again"
   return msg
 end #starer if end 
+  
+def self.validate_cancellation(params)
+    #check to user entered phone or email   
+    if (params[:validation_text]).blank?
+        return Error.get_msg("114") 
+     else 
+       @booking = Booking.find(params[:booking])
+           if ((params[:validation_text].delete(' '))== @booking.phone.delete(' ')) || ((params[:validation_text].downcase)== @booking.email.downcase)
+             return
+           else
+              return Error.get_msg("113") 
+           end
+        end 
+end
+  
   
   
   def self.search(search)
