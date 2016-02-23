@@ -4,22 +4,42 @@
   </div>
 
 <div class="col-md-10">
-<h4>All Bookings</h4>
-<p>This view shows all bookings sorted by booking date - to search for a booking, please use <b><%= link_to "Booking Search", search_bookings_path %></b></p>
+<h4>Search Bookings</h4>
+<%= form_tag search_bookings_path, method: :get, :class => "form-inline" do %>
 
+    <h6>Search by:<br>
+    <%= text_field(:booking, :name, :placeholder => "Name", :class=>"form-control input-sm") %>
+    or
+    <%= text_field(:booking, :phone, :placeholder => "Phone", :class=>"form-control input-sm") %>
+    or
+    <%= text_field(:booking, :email, :placeholder => "Email", :class=>"form-control input-sm") %>
+    or
+    <input class="datepicker" data-provide='datepicker' id="search" name=booking[booking_date_time] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Booking Date">   
+ 
+  <br><br>
+  <button type="submit" class="btn btn-primary btn-lg">Search for Booking</button>
+<% end %>
+<br>
+  
+  <% if @bookings == 0 %>
+    <br>
+    No records found for search criteria
+   <br>
+    <% else %>
+    
 <!-- Instructions: Bookings simple details list. -->  
 <br>
 <TABLE class="table table-bordered table-condensed ">
   <thead>
     <tr>
-      <th>When Booked? </th>
-      <th>Status</th>
-      <th>Customer</th>
-      <th><center>Booking Date</center></th>
-      <th><center>Booking time</center></th>
-      <th><center>Diners</center></th>
-      <th><center>Child Seat?</center></th>
-      <th><center>Source</center></th>
+      <th><small>When Booked? </th>
+      <th><small>Status</th>
+      <th><small>Customer</th>
+      <th><center><small>Booking Date</center></th>
+      <th><center><small>Booking time</center></th>
+      <th><center><small>Diners</center></th>
+      <th><center><small>Child Seat?</center></th>
+      <th><center><small>Source</center></th>
       <th><small>Edit</th>
       <th><small>Cancel</th>
         <% if current_user.admin?  %>
@@ -82,7 +102,7 @@
    
   </tbody>
 </table>
-
+<% end %>
 <br>
 </div>
  

@@ -2,6 +2,9 @@ class Customer < ActiveRecord::Base
   
   belongs_to :booking
   
+  default_scope { order('name ASC') }
+  
+  
   #customer is mainly for subscription management and easy seach with link to booking via email.
   
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

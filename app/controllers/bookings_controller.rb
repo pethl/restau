@@ -3,9 +3,29 @@ class BookingsController < ApplicationController
   before_action :logged_in_user, only: [:index, :create, :basic_report, :calendar, :mgmt_edit]
   before_action :set_booking, only: [:show, :edit, :update, :destroy, :mgmt_edit]
   
-  
   def all_bookings
     @bookings = Booking.all
+  end
+  
+  def search_bookings
+     @bookings = []
+    
+    #take params from search on Index view, or if no search, 
+    #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
+     if params[:booking]
+       @bookings = Booking.all_search(params[:booking])
+             if @bookings.any?
+               params[:booking]= []
+               @bookings
+             else
+               params[:booking]= []
+               @bookings = 0
+             end
+     else
+        @bookings = []
+      
+       params[:booking]= []
+     end
   end
   
   def booking_confirmation

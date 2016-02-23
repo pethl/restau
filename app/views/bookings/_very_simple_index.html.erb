@@ -4,6 +4,8 @@
 <TABLE class="table table-bordered table-condensed table-hover">
   <thead>
     <tr>
+    <th>When Booked?</th>
+     <th>Status</th>
       <th>Booking Date</th>
       <th><center>Booking Time</center></th>
       <th>Customer</th>
@@ -19,6 +21,14 @@
             <% @bookings.each do |booking| %>
              
         <tr>
+        <td><small><font color=#8c99a6><%= booking.created_at.strftime('%Y %b %d %H:%M') %></small></td>
+       <% if booking.status == "Cancelled" %>
+       <td class="danger"><%= booking.status %><br><small>[<%= booking.cancelled_at.strftime('%d %b %y') %>]</td>
+       <% elsif booking.status == "Confirmed" %>
+        <td class="success"><%= booking.status %></td>
+        <% else %>
+        <td><%= booking.status %></td>
+        <% end %>
         <td><%= booking.booking_date_time.strftime('%a, %d %B %Y') %></td>
         <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
         <td><strong><%= booking.name %></strong></td>
