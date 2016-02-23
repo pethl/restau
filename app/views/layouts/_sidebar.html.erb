@@ -3,7 +3,7 @@
 <h6> <% if logged_in? %> 
               Hi <%= current_user.name %>
               <br><br>
-              <%= link_to "Log out", logout_path, method: "delete" %><br>
+              <%= link_to "Log out", logout_path, method: "delete", style: 'color:#d3d3d3;' %><br>
               <br>
               <b>Company Pages</b>
                <% if current_user.admin?  %>
@@ -15,15 +15,19 @@
             
               <a href="/errors/">Error Messages</a><br>
               <% end %>
-             <%= link_to "Search Bookings", bookings_url, style: 'color:#d3d3d3;'%>
+             <%= link_to "Daily Bookings", bookings_url, style: 'color:#d3d3d3;'%>
               <br>
              <%= link_to "Booking Activity", basic_report_path, style: 'color:#d3d3d3;'%>
               <br>
               <%= link_to "Booking Calendar", calendar_path, style: 'color:#d3d3d3;'%>
               <br>
+              <%= link_to "Booking Search", search_bookings_path, style: 'color:#d3d3d3;'%>
+              <br>
+              <%= link_to "All Bookings", all_bookings_path, style: 'color:#d3d3d3;'%>
+              <br>
               <%= link_to "Make a Booking", new_booking_path, style: 'color:#d3d3d3;'%>
                 <br>
-              <%= link_to "Customers", customers_url, style: 'color:#d3d3d3;'%>
+              <%= link_to "Subscription List", customers_url, style: 'color:#d3d3d3;'%>
               <br>
               <%= link_to "Staff", users_url, style: 'color:#d3d3d3;'%>
              

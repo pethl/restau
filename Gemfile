@@ -85,4 +85,5 @@ group :test do
   gem "selenium-webdriver", "~>2.43.0"
 end
 gem 'newrelic_rpm'
+gem 'thin'
 

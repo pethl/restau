@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   get '/all_customers' => 'customers#all_customers'
   get '/all_bookings' => 'bookings#all_bookings'
   get '/mgmt_edit_booking' => 'bookings#mgmt_edit'
+   get '/search_bookings' => 'bookings#search_bookings'
    
   
   get '/hfsk_home' => 'static_pages#hfsk_home'

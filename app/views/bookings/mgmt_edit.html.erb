@@ -45,9 +45,9 @@
  
   <div class="col-sm-offset-2 col-sm-10">
       <div class="actions">
-         <%= f.submit "Update Booking", class: "btn btn-primary" %>
-      </div></div>
-  
+         <%= f.submit "Update This Booking", class: "btn btn-primary" %>
+      <%= link_to "Return to Search Bookings", search_bookings_path, class: "btn btn-success" %></div>
+  </div>
 <% end %>
 
 <%= link_to 'Show', @booking %> |

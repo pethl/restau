@@ -186,7 +186,29 @@ def self.validate_cancellation(params)
         end 
 end
   
-  
+def self.all_search(search)
+ name = search[:name]
+ email = search[:email]
+ phone = search[:phone]
+ booking_date_time = search[:booking_date_time].to_date
+ 
+ if !name.blank?
+      Rails.logger.debug("in name: #{name}")
+      where("name LIKE ?", "%#{name}%") 
+   elsif !email.blank?
+        Rails.logger.debug("in email: #{email}")
+        where("email LIKE ?", "%#{email}%")  
+    elsif !phone.blank?
+        Rails.logger.debug("in phone: #{phone}")
+        where("phone LIKE ?", "%#{phone}%") 
+    elsif !booking_date_time.blank?
+        Rails.logger.debug("in booking_date_time: #{booking_date_time}")
+        where("booking_date_time > ? AND booking_date_time < ?", "%#{booking_date_time.beginning_of_day}%", "%#{booking_date_time.end_of_day}%") 
+      else
+        @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.beginning_of_month.beginning_of_day, Date.today.end_of_month.end_of_day)
+      
+      end
+ end
   
   def self.search(search)
     # get Confirmed bookings only
