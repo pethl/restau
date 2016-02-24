@@ -21,10 +21,16 @@ class Booking < ActiveRecord::Base
        return Error.get_msg("101") 
       end 
  
-    #2) check to ensure booking is not in the past
+    #2a) check to ensure booking is not in the past
       if (params[:booking_date]).to_date < Date.today
         return Error.get_msg("102") 
       end
+      
+      #2b) check to ensure booking is not before opening date
+      opening_date = Date.new(2016,3,9)
+        if (params[:booking_date]).to_date < opening_date
+          return Error.get_msg("115")
+        end
     
     #3) check to ensure booking for TODAY is completed before 17:15
       if (params[:booking_date]).to_date == Date.today && Time.now > "17:15:00"
