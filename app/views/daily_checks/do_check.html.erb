@@ -1,0 +1,67 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-8">
+
+<h2>Daily Checks</h2><br>
+<h4><%= link_to "History", daily_checks_history_path, style: 'color:#484848;' %>
+ <%= link_to "Yesterday", daily_checks_yesterday_path, style: 'color:#484848;' %>
+ Today 
+ </h4>
+ <%= bootstrap_form_for(@cashfloat, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-5") do |f| %>
+
+   <% if @cashfloat.errors.any? %>
+     <div id="error_explanation">
+       <h2><%= pluralize(@cashfloat.errors.count, "error") %> prohibited this cashfloat from being saved:</h2>
+
+       <ul>
+       <% @cashfloat.errors.full_messages.each do |message| %>
+         <li><%= message %></li>
+       <% end %>
+       </ul>
+     </div>
+   <% end %>
+
+   <%= f.select(:float_type, Cashfloat::FLOAT_TYPES, include_blank: "Select float") %>
+   <%= f.select(:period, Cashfloat::PERIOD_TYPES, include_blank: "Select period") %>
+   <%= f.select(:completed_by, User.uniq.pluck(:name), include_blank: "Select user" ) %>  
+
+   <%= f.text_field :user_code %>
+   <div class="row">
+    <div class="col-sm-5">
+    <%= f.text_field :fifties, label: "£50", class:"form-control input-sm" %>
+    <%= f.text_field :twenties, label: "£20", class:"form-control input-sm" %>
+    <%= f.text_field :tens, label: "£10", class:"form-control input-sm" %>
+    <%= f.text_field :fives, label: "£5", class:"form-control input-sm" %>
+    </div>   
+    </div>
+   
+     <div class="row">
+        <div class=" col-sm-5">
+    <%= f.text_field :pound_bag, label: "£1 bag", class:"form-control input-sm" %>
+    <%= f.text_field :fifty_bag, label: "50p bag", class:"form-control input-sm" %>
+    <%= f.text_field :twenty_bag, label: "20p bag", class:"form-control input-sm" %>
+    <%= f.text_field :ten_bag, label: "10p bag", class:"form-control input-sm" %>
+    <%= f.text_field :five_bag, label: "5p bag", class:"form-control input-sm" %>
+    <%= f.text_field :two_bag, label: "2p bag", class:"form-control input-sm" %>
+    <%= f.text_field :one_bag, label: "1p bag", class:"form-control input-sm" %>
+    </div>
+       <div class=" col-sm-4">
+       <%= f.text_field :pound_single, label: "£1", class:"form-control input-sm" %>
+       <%= f.text_field :fifty_single, label: "50p", class:"form-control input-sm" %>
+       <%= f.text_field :twenty_single, label: "20p", class:"form-control input-sm" %>
+       <%= f.text_field :ten_single, label: "10p", class:"form-control input-sm" %>
+       <%= f.text_field :five_single, label: "5p", class:"form-control input-sm" %>
+       <%= f.text_field :two_single, label: "2p", class:"form-control input-sm" %>
+       <%= f.text_field :one_single, label: "1p", class:"form-control input-sm" %>
+    </div>
+        </div>
+
+   <div class="col-sm-offset-2 col-sm-10">
+    <div class="actions">
+       <%= f.submit class: "btn btn-primary" %>
+    </div></div>
+ <% end %>
+ 

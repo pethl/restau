@@ -52,7 +52,9 @@ class Booking < ActiveRecord::Base
        if ([0].include? (params[:booking_date]).to_date.wday) &&
          ([17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("105")      
-     end    
+     end   
+     
+    
    end
   
   

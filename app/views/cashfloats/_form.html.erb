@@ -1,0 +1,63 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-7">
+
+<h2>Daily Checks</h2><br>
+
+<%= bootstrap_form_for(@cashfloat, layout: :inline, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
+
+  <% if @cashfloat.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cashfloat.errors.count, "error") %> prohibited this cashfloat from being saved:</h2>
+
+      <ul>
+      <% @cashfloat.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<h4><%= f.object.float_type %> float check for <%= Date.today.strftime("%A") %> <%= f.object.period %>, <%= Date.today.strftime("%b %d") %></h4>
+
+    <%= f.select(:completed_by, User.uniq.pluck(:name), include_blank: "Select user", class:"form-control input-sm" ) %>  
+    
+     <%= f.text_field :user_code, class:"form-control input-sm" %>
+ 
+   <h5>Notes</h5>
+   <table class="table table-condensed">
+   <tr><td style="width: 15%" class="text-center">£50</td>   <td style="width: 90%"><%= f.text_field :fifties, skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fifties %></td></tr>
+   <tr><td class="text-center">£20</td>   <td><%= f.text_field :twenties,  skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.twenties %></td></tr>
+   <tr><td class="text-center">£10</td>   <td><%= f.text_field :tens, skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.tens %></td></tr>
+   <tr><td class="text-center">£50</td>   <td><%= f.text_field :fives,  skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fives %></td></tr>
+   </table>
+ 
+  <h5>Coins</h5>
+    <table class="table table-condensed">
+    <tr><td style="width: 15%" class="text-center">£1 bags</td>   <td style="width: 20%"><%= f.text_field :pound_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
+    <td style="width: 15%" class="text-center">£1 singles</td> <td style="width: 20%"><%= f.text_field :pound_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fives %></td></tr>
+    <tr><td style="width: 15%" class="text-center">50p bags</td>   <td style="width: 20%"><%= f.text_field :fifty_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
+    <td style="width: 15%" class="text-center">50p singles</td> <td><%= f.text_field :fifty_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fives %></td></tr>
+    <tr><td style="width: 15%" class="text-center">20p bags</td>   <td style="width: 20%"><%= f.text_field :twenty_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
+    <td style="width: 15%" class="text-center">20p singles</td> <td><%= f.text_field :twenty_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fives %></td></tr>
+    <tr><td style="width: 15%" class="text-center">10p bags</td>   <td style="width: 20%"><%= f.text_field :ten_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
+    <td style="width: 15%" class="text-center">10p singles</td> <td><%= f.text_field :ten_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fives %></td></tr>
+    <tr><td style="width: 15%" class="text-center">5p bags</td>   <td style="width: 20%"><%= f.text_field :five_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
+    <td style="width: 15%" class="text-center">5p singles</td> <td><%= f.text_field :five_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fives %></td></tr>
+    <tr><td style="width: 15%" class="text-center">2p bags</td>   <td style="width: 20%"><%= f.text_field :two_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
+    <td style="width: 15%" class="text-center">2p singles</td> <td><%= f.text_field :two_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td><%= f.object.fives %></td></tr>
+    <tr><td style="width: 15%" class="text-center">1p bags</td>   <td style="width: 20%"><%= f.text_field :one_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
+    <td style="width: 15%" class="text-center">1p singles</td> <td><%= f.text_field :one_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px"   %></td><td><%= f.object.fives %></td></tr>
+     </table>
+   </div>
+       </div>
+
+  <div class="col-sm-offset-2 col-sm-10">
+   <div class="actions">
+      <%= f.submit class: "btn btn-primary" %>
+   </div></div>
+<% end %>
+

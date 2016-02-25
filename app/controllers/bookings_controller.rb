@@ -131,7 +131,7 @@ class BookingsController < ApplicationController
        end
        params[:search]= []
    else
-     @bookings = Booking.where(:booking_date => Date.today, :status => "Confirmed")
+     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.beginning_of_day, Date.today.end_of_day).where(:status => "Confirmed")
        if @bookings.any?
           @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
        else

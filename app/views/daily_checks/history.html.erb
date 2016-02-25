@@ -1,0 +1,49 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+
+<h2>Daily Checks</h2><br>
+<h4>History 
+<%= link_to "Yesterday", daily_checks_yesterday_path, style: 'color:#484848;' %>
+<%= link_to "Today", daily_checks_today_path, style: 'color:#484848;' %>
+</h4>
+ 
+ 
+<h4>Floats</h4>
+
+<table class="table table-condensed">
+<tr>
+<th></th>
+<th>Type</th>
+<th>Period</th>
+<th>Completed By</th>
+<th>Status</th>
+<th style="text-align:right">Gap</th>
+<th style="text-align:right">View</th>
+</tr>
+
+<% @cashfloats_by_date.each do |date, cashfloats|%>
+
+<tr><td colspan=7><h5><%= date %></h5></td></tr>
+
+<% cashfloats.each do |cashfloat|%>
+
+<tr>
+<td></td>
+<td><%= cashfloat.float_type %></td>
+<td><%= cashfloat.period %></td>
+<td><%= cashfloat.completed_by %></td>
+<td><%= cashfloat.completed %></td>
+<td style="text-align:right">£<%= cashfloat.float_gap %></td>
+<td style="text-align:right"><%= link_to "See Details", cashfloat %></td>
+
+</tr>
+<% end %>
+<% end %>
+
+</table>
+
+
