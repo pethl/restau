@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
+  resources :cashfloats do
+      collection { post :validate }
+    end
+
+  get 'daily_checks/today'
+  get 'daily_checks/yesterday'
+  get 'daily_checks/history'
+
   get 'messages/new'
-  post   'messages/create'   => 'messages#create'
-  post   'customers/subscribe'   => 'customers#subscribe'
+  post 'messages/create'   => 'messages#create'
+  post 'customers/subscribe'   => 'customers#subscribe'
 
   resources :errors
   resources :users
@@ -23,7 +31,7 @@ Rails.application.routes.draw do
     		 collection { post :import }
        end
    resources :sessions, only: [:new, :create, :destroy]
-
+  
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
@@ -46,8 +54,8 @@ Rails.application.routes.draw do
   get '/all_customers' => 'customers#all_customers'
   get '/all_bookings' => 'bookings#all_bookings'
   get '/mgmt_edit_booking' => 'bookings#mgmt_edit'
-   get '/search_bookings' => 'bookings#search_bookings'
-   
+  get '/search_bookings' => 'bookings#search_bookings' 
+  get '/cashfloats_validate' => 'cashfloats#validate'   
   
   get '/hfsk_home' => 'static_pages#hfsk_home'
   get '/hfsk_about' => 'static_pages#hfsk_about'
