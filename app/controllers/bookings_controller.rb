@@ -76,11 +76,11 @@ class BookingsController < ApplicationController
                       msg = "Sorry we do not have a table within 15 mins +/- this time. Please try earlier or later."
                       redirect_to static_pages_booking_enquiry_path, :flash => { :warning => msg }
                    else
-                      redirect_to edit_booking_path(@booking), notice: Error.get_msg(111)
+                      redirect_to edit_booking_path(@booking), notice: Error.get_msg(999999111)
                    end 
                #-------------------------------
             else
-               redirect_to edit_booking_path(@booking), notice: Error.get_msg(110)
+               redirect_to edit_booking_path(@booking), notice: Error.get_msg(999999110)
             end 
       
       elsif @booking.is_a? Object
@@ -89,7 +89,7 @@ class BookingsController < ApplicationController
      
        else  
          #Non-specific, system error.
-         redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(109) }
+         redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(999999109) }
        end 
         
       else # if validation comes back with error

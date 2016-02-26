@@ -18,40 +18,40 @@ class Booking < ActiveRecord::Base
     
     #1) check to ensure all form fields are filled   
       if (params[:number_of_diners])== "0" || (params[:booking_time_hour])== "hour" || (params[:booking_time_min])=="min" || (params[:booking_date].blank?)
-       return Error.get_msg("101") 
+       return Error.get_msg("999999101") 
       end 
  
     #2a) check to ensure booking is not in the past
       if (params[:booking_date]).to_date < Date.today
-        return Error.get_msg("102") 
+        return Error.get_msg("999999102") 
       end
       
       #2b) check to ensure booking is not before opening date
       opening_date = Date.new(2016,3,9)
         if (params[:booking_date]).to_date < opening_date
-          return Error.get_msg("115")
+          return Error.get_msg("999999115")
         end
     
     #3) check to ensure booking for TODAY is completed before 17:15
       if (params[:booking_date]).to_date == Date.today && Time.now > "17:15:00"
-        return Error.get_msg("112") 
+        return Error.get_msg("999999112") 
       end
     
     #4) check to ensure booking is not Monday or Tuesday
       if ([1,2].include? (params[:booking_date]).to_date.wday)
-        return Error.get_msg("103")    
+        return Error.get_msg("999999103")    
       end
       
     #5) check to ensure booking is within opening hours, w,t
        if ([3,4].include? (params[:booking_date]).to_date.wday) &&
          ([12,13,14,15,16].include? (params[:booking_time_hour]).to_i)
-        return Error.get_msg("104")      
+        return Error.get_msg("999999104")      
       end
   
     #6) check to ensure booking is within opening hours sunday
        if ([0].include? (params[:booking_date]).to_date.wday) &&
          ([17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
-        return Error.get_msg("105")      
+        return Error.get_msg("999999105")      
      end   
      
     
@@ -152,7 +152,7 @@ class Booking < ActiveRecord::Base
           return @booking
         else
         #Error for too many big groups, return Integer to prevent automated re-book
-        return 107
+        return 999999107
       end
     when 8, 7 
         if (@large_tables_count < @large_table_max)
@@ -161,7 +161,7 @@ class Booking < ActiveRecord::Base
           return @booking
         else
           #Error for too many large groups, return Integer to prevent automated re-book
-        return 108
+        return 999999108
       end
     when 1,2,3,4,5,6
        @booking = Booking.new(@booking)
@@ -183,13 +183,13 @@ end #starer if end
 def self.validate_cancellation(params)
     #check to user entered phone or email   
     if (params[:validation_text]).blank?
-        return Error.get_msg("114") 
+        return Error.get_msg("999999114") 
      else 
        @booking = Booking.find(params[:booking])
            if ((params[:validation_text].delete(' '))== @booking.phone.delete(' ')) || ((params[:validation_text].downcase)== @booking.email.downcase)
              return
            else
-              return Error.get_msg("113") 
+              return Error.get_msg("999999113") 
            end
         end 
 end
