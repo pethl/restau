@@ -3,18 +3,18 @@ class DailyChecksController < ApplicationController
   
   def today
     @cashfloats = Cashfloat.where("created_at > ? AND created_at < ?", Date.today.beginning_of_day, Date.today.end_of_day)
-    @safe_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.today.beginning_of_day, Date.today.end_of_day, "Safe", "Morning")
-    @safe_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.today.beginning_of_day, Date.today.end_of_day, "Safe", "Evening")
-    @main_till_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.today.beginning_of_day, Date.today.end_of_day, "Main Till", "Morning")
-    @main_till_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.today.beginning_of_day, Date.today.end_of_day, "Main Till", "Evening")
+    @safe_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.today.beginning_of_day+4.hours), (Date.today.end_of_day), "Safe", "Morning")
+    @safe_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.today.beginning_of_day+4.hours), (Date.today.end_of_day+2.hours), "Safe", "Evening")
+    @main_till_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.today.beginning_of_day+4.hours), Date.today.end_of_day, "Main Till", "Morning")
+    @main_till_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.today.beginning_of_day+4.hours), (Date.today.end_of_day+2.hours), "Main Till", "Evening")
   end
 
   def yesterday
     @cashfloats = Cashfloat.where("created_at > ? AND created_at < ?", Date.yesterday.beginning_of_day, Date.yesterday.end_of_day)
-    @safe_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.yesterday.beginning_of_day, Date.yesterday.end_of_day, "Safe", "Morning")
-    @safe_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.yesterday.beginning_of_day, Date.yesterday.end_of_day, "Safe", "Evening")
-    @main_till_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.yesterday.beginning_of_day, Date.yesterday.end_of_day, "Main Till", "Morning")
-    @main_till_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", Date.yesterday.beginning_of_day, Date.yesterday.end_of_day, "Main Till", "Evening")
+    @safe_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.yesterday.beginning_of_day+4.hours), Date.yesterday.end_of_day, "Safe", "Morning")
+    @safe_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.yesterday.beginning_of_day+4.hours), (Date.yesterday.end_of_day+2.hours), "Safe", "Evening")
+    @main_till_morning = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.yesterday.beginning_of_day+4.hours), Date.yesterday.end_of_day, "Main Till", "Morning")
+    @main_till_evening = Cashfloat.where("created_at > ? AND created_at < ? AND float_type = ? AND  period = ?", (Date.yesterday.beginning_of_day+4.hours), (Date.yesterday.end_of_day+2.hours), "Main Till", "Evening")
   end
 
   def history
