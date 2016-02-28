@@ -11,8 +11,13 @@
 <h4><b><%= @cashfloat.float_type %> float</b> check for <b><%= Date.today.strftime("%A") %></b> <%= @cashfloat.period %>, <%= Date.today.strftime("%b %d") %></h4>
 
     <h6><small>Completed by: </small><%= @cashfloat.completed_by %></h6>
-    <h6><small>Status: </small><%= @cashfloat.completed %></h6>
-    <h6><small>Comments: </small><%= @cashfloat.float_comment %></h6>
+    <h6><small>Status: </small>
+    <% if @cashfloat.completed == "Completed - OK"%>
+      <font color=#9ACD32><%= @cashfloat.completed %></h6>
+      <% else %>
+       <font color=#F7FE2E><%= @cashfloat.completed %></h6>
+      <% end %>
+    <h6><small>Comments: </small><code><%= @cashfloat.float_comment %></code></h6>
  
      
      <table class="table table-condensed">

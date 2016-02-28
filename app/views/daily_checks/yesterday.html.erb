@@ -17,7 +17,7 @@ Yesterday
  <td style="width: 15%"><b>Morning:</b></td>
  <% if @safe_morning.any? %>
    <% if !@safe_morning[0].completed.blank? %>
- <td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @safe_morning[0].float_gap %></td><td><%= @safe_morning[0].completed %><br>By: <%= @safe_morning[0].completed_by %></td><td><%= link_to "View Details", cashfloat_path(@safe_morning[0].id) %></td>
+ <td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @safe_morning[0].float_gap %></td><td><%= @safe_morning[0].completed %><br>By: <%= @safe_morning[0].completed_by %><br><small><%= @safe_morning[0].float_comment %></td><td><%= link_to "View Details", cashfloat_path(@safe_morning[0].id) %></td>
  <% elsif @safe_morning[0].completed.blank? %>
  <td><i class="fa fa-gear fa-2x" style='color: #F7FE2E;'></td><td></td><td>Started By: <%= @safe_morning[0].completed_by %></td><td><%= link_to "Complete Check", edit_cashfloat_path(@safe_morning[0].id) %></td>
  <% end %>
@@ -28,7 +28,7 @@ Yesterday
  <tr>
 <td style="width: 15%"><b>Evening:</b></td>
 <% if @safe_evening.any? %>
-<td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @safe_evening[0].float_gap %></td><td><%= @safe_evening[0].completed %><br>By: <%= @safe_evening[0].completed_by %></td><td><%= link_to "View Details", cashfloat_path(@safe_evening[0].id) %></td>
+<td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @safe_evening[0].float_gap %></td><td><%= @safe_evening[0].completed %><br>By: <%= @safe_evening[0].completed_by %><br><small><%= @safe_evening[0].float_comment %></td><td><%= link_to "View Details", cashfloat_path(@safe_evening[0].id) %></td>
   <% else %>
 <td><i class="fa fa-times-circle fa-2x" style='color: #FF0000;'></td><td colspan="3"></td></td> 
    <% end %>  
@@ -41,7 +41,7 @@ Yesterday
  <td rowspan="2" style="width: 20%"><h4>Main Till</h4></td>
  <td style="width: 15%"><b>Morning:</b></td>
  <% if @main_till_morning.any? %>
- <td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @main_till_morning[0].float_gap %></td><td><%= @main_till_morning[0].completed %><br>By: <%= @main_till_morning[0].completed_by %></td><td><%= link_to "View Details", cashfloat_path(@main_till_morning[0].id) %></td>
+ <td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @main_till_morning[0].float_gap %></td><td><%= @main_till_morning[0].completed %><br>By: <%= @main_till_morning[0].completed_by %><br><small><%= @main_till_morning[0].float_comment %></td><td><%= link_to "View Details", cashfloat_path(@main_till_morning[0].id) %></td>
    <% else %>
  <td><i class="fa fa-times-circle fa-2x" style='color: #FF0000;'></td><td colspan="3"></td> 
     <% end %>  
@@ -49,7 +49,7 @@ Yesterday
  <tr>
 <td style="width: 15%"><b>Evening:</b></td>
 <% if @main_till_evening.any? %>
-<td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @main_till_evening[0].float_gap %></td><td><%= @main_till_evening[0].completed %><br>By: <%= @main_till_evening[0].completed_by %></td><td><%= link_to "View Details", cashfloat_path(@main_till_evening[0].id) %></td>
+<td><i class="fa fa-check-circle fa-2x" style='color: #9ACD32;'></td><td>Float Gap<br>£<%= @main_till_evening[0].float_gap %></td><td><%= @main_till_evening[0].completed %><br>By: <%= @main_till_evening[0].completed_by %><br><small><%= @main_till_evening[0].float_comment %></td><td><%= link_to "View Details", cashfloat_path(@main_till_evening[0].id) %></td>
   <% else %>
 <td><i class="fa fa-times-circle fa-2x" style='color: #FF0000;'></td><td colspan="3"> </td>
 <% end %>

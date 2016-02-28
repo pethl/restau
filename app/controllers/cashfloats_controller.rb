@@ -11,6 +11,7 @@ class CashfloatsController < ApplicationController
       if @cashfloat.float_gap == 0 
         Rails.logger.debug("__________in first_gap: #{@cashfloat.float_gap}")
         @cashfloat.completed = "Completed - OK"
+        @cashfloat.float_comment = (params[:float_comment])
         @cashfloat.save
         redirect_to daily_checks_today_path, notice: "Float check completed successfully."
         
@@ -22,7 +23,7 @@ class CashfloatsController < ApplicationController
         redirect_to daily_checks_today_path, notice: "Float check completed, float not balanced and reason saved."
       else
         Rails.logger.debug("__________in thirs: #{@cashfloat.float_gap}")
-        redirect_to edit_cashfloat_path(@cashfloat), notice: "Float does not match target, please give reasons."
+        redirect_to edit_cashfloat_path(@cashfloat), :flash => { :warning => "Float does not match target, please give reasons." }
       end
     
 end
