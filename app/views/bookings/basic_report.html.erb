@@ -3,16 +3,24 @@
   <%= render 'layouts/sidebar' %>
   </div>
 
-<div class="col-md-5">
+<div class="row">
+<div class="col-md-4">
 <h4>Booking Activity Report</h4>
 <br>
 
 <!-- Instructions: The new bookings table -->  
 
 <table class="table">
- 
 <tr>
-  <td colspan=3><h4>New Bookings by Day</h4></td>
+  <td colspan=3><h5>Total Confirmed Bookings</h5></td>
+</tr>        
+<tr>
+<td></td>
+<td>All:</td>
+<td><%= booking_all_confirmed %></td>
+  </tr>   
+<tr>
+  <td colspan=3><h5>New Bookings by Day</h5></td>
 </tr>
 
 <tr>
@@ -28,7 +36,7 @@
   </tr>  
  
 <tr>
-  <td colspan=3><h4>New Bookings by Week</h4></td>
+  <td colspan=3><h5>New Bookings by Week</h5></td>
 </tr>
 
 <tr>
@@ -43,7 +51,7 @@
     </tr> 
   
     <tr>
-      <td colspan=3><h4>New Bookings by Month</h4></td>
+      <td colspan=3><h5>New Bookings by Month</h5></td>
     </tr>
 
     <tr>
@@ -54,7 +62,7 @@
     <tr><td></td>
     <td>Last Month<br> (<%= (Date.today.last_month).beginning_of_month %> to <%= (Date.today.last_month).end_of_month %>):</td>
       <td><%= booking_made_in_this_month(Date.today.last_month) %></td>
-        </tr> 
+        </tr>      
 
 </table>
 
@@ -63,7 +71,7 @@
 <table class="table">
  
 <tr>
-  <td colspan=3><h4>Bookings Cancelled by Day</h4></td>
+  <td colspan=3><h5>Bookings Cancelled by Day</h5></td>
 </tr>
 
 <tr>
@@ -79,7 +87,7 @@
   </tr>  
  
 <tr>
-  <td colspan=3><h4>Bookings Cancelled by Week</h4></td>
+  <td colspan=3><h5>Bookings Cancelled by Week</h5></td>
 </tr>
 
 <tr>
@@ -94,7 +102,7 @@
     </tr> 
   
     <tr>
-      <td colspan=3><h4>Bookings Cancelled by Month</h4></td>
+      <td colspan=3><h5>Bookings Cancelled by Month</h5></td>
     </tr>
 
     <tr>
@@ -109,4 +117,44 @@
 
 </table>
 
+</div>
+<div class="col-md-5">
+<h4>Restaurant Activity Report</h4>
+<br>
+
+<!-- Instructions: The fed table -->  
+
+<table class="table">
+ 
+<tr>
+  <td colspan=3><h5>Nailed it...</h5></td>
+</tr>
+
+<tr>
+ <td></td>
+ <td>Bookings Completed:</td>
+ <td><%= booking_completed_raw.count %></td>
+  </tr>
+  <tr>
+   <td></td>
+   <td>Booked Diners Fed:</td>
+   <td><%= get_sum_from_array_for_field(booking_completed_raw) %></td>
+    </tr>
+  
+  <tr>
+    <td colspan=3><h5>Still out there..</h5></td>
+  </tr>
+
+  <tr>
+   <td></td>
+   <td>Bookings Outstanding:</td>
+   <td><%= booking_outstanding_raw.count %></td>
+    </tr>
+    <tr>
+     <td></td>
+     <td>Booked Hungry People:</td>
+     <td><%= get_sum_from_array_for_field(booking_outstanding_raw) %></td>
+      </tr>
+  </table>
+</div>
 </div>

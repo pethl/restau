@@ -1,5 +1,13 @@
 module BookingsHelper
   
+  def booking_completed_raw
+    Booking.where("booking_date_time < ?", Date.yesterday.end_of_day).where(:status => "Confirmed")
+  end
+  
+  def booking_outstanding_raw
+    Booking.where("booking_date_time > ?", Date.yesterday.end_of_day).where(:status => "Confirmed")
+  end
+  
   def booking_made_on_this_day(date)
     Booking.where("created_at BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where(:status => "Confirmed").count
   end
@@ -10,6 +18,10 @@ module BookingsHelper
   
   def booking_made_in_this_month(date)
     Booking.where("created_at BETWEEN ? AND ?", date.beginning_of_month.beginning_of_day, date.end_of_month.end_of_day).where(:status => "Confirmed").count
+  end
+  
+  def booking_all_confirmed
+    Booking.where(:status => "Confirmed").count
   end
 
   def booking_cancelled_on_this_day(date)
