@@ -86,4 +86,6 @@ group :test do
 end
 gem 'newrelic_rpm'
 gem 'thin'
+gem 'prawn'
+gem 'prawn-table'
 
