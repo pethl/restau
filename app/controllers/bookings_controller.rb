@@ -44,6 +44,7 @@ class BookingsController < ApplicationController
       redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(@booking) }
       
       elsif @booking.is_a? String  
+        
         # try booking 15 mins earlier unless time is 5pm
              # b_time = @to_booking[:booking_date_time]
               b_time = @to_booking[:booking_date_time].hour.to_s + ":" + @to_booking[:booking_date_time].min.to_s
@@ -79,6 +80,8 @@ class BookingsController < ApplicationController
                       redirect_to edit_booking_path(@booking), notice: Error.get_msg(999999111)
                    end 
                #-------------------------------
+            elsif @booking.is_a? Integer
+              redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(@booking) }
             else
                redirect_to edit_booking_path(@booking), notice: Error.get_msg(999999110)
             end 
