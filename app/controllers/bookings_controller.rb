@@ -222,9 +222,10 @@ class BookingsController < ApplicationController
   
   def download_bookings_pdf
     @date = params[:value].to_date
-         @bookings_confirmed = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).where(:status => "Confirmed")
-         @bookings_cancelled = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).where(:status => "Cancelled")
-         
+         @bookings_confirmed_unsorted = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).where(:status => "Confirmed")
+          @bookings_confirmed = @bookings_confirmed_unsorted.sort_by { |hsh| hsh[:booking_date_time] }
+         @bookings_cancelled_unsorted = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).where(:status => "Cancelled")
+          @bookings_cancelled = @bookings_cancelled_unsorted.sort_by { |hsh| hsh[:booking_date_time] }
          respond_to do |format|
            format.pdf do
              pdf = Prawn::Document.new
