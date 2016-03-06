@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   get '/calendar' => 'bookings#calendar'
   get '/all_customers' => 'customers#all_customers'
   get '/all_bookings' => 'bookings#all_bookings'
+  get '/download_bookings_pdf' => "bookings#download_bookings_pdf"
   get '/mgmt_edit_booking' => 'bookings#mgmt_edit'
   get '/search_bookings' => 'bookings#search_bookings' 
   get '/cashfloats_validate' => 'cashfloats#validate'   
