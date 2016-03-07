@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160228183518) do
+ActiveRecord::Schema.define(version: 20160307205752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,6 +143,9 @@ ActiveRecord::Schema.define(version: 20160228183518) do
     t.decimal  "safe_float",                  precision: 6, scale: 2
     t.decimal  "till_float_main",             precision: 6, scale: 2
     t.decimal  "till_float_bar",              precision: 6, scale: 2
+    t.integer  "eve_full_diners"
+    t.integer  "day_full_diners"
+    t.integer  "afternoon_full_diners"
   end
 
   create_table "restaurants", force: :cascade do |t|

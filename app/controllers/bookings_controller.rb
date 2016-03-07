@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
   
-  before_action :logged_in_user, only: [:index, :create, :basic_report, :calendar, :mgmt_edit]
+  before_action :logged_in_user, only: [:index, :create, :mgmt_edit, :download_bookings_pdf, :all_bookings, :basic_report, :calendar, :search_bookings, :availability]
   before_action :set_booking, only: [:show, :edit, :update, :destroy, :mgmt_edit]
   
   def all_bookings
@@ -226,6 +226,13 @@ class BookingsController < ApplicationController
        Rails.logger.debug("in calendar_b_group: #{@bookings_by_date}")
   end
   
+  def availability
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_month.beginning_of_day, @date.end_of_month.end_of_day).where(:status => "Confirmed")
+    @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}  
+       Rails.logger.debug("in calendar_b_group: #{@bookings_by_date}")  
+  end
+  
   def download_bookings_pdf
     @date = params[:value].to_date
          @bookings_confirmed_unsorted = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).where(:status => "Confirmed")
@@ -238,43 +245,42 @@ class BookingsController < ApplicationController
              pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n\n", size: 10
              pdf.text "Confirmed bookings for: " + @bookings_confirmed.first.booking_date_time.strftime('%d %b, %Y'), size: 20, style: :bold
              pdf.text "\n", size: 10
-             pdf.text "This document contains confidential customer information, do not leave on display, dispose of carefully.\n", size: 10, style: :italic
              
              table_data = Array.new
-             table_data << ["Time", "Name", "Contact", "Child?", "Source", "Arrived?"]
+             table_data << ["Time", "Name", "Diners", "Child Seat?", "Table Number", "Notes"]
              @bookings_confirmed.each do |booking|
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.phone+"\n"+booking.email, booking.child_friendly.to_s, booking.source, " "]
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.child_friendly.to_s, " ", " "]
              end
              pdf.table(table_data) do 
-               self.width = 520 
+               self.width = 500
                self.cell_style = { :inline_format => true, size: 10 } 
                self.row_colors = ["DDDDDD", "FFFFFF"]
                self.header = true
                
                row(0).font_style = :bold
                
-               columns(0).width = 36
+               columns(0).width = 50
+               columns(0).align = :center
                columns(1).font_style = :bold
-               columns(1).width = 135
-               columns(2).width = 175 
-               columns(3).width = 42
+               columns(1).width = 160
+               columns(2).width = 40 
+               columns(2).align = :center
+               columns(3).width = 50
                columns(3).align = :center
-               columns(4).width = 68
-               columns(4).align = :center
-              # columns(5).width = 45
-              columns(5).align = :center
+               columns(4).width = 52
+               
              end
              
              pdf.text "\n\n", size: 10
              pdf.text "Cancelled bookings for: "+ @bookings_confirmed.first.booking_date_time.strftime('%d %b, %Y'), size: 20, style: :bold 
              
              table_data = Array.new
-             table_data << ["When Cancelled?","Time", "Name", "Contact"]
+             table_data << ["When Cancelled?","Time", "Name"]
              @bookings_cancelled.each do |booking|
-                 table_data << [booking.cancelled_at.strftime('%H:%M, %d %b'), booking.booking_date_time.strftime('%H:%M'), booking.name, booking.phone+"\n"+booking.email]
+                 table_data << [booking.cancelled_at.strftime('%H:%M, %d %b'), booking.booking_date_time.strftime('%H:%M'), booking.name]
              end
              pdf.table(table_data) do 
-               self.width = 435 
+               self.width = 260 
                self.cell_style = { :inline_format => true, size: 10 } 
                self.row_colors = ["DDDDDD", "FFFFFF"]
                self.header = true
@@ -284,7 +290,7 @@ class BookingsController < ApplicationController
                columns(1).width = 40
                columns(2).font_style = :bold
                columns(2).width = 120 
-               columns(3).width = 175
+               
               end
              
           #   pdf.text "Bookings total " + @bookings.count +"\n", size: 16, style: :bold
