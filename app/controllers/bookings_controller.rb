@@ -76,7 +76,10 @@ class BookingsController < ApplicationController
                     if @booking.is_a? String
                       msg = "Sorry we do not have a table within 15 mins +/- this time. Please try earlier or later."
                       redirect_to static_pages_booking_enquiry_path, :flash => { :warning => msg }
-                   else
+                    elsif @booking.is_a? Integer
+                      redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(@booking) }
+                    else
+           
                       redirect_to edit_booking_path(@booking), notice: Error.get_msg(999999111)
                    end 
                #-------------------------------
