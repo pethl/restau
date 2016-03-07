@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   get '/download_jpg' => 'static_pages#download_jpg'
   get '/basic_report' => 'bookings#basic_report'
   get '/calendar' => 'bookings#calendar'
+  get '/availability' => 'bookings#availability'
   get '/all_customers' => 'customers#all_customers'
   get '/all_bookings' => 'bookings#all_bookings'
   get '/download_bookings_pdf' => "bookings#download_bookings_pdf"
