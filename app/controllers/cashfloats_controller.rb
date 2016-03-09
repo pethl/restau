@@ -6,23 +6,19 @@ class CashfloatsController < ApplicationController
   def validate
   @cashfloat = Cashfloat.find(params[:id]) 
   comment = (params[:float_comment])
-  Rails.logger.debug("__________comment: #{comment}")
       
       if @cashfloat.float_gap == 0 
-        Rails.logger.debug("__________in first_gap: #{@cashfloat.float_gap}")
         @cashfloat.completed = "Completed - OK"
         @cashfloat.float_comment = (params[:float_comment])
         @cashfloat.save
         redirect_to daily_checks_today_path, notice: "Float check completed successfully."
         
       elsif (@cashfloat.float_gap != 0) && !comment.blank?
-        Rails.logger.debug("__________in second_gap: #{@cashfloat.float_comment}")
         @cashfloat.completed = "Completed - Not balanced"
         @cashfloat.float_comment = (params[:float_comment])
         @cashfloat.save
         redirect_to daily_checks_today_path, notice: "Float check completed, float not balanced and reason saved."
       else
-        Rails.logger.debug("__________in thirs: #{@cashfloat.float_gap}")
         redirect_to edit_cashfloat_path(@cashfloat), :flash => { :warning => "Float does not match target, please give reasons." }
       end
     

@@ -27,7 +27,9 @@
      <% else %> 
      
      <% if @date.month != date.month %>
-       <% else %>  
+       <% elsif date < Date.today %>
+       
+          <% else %> 
          
          <% if [1,2].include? date.wday %>
            <b>Closed</b>
