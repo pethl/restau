@@ -20,18 +20,29 @@
    
    <% if @bookings_by_date[date] %>
 <br>
-     <small><font color=#9ACD32>Bookings:
-     <b><%= @bookings_by_date[date].count %></font></b>
-     <br> 
-     <font color=#33CC33>Diners: 
-     <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %>
-     </font></small></b>
      
+     <% if date < Date.today %>
+       
+       <small><font color=#B0B0B0>Bookings:
+       <b><%= @bookings_by_date[date].count %></font></b>
+       <br><font color=#A0A0A0>Diners: 
+       <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %>
+       </font></small></b>
+     
+       <% else %>
+       
+       <small><font color=#9ACD32>Bookings:
+       <b><%= @bookings_by_date[date].count %></font></b>
+       <br><font color=#33CC33>Diners: 
+       <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %>
+       </font></small></b>
+       
+       <% end %>
+    
     <%= form_tag(bookings_path, :method => "get", id: "search-form", :value => date) do %>
       <input id="search" name="search" type="hidden" value=<%= date %> >
-     
-      <small><center>  <%= submit_tag "go" %></small>
-    <% end %>
+      <small><center><%= submit_tag "go" %></small>
+      <% end %>
       
    <% end %>
  <% end %>

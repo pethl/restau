@@ -223,14 +223,14 @@ class BookingsController < ApplicationController
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_month.beginning_of_day, @date.end_of_month.end_of_day).where(:status => "Confirmed")
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}  
-       Rails.logger.debug("in calendar_b_group: #{@bookings_by_date}")
+      
   end
   
   def availability
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_month.beginning_of_day, @date.end_of_month.end_of_day).where(:status => "Confirmed")
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}  
-       Rails.logger.debug("in calendar_b_group: #{@bookings_by_date}")  
+       
   end
   
   def download_bookings_pdf
@@ -292,9 +292,7 @@ class BookingsController < ApplicationController
                columns(2).width = 120 
                
               end
-             
-          #   pdf.text "Bookings total " + @bookings.count +"\n", size: 16, style: :bold
-             
+            
              send_data pdf.render, filename: 'bookings.pdf', type: 'application/pdf', :disposition => 'inline'
            end
          end
