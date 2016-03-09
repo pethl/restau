@@ -19,7 +19,7 @@ Error.create(ref: '999999108', msg: 'We are sorry, we already have a number of l
 Error.create(ref: '999999109', msg: 'Sorry, there has been a system error. Please re-try.', desc: 'Validation - Booking enquiry. Non-specific fault, system error.')
 Error.create(ref: '999999110', msg: 'We are fully booked at your requested time, but we do have a table 15 mins earlier.', desc: 'Confirmation - Booking Enquiry - Table available 15 mins earlier.')
 Error.create(ref: '999999111', msg: 'We are fully booked at your requested time, but we do have a table 15 mins later.', desc: 'Confirmation - Booking Enquiry - Table available 15 mins later.')
-Error.create(ref: '999999112', msg: 'Bookings for today cannot be made after 17:15.', desc: 'Validation - Booking enquiry Booking for today cannot be made after 17:15.')
+Error.create(ref: '999999112', msg: 'Online bookings cannot be made for same day. We aim to keep tables free for walk-ups each day, but try to avoid peak times.', desc: 'Validation - Booking enquiry Booking for today cannot be made online.')
 Error.create(ref: '999999113', msg: 'The information you have entered does not match your booking, please try again or get in touch via our website form.', desc: 'Error given when customer tries to cancel booking but information given doesnot match booking phone or email.')
 Error.create(ref: '999999114', msg: 'Please enter phone number OR email used to confirm this booking. Your booking has not been cancelled.', desc: 'Error given when user tries to cancel a booking but has not entered any data.')
 Error.create(ref: '999999115', msg: 'The restaurant does not open until March 9th, 2016. Please try to book after this date.', desc: 'Customer tried to book before March 9th 2016.')

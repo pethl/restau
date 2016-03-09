@@ -32,8 +32,8 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999115")
         end
     
-    #3) check to ensure booking for TODAY is completed before 17:15
-      if (params[:booking_date]).to_date == Date.today && Time.now > "17:15:00"
+    #3) check to ensure booking is not for TODAY 
+      if (params[:booking_date]).to_date == Date.today
         return Error.get_msg("999999112") 
       end
     
@@ -53,10 +53,7 @@ class Booking < ActiveRecord::Base
          ([17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("999999105")      
      end   
-     
-    
    end
-  
   
   # CREATE A BOOKING OBJECT FROM FORM RAW PARAMS  
   def self.format_booking(params)
