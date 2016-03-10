@@ -247,9 +247,9 @@ class BookingsController < ApplicationController
              pdf.text "\n", size: 10
              
              table_data = Array.new
-             table_data << ["Time", "Name", "Diners", "Child Seat?", "Table Number", "Notes"]
+             table_data << ["Time", "Name", "Diners", "Table Number", "Notes"]
              @bookings_confirmed.each do |booking|
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.child_friendly.to_s, " ", " "]
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " "]
              end
              pdf.table(table_data) do 
                self.width = 500
@@ -267,7 +267,6 @@ class BookingsController < ApplicationController
                columns(2).align = :center
                columns(3).width = 50
                columns(3).align = :center
-               columns(4).width = 52
                
              end
              
