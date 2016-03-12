@@ -31,22 +31,25 @@ task :purge_held_bookings => :environment do
   task :send_booking_reminder => :environment do
     puts "\n"
      puts "----------------------SEND_BOOKING_REMINDER:START-------------------------"
-    
+     
      log = ActiveSupport::Logger.new('log/send_booking_reminder.log')
          start_time = Time.now
          log.info "-----------Started at #{start_time}---------------------"
-    
-     puts "_____Send a booking reminder email to everyone with a booking tomorrow."
-     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.tomorrow.beginning_of_day, Date.tomorrow.end_of_day).where("status = ?", "Confirmed")
+     
+     puts "_____Send a booking reminder email to everyone with a booking tomorrow+2.day."
+     date = Date.tomorrow+2.day
+         log.info "Booking reminders date #{date}"
+         
+     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed")
      reminders_count = @bookings.count
      puts "_____Booking records requiring reminder - count #{reminders_count}" 
-    
+     
      if reminders_count > 0
      @bookings.each.with_index(1) do |booking, index|
              log.info "#{index}/#{reminders_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners}"
          end
        end
-    
+     
      puts "_____Customer booking reminders for tomorrow have been sent"
      end_time = Time.now
          duration = (start_time - end_time) / 1.minute
