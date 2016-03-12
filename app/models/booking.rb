@@ -52,7 +52,18 @@ class Booking < ActiveRecord::Base
        if ([0].include? (params[:booking_date]).to_date.wday) &&
          ([17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("999999105")      
-     end   
+     end  
+     
+     #7) check to ensure booking is not between 2pm and 5pm on sat
+        if ([6].include? (params[:booking_date]).to_date.wday) &&
+          ([14,15,16].include? (params[:booking_time_hour]).to_i)
+         return Error.get_msg("999999116")      
+      end 
+      
+      #8) check to ensure booking is not 9.30pm on any day
+         if ((params[:booking_time_hour])== "21" && (params[:booking_time_min])=="30")
+          return Error.get_msg("999999117")      
+       end   
    end
   
   # CREATE A BOOKING OBJECT FROM FORM RAW PARAMS  
