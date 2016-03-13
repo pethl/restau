@@ -16,4 +16,4 @@ development:
 test:
   adapter: postgresql
   database: restau_test
-  host: localhost  
+  host: localhost
