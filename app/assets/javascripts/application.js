@@ -10,7 +10,6 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require chartkick.js
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.js
@@ -21,5 +20,6 @@
 //= require bootstrap/carousel
 //= require bootstrap/tooltip
 //= require bootstrap/popover
+//= require chartkick.js
 //= require turbolinks
 //= require_tree .
