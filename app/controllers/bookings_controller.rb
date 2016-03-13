@@ -5,6 +5,7 @@ class BookingsController < ApplicationController
   
   def all_bookings
     @bookings = Booking.all
+    @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
   end
   
   def search_bookings
@@ -16,7 +17,7 @@ class BookingsController < ApplicationController
        @bookings = Booking.all_search(params[:booking])
              if @bookings.any?
                params[:booking]= []
-               @bookings
+               @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
              else
                params[:booking]= []
                @bookings = 0

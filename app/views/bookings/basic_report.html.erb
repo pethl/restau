@@ -64,12 +64,16 @@
   </tr>  
   
   </table>
-  
+  <h6>Number of bookings made by customers each day</h6>
   <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
   <%= line_chart [
     {name: "Confirmed", data: Booking.where(status: "Confirmed").group_by_day(:created_at).count},
     {name: "Cancelled", data: Booking.where(status: "Cancelled").group_by_day(:created_at).count}
   ], label: "Bookings made by day", max: 240 %>
+  <br>
+  <h6>Number of bookings for restaurant per day</h6>
+  <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
+  <%= column_chart Booking.where(status: "Confirmed").group_by_day(:booking_date_time).count %>
   
   </div>
   </div>
