@@ -3,158 +3,73 @@
   <%= render 'layouts/sidebar' %>
   </div>
 
-<div class="row">
-<div class="col-md-4">
-<h4>Booking Activity Report</h4>
-<br>
-
-<!-- Instructions: The new bookings table -->  
-
-<table class="table">
-<tr>
-  <td colspan=3><h5>Total Confirmed Bookings</h5></td>
-</tr>        
-<tr>
-<td></td>
-<td>All:</td>
-<td><%= booking_all_confirmed %></td>
-  </tr>   
-<tr>
-  <td colspan=3><h5>New Bookings by Day</h5></td>
-</tr>
-
-<tr>
- <td></td>
- <td>Today (<%= Date.today%>):</td>
- <td><%= booking_made_on_this_day(Date.today) %></td>
-  </tr>
-
-<tr>
- <td></td>
- <td>Yesterday (<%= Date.yesterday %>):</td>
- <td><%= booking_made_on_this_day(Date.yesterday) %></td>
-  </tr>  
  
-<tr>
-  <td colspan=3><h5>New Bookings by Week</h5></td>
-</tr>
+  <div class="col-md-10">
+  <br>
 
-<tr>
- <td></td>
- <td>This Week<br> (<%= Date.today.beginning_of_week %> to <%= Date.today.end_of_week %>):</td>
- <td><%= booking_made_in_this_week(Date.today) %></td>
-  </tr>  
+  <table class="table">
   <tr>
-  <td></td>
-  <td>Last Week<br> (<%= (Date.today-7.days).beginning_of_week %> to <%= (Date.today-7.days).end_of_week %>):</td>
-  <td><%= booking_made_in_this_week(Date.today-7.days) %></td>
-    </tr> 
+    <th></th>
+    <th style="text-align:center" colspan=2>Total Bookings</th>
+    <th style="text-align:center" colspan=2>Completed Bookings</th>
+    <th style="text-align:center" colspan=2>Outstanding Bookings</th>
+  </tr>
   
-    <tr>
-      <td colspan=3><h5>New Bookings by Month</h5></td>
-    </tr>
-
-    <tr>
+  <tr style="text-align:center">
     <td></td>
-    <td>This Month<br> (<%= Date.today.beginning_of_month %> to <%= Date.today.end_of_month %>):</td>
-    <td><%= booking_made_in_this_month(Date.today) %></td>
-      </tr>  
-    <tr><td></td>
-    <td>Last Month<br> (<%= (Date.today.last_month).beginning_of_month %> to <%= (Date.today.last_month).end_of_month %>):</td>
-      <td><%= booking_made_in_this_month(Date.today.last_month) %></td>
-        </tr>      
-
-</table>
-
-<!-- Instructions: The cancelled bookings table -->  
-
-<table class="table">
- 
-<tr>
-  <td colspan=3><h5>Bookings Cancelled by Day</h5></td>
-</tr>
-
-<tr>
- <td></td>
- <td>Today (<%= Date.today%>):</td>
- <td><%= booking_cancelled_on_this_day(Date.today) %></td>
-  </tr>
-
-<tr>
- <td></td>
- <td>Yesterday (<%= Date.yesterday %>):</td>
- <td><%= booking_cancelled_on_this_day(Date.yesterday) %></td>
+    <td colspan=2><h5><%= booking_all_confirmed %></td>
+    <td colspan=2><h5><%= booking_completed_raw.count %></td>
+    <td colspan=2><h5><%= booking_outstanding_raw.count %></td>
+    
   </tr>  
- 
-<tr>
-  <td colspan=3><h5>Bookings Cancelled by Week</h5></td>
-</tr>
-
-<tr>
- <td></td>
- <td>This Week<br> (<%= Date.today.beginning_of_week %> to <%= Date.today.end_of_week %>):</td>
- <td><%= booking_cancelled_in_this_week(Date.today) %></td>
-  </tr>  
-  <tr>
-  <td></td>
-  <td>Last Week<br> (<%= (Date.today-7.days).beginning_of_week %> to <%= (Date.today-7.days).end_of_week %>):</td>
-  <td><%= booking_cancelled_in_this_week(Date.today-7.days) %></td>
-    </tr> 
   
-    <tr>
-      <td colspan=3><h5>Bookings Cancelled by Month</h5></td>
-    </tr>
-
-    <tr>
+  <tr style="text-align:center">
     <td></td>
-    <td>This Month<br> (<%= Date.today.beginning_of_month %> to <%= Date.today.end_of_month %>):</td>
-    <td><%= booking_cancelled_in_this_month(Date.today) %></td>
-      </tr>  
-    <tr><td></td>
-    <td>Last Month<br> (<%= (Date.today.last_month).beginning_of_month %> to <%= (Date.today.last_month).end_of_month %>):</td>
-      <td><%= booking_cancelled_in_this_month(Date.today.last_month) %></td>
-        </tr> 
-
-</table>
-
-</div>
-<div class="col-md-5">
-<h4>Restaurant Activity Report</h4>
-<br>
-
-<!-- Instructions: The fed table -->  
-
-<table class="table">
- 
-<tr>
-  <td colspan=3><h5>Nailed it...</h5></td>
-</tr>
-
-<tr>
- <td></td>
- <td>Bookings Completed:</td>
- <td><%= booking_completed_raw.count %></td>
-  </tr>
-  <tr>
-   <td></td>
-   <td>Booked Diners Fed:</td>
-   <td><%= get_sum_from_array_for_field(booking_completed_raw) %></td>
-    </tr>
+    <td colspan=2><%= get_sum_from_array_for_field(booking_all_confirmed_raw) %> people</td>
+    <td colspan=2><%= get_sum_from_array_for_field(booking_completed_raw) %> people</td>
+    <td colspan=2><%= get_sum_from_array_for_field(booking_outstanding_raw) %> people</td>
+  </tr>  
   
-  <tr>
-    <td colspan=3><h5>Still out there..</h5></td>
-  </tr>
-
-  <tr>
-   <td></td>
-   <td>Bookings Outstanding:</td>
-   <td><%= booking_outstanding_raw.count %></td>
-    </tr>
-    <tr>
-     <td></td>
-     <td>Booked Hungry People:</td>
-     <td><%= get_sum_from_array_for_field(booking_outstanding_raw) %></td>
-      </tr>
   </table>
-</div>
-</div>
+  <br>
+  <table class="table">
+  <tr>
+    <th style="text-align:center"></th>
+    <th style="text-align:center"><font color=#ffff66>Today</th>
+    <th style="text-align:center"><font color=#ffff66>Yesterday</th>
+    <th style="text-align:center"><font color=#ffcc00>This Week</th>
+    <th style="text-align:center"><font color=#ffcc00>Last Week</th>
+    <th style="text-align:center"><font color=#ff9933>This Month</th>
+    <th style="text-align:center"><font color=#ff9933>Previous Month</th>
+  </tr>
+  
+  <tr style="text-align:center">
+    <td><b>Confirmed</td>
+    <td><font color=#ffff66><%= booking_made_on_this_day(Date.today) %></td>
+    <td><font color=#ffff66><%= booking_made_on_this_day(Date.yesterday) %></td>
+    <td><font color=#ffcc00><%= booking_made_in_this_week(Date.today) %></td>
+    <td><font color=#ffcc00><%= booking_made_in_this_week(Date.today-7.days) %></td>
+    <td><font color=#ff9933><%= booking_made_in_this_month(Date.today) %></td>
+    <td><font color=#ff9933><%= booking_made_in_this_month(Date.today.last_month) %></td>
+  </tr>  
+  
+  <tr style="text-align:center">
+    <td><b>Cancelled</td>
+    <td><font color=#ffff66><%= booking_cancelled_on_this_day(Date.today) %></td>
+    <td><font color=#ffff66><%= booking_cancelled_on_this_day(Date.yesterday) %></td>
+    <td><font color=#ffcc00><%= booking_cancelled_in_this_week(Date.today) %></td>
+    <td><font color=#ffcc00><%= booking_cancelled_in_this_week(Date.today-7.days) %></td>
+    <td><font color=#ff9933><%= booking_cancelled_in_this_month(Date.today) %></td>
+    <td><font color=#ff9933><%= booking_cancelled_in_this_month(Date.today.last_month) %></td>
+  </tr>  
+  
+  </table>
+  
+  <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
+  <%= line_chart [
+    {name: "Confirmed", data: Booking.where(status: "Confirmed").group_by_day(:created_at).count},
+    {name: "Cancelled", data: Booking.where(status: "Cancelled").group_by_day(:created_at).count}
+  ], label: "Bookings made by day", max: 240 %>
+  
+  </div>
+  </div>

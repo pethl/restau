@@ -88,4 +88,6 @@ gem 'newrelic_rpm'
 gem 'thin'
 gem 'prawn'
 gem 'prawn-table'
+gem 'groupdate'
+gem "chartkick"
 
