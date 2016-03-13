@@ -23,6 +23,10 @@ module BookingsHelper
   def booking_all_confirmed
     Booking.where(:status => "Confirmed").count
   end
+  
+  def booking_all_confirmed_raw
+    Booking.where(:status => "Confirmed")
+  end
 
   def booking_cancelled_on_this_day(date)
     Booking.where("cancelled_at BETWEEN ? AND ?", date.beginning_of_day.beginning_of_day, date.end_of_day.end_of_day).where(:status => "Cancelled").count

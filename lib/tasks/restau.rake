@@ -85,19 +85,18 @@ namespace :restau do
      end 
      
      task :get_bookings_by_day => :environment do
-       puts "\n"
-       puts "----------------------BOOKINGS_REPORT:START-------------------------"
+       puts "\n----------------------BOOKINGS_REPORT:START-------------------------"
       
-        start_date =Date.new(2016,02,13)
-        end_date = Date.today
-        i = start_date
-     unless i == end_date
+        @start_date = Date.new(2016,02,13)
+        @end_date = Date.today
+        i = @start_date
+        
+     while i != @end_date do
        puts "#{i} - #{Booking.where("created_at BETWEEN ? AND ?", i.beginning_of_day, i.end_of_day).where("status = ?", "Confirmed").count}"
        i = i+1.day
      end
         
-       puts "----------------------BOOKINGS_REPORT:END-------------------------"  
-       puts "\n"
+       puts "----------------------BOOKINGS_REPORT:END-------------------------\n"  
       end 
 
 end
