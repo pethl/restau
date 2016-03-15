@@ -40,6 +40,22 @@ module BookingsHelper
     Booking.where("cancelled_at BETWEEN ? AND ?", date.beginning_of_month.beginning_of_day, date.end_of_month.end_of_day).where(:status => "Cancelled").count
   end
   
+  def booking_people_count_by_day
+    @start_date = Date.new(2016,03,04)
+    @end_date = Date.today+6.month
+    i = @start_date
+    @array = []
+    
+ while i != @end_date do
+   @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", i.beginning_of_day, i.end_of_day).where("status = ?", "Confirmed")
+   people = get_sum_from_array_for_field(@bookings)
+   @array += [[i.strftime('%Y-%m-%d'), people]]
+   i = i+1.day
+   Rails.logger.debug("in function: #{@array}")
+ end
+ return @array
+  end
+  
   
   def booking_count_by_day(date)
     i = 0

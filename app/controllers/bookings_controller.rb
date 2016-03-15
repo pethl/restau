@@ -50,7 +50,7 @@ class BookingsController < ApplicationController
              # b_time = @to_booking[:booking_date_time]
               b_time = @to_booking[:booking_date_time].hour.to_s + ":" + @to_booking[:booking_date_time].min.to_s
               b_day = @to_booking[:booking_date_time].wday
-              if (([3,4].include? b_day) &&(b_time=="17:0")) || (([5,6,0].include? b_day) && (b_time=="12:0"))
+              if (([3,4,5,6].include? b_day) &&(b_time=="17:0")) || (([5,6,0].include? b_day) && (b_time=="12:0"))
                   # do not change the booking time
               else
                @to_booking[:booking_date_time] = (@to_booking[:booking_date_time]-15.minutes)
