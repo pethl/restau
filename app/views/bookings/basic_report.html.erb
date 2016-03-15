@@ -74,6 +74,10 @@
   <h6>Number of bookings for restaurant per day</h6>
   <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
   <%= column_chart Booking.where(status: "Confirmed").group_by_day(:booking_date_time).count %>
+  <br>
+  <h6>Number of people booked per day</h6>
+  <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
+  <%= column_chart booking_people_count_by_day %>
   
   </div>
   </div>
