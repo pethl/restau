@@ -37,7 +37,7 @@ namespace :restau do
           log.info "-----------Started at #{start_time}---------------------"
       
       puts "_____Send a booking reminder email to everyone with a booking tomorrow+2.day."
-      date = Date.tomorrow+2.day
+      date = Date.tomorrow
           log.info "Booking reminders date #{date}"
           
       @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed")
