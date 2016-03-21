@@ -33,7 +33,7 @@ task :purge_held_bookings => :environment do
      puts "----------------------SEND_BOOKING_REMINDER:START-------------------------"
      
      puts "_____Send a booking reminder email to everyone with a booking tomorrow+2.day."
-     date = Date.tomorrow
+     date = Date.tomorrow+1.day
          
      @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed")
      reminders_count = @bookings.count
