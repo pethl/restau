@@ -14,7 +14,7 @@
 
      <%= f.collection_select :restaurant_id, Restaurant.all, :id, :name %>
     <%= f.datetime_select :booking_date_time, :minute_step => 15 %>
-    <%= f.select :number_of_diners, options_for_select(1..12, f.object.number_of_diners ) %>
+    <%= f.select :number_of_diners, options_for_select(1..10, f.object.number_of_diners ) %>
     <%= f.text_field :name, placeholder: "Customer Name" %>
     <%= f.text_field :phone, placeholder: "Customer Phone (if unknown enter 0000)" %>
     <%= f.text_field :email, value: "hangfirebarry@gmail.com" %>
