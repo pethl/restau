@@ -5,13 +5,19 @@
 <!-- Instructions: This is the menu section. -->  
 
    <div class="col-md-3" style="padding-top:10px;">
-    <h6><b><font color=#9ACD32>PLEASE NOTE</font></b></h6>
-    <h6>We only book tables for half of our restaurant
-    to make sure we have plenty of room for walk-in customers. 
-    <br><br>We recommend booking if you're a larger group (over 6 people), have access needs or have children. 
-    <br><br><%= link_to "Click here to see availability before you book", availability_path, :style => "color:orange"  %>
-     
-     </div></h6>
+   
+    <h6>We reserve a small number of tables for walk-in customers.
+ 
+    <br> <br><br><b><font color=#9ACD32>PLEASE NOTE</font></b>
+    <br>
+    <br>It is unlikely we will be able to accomodate walk-in groups of 6 or more.
+    <br><br>
+    The largest group booking is no more than 10.
+    <br><br>
+    In order to feed as many of you as possible, we will usually need your table back after 2 hours.
+    <br><br><%= link_to "BOOKING CALENDAR", availability_path, :class => "btn btn-warning", :style=>'color:#FFFFFF;'  %>
+    
+      </div></h6>
 
 
    <!-- Instructions: This is the table booking section. -->  
