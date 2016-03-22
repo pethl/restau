@@ -1,0 +1,12 @@
+<html>
+  <body>
+    <p>Hi  <%= @booking.name %>,</p>
+    <p>This email is to say thanks for coming to visit us at Hang Fire Southern Kitchen, Barry at  <%= @booking.booking_date_time.strftime('%H:%M') %> on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.
+    <p>We would really like to hear about your visit. If you have a few minutes and would like to share your feedback, click here and complete our short survey.<>
+    <p><b><%= link_to "Complete Feedback Survey", booking_url(@booking) %></b>.<br>
+    
+    <p>All feedback, good and bad, is read and shared with staff so that we can make Hang Fire Southern Kitchen a better place.</p>
+    <p>Thanks for your time.</p> 
+     <p><b><i>The Hang Fire Southern Kitchen Team</i></b></p>
+  </body>
+</html>

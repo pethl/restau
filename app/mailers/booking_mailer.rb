@@ -36,4 +36,11 @@ class BookingMailer < ActionMailer::Base
     end
   end
   
+  def booking_feedback_request_customer(booking)
+    @booking = Booking.find(booking)
+     if @booking
+      mail(to: @booking[:email], subject: "Hang Fire feedback request for: #{@booking.name}")
+    end
+  end
+  
 end
