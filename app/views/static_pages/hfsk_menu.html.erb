@@ -3,17 +3,19 @@
 <%= render 'static_pages/side_welcome_open_hours'%>
    
 <!-- Instructions: This is the menu section. -->  
+<h6><center>
+Because all our food is bought fresh, prices may vary to reflect changing market costs.
+</h6>
 
    <div class="col-md-4">
-   <br>
-
-    <h6> <i class="fa fa-file-pdf-o"></i>
-     <%= link_to 'Sample Main Menu', download_jpg_url, style: 'color:#FFFFFF;' %></strong><br><br>
-     </h6>
-     <p>
-     Our prices average £5 for appetisers,<br> £13 for main courses and £4 for desserts.
-     </p>
+   <h5><center>Sample<b> Lunch Menu</h5>
+      <%= image_tag "LUNCH_MENU_SAMPLE.pdf", :class => "menu_img" %>
      </div>
+
+     <div class="col-md-4">
+      <h5><center>Sample<b> Evening Menu</h5>
+        <%= image_tag "MAIN_MENU_SAMPLE.pdf", :class => "menu_img" %>      
+       </div>
 
 
  
