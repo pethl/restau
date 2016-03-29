@@ -21,7 +21,9 @@
    <% if @bookings_by_date[date] %>
 <br>
      
-     <% if date < Date.today %>
+     <% if @date.month != date.month %>
+       
+      <% elsif date < Date.today %>
        
        <small><font color=#B0B0B0>Bookings:
        <b><%= @bookings_by_date[date].count %></font></b>
@@ -43,6 +45,26 @@
       <input id="search" name="search" type="hidden" value=<%= date %> >
       <small><center><%= submit_tag "go" %></small>
       <% end %>
+      
+       <% else %>
+         <% if  [1,2].include? date.wday%>
+           
+             <% elsif @date.month != date.month %>
+           
+             <% elsif date < Date.today %>
+             <br>
+             <small><font color=#B0B0B0>Bookings:
+             <b>0</font></b>
+             <br><font color=#A0A0A0>Diners: <b>0</font></small></b>
+             
+             <% else %>
+     
+             <br>
+             <small><font color=#FFA500>Bookings:
+             <b>0</font></b>
+             <br><font color=#FFD700>Diners: <b>0</font></small></b>
+       
+             <% end %>
       
    <% end %>
  <% end %>
