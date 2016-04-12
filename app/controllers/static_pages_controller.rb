@@ -35,19 +35,19 @@ class StaticPagesController < ApplicationController
       @customer = Customer.new
   end
   
-  def download_pdf
+  def download_lunch_pdf
     send_file(
-      "#{Rails.root}/public/HangFireSouthernKitchen_SampleMenu.pdf",
-      filename: "HangFireSouthernKitchen_SampleMenu.pdf",
+      "#{Rails.root}/public/HF_LUNCH_SAMPLE.pdf",
+      filename: "HF_LUNCH_SAMPLE.pdf",
       type: "application/pdf"
     )
   end
   
-  def download_jpg
+  def download_evening_pdf
     send_file(
-      "#{Rails.root}/public/HFSK_Sample_mains.jpg",
-      filename: "HFSK_Sample_mains.jpg",
-      type: "application/jpg"
+      "#{Rails.root}/public/HF_SAMPLE_MENU_EVENING.pdf",
+      filename: "HF_SAMPLE_MENU_EVENING.pdf",
+      type: "application/pdf"
     )
   end
 
