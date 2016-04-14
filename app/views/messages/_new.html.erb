@@ -15,10 +15,12 @@
   <% end %>
   
   <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
+  <tr><td colspan="3">Please fill in your details here and we'll get back to you quicker than it takes to smoke a brisket. 
+   </td></tr>
   <tr><td style="width: 5%"></td><td style="width: 25%"></td><td style="width: 65%"></td><td style="width: 5%"></td></tr>
- <tr><td></td><td>Name</td><td><%= f.text_field :name, :style => "width: 220px;", :placeholder => " full name please!"  %></td><td></td></tr>
- <tr><td></td><td>Phone</td><td><%= f.text_field :phone, :style => "width: 220px;", :placeholder => " (optional)"  %></td><td></td></tr>
- <tr><td></td><td>Email</td><td> <%= f.text_field :email, :style => "width: 220px;" %></td><td></td></tr>
+ <tr><td></td><td>Name</td><td><%= f.text_field :name, :style => "width: 220px;", :placeholder => " full name"  %></td><td></td></tr>
+ <tr><td></td><td>Phone</td><td><%= f.text_field :phone, :style => "width: 220px;", :placeholder => " (optional, but it really helps)"  %></td><td></td></tr>
+ <tr><td></td><td>Email</td><td> <%= f.text_field :email, :style => "width: 220px;", :placeholder => " please enter your correct email"  %></td><td></td></tr>
  <tr><td></td><td>Subject</td><td><%= f.select :subject, options_for_select([["select subject", ""], "Amend My Booking", "Accessibility Query", "Dietary Query", "Press Query", "General Question"]), {}, class:"form-control input-sm" %></td><td></td></tr>
  <tr><td></td><td>Message</td><td><%= f.text_field :message, :style => "width: 220px; height: 40px"  %></td><td></td></tr>
  <tr><td></td><td></td><td>

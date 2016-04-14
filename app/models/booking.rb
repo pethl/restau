@@ -50,13 +50,13 @@ class Booking < ActiveRecord::Base
   
     #6) check to ensure booking is within opening hours sunday
        if ([0].include? (params[:booking_date]).to_date.wday) &&
-         ([17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
+         ([16,17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("999999105")      
      end  
      
-     #7a) check to ensure booking is not between 2pm and 5pm on fri 
+     #7a) check to ensure booking is not between 3pm and 5pm on fri 
         if ([5].include? (params[:booking_date]).to_date.wday) &&
-          ([14,15,16].include? (params[:booking_time_hour]).to_i)
+          ([15,16].include? (params[:booking_time_hour]).to_i)
          return Error.get_msg("999999116")      
       end 
       
@@ -73,11 +73,19 @@ class Booking < ActiveRecord::Base
             ([30].include? (params[:booking_time_min]).to_i)
            return Error.get_msg("999999116")      
         end 
+        
+        #7d) check to ensure booking is not at 2.30pm on fri
+           if ([5].include? (params[:booking_date]).to_date.wday) &&
+             ([14].include? (params[:booking_time_hour]).to_i) &&
+             ([30].include? (params[:booking_time_min]).to_i)
+            return Error.get_msg("999999116")      
+         end 
       
-      #8) check to ensure booking is not 9.30pm on any day
+      #8) check to ensure booking is not 9.30pm on any day (NOTE as of 14.apr.2016 this is irrelevant as 9.00 has been removed from clock - leaving here as a safety valve)
          if ((params[:booking_time_hour])== "21" && (params[:booking_time_min])=="30")
           return Error.get_msg("999999117")      
-       end  
+       end 
+        
        
 #       #9) check to ensure booking is not 5.00pm on wed, thurs
 #       if ([3,4].include? (params[:booking_date]).to_date.wday) &&
@@ -86,12 +94,12 @@ class Booking < ActiveRecord::Base
 #        return Error.get_msg("999999118")      
 #     end    
      
-       #10) check to ensure booking is not 12.00pm on fri, sat
-       if ([5,6,0].include? (params[:booking_date]).to_date.wday) &&
-         ([12].include? (params[:booking_time_hour]).to_i) &&
-         ([0].include? (params[:booking_time_min]).to_i)
-        return Error.get_msg("999999118")      
-     end    
+#       #10) check to ensure booking is not 12.00pm on fri, sat
+#       if ([5,6,0].include? (params[:booking_date]).to_date.wday) &&
+#         ([12].include? (params[:booking_time_hour]).to_i) &&
+#         ([0].include? (params[:booking_time_min]).to_i)
+#        return Error.get_msg("999999118")      
+#     end    
    end
   
   # CREATE A BOOKING OBJECT FROM FORM RAW PARAMS  
