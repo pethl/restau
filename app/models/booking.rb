@@ -176,8 +176,10 @@ class Booking < ActiveRecord::Base
       
       # TOTAL DINERS COUNT FOR CURRENT TIME
       @diners_at_same_start_time = 0
-    #  @bookings_at_same_start_time = Booking.where(:booking_date_time => @booking[:booking_date_time])
-      @bookings_at_same_start_time = Booking.where("booking_date_time = ? AND status = ?", @booking[:booking_date_time], "Confirmed")
+    
+      a = @booking[:booking_date_time]
+      # @bookings_at_same_start_time = Booking.where("booking_date_time = ? AND status = ?", @booking[:booking_date_time], "Confirmed")
+      @bookings_at_same_start_time = Booking.where("booking_date_time BETWEEN ? AND ?", a,(a+15.minutes)).where(:status => "Confirmed")
 
       @diners_at_same_start_time = @bookings_at_same_start_time.to_a.sum do |booking_at_same_start_time|
               booking_at_same_start_time.number_of_diners
