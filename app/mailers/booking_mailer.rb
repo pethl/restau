@@ -1,5 +1,5 @@
 class BookingMailer < ActionMailer::Base
-  default from: 'hangfirebarry@gmail.com'
+  default from: 'contact@hangfiresouthernkitchen.com'
 
   def booking_confirmation_customer(booking)
     @booking = booking

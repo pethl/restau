@@ -1,5 +1,5 @@
 class MessageMailer < ApplicationMailer
-  default from: 'hangfirebarry@gmail.com'
+  default from: 'contact@hangfiresouthernkitchen.com'
 
   def send_message(message)
     @message = message
