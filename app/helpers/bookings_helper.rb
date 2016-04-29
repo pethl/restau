@@ -145,4 +145,17 @@ module BookingsHelper
     return the_sum
   end
   
+  # TOTAL DINERS COUNT FOR CURRENT TIME (no of diners arriving at this moment+15 mins to start reservation)
+  # this function is used on the staff booking by day pages - 3 variants midweek, fri/sat, sunday
+  def get_total_diners_for_current_time(date_and_time)
+  @diners_at_same_start_time = 0
+  @bookings_at_same_start_time = []
+
+  @bookings_at_same_start_time = Booking.where("booking_date_time BETWEEN ? AND ?", date_and_time,(date_and_time+15.minutes)).where(:status => "Confirmed")
+  @diners_at_same_start_time = @bookings_at_same_start_time.to_a.sum do |booking_at_same_start_time|
+          booking_at_same_start_time.number_of_diners
+        end
+        return @diners_at_same_start_time
+  end
+  
 end
