@@ -1,0 +1,37 @@
+
+  <%= bootstrap_form_for(@function, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
+  
+  <% if @function.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@function.errors.count, "error") %> prohibited this function from being saved:</h2>
+
+      <ul>
+      <% @function.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <%= f.text_field :customer_name %>
+    <%= f.phone_field :phone %>
+    <%= f.email_field :email %>
+    <%= f.select :status, options_for_select(Function::STATUS_TYPES, f.object.status) %>
+    <%= f.date_select :event_date %>
+    <%= f.text_field :est_party_size, :disabled => true, :label => "Estimated party size" %>
+    <%= f.select :party_size, options_for_select(10..40, f.object.party_size ), :label => "Actual party size" %>
+    <%= f.text_area :message %>
+    <%= f.select :event_type, options_for_select(Function::EVENT_TYPES, f.object.status) %>
+    <%= f.text_field :est_time, :disabled => true, :label => "Estimated time" %>
+    <%= f.time_select :event_start_time, :label => "Start time" %>
+    <%= f.time_select :event_end_time, :label => "End time" %>
+    <%= f.number_field :deposit_amount %>
+    <%= f.select(:deposit_paid, Function::DEPOSITPAID_TYPES) %>
+    <%= f.select(:t_and_c_signed, Function::TANDC_TYPES, :label => "Ts & Cs signed?") %>
+    <%= f.text_field :menu_choice, :label => "Menu selected" %>
+
+  <div class="col-sm-offset-2 col-sm-10">
+   <div class="actions">
+      <%= f.submit class: "btn btn-primary" %>
+   </div></div>
+  
+<% end %>

@@ -15,7 +15,12 @@ class StaticPagesController < ApplicationController
   end
   
   def booking_enquiry
-    
+  end
+  
+  def function_room_enquiry
+      if @function 
+      else @function = Function.new
+      end
   end
   
   def hfsk_home
