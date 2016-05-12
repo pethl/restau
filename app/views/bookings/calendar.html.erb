@@ -16,35 +16,33 @@
 </h2>
 
  <%= calendar @date do |date| %>
-   <%= date.day %>
-   
+
+   <%= form_tag(bookings_path, :method => "get", id: "search-form", :value => date) do %>
+     <input id="search" name="search" type="hidden" value=<%= date %> >
+     <small><%= submit_tag date.day %></small>
+     <% end %>
    <% if @bookings_by_date[date] %>
-<br>
      
      <% if @date.month != date.month %>
        
       <% elsif date < Date.today %>
-       
-       <small><font color=#B0B0B0>Bookings:
-       <b><%= @bookings_by_date[date].count %></font></b>
-       <br><font color=#A0A0A0>Diners: 
-       <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %>
-       </font></small></b>
+       <center>
+       <h6><small><font color=#A0A0A0>Diners: 
+       <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %></b>
+       <br>
+       <%= get_bookings_over_seven(@bookings_by_date[date]) %></font>
+       </small></h6>
      
        <% else %>
-       
-       <small><font color=#9ACD32>Bookings:
-       <b><%= @bookings_by_date[date].count %></font></b>
-       <br><font color=#33CC33>Diners: 
-       <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %>
-       </font></small></b>
+        <center>
+       <h6><small><font color=#33CC33>Diners: 
+       <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %></b>
+       </font>
+       <br><font color=#3333CC>
+       <%= get_bookings_over_seven(@bookings_by_date[date]) %></font>
+       </small></h6>
        
        <% end %>
-    
-    <%= form_tag(bookings_path, :method => "get", id: "search-form", :value => date) do %>
-      <input id="search" name="search" type="hidden" value=<%= date %> >
-      <small><center><%= submit_tag "go" %></small>
-      <% end %>
       
        <% else %>
          <% if  [1,2].include? date.wday%>

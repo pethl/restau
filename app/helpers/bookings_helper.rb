@@ -158,4 +158,18 @@ module BookingsHelper
         return @diners_at_same_start_time
   end
   
+    # THIS FUNCTION RETURNS ALL BOOKINGS OF 7 OR OVER AS DELIMITED CHAR STRING, i.e. 7-9-10-8
+    def get_bookings_over_seven(one_day_of_bookings)
+      @bookings = one_day_of_bookings
+      return_string = "-"
+      find_values = [7,8,9,10]
+      
+      @bookings.each do |booking|
+        if find_values.include?(booking.number_of_diners)
+          return_string = return_string+booking.number_of_diners.to_s+"-"
+        end
+      end
+       return return_string
+    end
+  
 end
