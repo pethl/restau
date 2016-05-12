@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :functions
   resources :cashfloats do
       collection { post :validate }
     end
@@ -35,7 +36,6 @@ Rails.application.routes.draw do
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
-
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -47,8 +47,9 @@ Rails.application.routes.draw do
   get '/help' => 'static_pages#help'
   get '/day_picker' => 'static_pages#day_picker'
   get '/booking_enquiry' => 'static_pages#booking_enquiry'
+  get '/function_room_enquiry' => 'static_pages#function_room_enquiry'
   get '/download_lunch_pdf' => 'static_pages#download_lunch_pdf'
-   get '/download_evening_pdf' => 'static_pages#download_evening_pdf'
+  get '/download_evening_pdf' => 'static_pages#download_evening_pdf'
   get '/basic_report' => 'bookings#basic_report'
   get '/calendar' => 'bookings#calendar'
   get '/availability' => 'bookings#availability'
@@ -71,6 +72,7 @@ Rails.application.routes.draw do
   get "static_pages/help"
   get "static_pages/day_picker"
   get "static_pages/booking_enquiry"
+  get "static_pages/function_room_enquiry"
   get "static_pages/booking_confirm"  
   
   get "static_pages/hfsk_home"
@@ -80,8 +82,6 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_get_in_touch"
   get "static_pages/hfsk_menu"
   get "sessions/new"
-
-  
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
