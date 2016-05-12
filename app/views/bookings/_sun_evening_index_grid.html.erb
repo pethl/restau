@@ -40,6 +40,19 @@
 <td><small>30</td>
 <td><small>45</td>
 </tr>
+<tr><td><i>New diners per half hour</i></td>
+
+<% hash_of_times=[[12,00],[12,30],[13,00],[13,30],[14,00],[14,30],[15,00],[15,30],[16,00],[16,30],[17,00],[17,30],[18,00],[18,30]] %> 
+ <% hash_of_times.each do |time| %>
+
+   <% booking = @bookings.first.booking_date_time.change({ hour: time.first, min: time.second })%>
+   <% if get_total_diners_for_current_time(booking) >= max_diners_at_current_time(@bookings.first[:restaurant_id]) %>
+     <td colspan="2" class="danger" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
+   <% else %>
+     <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
+  <% end %>
+ <% end %>
+ </tr>
 
   <% @bookings.each do |booking| %>
    
@@ -163,27 +176,10 @@
               <% a = has_booking(booking.booking_date_time, 18, 45, booking.number_of_diners) %>
               <% if a == false  %>
                <td></td><% else %><td class="success"><small><%= a.second %></td><% end %>
- 
-  
    </tr>
   
    <% end %>
-   <tr><td><i>New diners per half hour</i></td>
-    <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 12, min: 00 })) %></td>
-    <td colspan="2" class="active" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 12, min: 30 })) %></td>
-    <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 13, min: 00 })) %></td>
-    <td colspan="2" class="active" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 13, min: 30 })) %></td>
-    <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 14, min: 00 })) %></td>
-    <td colspan="2" class="active"><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 14, min: 30 })) %></td>
-    <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 15, min: 00 })) %></td>
-    <td colspan="2" class="active"><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 15, min: 30 })) %></td>
-    <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 16, min: 00 })) %></td>
-    <td colspan="2" class="active"><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 16, min: 30 })) %></td>
-    <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 17, min: 00 })) %></td>
-    <td colspan="2" class="active"><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 17, min: 30 })) %></td>
-    <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 18, min: 00 })) %></td>
-    <td colspan="2" class="active"><small><center><%= get_total_diners_for_current_time( @bookings.first.booking_date_time.change({ hour: 18, min: 30 })) %></td>
-    </tr>
+   
    <tbody>
  </table> 
  

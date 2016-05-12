@@ -13,6 +13,8 @@ module ApplicationHelper
     Table.where(:restaurant_id => restaurant_id).count
   end
   
-  
+  def max_diners_at_current_time(restaurant_id)
+    Rdetail.where(:restaurant_id => restaurant_id)[0].max_diners_at_current_time
+ end
 
 end

@@ -255,6 +255,70 @@ class BookingsController < ApplicationController
            end
          end
        end
+       
+       def download_bookings_evening_pdf #this is exactly the same as above except time filter is evening only for bookings and cancellations
+         @date = params[:value].to_date
+              @bookings_confirmed_unsorted = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day.change({ hour: 16, min: 00 }), @date.end_of_day).where(:status => "Confirmed")
+               @bookings_confirmed = @bookings_confirmed_unsorted.sort_by { |hsh| hsh[:booking_date_time] }
+              @bookings_cancelled_unsorted = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day.change({ hour: 16, min: 00 }), @date.end_of_day).where(:status => "Cancelled")
+               @bookings_cancelled = @bookings_cancelled_unsorted.sort_by { |hsh| hsh[:booking_date_time] }
+              respond_to do |format|
+                format.pdf do
+                  pdf = Prawn::Document.new
+                  pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n\n", size: 10
+                  pdf.text "Confirmed bookings for: " + @bookings_confirmed.first.booking_date_time.strftime('%d %b, %Y'), size: 20, style: :bold
+                  pdf.text "\n", size: 10
+             
+                  table_data = Array.new
+                  table_data << ["Time", "Name", "Diners", "Table Number", "Notes"]
+                  @bookings_confirmed.each do |booking|
+                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " "]
+                  end
+                  pdf.table(table_data) do 
+                    self.width = 500
+                    self.cell_style = { :inline_format => true, size: 10 } 
+                    self.row_colors = ["DDDDDD", "FFFFFF"]
+                    self.header = true
+               
+                    row(0).font_style = :bold
+               
+                    columns(0).width = 50
+                    columns(0).align = :center
+                    columns(1).font_style = :bold
+                    columns(1).width = 160
+                    columns(2).width = 40 
+                    columns(2).align = :center
+                    columns(3).width = 50
+                    columns(3).align = :center
+               
+                  end
+             
+                  pdf.text "\n\n", size: 10
+                  pdf.text "Cancelled bookings for: "+ @bookings_confirmed.first.booking_date_time.strftime('%d %b, %Y'), size: 20, style: :bold 
+             
+                  table_data = Array.new
+                  table_data << ["When Cancelled?","Time", "Name"]
+                  @bookings_cancelled.each do |booking|
+                      table_data << [booking.cancelled_at.strftime('%H:%M, %d %b'), booking.booking_date_time.strftime('%H:%M'), booking.name]
+                  end
+                  pdf.table(table_data) do 
+                    self.width = 260 
+                    self.cell_style = { :inline_format => true, size: 10 } 
+                    self.row_colors = ["DDDDDD", "FFFFFF"]
+                    self.header = true
+               
+                    row(0).font_style = :bold
+                    columns(0).width = 100
+                    columns(1).width = 40
+                    columns(2).font_style = :bold
+                    columns(2).width = 120 
+               
+                   end
+            
+                  send_data pdf.render, filename: 'bookings.pdf', type: 'application/pdf', :disposition => 'inline'
+                end
+              end
+            end     
 
   private
     # Use callbacks to share common setup or constraints between actions.
