@@ -37,7 +37,9 @@
    }
    </style>
  <br>
+  <% if logged_in? %> 
     <%= render 'layouts/messages' %>
+    <% end %>
    <%= yield %>
    
    </div></div></div></div>

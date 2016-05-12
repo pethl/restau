@@ -24,7 +24,8 @@
     <div class="col-md-4">
     <br>
     <table class="table">
-    <tr><td><center>Online bookings cannot be made <br>for same day reservations.</td></tr>
+    <tr><td><center><small>Online bookings cannot be made <br>for same day reservations.</td></tr>
+    <tr><td> <%= render 'layouts/messages' %></td></tr>
     <tr><td>
     <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
   
