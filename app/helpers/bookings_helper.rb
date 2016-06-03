@@ -150,7 +150,7 @@ module BookingsHelper
     
     @records_lunch = []
     @records.each do |record|
-      if record.booking_date_time < @records.first.booking_date_time.change({ hour: 16, min: 00 })
+      if record.booking_date_time < @records.first.booking_date_time.change({ hour: 16, min: 10 })
          @records_lunch << record
        end
     end
@@ -167,7 +167,7 @@ module BookingsHelper
     
     @records_evening = []
     @records.each do |record|
-      if record.booking_date_time > @records.first.booking_date_time.change({ hour: 16, min: 00 })
+      if record.booking_date_time > @records.first.booking_date_time.change({ hour: 16, min: 10 })
          @records_evening << record
        end
     end
