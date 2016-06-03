@@ -137,10 +137,43 @@ module BookingsHelper
   end
   
   def get_sum_from_array_for_field(records)
-   
     @records = records
     the_sum = @records.to_a.sum do |record|
             record.number_of_diners
+          end
+    return the_sum
+  end
+  
+  def get_sum_from_array_for_field_lunch(records)
+    @records = records
+    Rails.logger.debug("records_lunch date: #{@records.first.inspect}")
+    
+    @records_lunch = []
+    @records.each do |record|
+      if record.booking_date_time < @records.first.booking_date_time.change({ hour: 16, min: 00 })
+         @records_lunch << record
+       end
+    end
+     
+    the_sum = @records_lunch.to_a.sum do |record_lunch|
+            record_lunch.number_of_diners
+          end
+    return the_sum
+  end
+  
+  def get_sum_from_array_for_field_evening(records)
+    @records = records
+    Rails.logger.debug("records_evening date: #{@records.first.inspect}")
+    
+    @records_evening = []
+    @records.each do |record|
+      if record.booking_date_time > @records.first.booking_date_time.change({ hour: 16, min: 00 })
+         @records_evening << record
+       end
+    end
+     
+    the_sum = @records_evening.to_a.sum do |record_evening|
+            record_evening.number_of_diners
           end
     return the_sum
   end

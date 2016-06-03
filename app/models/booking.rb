@@ -167,6 +167,7 @@ class Booking < ActiveRecord::Base
       end
       Rails.logger.debug("BOOKING_LOGING_bookings_at_current_time : #{@bookings_at_current_time.count}")  
       
+      
       # TOTAL DINERS COUNT FOR CURRENT BOOKING WINDOW
       @number_of_current_diners= 0
       @number_of_current_diners = @bookings_at_current_time.to_a.sum do |booking_at_current_time|
