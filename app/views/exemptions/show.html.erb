@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Exempt day:</strong>
+  <%= @exemption.exempt_day %>
+</p>
+
+<p>
+  <strong>Exempt message:</strong>
+  <%= @exemption.exempt_message %>
+</p>
+
+<%= link_to 'Edit', edit_exemption_path(@exemption) %> |
+<%= link_to 'Back', exemptions_path %>

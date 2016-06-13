@@ -10,7 +10,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Received</th>
+     
       <th>Status</th>
       <th>Date</th>
       <th>Name</th>
@@ -22,7 +22,7 @@
   <tbody>
     <% @functions.each do |function| %>
       <tr>
-       <td><%= function.created_at %></td>
+      
         <td><%= function.status %></td>
         <td><%= function.event_date %></td>
          <td><%= function.customer_name %></td>
@@ -38,4 +38,4 @@
 
 <br>
 
-<%= link_to 'New Function', new_function_path %>
+<h6><%= link_to 'Create a Function', new_function_path, style: 'color:#FFFFFF;' %></h6>

@@ -25,16 +25,16 @@ class FunctionsController < ApplicationController
   # POST /functions.json
   def create
     @function = Function.new(function_params)
+    
 
+    respond_to do |format|
       if @function.save
-        FunctionMailer.send_function_enquiry(@function).deliver_now
-        redirect_to @function, notice: 'Your enquiry has been sent! Thank you for contacting Hang Fire.' 
-            else
-              render 'static_pages/function_room_enquiry'
-      #  redirect => "static_pages/function_room_enquiry", collection:  @function
-       #  redirect_to controller: 'static_pages', action: 'function_room_enquiry', collection: @function
-       # render 'static_pages/function_room_enquiry'
-      
+        format.html { redirect_to @function, notice: 'Function Enquiry was successfully created.' }
+        format.json { render :show, status: :created, location: @function }
+      else
+        format.html { render :new }
+        format.json { render json: @function.errors, status: :unprocessable_entity }
+      end
     end
   end
 

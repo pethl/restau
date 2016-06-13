@@ -4,32 +4,28 @@
 
 <!-- Instructions: This is the menu section. -->  
 
-   <div class="col-md-3" style="padding-top:10px;">
+   <div class="col-md-7" style="padding-top:10px;">
 
-    <h5><b><font color=#9ACD32>HOW IT WORKS</font></b></h5>
+    <h5><b><font color=#9ACD32>Planning an event for 16+ people?</font></b></h5>
     <h6>
-    At Hang Fire Southern Kitchen restaurant we have a private function area called <b>The Engine Room</b>.
-    <br>
-    <br>This is available to book for larger parties of 16+.
+    The <i>Engine Room</i> is our dedicated space for private functions, available for hire on Wednesday and Thursday evenings.
+     <br><br>
+    
+    - <%= link_to 'Click here ', download_engine_tandc_pdf_url, style: 'color:#9ACD32;' %>to see our terms and conditions
     <br><br>
-    The room offers a fully serviced bar and carefully designed set-menus. 
+     
+    - <%= link_to 'Click here ', download_function_pdf_url, style: 'color:#9ACD32;' %>to see the Engine Room set menus
     <br><br>
-    To enquire about hosting your event with us, please fill in the form and we'll get back to you to discuss details.
+    For questions or bookings email us at <b>hangfirebarry@gmail.com</b>
+    <br><br>
+ </h6>
+
+   <!-- Instructions: This is the photo section. -->  
     
-   </div></h6>
+      
+     <%= image_tag "engine_room_1.JPG", :class => "photo_img3" %>
 
-
-   <!-- Instructions: This is the table booking section. -->  
-
-    <div class="col-md-4">
-    <center> <h4><strong>FUNCTION ROOM ENQUIRY</strong></h4>
-    
-     <%= render 'functions/new' %>
-    
-</div>
-
-
-
+  </div>
 
  
  

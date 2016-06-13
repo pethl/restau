@@ -1,28 +1,12 @@
-<%= render 'layouts/external_header' %>
-   
-<%= render 'static_pages/side_welcome_function_room'%>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
-<!-- Instructions: This is the function room enquiry confirmation section. -->  
+<div class="col-md-10">
 
-   <div class="col-md-8" style="padding-top:10px;">
+<h3> Function Room Enquiry</h3>
 
- <h2>Function Room Enquiry</h2>
- <br>
- <p><b><%= @function.customer_name %></b>, thank you for your enquiry.<br><br>
- We will get back to you soon to discuss availability and function details.<br>
- The contact details you gave are, EMAIL:<%= @function.email %>, PHONE:<%= @function.phone %>.
- <br><br>
- For your records, your enquiry was for:<br><br>
- Date: <font color=#ffff66><%= @function.event_date.strftime('%A, %d %B %Y') %></font><br>
- Prefered Time: <font color=#ffff66><%= @function.est_time %></font><br>
- Estimated Party Size: <font color=#ffff66><%= @function.est_party_size %></font><br>
- <br>
- <br>
- Regards,</p>
- <h5>HANG FIRE SOUTHERN KITCHEN</h5>
- 
- 
- 
  
  
   <% if logged_in? %> 
@@ -58,7 +42,7 @@
 </tr>
 <tr><td colspan= "3"></td>
 </tr>
-<tr><td colspan= "3">Customer Message: <%= @function.message %></td>
+<tr><td colspan= "3">Comments: <%= @function.message %></td>
 </tr>
 </table>
 

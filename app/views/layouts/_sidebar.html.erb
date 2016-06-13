@@ -1,6 +1,6 @@
 <br><br><br>
 
-<h6> <% if logged_in? %> 
+<h6><small> <% if logged_in? %> 
               Hi <%= current_user.name %>
               <br><br>
               <%= link_to "Log out", logout_path, method: "delete", style: 'color:#d3d3d3;' %><br>
@@ -26,10 +26,12 @@
               <%= link_to "All Bookings", all_bookings_path, style: 'color:#d3d3d3;'%>
               <br>
               <%= link_to "Make a Booking", new_booking_path, style: 'color:#d3d3d3;'%>
-                <br>
+              <br>
+              <%= link_to "Booking Exemptions", exemptions_path, style: 'color:#d3d3d3;'%>
+              <br>
               <%= link_to "Subscription List", customers_url, style: 'color:#d3d3d3;'%>
               <br>
-              <%= link_to "Staff", users_url, style: 'color:#d3d3d3;'%>
+              <%= link_to "System Users", users_url, style: 'color:#d3d3d3;'%>
               <br>
                <%= link_to "Function Room", functions_url, style: 'color:#d3d3d3;'%>
                <br>

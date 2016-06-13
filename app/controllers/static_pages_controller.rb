@@ -55,5 +55,21 @@ class StaticPagesController < ApplicationController
       type: "application/pdf"
     )
   end
+  
+  def download_function_pdf
+    send_file(
+      "#{Rails.root}/public/HF_ENGINE_ROOM_MENU_2016.pdf",
+      filename: "HF_ENGINE_ROOM_MENU_2016.pdf",
+      type: "application/pdf"
+    )
+  end
+  
+  def download_engine_tandc_pdf
+    send_file(
+      "#{Rails.root}/public/HF_ENGINE_ROOM_HIRE_T&Cs.pdf",
+      filename: "HF_ENGINE_ROOM_HIRE_T&Cs.pdf",
+      type: "application/pdf"
+    )
+  end
 
 end

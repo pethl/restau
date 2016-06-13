@@ -17,11 +17,11 @@
     <%= f.email_field :email %>
     <%= f.select :status, options_for_select(Function::STATUS_TYPES, f.object.status) %>
     <%= f.date_select :event_date %>
-    <%= f.text_field :est_party_size, :disabled => true, :label => "Estimated party size" %>
+    <%= f.select :est_party_size, options_for_select([["select size", ""], "15 - 20", "21 - 30", "31 - 40"], f.object.est_party_size,),:class=>"form-control input-lg"  %>
     <%= f.select :party_size, options_for_select(10..40, f.object.party_size ), :label => "Actual party size" %>
-    <%= f.text_area :message %>
+    <%= f.text_area :message, :label => "Comments" %>
     <%= f.select :event_type, options_for_select(Function::EVENT_TYPES, f.object.status) %>
-    <%= f.text_field :est_time, :disabled => true, :label => "Estimated time" %>
+    <%= f.select :est_time, options_for_select([["select time", ""], "Lunch", "Early evening", "Dinner"], f.object.est_time),:class=>"form-control input-lg"  %>
     <%= f.time_select :event_start_time, :label => "Start time" %>
     <%= f.time_select :event_end_time, :label => "End time" %>
     <%= f.number_field :deposit_amount %>

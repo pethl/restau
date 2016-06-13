@@ -1,0 +1,25 @@
+<%= form_for(@exemption) do |f| %>
+  <% if @exemption.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exemption.errors.count, "error") %> prohibited this exemption from being saved:</h2>
+
+      <ul>
+      <% @exemption.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :exempt_day %><br>
+    <%= f.date_select :exempt_day %>
+  </div>
+  <div class="field">
+    <%= f.label :exempt_message %><br>
+    <%= f.text_field :exempt_message %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

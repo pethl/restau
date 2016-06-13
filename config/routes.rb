@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :exemptions
   resources :functions
   resources :cashfloats do
       collection { post :validate }
@@ -50,6 +51,8 @@ Rails.application.routes.draw do
   get '/function_room_enquiry' => 'static_pages#function_room_enquiry'
   get '/download_lunch_pdf' => 'static_pages#download_lunch_pdf'
   get '/download_evening_pdf' => 'static_pages#download_evening_pdf'
+  get '/download_function_pdf' => 'static_pages#download_function_pdf'
+  get '/download_engine_tandc_pdf' => 'static_pages#download_engine_tandc_pdf'
   get '/basic_report' => 'bookings#basic_report'
   get '/calendar' => 'bookings#calendar'
   get '/availability' => 'bookings#availability'
