@@ -1,0 +1,14 @@
+<html>
+  <body>
+    <p>Requested Date <%= @function.event_date %></p>
+    <p>Requested Time <%= @function.est_time %></p>
+    <p>Estimated Party Size <%= @function.est_party_size %></p>
+
+    <p>Name: <%= @function.customer_name %></p>
+    <p>Email: <%= @function.email %></p>
+    <p>Phone: <%= @function.phone %></p>
+
+    <p>Messagefunction:<br><%= @function.message %></p>
+     <p>This enquiry was created by the customer at: <%= @function.created_at %></p>
+  </body>
+</html>

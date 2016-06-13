@@ -1,0 +1,41 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+
+<h2>Function Room Enquiries</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Received</th>
+      <th>Status</th>
+      <th>Date</th>
+      <th>Name</th>
+      <th>Party Size</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @functions.each do |function| %>
+      <tr>
+       <td><%= function.created_at %></td>
+        <td><%= function.status %></td>
+        <td><%= function.event_date %></td>
+         <td><%= function.customer_name %></td>
+        <td><%= function.est_party_size %></td>
+        <td><%= link_to 'Show', function %> : 
+        <%= link_to 'Edit', edit_function_path(function) %> : 
+        <%= link_to 'Destroy', function, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Function', new_function_path %>
