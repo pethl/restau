@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
-
-
+  before_action :logged_in_user, only: [:function_room_enquiry]
+ 
   def home
   end
   

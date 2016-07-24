@@ -20,29 +20,28 @@ class Dailybank < ActiveRecord::Base
     search_from = search[:from]
     search_to = search[:to]
    if !search_from.blank? && !search_to.blank?
+     if search_from < search_to
        where("effective_date BETWEEN ? AND ?", search_from, search_to).sort_by { |hsh| hsh[:effective_date] }
-        
-       end
+     else
+       return a=[]
+      end
+     else
+       return a=[]
+      end
     end
   
     def self.search_week(search)
      search_day = search[:day].to_date
     if !search_day.blank? 
         where("effective_date BETWEEN ? AND ?", search_day.beginning_of_week, search_day.end_of_week).sort_by { |hsh| hsh[:effective_date] }
-        
-        end
+      end
      end
      
      def self.search_month(search)
-       Rails.logger.debug("in search_month_params: #{search}")
       search_day = search[:month].to_date
-    
-     Rails.logger.debug("in search_begin: #{search_day.beginning_of_month}")
-      Rails.logger.debug("in search_end: #{search_day.end_of_month}")
      if !search_day.blank? 
-         where("effective_date BETWEEN ? AND ?", search_day.beginning_of_month, search_day.end_of_month).sort_by { |hsh| hsh[:effective_date] }
-        
+       @dailybanks = Dailybank.where("effective_date BETWEEN ? AND ?", search_day.beginning_of_month, search_day.end_of_month).sort_by { |hsh| hsh[:effective_date] }
          end
       end 
-  
+      
 end

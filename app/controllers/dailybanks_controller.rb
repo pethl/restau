@@ -1,20 +1,17 @@
 class DailybanksController < ApplicationController
-  before_action :set_dailybank, only: [:show, :edit, :update, :destroy]
-
+  before_action :logged_in_user, only: [:show, :edit, :history, :history_week, :history_month, :index, :update, :destroy]
+ before_action :set_dailybank, only: [:show, :edit, :update, :destroy]
+   
   def history
     @dailybanks = []
-
       #take params from search on History view, or if no search, return 0
       #send to model to apply SEARCH function, which retrieves matching records 
-     
        if params[:from]
          @dailybanks = Dailybank.search(params)
                if @dailybanks.any?
-                
-                # params= []
+                 # params= []
                  @dailybanks
-               
-             else
+                else
                  params= []
                  @dailybanks = 1
                end
@@ -26,17 +23,13 @@ class DailybanksController < ApplicationController
   
   def history_week
     @dailybanks = []
-
       #take params from search on History view, or if no search, return 0
       #send to model to apply SEARCH function, which retrieves matching records 
-     
        if params[:day]
          @dailybanks = Dailybank.search_week(params)
                if @dailybanks.any?
-                
-                # params= []
+               # params= []
                  @dailybanks
-               
              else
                  params= []
                  @dailybanks = 1
@@ -56,11 +49,11 @@ class DailybanksController < ApplicationController
        if params[:month]
          @dailybanks = Dailybank.search_month(params)
                if @dailybanks.any?
-                
-                # params= []
+                 # params= []
                  @dailybanks
-               
-             else
+                 @dailybanks_by_week = @dailybanks.group_by { |t| t.effective_date.strftime("%U") }
+       
+               else
                  params= []
                  @dailybanks = 1
                end
@@ -148,7 +141,7 @@ class DailybanksController < ApplicationController
     def run_calc_rules(dailybank)
      
       if (!dailybank.till_cash.blank? && !dailybank.till_float.blank? && !dailybank.card_payments.blank? && !dailybank.expenses.blank? )
-        dailybank.update_attribute(:actual_cash_total, ((dailybank.till_cash+dailybank.card_payments+dailybank.expenses)-dailybank.till_float))
+        dailybank.update_attribute(:actual_cash_total, ((dailybank.till_cash+dailybank.card_payments)-(dailybank.expenses+dailybank.till_float)))
       else
          Rails.logger.debug("in else: #{dailybank}")
        end

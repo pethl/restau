@@ -88,18 +88,6 @@
       </td>
  </table>
 
- <div class="field">
-  <b>Wet Takings</b><br>
-   <%= @dailybank.wet_takings %>
- </div>
- <div class="field">
- <b> Dry Takings</b><br>
-   <%= @dailybank.dry_takings %>
- </div>
- <div class="field">
-  <b> Merch Takings</b><br>
-   <%= @dailybank.merch_takings %>
- </div>
-
-<%= link_to 'Edit', edit_dailybank_path(@dailybank) %> |
-<%= link_to 'Back', dailybanks_path %>
+<%= link_to 'Edit', edit_dailybank_path(@dailybank) %> | 
+<%= link_to 'Back', dailybanks_path %> | 
+<%= link_to 'Search Dailybank', history_path %>

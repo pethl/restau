@@ -15,11 +15,11 @@
 <br>
 <%= form_tag history_week_path, method: :get, :class => "form-inline" do %>
 
-    <h6>Search by:
+    <h6><small>Search by:
     
      <input class="datepicker" data-provide='datepicker' id="search" name=[day] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Select any day in week" >
     
-  <button type="submit" class="btn btn-primary btn-md">Search for History</button>
+  <button type="submit" class="btn btn-primary btn-sm">Search</button>
 <% end %>
 <br><br>
 
