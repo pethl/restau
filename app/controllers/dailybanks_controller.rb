@@ -10,8 +10,10 @@ class DailybanksController < ApplicationController
        if params[:from]
          @dailybanks = Dailybank.search(params)
                if @dailybanks.any?
-                 params= []
+                
+                # params= []
                  @dailybanks
+               
              else
                  params= []
                  @dailybanks = 1
@@ -20,8 +22,54 @@ class DailybanksController < ApplicationController
          @dailybanks = 0
          params= []
        end
-     
   end
+  
+  def history_week
+    @dailybanks = []
+
+      #take params from search on History view, or if no search, return 0
+      #send to model to apply SEARCH function, which retrieves matching records 
+     
+       if params[:day]
+         @dailybanks = Dailybank.search_week(params)
+               if @dailybanks.any?
+                
+                # params= []
+                 @dailybanks
+               
+             else
+                 params= []
+                 @dailybanks = 1
+               end
+       else
+         @dailybanks = 0
+         params= []
+       end
+  end
+  
+  def history_month
+    @dailybanks = []
+
+      #take params from search on History view, or if no search, return 0
+      #send to model to apply SEARCH function, which retrieves matching records 
+     
+       if params[:month]
+         @dailybanks = Dailybank.search_month(params)
+               if @dailybanks.any?
+                
+                # params= []
+                 @dailybanks
+               
+             else
+                 params= []
+                 @dailybanks = 1
+               end
+       else
+         @dailybanks = 0
+         params= []
+       end
+  end
+  
   
   # GET /dailybanks
   # GET /dailybanks.json

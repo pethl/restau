@@ -8,18 +8,16 @@
 <h2>Daily Banking History</h2><br>
 
 <ul class="nav nav-tabs">
-  <li role="presentation" class="active"><%= link_to "By Day", history_path(@dailybanks) %></li>
-  <li role="presentation"><%= link_to "By Week", history_week_path %></li>
-  <li role="presentation"><%= link_to "By Month", history_month_path(@dailybanks) %></li>
+<li role="presentation"><%= link_to "By Day", history_path(@dailybanks) %></li>
+<li role="presentation" class="active"><%= link_to "By Week", history_week_path %></li>
+<li role="presentation"><%= link_to "By Month", history_month_path(@dailybanks) %></li>
 </ul>
 <br>
-
-<%= form_tag history_path, method: :get, :class => "form-inline" do %>
+<%= form_tag history_week_path, method: :get, :class => "form-inline" do %>
 
     <h6>Search by:
     
-     <input class="datepicker" data-provide='datepicker' id="search" name=[from] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Search From" >
-     <input class="datepicker" data-provide='datepicker' id="search" name=[to] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Search To" >
+     <input class="datepicker" data-provide='datepicker' id="search" name=[day] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Select any day in week" >
     
   <button type="submit" class="btn btn-primary btn-md">Search for History</button>
 <% end %>
