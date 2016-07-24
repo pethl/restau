@@ -1,6 +1,13 @@
-<h1>Editing Exemption</h1>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
+<div class="col-md-10">
+
+<h3>Edit Exemption Days</h3>
+<br>
 <%= render 'form' %>
 
-<%= link_to 'Show', @exemption %> |
-<%= link_to 'Back', exemptions_path %>
+<%= link_to 'Show', @exemption, style: 'color:#FFFFFF;' %> |
+<%= link_to 'Back', exemptions_path, style: 'color:#FFFFFF;' %>

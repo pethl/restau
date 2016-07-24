@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :dailybanks
   resources :exemptions
   resources :functions
   resources :cashfloats do
@@ -44,6 +45,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'static_pages#hfsk_home'
   
+   get '/history' => 'dailybanks#history'
   get '/home' => 'static_pages#home'
   get '/help' => 'static_pages#help'
   get '/day_picker' => 'static_pages#day_picker'

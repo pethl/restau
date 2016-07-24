@@ -1,0 +1,105 @@
+
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+<h2>Daily Takings</h2><br>
+<p>
+ <table class= "table">
+ <tr>
+ <td colspan="2"><b>Date: </b><%= @dailybank.effective_date %>
+</td>
+ <td>
+   <b>Status: </b><%= @dailybank.status %> 
+  </td>
+ <td>
+ <b>User: </b><%= User.where(id: @dailybank.user_id).name %>
+  </td>
+ </tr>
+ </table>
+ 
+  <table class= "table" style="text-align:right">
+  <tr>
+  <td><b>Till Cash</b><br>
+   <%= @dailybank.till_cash %>
+   </t>
+  <td><b>Till Float</b><br>
+   <%= @dailybank.till_float %>
+   </td>
+  <td> <b>Card Payments</b><br>
+   <%= @dailybank.card_payments %>
+   </td>
+  <td><b>Expenses</b><br>
+   <%= @dailybank.expenses %>
+   </td>
+  </tr> 
+  <tr>
+  <td colspan="3"></td>
+  <td><font color=#FFA500><b> Actual Cash Total </b><br>
+   <%= @dailybank.actual_cash_total %></td>
+   </tr>
+   </table>
+ 
+    <table class= "table" style="text-align:right">
+   <tr>
+   <td><b>Till Takings</b><br>
+   <%= @dailybank.till_takings %>
+    </td>
+   <td> <b>Vouchers Sold</b><br>
+   <%= @dailybank.vouchers_sold %>
+   <br>
+   <b>Vouchers Used</b><br>
+  <%= @dailybank.vouchers_used %>
+    </td>
+   <td><b>Deposit Sold</b><br>
+   <%= @dailybank.deposit_sold %><br>
+  <b>Deposit Used</b><br>
+  <%= @dailybank.deposit_used %>
+    </td>
+   <td>
+    </td>
+    <tr>
+   <td colspan="3"></td>
+   <td><font color=#FFA500><b>Till Takings</b><br>
+    <%= @dailybank.actual_till_takings %>
+    </td> 
+      </tr>
+    </table>
+ 
+  <table class= "table" style="text-align:right">
+  <tr>
+    <td colspan="1" style="width: 25%"></td>
+    
+    <td> <b>User Variance</b><br>
+     <%= @dailybank.user_variance %>
+     </td>
+    <td><font color=#FFA500> <b>Calculated Variance</b><br>
+     <%= @dailybank.calculated_variance %>
+     </td>
+     <td><b><font color=#FFA500>Variance Gap: </b><br>
+      <%= @dailybank.variance_gap %>
+      </td> 
+     </tr>
+     <td colspan="2"><br></td>
+     <td colspan="2"> <b>Variance Comment</b><br>
+      <%= @dailybank.varaince_comment %>
+      </td>
+ </table>
+
+ <div class="field">
+  <b>Wet Takings</b><br>
+   <%= @dailybank.wet_takings %>
+ </div>
+ <div class="field">
+ <b> Dry Takings</b><br>
+   <%= @dailybank.dry_takings %>
+ </div>
+ <div class="field">
+  <b> Merch Takings</b><br>
+   <%= @dailybank.merch_takings %>
+ </div>
+
+<%= link_to 'Edit', edit_dailybank_path(@dailybank) %> |
+<%= link_to 'Back', dailybanks_path %>

@@ -1,4 +1,5 @@
-<%= form_for(@exemption) do |f| %>
+<%= bootstrap_form_for(@exemption, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
+
   <% if @exemption.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@exemption.errors.count, "error") %> prohibited this exemption from being saved:</h2>
@@ -11,15 +12,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :exempt_day %><br>
+   
     <%= f.date_select :exempt_day %>
-  </div>
-  <div class="field">
-    <%= f.label :exempt_message %><br>
     <%= f.text_field :exempt_message %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  
+    <div class="col-sm-offset-2 col-sm-10">
+     <div class="actions">
+        <%= f.submit class: "btn btn-primary" %>
+     </div></div>
+    
 <% end %>

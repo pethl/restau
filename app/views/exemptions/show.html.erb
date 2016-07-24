@@ -1,5 +1,12 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
+<div class="col-md-10">
+
+<h3>Exemption Day</h3>
+<br>
 <p>
   <strong>Exempt day:</strong>
   <%= @exemption.exempt_day %>
@@ -9,6 +16,6 @@
   <strong>Exempt message:</strong>
   <%= @exemption.exempt_message %>
 </p>
-
-<%= link_to 'Edit', edit_exemption_path(@exemption) %> |
-<%= link_to 'Back', exemptions_path %>
+<br><br>
+<%= link_to 'Edit', edit_exemption_path(@exemption), style: 'color:#FFFFFF;'  %> |
+<%= link_to 'Back to All Exemptions', exemptions_path, style: 'color:#FFFFFF;'  %>

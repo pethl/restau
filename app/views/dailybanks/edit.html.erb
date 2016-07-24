@@ -4,10 +4,9 @@
 </div>
 
 <div class="col-md-10">
-
-<h3>New Exemption Days</h3>
-<br>
+<h2>Daily Takings</h2><br>
 
 <%= render 'form' %>
 
-<%= link_to 'Back to All Exemptions', exemptions_path, style: 'color:#FFFFFF;'  %>
+<%= link_to 'Show', @dailybank %> |
+<%= link_to 'Back', dailybanks_path %>

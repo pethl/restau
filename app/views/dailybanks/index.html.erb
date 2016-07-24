@@ -1,0 +1,49 @@
+
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+<h2>Daily Banking</h2><br>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>User</th>
+      <th>Date</th>
+      <th style="text-align:right">Cash</th>
+      <th style="text-align:right">Takings</th>
+      <th style="text-align:right">Variance Gap</th>
+      <th>User Comment</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dailybanks.each do |dailybank| %>
+      <tr>
+        <td><%= dailybank.status %></td>
+        <td><%= User.where(id: dailybank.user_id).first.name %></td>
+        <td><%= dailybank.effective_date.strftime('%a, %d %B %Y') %></td>
+        <td style="text-align:right"><%= dailybank.actual_cash_total %></td>
+        <td style="text-align:right"><%= dailybank.actual_till_takings %></td>
+        <td style="text-align:right"><%= dailybank.variance_gap %></td>
+        <td><%= dailybank.varaince_comment %></td>
+        
+        <% if dailybank.status == "Draft" %>
+        <td><%= link_to 'Details', edit_dailybank_path(dailybank) %></td>
+        <% else %>
+        <td><%= link_to 'Details', dailybank %></td>
+        <% end %>
+        <td><%= link_to 'Destroy', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dailybank', new_dailybank_path %> | 
+<%= link_to 'Search Dailybank', history_path %>

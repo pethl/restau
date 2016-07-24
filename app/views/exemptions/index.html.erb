@@ -1,8 +1,14 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
-<h1>Listing Exemptions</h1>
+<div class="col-md-10">
 
-<table>
+<h3>Booking Exemption Days</h3>
+<br>
+
+<table class="table">
   <thead>
     <tr>
       <th>Exempt day</th>
@@ -26,4 +32,4 @@
 
 <br>
 
-<%= link_to 'New Exemption', new_exemption_path %>
+<%= link_to 'New Exemption', new_exemption_path, style: 'color:#FFFFFF;' %>
