@@ -154,7 +154,7 @@ class BookingsController < ApplicationController
         BookingMailer.booking_confirmation_customer(@booking).deliver_now
         # BookingMailer.booking_confirmation_mgmt(@booking).deliver_now
       end
-        Customer.write_contact(@booking)
+        #Customer.write_contact(@booking)
         format.html { redirect_to @booking }
         format.json { render :show, status: :ok, location: @booking }
       else

@@ -100,6 +100,25 @@ namespace :restau do
          puts "----------------------REQUEST_FEEDBACK:END-------------------------"
          puts "\n"
        end   
+       
+       task :send_table_stats => :environment do
+         puts "\n"
+          puts "----------------------SEND_TABLE_STATS:START-------------------------"
+     
+          puts "_____Send a stats email to system admin weekly."
+          customer = Customer.all.count
+          confirmed = Booking.where(status: "Confirmed").count
+          cancelled = Booking.where(status: "Cancelled").count
+          
+          puts "#{customer}"
+          puts "#{confirmed}"
+          puts "#{cancelled}"
+          UserMailer.send_table_stats.deliver_now
+              
+          puts "_____Table stats have been sent"
+          puts "----------------------SEND_TABLE_STATS:END-------------------------"
+          puts "\n"
+        end   
       
 
 end
