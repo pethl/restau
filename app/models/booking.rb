@@ -54,6 +54,13 @@ class Booking < ActiveRecord::Base
         return Error.get_msg("999999105")      
      end  
      
+     #6b) check to ensure booking is not at 3.30pm on sun, last booking 3pm
+        if ([0].include? (params[:booking_date]).to_date.wday) &&
+          ([15].include? (params[:booking_time_hour]).to_i) &&
+          ([30].include? (params[:booking_time_min]).to_i)
+         return Error.get_msg("999999105")      
+      end 
+     
      #7a) check to ensure booking is not between 3pm and 5pm on fri 
         if ([5].include? (params[:booking_date]).to_date.wday) &&
           ([15,16].include? (params[:booking_time_hour]).to_i)
@@ -86,6 +93,14 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999117")      
        end 
         
+       #11) check to ensure booking is not 8.30pm on w,t,f,s if group size is 7 or more
+          if ([3,4,5,6].include? (params[:booking_date]).to_date.wday) &&
+            ([20].include? (params[:booking_time_hour]).to_i) &&
+            ([30].include? (params[:booking_time_min]).to_i)  &&
+            ([7,8,9,10].include? (params[:number_of_diners]).to_i)
+           return Error.get_msg("999999119")      
+        end 
+       
        
 #       #9) check to ensure booking is not 5.00pm on wed, thurs
 #       if ([3,4].include? (params[:booking_date]).to_date.wday) &&

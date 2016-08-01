@@ -10,7 +10,7 @@
 <div id="bookings">
 
 <h2 id="month">
-<% if @date.month == 3 %>
+<% if @date.month == 3 && @date.year == 2016 %>
   <% else %>
   <small><i>Click arrow to see previous month</i></small><%= link_to "<", date: @date.prev_month %>
   <% end %>
@@ -24,12 +24,17 @@
    <% opening = Date.new(2016,3,9)%>
    
   <% if date < opening %>
-     <% else %> 
+    
+    
+    <% elsif date > Date.new(2016,11,30) %>
+    
+    <small>Not yet taking bookings</small>
+     <% else %>
+    
+         <% if @date.month != date.month %>
+           <% elsif date < Date.today %>
      
-     <% if @date.month != date.month %>
-       <% elsif date < Date.today %>
-       
-          <% else %> 
+              <% else %> 
          
          <% if [1,2].include? date.wday %>
        <small>Closed</small>
