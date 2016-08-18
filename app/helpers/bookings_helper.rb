@@ -204,5 +204,72 @@ module BookingsHelper
       end
        return return_string
     end
+    
+    # THIS FUNCTION RETURNS ALL BOOKINGS OF 7 OR OVER AS an array
+    def get_bookings_over_seven_array(one_day_of_bookings)
+      @bookings = one_day_of_bookings
+      return_string = []
+      find_values = [7,8,9,10]
+      
+      @bookings.each do |booking|
+        if find_values.include?(booking.number_of_diners)
+          return_string << booking.number_of_diners
+        end
+      end
+       return return_string
+    end
+    
+    # THIS FUNCTION RETURNS TRUE IF A DATE HAS A BOOKING OF 9  OR MORE
+    def has_bookings_over_nine(one_day_of_bookings)
+      @bookings = one_day_of_bookings
+      @return_string= false
+      find_values = [9,10]
+      
+      @bookings.each do |booking|
+        if find_values.include?(booking.number_of_diners)
+          @return_string= true
+        else
+          @return_string= false
+        end
+      end
+       return @return_string
+    end
+    
+    # THIS FUNCTION FINDS AVAILABLE SPACES PER DAY, BUT ALSO CHECKS AGAINST 10,9,8,7 LIMITS TO PREVENT SHOWING CUSTOMERS SPACES THEY CANNOT BOOK
+    def get_available_space_sunday(bookings_by_day)
+      @bookings = bookings_by_day
+      return_hash = Hash.new
+      hash_of_times=[[12,00],[12,30],[13,00],[13,30],[14,00],[14,30],[15,00]]
+      hash_of_times.each do |time|
+      booking = @bookings.first.booking_date_time.change({ hour: time.first, min: time.second })
+        
+        if get_total_diners_for_current_time(booking) < max_diners_at_current_time(@bookings.first[:restaurant_id])
+         return_hash[booking.strftime("%H:%M")]= (max_diners_at_current_time(@bookings.first[:restaurant_id])- (get_total_diners_for_current_time(booking)))
+        else
+        end  
+      end
+      return return_hash
+    end
+    
+    # THIS FUNCTION FINDS AVAILABLE SPACES PER DAY, BUT ALSO CHECKS AGAINST 10,9,8,7 LIMITS TO PREVENT SHOWING CUSTOMERS SPACES THEY CANNOT BOOK
+    def get_available_space_sunday_adjusted(bookings_by_day)
+      @bookings = bookings_by_day
+      return_hash = Hash.new
+      hash_of_times=[[12,00],[12,30],[13,00],[13,30],[14,00],[14,30],[15,00]]
+      hash_of_times.each do |time|
+      booking = @bookings.first.booking_date_time.change({ hour: time.first, min: time.second })
+      current_big_tables = get_bookings_over_seven_array(@bookings)
+        
+        if get_total_diners_for_current_time(booking) < max_diners_at_current_time(@bookings.first[:restaurant_id])
+          unless ((max_diners_at_current_time(@bookings.first[:restaurant_id])-2)- (get_total_diners_for_current_time(booking)))<= 0
+            
+         return_hash[booking.strftime("%H:%M")]= (((max_diners_at_current_time(@bookings.first[:restaurant_id]))- (get_total_diners_for_current_time(booking)))-2)
+       end
+        else
+        end  
+      end
+      return return_hash
+   end
+    
   
 end

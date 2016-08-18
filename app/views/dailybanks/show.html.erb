@@ -4,90 +4,107 @@
 <%= render 'layouts/sidebar' %>
 </div>
 
-<div class="col-md-10">
-<h2>Daily Takings</h2><br>
+<div class="col-md-8">
+<h2>End of Day Review</h2><br>
 <p>
- <table class= "table">
+  <table class= "table" style="text-align:right">
  <tr>
- <td colspan="2"><b>Date: </b><%= @dailybank.effective_date %>
+ <td><b>Date: </b><%= @dailybank.effective_date.strftime('%a, %d %b %Y') %>
 </td>
  <td>
    <b>Status: </b><%= @dailybank.status %> 
   </td>
  <td>
- <b>User: </b><%= User.where(id: @dailybank.user_id).name %>
+ <b>User: </b><%= User.where(id: @dailybank.user_id).first.name %>
   </td>
- </tr>
- </table>
- 
-  <table class= "table" style="text-align:right">
-  <tr>
-  <td><b>Till Cash</b><br>
-   <%= @dailybank.till_cash %>
-   </t>
-  <td><b>Till Float</b><br>
-   <%= @dailybank.till_float %>
+  <td>
+  <b>Created </b><%= @dailybank.created_at.strftime('%H:%M')  %>
    </td>
-  <td> <b>Card Payments</b><br>
+ </tr>
+  <tr>
+  <td><b>Banking</b><br>
+   <%= @dailybank.banking %>
+   </td>
+  <td><b>Total Card</b><br>
    <%= @dailybank.card_payments %>
    </td>
   <td><b>Expenses</b><br>
    <%= @dailybank.expenses %>
    </td>
-  </tr> 
-  <tr>
-  <td colspan="3"></td>
-  <td><font color=#FFA500><b> Actual Cash Total </b><br>
+  <td><font color=#FFA500><b>Takings</b><br>
    <%= @dailybank.actual_cash_total %></td>
    </tr>
-   </table>
- 
-    <table class= "table" style="text-align:right">
-   <tr>
-   <td><b>Till Takings</b><br>
+    <tr>
+   <td><b>Total Sales</b><br>
    <%= @dailybank.till_takings %>
     </td>
    <td> <b>Vouchers Sold</b><br>
    <%= @dailybank.vouchers_sold %>
    <br>
    <b>Vouchers Used</b><br>
-  <%= @dailybank.vouchers_used %>
-    </td>
-   <td><b>Deposit Sold</b><br>
-   <%= @dailybank.deposit_sold %><br>
-  <b>Deposit Used</b><br>
-  <%= @dailybank.deposit_used %>
-    </td>
-   <td>
-    </td>
-    <tr>
-   <td colspan="3"></td>
-   <td><font color=#FFA500><b>Till Takings</b><br>
+   <%= @dailybank.vouchers_used %>
+   </td>
+   <td><b>Deposits Sold</b><br>
+   <%= @dailybank.deposit_sold %>
+   <br>
+   <b>Deposits Used</b><br>
+   <%= @dailybank.deposit_used %>
+   </td>
+   <td><font color=#FFA500><b>Expected Takings</b><br>
     <%= @dailybank.actual_till_takings %>
     </td> 
-      </tr>
+    </tr>
+    
+    <tr>
+   <td><b>User Variance</b><br>
+   <%= @dailybank.user_variance %>
+    </td>
+   <td><font color=#FFA500><b>System Variance</b><br>
+   <%= @dailybank.calculated_variance %>
+   </td>
+   <td>
+   </td>
+   <td>
+    </td> 
+    </tr>
     </table>
  
+  
+    <% if @dailybank.status== "Created" %>
+  
+   <% if @dailybank.variance_gap== 0%>
   <table class= "table" style="text-align:right">
   <tr>
-    <td colspan="1" style="width: 25%"></td>
-    
-    <td> <b>User Variance</b><br>
-     <%= @dailybank.user_variance %>
-     </td>
-    <td><font color=#FFA500> <b>Calculated Variance</b><br>
-     <%= @dailybank.calculated_variance %>
-     </td>
-     <td><b><font color=#FFA500>Variance Gap: </b><br>
-      <%= @dailybank.variance_gap %>
-      </td> 
-     </tr>
-     <td colspan="2"><br></td>
-     <td colspan="2"> <b>Variance Comment</b><br>
-      <%= @dailybank.varaince_comment %>
-      </td>
+  <td><b><font color=#13E84A>Variance Gap: </b><br>
+   <%= @dailybank.variance_gap %>
+   </td>
+   <td>
+  <%= link_to 'Lock & Complete', edit_dailybank_path(@dailybank), class: "btn btn-success" %>
+   </td>
+ </tr>
  </table>
-
-<%= link_to 'Edit', edit_dailybank_path(@dailybank) %> | 
-<%= link_to 'Back', dailybanks_path %> | 
-<%= link_to 'Search Dailybank', history_path %>
+ 
+  <% else %>
+  <h6><b><font color=#FF3F33>You have a variance of £<%= @dailybank.variance_gap %></b><h6>
+   <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success" %> to correct any errors
+   <h5> or </h5>
+   <h6>Enter variance reason and Save as Draft.
+  </font><h6>
+  
+    <%= form_for(@dailybank) do |f| %>
+     <font=black> <%= f.text_area :variance_comment, rows: "2", placeholder: "Enter variance reason", :style => "text-align: Left", class:"form-control input-sm" %>
+     </font>
+      <%= f.hidden_field :status, :value => "Draft" %>
+      <%= f.submit "Save as Draft", class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+  
+    <% elsif   @dailybank.status== "Draft" %>
+    <h6>Draft has been saved for management review.</h6>
+    
+     <% elsif   @dailybank.status== "Locked" %>
+     
+      <% else %>
+       <h6>Error - Unknown status on record - please report to IT dept.</h6>
+    
+  <% end %>

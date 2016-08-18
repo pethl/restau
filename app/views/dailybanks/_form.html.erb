@@ -13,96 +13,63 @@
   
   <table class= "table">
   <tr>
-  <td colspan="2"><b>Date: </b><%= f.date_select :effective_date %>
+  <td colspan="1"><b>Date: </b><%= f.date_select :effective_date %>
  </td>
   <td>
-    <b>Status: </b><%= f.text_field :status, :disabled => true, :value => "Draft" %> 
-     <%= f.hidden_field :status, :value => "Draft" %>
+     <%= f.hidden_field :status, :value => "Created" %>
    </td>
   <td>
-  <b>User: </b><%= f.object.user_id %>
+  <b>User: </b>
    <%= f.hidden_field :user_id, :value => current_user.id%><%= current_user.name %>
   </td>
-  </tr>
-  </table>
-  
-   <table class= "table">
-   <tr>
-   <td><%= f.label :till_cash %><br>
-    <%= f.text_field :till_cash, :style => "text-align: Right" %>
+  <td>
+  <b>Created </b><%= @dailybank.created_at.strftime('%H:%M')  %>
+   </td>
+  </tr>   <tr>
+   <td> <%= f.label :banking %><br>
+    <%= f.text_field :banking, :style => "text-align: Right" %>
     </td>
-   <td> <%= f.label :till_float %><br>
-    <%= f.text_field :till_float, :value =>200, :style => "text-align: Right" %>
-    </td>
-   <td> <%= f.label :card_payments %><br>
+   <td> <%= f.label :card_payments, "Total Card" %><br>
     <%= f.text_field :card_payments, :style => "text-align: Right" %>
     </td>
     <td> <%= f.label :expenses %><br>
      <%= f.text_field :expenses, :style => "text-align: Right" %>
      </td>
-   </tr> 
-   <tr>
-   <td colspan="3"></td>
-   <td><font color=#FFA500> <%= f.label :actual_cash_total %><br>
-    <%= f.text_field :actual_cash_total, :disabled => true, :style => "text-align: Right" %></td>
+   <td><font color=#FFA500> <%= f.label :actual_cash_total, "Takings" %><br>
+   <%=  @dailybank.actual_cash_total %></td>
     </tr>
-    </table>
-    <div class="field">
-      <%= f.hidden_field :wet_takings %>
-    </div>
-    <div class="field">
-       <%= f.hidden_field :dry_takings %>
-    </div>
-    <div class="field">
-      <%= f.hidden_field :merch_takings %>
-    </div>
-     <table class= "table">
-    <tr>
-    <td><%= f.label :till_takings %><br>
+   <tr>
+    <td><%= f.label :till_takings, "Total Sales" %><br>
     <%= f.text_field :till_takings, :style => "text-align: Right" %>
      </td>
-    <td>  <%= f.label :vouchers_sold %><br>
+    <td>  <%= f.label :vouchers_sold, "Vouchers Sold" %><br>
     <%= f.text_field :vouchers_sold, :style => "text-align: Right" %>
     <br>
-    <%= f.label :vouchers_used %><br>
-        <%= f.text_field :vouchers_used, :style => "text-align: Right" %>
+    <%= f.label :vouchers_used, "Vouchers Used" %><br>
+      <%= f.text_field :vouchers_used, :style => "text-align: Right" %>
      </td>
-    <td><%= f.label :deposit_sold %><br>
+    <td><%= f.label :deposit_sold, "Deposits Sold" %><br>
     <%= f.text_field :deposit_sold, :style => "text-align: Right" %>
     <br>
-    <%= f.label :deposit_used %><br>
+    <%= f.label :deposit_used, "Deposits Used" %><br>
          <%= f.text_field :deposit_used, :style => "text-align: Right" %>
      </td>
-    <td>
-     </td>
-     <tr>
-    <td colspan="3"></td>
-    <td><font color=#FFA500><%= f.label :actual_till_takings %><br>
-     <%= f.text_field :actual_till_takings, :disabled => true, :style => "text-align: Right" %>
-     </td> 
+    <td><font color=#FFA500><%= f.label :actual_till_takings, "Expected Takings" %><br>
+     <%=  @dailybank.actual_till_takings %></td>
        </tr>
-     </table>
-  
-   <table class= "table">
    <tr>
-     <td colspan="1" style="width: 25%"></td>
-     
-     <td> <%= f.label :user_variance %><br>
+   <td> </td> 
+     <td> <%= f.label :user_variance, "User Variance" %><br>
       <%= f.text_field :user_variance, :style => "text-align: Right" %>
       </td>
-     <td><font color=#FFA500> <%= f.label :calculated_variance %><br>
-      <%= f.text_field :calculated_variance, :disabled => true, :style => "text-align: Right" %>
-      </td>
+     <td><font color=#FFA500> <%= f.label :calculated_variance, "Calculated Variance" %><br>
+      <%=  @dailybank.calculated_variance %></td>
       <td><b><font color=#FFA500>Variance Gap: </b><br>
-       <%= f.text_field :variance_gap, :disabled => true %>
-       </td> 
+       <%=  @dailybank.variance_gap %></td>
       </tr>
-      <td colspan="2"><br></td>
-      <td colspan="2"> <%= f.label :varaince_comment, "Variance Comment" %><br>
-       <%= f.text_area :varaince_comment, cols: "55", rows: "2", :style => "text-align: Right"  %>
-       </td>
+      
   </table>
 
-  <%= f.submit "Save Draft", class: "btn btn-primary"%>
+  <%= f.submit "Calculate", class: "btn btn-primary" %>
     <% end %>
  

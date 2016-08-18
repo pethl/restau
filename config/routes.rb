@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+ # post "dailybanks/save_draft" => "dailybanks#save_draft", :as => :save_draft
   resources :dailybanks
   resources :exemptions
   resources :functions
@@ -60,6 +61,7 @@ Rails.application.routes.draw do
   get '/basic_report' => 'bookings#basic_report'
   get '/calendar' => 'bookings#calendar'
   get '/availability' => 'bookings#availability'
+  get '/availability_detail' => 'bookings#availability_detail'
   get '/all_customers' => 'customers#all_customers'
   get '/all_bookings' => 'bookings#all_bookings'
   get '/download_bookings_pdf' => "bookings#download_bookings_pdf"

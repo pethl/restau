@@ -188,8 +188,13 @@ class BookingsController < ApplicationController
   def availability
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_month.beginning_of_day, @date.end_of_month.end_of_day).where(:status => "Confirmed")
+    @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}     
+  end
+  
+  def availability_detail
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_month.beginning_of_day, @date.end_of_month.end_of_day).where(:status => "Confirmed")
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}  
-       
   end
   
   def download_bookings_pdf

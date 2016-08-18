@@ -5,7 +5,7 @@
 </div>
 
 <div class="col-md-10">
-<h2>Daily Banking History</h2><br>
+<h2>End of Day Banking History</h2><br>
 
 <ul class="nav nav-tabs">
 <li role="presentation"><%= link_to "By Day", history_path(@dailybanks) %></li>
@@ -34,11 +34,11 @@
   <table class="table">
  
   <tr>
-  <td><b>Date</b></td>
+  <td  class="active"><b>Date</b></td>
   <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"><b><%= dailybank.effective_date.strftime('%a') %><br><%= dailybank.effective_date.strftime('%d %B') %></b></td>
+  <td style="text-align:right"  class="active"><b><%= dailybank.effective_date.strftime('%A') %><br><%= dailybank.effective_date.strftime('%d %B') %></b></td>
   <% end %>
-  <td style="text-align:right"><b>Total<b></td>
+  <td style="text-align:right"  class="active"><b>Total<b></td>
   </tr>
  
   <tr>
@@ -50,23 +50,15 @@
   </tr>
   
   <tr>
-  <td><b>Till Cash</b></td>
+  <td><b>Banking</b></td>
   <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"><%= dailybank.till_cash %></td>
+  <td style="text-align:right"><%= dailybank.banking %></td>
   <% end %>
-  <td  style="text-align:right"><b> <%= get_sum_from_array_field(@dailybanks, "till_cash") %><b></td>
+  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "banking") %><b></td>
   </tr>
   
   <tr>
-  <td><b>Till Float</b></td>
-  <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"><%= dailybank.till_float %></td>
-  <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "till_float") %><b></td>
-  </tr>
-  
-  <tr>
-  <td><b>Cards</b></td>
+  <td><b>Total Card</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.card_payments %></td>
   <% end %>
@@ -82,7 +74,7 @@
   </tr> 
   
   <tr class="success">
-  <td><b>Cash Total</b></td>
+  <td><b>Takings</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.actual_cash_total %></td>
   <% end %>
@@ -90,7 +82,7 @@
   </tr>
   
   <tr>
-  <td><b>Till Takings</b></td>
+  <td><b>Total Sales</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.till_takings %></td>
   <% end %>
@@ -98,7 +90,7 @@
   </tr>
   
   <tr>
-  <td><b>Voucher Sold</b></td>
+  <td><b>Vouchers Sold</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.vouchers_sold %></td>
   <% end %>
@@ -106,7 +98,7 @@
   </tr>
   
   <tr>
-  <td><b>Voucher Used</b></td>
+  <td><b>Vouchers Used</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.vouchers_used %></td>
   <% end %>
@@ -114,7 +106,7 @@
   </tr>
   
   <tr>
-  <td><b>Deposit Sold</b></td>
+  <td><b>Deposits Sold</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.deposit_sold %></td>
   <% end %>
@@ -122,7 +114,7 @@
   </tr>
   
   <tr>
-  <td><b>Deposit Used</b></td>
+  <td><b>Deposits Used</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.deposit_used %></td>
   <% end %>
@@ -130,7 +122,7 @@
   </tr>
    
   <tr class="success">
-  <td><b>Till Total</b></td>
+  <td><b>Expected Takings</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.actual_till_takings %></td>
   <% end %>
@@ -138,36 +130,12 @@
   </tr>
   
   <tr>
-  <td><b>User Variance</b></td>
-  <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"><%= dailybank.user_variance %></td>
-  <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "user_variance") %><b></td>
-  </tr>
-  
-  <tr>
-  <td><b>Calc Variance</b></td>
+  <td><b>Variance</b></td>
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.calculated_variance %></td>
   <% end %>
   <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "calculated_variance") %><b></td>
   </tr>
-   
-  <tr class="success">
-  <td><b>Variance Gap</b></td>
-  <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"><%= dailybank.variance_gap %></td>
-  <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "variance_gap") %><b></td>
-  </tr>
-  
-  <tr>
-  <td><b>Comment</b></td>
-  <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"><%= dailybank.varaince_comment %></td>
-  <% end %>
-   <td></td>
-   </tr>
  
   <tr>
   <td></td>
@@ -182,6 +150,3 @@
   
   <% end %>
   
-<p><%= link_to 'New Dailybank', new_dailybank_path %> | 
-<%= link_to 'Show All', dailybanks_path %>
-</p>

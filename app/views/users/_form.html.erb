@@ -23,8 +23,15 @@
     <%= f.password_field :password, :placeholder => "Must be at least 6 characters long" %>
  
     <%= f.password_field :password_confirmation %>
+    
  <div class="col-sm-offset-2 col-sm-10">
   <div class="actions">
+  
+  <% if current_user.admin? || current_user.super_user? %>
+    <p>Make Super User?
+     <%= f.check_box :super_user %></p>
+ <% end %>
+  
      <%= f.submit class: "btn btn-primary" %>
   </div></div>
 <% end %>

@@ -5,7 +5,7 @@
 </div>
 
 <div class="col-md-10">
-<h2>Daily Banking History</h2><br>
+<h2>End of Day Banking History</h2><br>
 
 <ul class="nav nav-tabs">
 <li role="presentation"><%= link_to "By Day", history_path(@dailybanks) %></li>
@@ -41,25 +41,17 @@
    <% end %>
    <td style="text-align:right"><b>Total</b></td>
   </tr>
-  
+ 
   <tr>
-  <td><b>Till Cash</b></td>
+  <td><b>Banking</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td style="text-align:right"> <%= get_sum_from_array_field(dailybanks, "till_cash") %></td></td>
+   <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "banking") %></td></td>
    <% end %>
-    <td style="text-align:right"><b> <%= get_sum_from_array_field(@dailybanks, "till_cash") %></b></td>
+   <td style="text-align:right"><b> <%= get_sum_from_array_field(@dailybanks, "banking") %></b></td>
   </tr>
   
   <tr>
-  <td><b>Till Float</b></td>
-   <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "till_float") %></td></td>
-   <% end %>
-   <td style="text-align:right"><b> <%= get_sum_from_array_field(@dailybanks, "till_float") %></b></td>
-  </tr>
-  
-  <tr>
-  <td><b>Cards</b></td>
+  <td><b>Total Card</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
    <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "card_payments") %></td></td>
    <% end %>
@@ -75,7 +67,7 @@
   </tr>
   
   <tr class="success">
-  <td><b>Cash Total</b></td>
+  <td><b>Takings</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
    <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "actual_cash_total") %></td></td>
    <% end %>
@@ -83,7 +75,7 @@
   </tr>
   
   <tr>
-  <td><b>Till Takings</b></td>
+  <td><b>Total Sales</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
    <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "till_takings") %></td></td>
    <% end %>
@@ -107,7 +99,7 @@
   </tr>
   
   <tr>
-  <td><b>Deposit Sold</b></td>
+  <td><b>Deposits Sold</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
    <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "deposit_sold") %></td></td>
    <% end %>
@@ -115,7 +107,7 @@
   </tr>
   
   <tr>
-  <td><b>Deposit Used</b></td>
+  <td><b>Deposits Used</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
    <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "deposit_used") %></td></td>
    <% end %>
@@ -123,7 +115,7 @@
   </tr>
   
   <tr class="success">
-  <td><b>Till Total</b></td>
+  <td><b>Expected Takings</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
    <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "actual_till_takings") %></td></td>
    <% end %>
@@ -131,33 +123,14 @@
   </tr>
   
   <tr>
-  <td><b>User Variance</b></td>
-   <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "user_variance") %></td></td>
-   <% end %>
-   <td style="text-align:right"><b> <%= get_sum_from_array_field(@dailybanks, "user_variance") %></b></td>
-  </tr>
-  
-  <tr>
-  <td><b>Calc Variance</b></td>
+  <td><b>Variance</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
    <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "calculated_variance") %></td></td>
    <% end %>
    <td style="text-align:right"><b> <%= get_sum_from_array_field(@dailybanks, "calculated_variance") %></b></td>
   </tr>
   
-   <tr class="success">
-  <td><b>Variance Gap</b></td>
-   <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= get_sum_from_array_field(dailybanks, "variance_gap") %></td></td>
-   <% end %>
- 
-  <td style="text-align:right"><b> <%= get_sum_from_array_field(@dailybanks, "variance_gap") %></b></td>
-   </tr>
   </table>
   
   <% end %>
   
-<p><%= link_to 'New Dailybank', new_dailybank_path %> | 
-<%= link_to 'Show All', dailybanks_path %>
-</p>

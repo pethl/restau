@@ -5,7 +5,7 @@
               <br><br>
               <%= link_to "Log out", logout_path, method: "delete", style: 'color:#d3d3d3;' %><br>
               <br>
-              <b>Company Pages</b>
+              <b>Company Pages</b><br>
                <% if current_user.admin?  %>
               <a href="/accounts/">Accounts</a><br>
                 
@@ -33,7 +33,7 @@
               <%= link_to "System Users", users_url, style: 'color:#d3d3d3;'%>
               <br>
              
-                <%= link_to "Daily Checks", daily_checks_today_path, style: 'color:#9ACD32;'%>
+                <%= link_to "End of Night", dailybanks_path, style: 'color:#d3d3d3;'%>
               <br><br>
               <b>External Pages </b> 
               <%= link_to "Booking Enquiry", booking_enquiry_url, style: 'color:#ffffe0;'%>

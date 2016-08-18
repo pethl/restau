@@ -2,20 +2,26 @@ class Dailybank < ActiveRecord::Base
   
    BANK_STATUS_TYPES = ["Draft", "Locked"]
    
-   validates_numericality_of :till_cash, :greater_than_or_equal_to => 0
-   validates_numericality_of :till_float, :greater_than_or_equal_to => 0
-   validates_numericality_of :card_payments, :greater_than_or_equal_to => 0
-   validates_numericality_of :expenses, :greater_than_or_equal_to => 0
-   validates_numericality_of :till_takings, :greater_than_or_equal_to => 0
-   validates_numericality_of :vouchers_sold, :greater_than_or_equal_to => 0
-   validates_numericality_of :vouchers_used, :greater_than_or_equal_to => 0
-   validates_numericality_of :deposit_sold, :greater_than_or_equal_to => 0
-   validates_numericality_of :deposit_used, :greater_than_or_equal_to => 0
-   validates_numericality_of :user_variance, :greater_than_or_equal_to => 0
+   validates_numericality_of :banking, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_numericality_of :card_payments, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_numericality_of :expenses, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_numericality_of :till_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_numericality_of :vouchers_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
+   validates_numericality_of :vouchers_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
+   validates_numericality_of :deposit_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
+   validates_numericality_of :deposit_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
+   validates_numericality_of :user_variance, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero none'
  
    # :wet_takings, :dry_takings, :merch_takings
    
-   def self.search(search)
+   HUMANIZED_ATTRIBUTES = {
+       :card_payments => "Total Card", :deposit_sold => "Deposits Sold", :deposit_used => "Deposits Used", :till_takings => "Total Sales", :vouchers_sold => "Vouchers Sold", :vouchers_used => "Vouchers Used"  
+     }
+     
+     def self.human_attribute_name(attr, options = {})
+        HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+      end
+      def self.search(search)
      
     search_from = search[:from]
     search_to = search[:to]

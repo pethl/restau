@@ -75,7 +75,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :position, :email, :phone, :password, :password_confirmation)
+      params.require(:user).permit(:name, :position, :email, :phone, :password, :password_confirmation, :super_user)
     end
     
   # Confirms a logged-in user.
@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     # Confirms the correct user.
        def correct_user
          @user = User.find(params[:id])
-         redirect_to(users_url) unless current_user?(@user)
+         redirect_to(users_url) unless (current_user?(@user) || current_user.super_user? || current_user.admin?)
        end
        
      # Redirects to stored location (or to the default).
@@ -104,10 +104,15 @@ class UsersController < ApplicationController
          session[:forwarding_url] = request.url if request.get?
        end   
        
-       # Confirms an admin user.
-           def admin_user
-             redirect_to(root_url) unless current_user.admin?
-           end
+     # Confirms an admin user.
+         def admin_user
+           redirect_to(root_url) unless current_user.admin?
+         end
+           
+     # Confirms an super user.
+         def super_user
+           redirect_to(root_url) unless current_user.super_user?
+         end
   
     
 end

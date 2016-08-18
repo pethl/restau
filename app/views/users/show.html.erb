@@ -23,10 +23,23 @@
   <td>Phone:</td>
   <td><strong><%= @user.phone %></strong></td>
 </tr>
+ <% if current_user.admin? && current_user.super_user? %>
 <tr>
   <td>Admin:</td>
   <td> <strong> <%= @user.admin %></strong></td>
 </tr>
+<tr>
+  <td>Super User:</td>
+  <td> <strong> <%= @user.super_user %></strong></td>
+</tr>
+<% elsif current_user.super_user? %>
+<tr>
+  <td>Super User:</td>
+  <td> <strong> <%= @user.super_user %></strong></td>
+</tr>
+<% end %>
 </table>
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+  <% if current_user.admin?  || current_user.super_user? %>
+<%= link_to 'Edit this User Profile', edit_user_path(@user) %> |
+<% end %>
+<%= link_to 'See All Users', users_path %>

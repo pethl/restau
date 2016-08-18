@@ -1,6 +1,6 @@
 class DailybanksController < ApplicationController
   before_action :logged_in_user, only: [:show, :edit, :history, :history_week, :history_month, :index, :update, :destroy]
- before_action :set_dailybank, only: [:show, :edit, :update, :destroy]
+ before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :save_draft]
    
   def history
     @dailybanks = []
@@ -67,7 +67,7 @@ class DailybanksController < ApplicationController
   # GET /dailybanks
   # GET /dailybanks.json
   def index
-    @dailybanks = Dailybank.all
+    @dailybanks = Dailybank.where.not(status: "Locked")
   end
 
   # GET /dailybanks/1
@@ -105,10 +105,15 @@ class DailybanksController < ApplicationController
   # PATCH/PUT /dailybanks/1.json
   def update
     respond_to do |format|
-      if @dailybank.update(dailybank_params)
+  #    Rails.logger.debug("in update: #{dailybank_params}")
+  #    if dailybank_params.first.second.blank?
+  #      Rails.logger.debug("LOG : #{dailybank_params.first.second}")
+  #    end
+       if @dailybank.update(dailybank_params)
         run_calc_rules(@dailybank)
+   #     check_comment(@dailybank)
         
-        format.html { redirect_to @dailybank, notice: 'Dailybank was successfully updated.' }
+        format.html { redirect_to @dailybank}
         format.json { render :show, status: :ok, location: @dailybank }
       else
         format.html { render :edit }
@@ -116,6 +121,7 @@ class DailybanksController < ApplicationController
       end
     end
   end
+  
 
   # DELETE /dailybanks/1
   # DELETE /dailybanks/1.json
@@ -135,35 +141,38 @@ class DailybanksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dailybank_params
-      params.require(:dailybank).permit(:user_id, :effective_date, :till_cash, :till_float, :card_payments, :expenses, :actual_cash_total, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :calculated_variance, :user_variance, :varaince_comment, :status, :variance_gap)
+      params.require(:dailybank).permit(:user_id, :effective_date, :till_cash, :till_float, :card_payments, :expenses, :actual_cash_total, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :banking)
     end
     
     def run_calc_rules(dailybank)
      
-      if (!dailybank.till_cash.blank? && !dailybank.till_float.blank? && !dailybank.card_payments.blank? && !dailybank.expenses.blank? )
-        dailybank.update_attribute(:actual_cash_total, ((dailybank.till_cash+dailybank.card_payments)-(dailybank.expenses+dailybank.till_float)))
+      if (!dailybank.banking.blank? && !dailybank.card_payments.blank? && !dailybank.expenses.blank? )
+        dailybank.update_attribute(:actual_cash_total, (dailybank.banking+dailybank.card_payments+dailybank.expenses))
       else
-         Rails.logger.debug("in else: #{dailybank}")
+         
        end
        
      if (!dailybank.till_takings.blank? && !dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank?)
        dailybank.update_attribute(:actual_till_takings, ((dailybank.till_takings+dailybank.vouchers_sold+dailybank.deposit_sold)-(dailybank.deposit_used+dailybank.vouchers_used)))
       else
-        Rails.logger.debug("in 2nd else: #{dailybank}")
+        
       end 
         if (!dailybank.actual_cash_total.blank? && !dailybank.actual_till_takings.blank?)
           dailybank.update_attribute(:calculated_variance, (dailybank.actual_cash_total-dailybank.actual_till_takings))
         else
-          Rails.logger.debug("in 3rd else: #{dailybank}")
+         
         end
         if (!dailybank.calculated_variance.blank? && !dailybank.user_variance.blank?)
           dailybank.update_attribute(:variance_gap, (dailybank.user_variance-dailybank.calculated_variance))
         else
           Rails.logger.debug("in 3rd else: #{dailybank}")
         end
+      end
       
-    #  dailybank.actual_till_takings =  self.till_takings+self.vouchers_sold-self.vouchers_used+self.deposit_sold-self.deposit_used
-    #  dailybank.calculated_variance =  self.actual_cash_total-self.actual_till_takings
-    #  dailybank.variance_gap = self.user_variance - self.calculated_variance
-    end
+      def check_comment(dailybank)
+        if (dailybank.first.second.blank? && dailybank.status=="Draft")
+        else
+        end
+          
+      end
 end
