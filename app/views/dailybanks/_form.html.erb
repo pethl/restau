@@ -11,16 +11,20 @@
     </div>
   <% end %>
   
+<% if @dailybank.status == "Locked" %>
+  <h6> Record is locked and can no longer be edited.</h6>
+  <% else %>
+  
   <table class= "table">
   <tr>
-  <td colspan="1"><b>Date: </b><%= f.date_select :effective_date %>
+  <td colspan="1"><b>Date: </b><%= @dailybank.effective_date.strftime('%a, %d %b %Y') %>
  </td>
   <td>
-     <%= f.hidden_field :status, :value => "Created" %>
+     <%= @dailybank.status %>
    </td>
   <td>
   <b>User: </b>
-   <%= f.hidden_field :user_id, :value => current_user.id%><%= current_user.name %>
+   <%= User.where(id: @dailybank.user_id).first.name %>
   </td>
   <td>
   <b>Created </b><%= @dailybank.created_at.strftime('%H:%M')  %>
@@ -68,8 +72,37 @@
        <%=  @dailybank.variance_gap %></td>
       </tr>
       
-  </table>
+       <% if current_user.admin?  || current_user.super_user? %>
+         <tr>
+         <td colspan="4">
+         <%= f.label :variance_comment, "Variance Comment Given" %><br>
+         <font=black> <%= f.text_area :variance_comment, rows: "2", class:"form-control input-sm" %>
+         </font>
+         </td>
+        </tr>
+        <% else %>
+       <% end %>
+   </table>
 
-  <%= f.submit "Calculate", class: "btn btn-primary" %>
+  <div class="row">
+  <div class="col-md-1  col-md-offset-4">
+  <%= f.submit "Calculate", class: "btn btn-primary btn-sm" %>
     <% end %>
+    </div>
+     <div class="col-md-1 col-md-offset-1" >
+     <% if @dailybank.status == "Locked" %>
+        <% else %>
+     <% if current_user.admin?  || current_user.super_user? %>
+       <%= form_for(@dailybank) do |f| %>
+        <%= f.hidden_field :status, :value => "Locked" %>
+        <%= f.submit "Mgmt Lock", class: "btn btn-success btn-sm" %>
+       <% end %>
+      <% end %>
+       <% end %>
+</div>
+<% end %>
+</div>   
+
+
+    
  

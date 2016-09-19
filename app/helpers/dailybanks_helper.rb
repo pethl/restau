@@ -4,4 +4,5 @@ module DailybanksHelper
     records.inject(0) {|sum, hash| sum + hash[field.to_sym]}
   end
   
+ 
 end

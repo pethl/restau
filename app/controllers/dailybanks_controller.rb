@@ -77,7 +77,12 @@ class DailybanksController < ApplicationController
 
   # GET /dailybanks/new
   def new
-    @dailybank = Dailybank.new
+    if !does_record_exist_for_today?
+       @dailybank = Dailybank.new
+    else
+      redirect_to dailybanks_url, notice: 'End of Day already entered for this business day.'
+    end
+    
   end
 
   # GET /dailybanks/1/edit
@@ -92,7 +97,7 @@ class DailybanksController < ApplicationController
     respond_to do |format|
       if @dailybank.save
         run_calc_rules(@dailybank)
-        format.html { redirect_to @dailybank, notice: 'Dailybank was successfully created.' }
+        format.html { redirect_to @dailybank }
         format.json { render :show, status: :created, location: @dailybank }
       else
         format.html { render :new }
@@ -152,9 +157,9 @@ class DailybanksController < ApplicationController
          
        end
        
-     if (!dailybank.till_takings.blank? && !dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank?)
-       dailybank.update_attribute(:actual_till_takings, ((dailybank.till_takings+dailybank.vouchers_sold+dailybank.deposit_sold)-(dailybank.deposit_used+dailybank.vouchers_used)))
-      else
+       if (!dailybank.till_takings.blank? && !dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank?)
+         dailybank.update_attribute(:actual_till_takings, ((dailybank.till_takings+dailybank.vouchers_sold+dailybank.deposit_sold)-(dailybank.deposit_used+dailybank.vouchers_used)))
+        else
         
       end 
         if (!dailybank.actual_cash_total.blank? && !dailybank.actual_till_takings.blank?)
@@ -169,10 +174,26 @@ class DailybanksController < ApplicationController
         end
       end
       
+      #currently not in use
       def check_comment(dailybank)
         if (dailybank.first.second.blank? && dailybank.status=="Draft")
         else
         end
-          
+       end
+       
+       #check if there is already a daily bank record for effective date of today - where today is
+       def does_record_exist_for_today?
+         if Time.now < "05:00:10"
+           start_time = DateTime.yesterday.beginning_of_day.change({ hour: 05, min: 01 })
+           end_time = Time.now.beginning_of_day.change({ hour: 05, min: 00 })
+         else 
+          start_time = Time.now.beginning_of_day.change({ hour: 05, min: 01 })
+          end_time = DateTime.tomorrow.beginning_of_day.change({ hour: 05, min: 00 })
+         end
+        if Dailybank.where("effective_date BETWEEN ? AND ?",start_time, end_time).count >0
+          return true
+        else
+          return false
+        end
       end
 end

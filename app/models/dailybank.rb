@@ -1,7 +1,9 @@
 class Dailybank < ActiveRecord::Base
   
-   BANK_STATUS_TYPES = ["Draft", "Locked"]
+   DAILYBANK_STATUS_TYPES = ["Created", "Draft", "Locked"]
    
+   validates :effective_date, presence: true
+   validates :status, presence: true
    validates_numericality_of :banking, :greater_than_or_equal_to => 0, message: 'cannot be blank'
    validates_numericality_of :card_payments, :greater_than_or_equal_to => 0, message: 'cannot be blank'
    validates_numericality_of :expenses, :greater_than_or_equal_to => 0, message: 'cannot be blank'

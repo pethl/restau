@@ -5,7 +5,13 @@
 </div>
 
 <div class="col-md-8">
-<h2>End of Day Review</h2><br>
+  <% if @dailybank.status== "Created" %>
+<h2>End of Day - Review</h2><br>
+  <% elsif @dailybank.status== "Draft" %>
+<h2>End of Day - Draft</h2><br>
+  <% elsif @dailybank.status== "Locked" %>
+<h2>End of Day - Completed</h2><br>
+<% end %> 
 <p>
   <table class= "table" style="text-align:right">
  <tr>
@@ -73,20 +79,17 @@
     <% if @dailybank.status== "Created" %>
   
    <% if @dailybank.variance_gap== 0%>
-  <table class= "table" style="text-align:right">
-  <tr>
-  <td><b><font color=#13E84A>Variance Gap: </b><br>
-   <%= @dailybank.variance_gap %>
-   </td>
-   <td>
-  <%= link_to 'Lock & Complete', edit_dailybank_path(@dailybank), class: "btn btn-success" %>
-   </td>
- </tr>
- </table>
+ 
+ <h6><b><font color=#13E84A>You have a variance of £<%= @dailybank.variance_gap %></b><br><br>
+ <%= form_for(@dailybank) do |f| %>
+   <%= f.hidden_field :status, :value => "Locked" %>
+   <%= f.submit "Lock & Complete", class: "btn btn-primary" %>
+ <% end %>
+ <h6>
  
   <% else %>
   <h6><b><font color=#FF3F33>You have a variance of £<%= @dailybank.variance_gap %></b><h6>
-   <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success" %> to correct any errors
+   <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success btn-sm" %> to correct any errors
    <h5> or </h5>
    <h6>Enter variance reason and Save as Draft.
   </font><h6>
@@ -95,7 +98,7 @@
      <font=black> <%= f.text_area :variance_comment, rows: "2", placeholder: "Enter variance reason", :style => "text-align: Left", class:"form-control input-sm" %>
      </font>
       <%= f.hidden_field :status, :value => "Draft" %>
-      <%= f.submit "Save as Draft", class: "btn btn-primary" %>
+      <%= f.submit "Save as Draft", class: "btn btn-primary btn-sm" %>
     <% end %>
   <% end %>
   
