@@ -27,3 +27,6 @@ Error.create(ref: '999999116', msg: 'We cannot accomodate your party at this tim
 Error.create(ref: '999999117', msg: 'We are sorry but the latest time for table booking is 9pm, please try again for an earlier time.', desc: 'Validation - Customer tried to book at 9.30 on any day.')
 Error.create(ref: '999999118', msg: 'Unfortunately we are fully booked at this time.', desc: 'Generic error when any booking parameters are met. Simplified message.')
 Error.create(ref: '999999119', msg: 'The latest booking time for groups 7+ is 8pm, please try booking at an earlier time.', desc: 'Larger groups need to come before 8.30pm to allow time to feed them.')
+Error.create(ref: '999999120', msg: 'Due to high levels of demand, bookings for December cannot be made online. Please email hangfirebarry@gmail.com with your booking request.', desc: 'December booking error - cannot be online.')
+Error.create(ref: '999999121', msg: 'The latest booking time for Friday and Saturday lunch groups 7+ is 1.30pm, please try booking at an earlier time.', desc: 'Fri/Sat Lunch - Larger groups need to come before 2pm to allow time to feed them.')
+Error.create(ref: '999999122', msg: 'The latest booking time for Sunday lunch groups 7+ is 2.30pm, please try booking at an earlier time.', desc: 'Sun Lunch - Larger groups need to come before 3pm to allow time to feed them.')

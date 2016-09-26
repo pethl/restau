@@ -5,8 +5,9 @@
 <!-- Instructions: This is the menu section. -->  
 
    <div class="col-md-3" style="padding-top:10px;">
+   
     <h5><b><font color=#9ACD32>PLEASE NOTE</font></b></h5>
-    <h6>
+    <h6><small>
     We reserve a small number of tables for walk-in customers.
     <br>
     <br>It is unlikely we will be able to accommodate walk-in groups of 6 or more.
@@ -14,22 +15,22 @@
     The largest group booking is no more than 10.
     <br><br>
     In order to feed as many of you as possible, we will usually need your table back after 2 hours.
-    <br><br>
-    
-    
-    
+    <br><br></small>
     
     <%= link_to "SEE BOOKING CALENDAR", availability_path, :class => "btn btn-warning", :style=>'color:#FFFFFF;'  %>
     
       </div></h6>
-
 
    <!-- Instructions: This is the table booking section. -->  
 
     <div class="col-md-4">
     <br>
     <table class="table">
-    <tr><td><center><small>Online bookings cannot be made <br>for same day reservations.</td></tr>
+    <tr><td><center><%= image_tag "holly-icon.png", :class => "holly_small_img" %>Looking to book for <b>December</b>?
+   <br><%= link_to "Click here for details.", static_pages_hfsk_holiday_season_path, :class => "link", :style => "color:#9ACD32" %>
+   </center>
+   </td></tr>
+    
     <tr><td> <%= render 'layouts/messages' %></td></tr>
     <tr><td>
     <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  

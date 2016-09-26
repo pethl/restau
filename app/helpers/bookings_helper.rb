@@ -270,6 +270,6 @@ module BookingsHelper
       end
       return return_hash
    end
-    
+   
   
 end

@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   get '/history_month' => 'dailybanks#history_month'
   get '/home' => 'static_pages#home'
   get '/help' => 'static_pages#help'
-  get '/day_picker' => 'static_pages#day_picker'
+#  get '/day_picker' => 'static_pages#day_picker'
   get '/booking_enquiry' => 'static_pages#booking_enquiry'
   get '/function_room_enquiry' => 'static_pages#function_room_enquiry'
   get '/download_lunch_pdf' => 'static_pages#download_lunch_pdf'
@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   get '/hfsk_location' => 'static_pages#hfsk_location'
   get '/hfsk_get_in_touch' => 'static_pages#hfsk_get_in_touch'
   get '/hfsk_menu' => 'static_pages#hfsk_menu'
+  get '/hfsk_holiday_season' => 'static_pages#hfsk_holiday_season'
   
   get "static_pages/home"
   get "static_pages/help"
@@ -91,6 +92,7 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_location"
   get "static_pages/hfsk_get_in_touch"
   get "static_pages/hfsk_menu"
+  get "static_pages/hfsk_holiday_season"
   get "sessions/new"
 
   # Example of regular route:
