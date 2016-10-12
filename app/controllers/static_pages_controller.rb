@@ -56,6 +56,14 @@ class StaticPagesController < ApplicationController
     )
   end
   
+  def download_festive_pdf
+    send_file(
+      "#{Rails.root}/public/HF_FESTIVE_MENU.pdf",
+      filename: "HF_FESTIVE_MENU.pdf",
+      type: "application/pdf"
+    )
+  end
+  
   def download_function_pdf
     send_file(
       "#{Rails.root}/public/HF_ENGINE_ROOM_MENU_2016.pdf",
