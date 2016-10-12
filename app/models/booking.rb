@@ -40,7 +40,7 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999120")    
         end
       
-      #13) DUP check to ensure booking is not after latest booking *cuurently 29 may 2017
+      #13) DUP check to ensure booking is not after latest booking *cuurently 31 may 2017
         if  (params[:booking_date]).to_date > Date.new(2017,5,31)
           return Error.get_msg("999999123")    
         end
@@ -243,8 +243,7 @@ class Booking < ActiveRecord::Base
     
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS **removed oct 12, 2016
     #  @max_current_diners = Rdetail.get_value(@booking[:restaurant_id], "max_current_diners") 
-    #  Rails.logger.debug("@max_current_diners : #{@max_current_diners}")
-   
+    
     # GET CURRENT DINERS WINDOW  - EXISTING BOOKINGS AROUND REQUESTED TIME
     # GO THROUGH DAYS' BOOKINGS AND COUNT BOOKINGS THAT ARE WITHIN WINDOW PARAMETERS
     # **removed oct 12, 2016
@@ -259,7 +258,6 @@ class Booking < ActiveRecord::Base
     #    else          
     #   end
     #  end
-    # Rails.logger.debug("BOOKING_LOGING_bookings_at_current_time : #{@bookings_at_current_time.count}")  
       
       # TOTAL DINERS COUNT FOR CURRENT BOOKING WINDOW
       #  @number_of_current_diners= 0
@@ -269,7 +267,7 @@ class Booking < ActiveRecord::Base
       
       # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
       @max_diners_at_same_start_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
-      Rails.logger.debug("@max_diners_at_same_start_time : #{@max_diners_at_same_start_time}")
+     # Rails.logger.debug("@max_diners_at_same_start_time : #{@max_diners_at_same_start_time}")
       
       # TOTAL DINERS COUNT FOR CURRENT TIME
       @diners_at_same_start_time = 0
@@ -278,7 +276,7 @@ class Booking < ActiveRecord::Base
       @diners_at_same_start_time = @bookings_at_same_start_time.to_a.sum do |booking_at_same_start_time|
               booking_at_same_start_time.number_of_diners
             end
-      Rails.logger.debug("BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
+     # Rails.logger.debug("BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
       
        
  # if (@number_of_current_diners < (@max_current_diners - @diners)) && ((@diners_at_same_start_time+@diners) < (@max_diners_at_same_start_time+1))

@@ -145,9 +145,7 @@ module BookingsHelper
   
   def get_sum_from_array_for_field_lunch(records)
     @records = records
-      Rails.logger.debug("XXXXXXXXXrecords_lunch count: #{@records.inspect}")
-    Rails.logger.debug("records_lunch date: #{@records.first.inspect}")
-    
+     
     @records_lunch = []
     @records.each do |record|
       if record.booking_date_time < @records.first.booking_date_time.change({ hour: 16, min: 10 })
@@ -163,7 +161,6 @@ module BookingsHelper
   
   def get_sum_from_array_for_field_evening(records)
     @records = records
-    Rails.logger.debug("records_evening date: #{@records.first.inspect}")
     
     @records_evening = []
     @records.each do |record|

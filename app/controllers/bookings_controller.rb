@@ -39,7 +39,6 @@ class BookingsController < ApplicationController
         redirect_to static_pages_new_booking_enquiry_path, :flash => { :warning => (Error.get_msg("999999108"))  }
       else
       session[:available_times] = hashhere
-      Rails.logger.debug("hash_of_times_in_controller: #{session[:available_times].inspect}")
       session[:restaurant_id] = Restaurant.all.first.id
       session[:booking_date] = (params[:booking][:booking_date].to_datetime)
       session[:number_of_diners] = (params[:booking][:number_of_diners].to_i)
