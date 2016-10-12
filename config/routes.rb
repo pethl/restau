@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   resources :bookings do
       collection { post :booking_confirmation };
       collection { post :booking_cancellation };
+      collection { post :booking_get_times };
+      collection { post :booking_advanced };
       collection { post :mgmt_edit }
     end  
   resources :tables do
@@ -53,6 +55,8 @@ Rails.application.routes.draw do
   get '/help' => 'static_pages#help'
 #  get '/day_picker' => 'static_pages#day_picker'
   get '/booking_enquiry' => 'static_pages#booking_enquiry'
+  get '/new_booking_enquiry' => 'static_pages#new_booking_enquiry'
+  get '/booking_advanced' => 'static_pages#booking_advanced'
   get '/function_room_enquiry' => 'static_pages#function_room_enquiry'
   get '/download_lunch_pdf' => 'static_pages#download_lunch_pdf'
   get '/download_evening_pdf' => 'static_pages#download_evening_pdf'
@@ -83,6 +87,8 @@ Rails.application.routes.draw do
   get "static_pages/help"
   get "static_pages/day_picker"
   get "static_pages/booking_enquiry"
+  get "static_pages/new_booking_enquiry"
+  get "static_pages/booking_advanced"
   get "static_pages/function_room_enquiry"
   get "static_pages/booking_confirm"  
   

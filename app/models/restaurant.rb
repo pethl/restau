@@ -12,5 +12,9 @@ class Restaurant < ActiveRecord::Base
    validates :email, presence: true 
    
     default_scope { order('id ASC') }
+    
+    def self.get_id(name)
+      where(name: name).first.id
+    end
    
 end

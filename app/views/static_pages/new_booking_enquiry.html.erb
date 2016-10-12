@@ -1,0 +1,91 @@
+<%= render 'layouts/external_header' %>
+   
+<%= render 'static_pages/side_welcome_open_hours'%>
+
+<!-- Instructions: This is the menu section. -->  
+
+   <div class="col-md-3" style="padding-top:10px;">
+   
+    <h5><b><font color=#9ACD32>PLEASE NOTE</font></b></h5>
+    <h6><small>
+    We reserve a small number of tables for walk-in customers.
+    <br>
+    <br>It is unlikely we will be able to accommodate walk-in groups of 6 or more.
+    <br><br>
+    The largest group booking is no more than 10.
+    <br><br>
+    In order to feed as many of you as possible, we will usually need your table back after 2 hours.
+    <br><br></small>
+    
+    <%= link_to "SEE BOOKING CALENDAR", availability_path, :class => "btn btn-warning", :style=>'color:#FFFFFF;'  %>
+    
+      </div></h6>
+      
+   <!-- Instructions: This is the table booking section. -->  
+
+    <div class="col-md-4">
+    <br>
+    <table class="table">
+    <tr><td><center><%= image_tag "holly-icon.png", :class => "holly_small_img" %>Looking to book for <b>December</b>?
+   <br><%= link_to "Click here for details", static_pages_hfsk_holiday_season_path, :class => "link", :style => "color:#9ACD32" %>
+   </center>
+   </td></tr>
+    
+    <tr><td> <%= render 'layouts/messages' %></td></tr>
+    <tr><td>
+    <%= form_tag booking_get_times_bookings_path, multipart: true, :class => "form-inline" do %>  
+  
+      <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
+      <tr><td style="width: 5%"></td><td style="width: 20%"></td><td style="width: 70%"></td><td style="width: 5%"></td></tr>
+      
+      <tr>
+      <td></td>
+      <td>Date</td>
+      <% start_date_tomorrow = Date.tomorrow.strftime('%d-%m-%Y')%>
+      <td>
+      <input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]"  type="text"  data-date-format=D,dd-M-yyyy data-date-start-date=[<%= start_date_tomorrow %>] data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-dates-disabled=["24-12-2016","25-12-2016","26-12-2016","27-12-2016","28-12-2016","29-12-2016","30-12-2016","31-12-2016","01-01-2017","02-01-2017","03-01-2017","04-01-2017","05-01-2017"] data-date-end-date=[31-05-2017] data-date-autoclose=[true]  data-date-today-highlight=true data-date-orientation="bottom" >   
+       </td>
+      <td></td>
+      </tr>
+     
+    <% diner_options = [0,1,2,3,4,5,6,7,8,9,10] %>
+      <tr>
+      <td></td>
+      <td>People</td>
+      <td>
+      <%= select_tag 'booking[number_of_diners]', options_for_select(diner_options), class:"form-control input-sm" %>
+      </td>
+      <td></td>
+      </tr>
+      
+      <input id="restaurant_id" name="booking[restaurant]" type="hidden" value="Hang Fire Southern Kitchen">
+      
+      <tr>
+      <td></td>
+      <td></td>
+      <td>  <%= submit_tag "CHECK FOR AVAILABLE TIMES", name: nil, class: "btn btn-success btn-sm" %>   
+             <% end %></td>
+      <td></td>
+      </tr>
+      </table>
+     
+      </td></tr></table>
+         
+      <!-- Instructions: This is the function room booking section. -->  
+      <br>
+       <h4></i><strong>  BOOK OUR FUNCTION ROOM</strong> </h4>
+  
+       <table class="table">
+        <tr><td><center> <h4> COMING SOON...</h4>
+         </td></tr></table>
+      
+
+</div>
+
+
+
+
+ 
+ 
+   
+   

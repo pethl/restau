@@ -27,7 +27,7 @@
   
  <%= calendar @date do |date| %>
    <small><b><%= date.day %></b></small><br>
-    <% last_booking_day = Date.new(2017,1,5) %>
+    <% last_booking_day = Date.new(2017,5,31) %>
     <% xmas_close_start = Date.new(2016,12,23) %>
     <% xmas_close_end = Date.new(2017,1,6) %>
    
@@ -47,17 +47,22 @@
              <% elsif date.month == 12  %>     
                   <small><font color=#0000FF>Booking by email only</font></small>
                
-         <% elsif [3,4].include? date.wday %><small>
+         <% elsif [3,4].include? date.wday %>
+         <% if @bookings_by_date.key?(date) %>
            <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
                <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @eve_full_diners %>
-                 <br><font color=#ff0000>Full</font></small>
+                 <br><small><font color=#ff0000>Full</font></small>
                <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
-                 <br><font color=#FFA500>Filling up</font>
+                 <br><small><font color=#FFA500>Filling up</font></small>
                <% else %>
-                 <br><font color=#33CC33>Availability</font></small>
+                 <br><small><font color=#33CC33>Availability</font></small>
                <% end %> 
+               <% else %>     
+                 <br><small><font color=#33CC33>Availability</font></small>
+                 <% end %> 
 
         <% elsif [5,6].include? date.wday %>
+         <% if @bookings_by_date.key?(date) %>
           <% @day_full_diners = Rdetail.get_value(1, "day_full_diners") %>
           <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
            <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > @day_full_diners %>
@@ -75,19 +80,26 @@
              <% else %>
              <small>Evening: </small><br><small><font color=#33CC33>Availability</font></small>
              <% end %> 
+             <% else %>     
+               <br><small><font color=#33CC33>Availability</font></small>
+              <% end %>
 
-       <% elsif date.wday == 0 %><small>
+       <% elsif date.wday == 0 %>
+        <% if @bookings_by_date.key?(date) %>
          <% @afternoon_full_diners = Rdetail.get_value(1, "afternoon_full_diners") %> 
            <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @afternoon_full_diners %>
-               <br><font color=#ff0000>Full   
+               <br><small><font color=#ff0000>Full</font></small>   
              <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@afternoon_full_diners/2) %> 
-               <br><font color=#FFA500>Filling up </font>
+               <br><small><font color=#FFA500>Filling up </font></small>
              <% else %>
-               <br><font color=#33CC33>Availability</font></small>
-               <% end %>  
+               <br><small><font color=#33CC33>Availability</font></small>
+               <% end %> 
+               <% else %>     
+                 <br><small><font color=#33CC33>Availability</font></small>
+                <% end %> 
                 
         <% else %>     
-          <small><font color=#33CC33>Availability</font></small>
+         <br> <small><font color=#33CC33>Availability</font></small>
            <% end %>
   
  </center>   

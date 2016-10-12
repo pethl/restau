@@ -6,28 +6,33 @@
  
   <div class="col-md-10">
   <br>
+  <br>
+  <br>
 
   <table class="table">
   <tr>
     <th></th>
-    <th style="text-align:center" colspan=2>Total Bookings</th>
-    <th style="text-align:center" colspan=2>Completed Bookings</th>
-    <th style="text-align:center" colspan=2>Outstanding Bookings</th>
+    
+    <th style="text-align:center" colspan=2><h5>Completed</h5>(Number of People Fed <br> from opening day to yesterday)</th>
+    <th style="text-align:center" colspan=2><h5>Outstanding</h5>(Number of People To Be Fed <br> booked in customers)</th>
+    <th style="text-align:center" colspan=2><h5>Total</h5>(Completed and Outstanding)</th>
   </tr>
   
   <tr style="text-align:center">
     <td></td>
-    <td colspan=2><h5><%= booking_all_confirmed %></td>
-    <td colspan=2><h5><%= booking_completed_raw.count %></td>
-    <td colspan=2><h5><%= booking_outstanding_raw.count %></td>
+    
+    <td colspan=2><%= booking_completed_raw.count %> bookings</td>
+    <td colspan=2><%= booking_outstanding_raw.count %> bookings</td>
+    <td colspan=2><%= booking_all_confirmed %> bookings</td>
     
   </tr>  
   
   <tr style="text-align:center">
     <td></td>
-    <td colspan=2><%= get_sum_from_array_for_field(booking_all_confirmed_raw) %> people</td>
+   
     <td colspan=2><%= get_sum_from_array_for_field(booking_completed_raw) %> people</td>
     <td colspan=2><%= get_sum_from_array_for_field(booking_outstanding_raw) %> people</td>
+     <td colspan=2><%= get_sum_from_array_for_field(booking_all_confirmed_raw) %> people</td>
   </tr>  
   
   </table>
@@ -64,20 +69,6 @@
   </tr>  
   
   </table>
-  <h6>Number of bookings made by customers each day</h6>
-  <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
-  <%= line_chart [
-    {name: "Confirmed", data: Booking.where(status: "Confirmed").group_by_day(:created_at).count},
-    {name: "Cancelled", data: Booking.where(status: "Cancelled").group_by_day(:created_at).count}
-  ], label: "Bookings made by day", max: 240 %>
-  <br>
-  <h6>Number of bookings for restaurant per day</h6>
-  <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
-  <%= column_chart Booking.where(status: "Confirmed").group_by_day(:booking_date_time).count %>
-  <br>
-  <h6>Number of people booked per day</h6>
-  <%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
-  <%= column_chart booking_people_count_by_day %>
   
   </div>
   </div>

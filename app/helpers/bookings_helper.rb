@@ -46,14 +46,13 @@ module BookingsHelper
     i = @start_date
     @array = []
     
- while i != @end_date do
-   @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", i.beginning_of_day, i.end_of_day).where("status = ?", "Confirmed")
-   people = get_sum_from_array_for_field(@bookings)
-   @array += [[i.strftime('%Y-%m-%d'), people]]
-   i = i+1.day
-   Rails.logger.debug("in function: #{@array}")
- end
- return @array
+     while i != @end_date do
+       @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", i.beginning_of_day, i.end_of_day).where("status = ?", "Confirmed")
+       people = get_sum_from_array_for_field(@bookings)
+       @array += [[i.strftime('%Y-%m-%d'), people]]
+       i = i+1.day
+     end
+     return @array
   end
   
   
@@ -64,7 +63,7 @@ module BookingsHelper
       array[i] = [date, (Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where(:status => "Confirmed").count)]
       i = i+1
       date = date+1.day
-      break if i == 14
+      break if i == 20
     end
     return array
   end
@@ -146,6 +145,7 @@ module BookingsHelper
   
   def get_sum_from_array_for_field_lunch(records)
     @records = records
+      Rails.logger.debug("XXXXXXXXXrecords_lunch count: #{@records.inspect}")
     Rails.logger.debug("records_lunch date: #{@records.first.inspect}")
     
     @records_lunch = []

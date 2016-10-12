@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
   
-  before_action :logged_in_user, only: [:index, :create, :mgmt_edit, :download_bookings_pdf, :all_bookings, :basic_report, :calendar, :search_bookings]
+  before_action :logged_in_user, only: [:index, :create, :mgmt_edit, :download_bookings_pdf, :all_bookings, :basic_report, :calendar, :search_bookings, :new_booking_enquiry]
   before_action :set_booking, only: [:show, :edit, :update, :destroy, :mgmt_edit]
   
   def all_bookings
@@ -27,6 +27,32 @@ class BookingsController < ApplicationController
       
        params[:booking]= []
      end
+  end
+  
+  # NEW METHOD OF FINDING AVAILABLE TIMES
+  def booking_get_times
+    check_entry = Booking.check_entry_params(params[:booking])
+    if check_entry.blank?
+      hashhere = Booking.get_available_space((params[:booking][:booking_date].to_datetime), (params[:booking][:number_of_diners].to_i))
+       
+      if hashhere.blank?
+        redirect_to static_pages_new_booking_enquiry_path, :flash => { :warning => (Error.get_msg("999999108"))  }
+      else
+      session[:available_times] = hashhere
+      Rails.logger.debug("hash_of_times_in_controller: #{session[:available_times].inspect}")
+      session[:restaurant_id] = Restaurant.all.first.id
+      session[:booking_date] = (params[:booking][:booking_date].to_datetime)
+      session[:number_of_diners] = (params[:booking][:number_of_diners].to_i)
+      redirect_to static_pages_booking_advanced_path #, :flash => { :success => "Please select from available times." }
+    end
+    else
+      redirect_to static_pages_new_booking_enquiry_path, :flash => { :warning => check_entry }
+    end
+  end
+  
+  def booking_advanced
+    @available_times = session[:available_times]
+    session[:available_times] = nil
   end
   
   def booking_confirmation
@@ -170,7 +196,7 @@ class BookingsController < ApplicationController
   def destroy
     @booking.destroy
     respond_to do |format|
-      format.html { redirect_to static_pages_booking_enquiry_path }
+      format.html { redirect_to static_pages_new_booking_enquiry_path }
       format.json { head :no_content }
     end
   end

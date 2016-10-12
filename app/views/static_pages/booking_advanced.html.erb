@@ -1,0 +1,78 @@
+<%= render 'layouts/external_header' %>
+   
+<%= render 'static_pages/side_welcome_open_hours'%>
+
+<!-- Instructions: This is the menu section. -->  
+
+   <div class="col-md-3" style="padding-top:10px;">
+   
+    <h5><b><font color=#9ACD32>PLEASE NOTE</font></b></h5>
+       
+    <h6><small>
+    We reserve a small number of tables for walk-in customers.
+    <br>
+    <br>It is unlikely we will be able to accommodate walk-in groups of 6 or more.
+    <br><br>
+    The largest group booking is no more than 10.
+    <br><br>
+    In order to feed as many of you as possible, we will usually need your table back after 2 hours.
+    <br><br></small>
+    
+    <%= link_to "SEE BOOKING CALENDAR", availability_path, :class => "btn btn-warning", :style=>'color:#FFFFFF;'  %>
+    
+      </div></h6>
+      
+   <!-- Instructions: This is the table booking section. -->  
+
+    <div class="col-md-4">
+    <br>
+    <table class="table">
+    <tr><td><center><%= image_tag "holly-icon.png", :class => "holly_small_img" %>Looking to book for <b>December</b>?
+   <br><%= link_to "Click here for details", static_pages_hfsk_holiday_season_path, :class => "link", :style => "color:#9ACD32" %>
+   </center>
+   </td></tr>
+    
+    <tr><td> <%= render 'layouts/messages' %></td></tr>
+    <tr>
+    <td>
+   
+      <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
+      <tr>
+      <center>Here are the available times for <b><%= session[:number_of_diners] %></b> people
+      <br>on <b><%= session[:booking_date].to_date.strftime('%A, %d %B %Y') %></b> 
+      </center>
+      <br>
+      <% session[:available_times].each do |available_time| %>
+         
+        <%= form_tag booking_confirmation_bookings_path, multipart: true, :class => "form-inline" do %>  
+        <input id="restaurant_id" name="booking[restaurant]" type="hidden" value="Hang Fire Southern Kitchen">
+        <input id="booking_date" name="booking[booking_date]" type="hidden" value=<%= session[:booking_date].to_date %> >
+        <input id="booking_time_hour" name="booking[booking_time_hour]" type="hidden" value=<%= available_time[0][0,2] %> >
+        <input id="booking_time_min" name="booking[booking_time_min]" type="hidden" value=<%= available_time[0][3,5] %> >
+        <input id="number_of_diners" name="booking[number_of_diners]" type="hidden" value=<%= session[:number_of_diners] %> >
+        <input id="status" name="booking[status]" type="hidden" value=<Held>
+        <input id="source" name="booking[source]" type="hidden" value=<Online>
+      
+       <%= submit_tag available_time, name: nil, class: "btn btn-primary btn-xs" %>   
+                     <% end %>
+      <% end %>
+      
+     </tr>
+      <tr><br>
+      <center><h5>CLICK TIME TO BOOK</h5>
+      or <br><br>
+      <%= link_to "Return to Start", static_pages_new_booking_enquiry_path, :class => "btn btn-success", :style=>'color:#FFFFFF;'  %>
+   </tr>
+      </table>
+      
+      </td></tr></table>
+      
+</div>
+
+
+
+
+ 
+ 
+   
+   

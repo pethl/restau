@@ -3,11 +3,22 @@
 
 <table class="table table-bordered table-condensed"><tr>
 <% array = booking_count_by_day(Date.today)%>
+
+
 <% array.each do |d| %>
+
+  <% @existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", d[0].beginning_of_day, d[0].end_of_day).where(:status => "Confirmed") %>
+  
+  <% if [1,2].include? d[0].wday %>
+    <% else %>
 <td><center><small>
- <%= d[0].strftime("%a, %d") %><br>
-  <%= d[1] %><small>
+ <%= link_to d[0].strftime("%a, %d") , bookings_path({ :search => d[0] } ) %><br>
+   <%= d[1] %>/<%= get_sum_from_array_for_field(@existing_bookings) %>
+  
+  <small>
   </center>
  </td>
+ <% end %>
+ 
  <% end %>
 </tr></table>
