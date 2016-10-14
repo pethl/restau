@@ -118,7 +118,7 @@
            <b>Booking Cancelled:</b><br><br>
            We have sent you an email to confirm your booking was cancelled on <strong><%= @booking.cancelled_at.strftime('%A, %d %B %Y at %H:%M') %></strong>.<br>
            <br> <br>
-           Why not book again?<h4>  <%= link_to "Book a Table", static_pages_booking_enquiry_path %></h5</td>
+           Why not book again?<h4>  <%= link_to "Book a Table", static_pages_new_booking_enquiry_path %></h5</td>
            </h6>
            <% if logged_in? %> 
              <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
