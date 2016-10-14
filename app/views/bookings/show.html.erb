@@ -53,7 +53,7 @@
    
     <br>
     <% if logged_in? %> 
-      <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+      <h6><%= link_to "Go back to Calendar", calendar_path %></h6>
       <% end %>
      
     <br>
@@ -83,7 +83,7 @@
        Why not book again?<h4>  <%= link_to "Book a Table", static_pages_new_booking_enquiry_path %></h5</td>
        </h6>
        <% if logged_in? %> 
-      <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
+      <h6><%= link_to "Go back to Calendar", calendar_path %></h6>
       <% end %>
   
   </td>
@@ -104,7 +104,7 @@
       <br>
        This booking was not confirmed at time of booking and is void.</strong><br>
        <br> <br>
-       Why not book again?<h4>  <%= link_to "Book a Table", static_pages_new_booking_enquiry_path %></h5</td>
+       Why not book again?<h4>  <%= link_to "Book a Table", static_pages_new_booking_enquiry_path %></h4></td>
        </h6>
   
   </td>
