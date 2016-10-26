@@ -30,6 +30,8 @@
     <% last_booking_day = Date.new(2017,5,31) %>
     <% xmas_close_start = Date.new(2016,12,23) %>
     <% xmas_close_end = Date.new(2017,1,6) %>
+     <% full_1 = Date.new(2016,12,10) %>
+      <% full_2 = Date.new(2016,12,17) %>
    
    <% if date < DateTime.now %>
      
@@ -44,8 +46,22 @@
           <% elsif (date > xmas_close_start) && (date < xmas_close_end)  %>     
                  <br><small><font color=#000000>Closed</font></small>
          
+           <% elsif date == full_1  %>
+           <small><font color=#0000FF>Booking by email only</font></small>
+            <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small> 
+            
+            <% elsif date == full_2  %>
+            <small><font color=#0000FF>Booking by email only</font></small>
+             <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small> 
+       
+             <% elsif (date.month == 12) && ([5,6].include? date.wday) %> 
+             <small><font color=#0000FF>Booking by email only</font></small>
+             <small>Evening: </small><br><small><font color=#FFA500>Filling up</font></small>
+       
              <% elsif date.month == 12  %>     
                   <small><font color=#0000FF>Booking by email only</font></small>
+                  
+                  
                
          <% elsif [3,4].include? date.wday %>
          <% if @bookings_by_date.key?(date) %>
