@@ -47,22 +47,24 @@
                  <br><small><font color=#000000>Closed</font></small>
          
            <% elsif date == full_1  %>
-           <small><font color=#0000FF>Booking by email only</font></small>
+           <small><small><font color=#0000FF>Booking by email only</font></small></small>
+            <small> <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small></small>
             <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small> 
             
             <% elsif date == full_2  %>
-            <small><font color=#0000FF>Booking by email only</font></small>
-             <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small> 
+            <small><small><font color=#0000FF>Booking by email only</font></small></small>
+            <small> <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small></small>
+             <small> <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small></small>  
        
              <% elsif (date.month == 12) && ([5,6].include? date.wday) %> 
-             <small><font color=#0000FF>Booking by email only</font></small>
-             <small>Evening: </small><br><small><font color=#FFA500>Filling up</font></small>
+             <small><small><font color=#0000FF>Booking by email only</font></small></small>
+              <small> <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small></small>
+              <small> <small> Evening: <br><font color=#FFA500>Filling up</font></small></small>
        
              <% elsif date.month == 12  %>     
-                  <small><font color=#0000FF>Booking by email only</font></small>
+                   <small><small><font color=#0000FF>Booking by email only</font>
+                 <font color=#33CC33>Availability</font></small></small>
                   
-                  
-               
          <% elsif [3,4].include? date.wday %>
          <% if @bookings_by_date.key?(date) %>
            <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
