@@ -47,29 +47,56 @@
           <% elsif (date > xmas_close_start) && (date < xmas_close_end)  %>     
                  <br><small><font color=#000000>Closed</font></small>
          
-           <% elsif date == full_1  %>
-           <small><small><font color=#0000FF>Booking by email only</font></small></small>
-            <small> <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small></small>
-            <small><small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small> </small> 
+              <% elsif (date.month == 12) && ([5,6].include? date.wday) %>
+                <small><small><font color=#0000FF>Booking by email only</font></small></small>
+               <% if @bookings_by_date.key?(date) %>
+                 <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > 40 %>
+                       <small>Lunch:</small><br><small> <font color=#ff0000>Full</font></small>
+                 <% elsif get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > 20 %> 
+                       <small>Lunch:</small><br><small> <font color=#FFA500>Filling up</font></small>
+                 <% else %>
+                       <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small>
+                 <% end %>
+
+                 <% if get_sum_from_array_for_field_evening(@bookings_by_date[date]) > 90 %>
+                   <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small>
+                   <% elsif get_sum_from_array_for_field_evening(@bookings_by_date[date]) > 45 %> 
+                   <small>Evening: </small><br><small><font color=#FFA500>Filling up</font></small>
+                   <% else %>
+                   <small>Evening: </small><br><small><font color=#33CC33>Availability</font></small>
+                   <% end %> 
+                   <% else %>     
+                     <br><small><font color=#33CC33>Availability</font></small>
+                    <% end %>
             
-            <% elsif date == full_2  %>
-            <small><small><font color=#0000FF>Booking by email only</font></small></small>
-            <small> <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small></small>
-             <small> <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small></small>  
-             
-             <% elsif date == full_3  %>
-             <small><small><font color=#0000FF>Booking by email only</font></small></small>
-             <small> <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small></small>
-              <small> <small>Evening: </small><br><small><font color=#ff0000> Full  </font> </small></small>  
-       
-             <% elsif (date.month == 12) && ([5,6].include? date.wday) %> 
-             <small><small><font color=#0000FF>Booking by email only</font></small></small>
-              <small> <small>Lunch:</small><br><small><font color=#33CC33>Availability</font></small></small>
-              <small> <small> Evening: <br><font color=#FFA500>Filling up</font></small></small>
-       
-             <% elsif date.month == 12  %>     
-                   <small><small><font color=#0000FF>Booking by email only</font>
-                 <font color=#33CC33>Availability</font></small></small>
+                 <% elsif (date.month == 12) && ([3,4].include? date.wday) %>     
+                       <small><small><font color=#0000FF>Booking by email only</font></small></small>
+                       <% if @bookings_by_date.key?(date) %>
+                         <% if get_sum_from_array_for_field(@bookings_by_date[date]) > 90 %>
+                               <br><small><font color=#ff0000>Full</font></small>
+                             <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (45) %> 
+                               <br><small><font color=#FFA500>Filling up</font></small>
+                             <% else %>
+                               <br><small><font color=#33CC33>Availability</font></small>
+                             <% end %> 
+                             <% else %>     
+                               <br><small><font color=#33CC33>Availability</font></small>
+                               <% end %> 
+                  
+                     <% elsif (date.month == 12) && (date.wday == 0) %>
+                     <small><small><font color=#0000FF>Booking by email only</font></small></small>
+                     <% if @bookings_by_date.key?(date) %>
+                         <% if get_sum_from_array_for_field(@bookings_by_date[date]) > 80 %>
+                             <br><small><font color=#ff0000>Full</font></small>   
+                           <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > 40 %> 
+                             <br><small><font color=#FFA500>Filling up </font></small>
+                           <% else %>
+                             <br><small><font color=#33CC33>Availability</font></small>
+                             <% end %> 
+                             <% else %>     
+                               <br><small><font color=#33CC33>Availability</font></small>
+                              <% end %> 
+                   
                   
          <% elsif [3,4].include? date.wday %>
          <% if @bookings_by_date.key?(date) %>
