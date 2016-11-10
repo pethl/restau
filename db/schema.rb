@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817134825) do
+ActiveRecord::Schema.define(version: 20161110175443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,29 @@ ActiveRecord::Schema.define(version: 20160817134825) do
     t.decimal  "variance_gap",        precision: 8, scale: 2
     t.string   "variance_comment"
     t.decimal  "banking",             precision: 8, scale: 2
+  end
+
+  create_table "dailystats", force: :cascade do |t|
+    t.date     "action_date"
+    t.integer  "cancelled_bookings"
+    t.integer  "confirmed_bookings"
+    t.integer  "diners_fed"
+    t.float    "avg_headcount_per_booking"
+    t.float    "avg_days_prior_to_booking"
+    t.float    "avg_days_prior_to_booking_under_seven"
+    t.float    "avg_days_prior_to_booking_over_six"
+    t.integer  "dawn"
+    t.integer  "early"
+    t.integer  "lunch"
+    t.integer  "afternoon"
+    t.integer  "hometime"
+    t.integer  "evening"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "early_lunch"
+    t.integer  "late_lunch"
+    t.integer  "early_eve"
+    t.integer  "late_eve"
   end
 
   create_table "enquiries", force: :cascade do |t|

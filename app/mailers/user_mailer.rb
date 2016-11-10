@@ -3,8 +3,8 @@ class UserMailer < ApplicationMailer
 
   def send_table_stats
     date = Date.today
-     if @message
-      mail(to: 'pethicklisa@gmail.com',  from:"#{@message.email}", subject: "RESTAU Table Stats: #{date}")
-    end
+     
+      mail(to: 'pethicklisa@gmail.com', subject: "RESTAU Table Stats: #{date}")
+    
   end
 end

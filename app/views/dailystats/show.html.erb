@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Action date:</strong>
+  <%= @dailystat.action_date %>
+</p>
+
+<p>
+  <strong>Cancelled bookings:</strong>
+  <%= @dailystat.cancelled_bookings %>
+</p>
+
+<p>
+  <strong>Confirmed bookings:</strong>
+  <%= @dailystat.confirmed_bookings %>
+</p>
+
+<p>
+  <strong>Diners fed:</strong>
+  <%= @dailystat.diners_fed %>
+</p>
+
+<p>
+  <strong>Avg headcount per booking:</strong>
+  <%= @dailystat.avg_headcount_per_booking %>
+</p>
+
+<p>
+  <strong>Avg days prior to booking:</strong>
+  <%= @dailystat.avg_days_prior_to_booking %>
+</p>
+
+<p>
+  <strong>Avg days prior to booking under seven:</strong>
+  <%= @dailystat.avg_days_prior_to_booking_under_seven %>
+</p>
+
+<p>
+  <strong>Avg days prior to booking over six:</strong>
+  <%= @dailystat.avg_days_prior_to_booking_over_six %>
+</p>
+
+<p>
+  <strong>Dawn:</strong>
+  <%= @dailystat.dawn %>
+</p>
+
+<p>
+  <strong>Early:</strong>
+  <%= @dailystat.early %>
+</p>
+
+<p>
+  <strong>Lunch:</strong>
+  <%= @dailystat.lunch %>
+</p>
+
+<p>
+  <strong>Afternoon:</strong>
+  <%= @dailystat.afternoon %>
+</p>
+
+<p>
+  <strong>Hometime:</strong>
+  <%= @dailystat.hometime %>
+</p>
+
+<p>
+  <strong>Evening:</strong>
+  <%= @dailystat.evening %>
+</p>
+
+<%= link_to 'Edit', edit_dailystat_path(@dailystat) %> |
+<%= link_to 'Back', dailystats_path %>

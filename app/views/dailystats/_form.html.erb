@@ -1,0 +1,73 @@
+<%= form_for(@dailystat) do |f| %>
+  <% if @dailystat.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dailystat.errors.count, "error") %> prohibited this dailystat from being saved:</h2>
+
+      <ul>
+      <% @dailystat.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :action_date %><br>
+    <%= f.date_select :action_date %>
+  </div>
+  <div class="field">
+    <%= f.label :cancelled_bookings %><br>
+    <%= f.number_field :cancelled_bookings %>
+  </div>
+  <div class="field">
+    <%= f.label :confirmed_bookings %><br>
+    <%= f.number_field :confirmed_bookings %>
+  </div>
+  <div class="field">
+    <%= f.label :diners_fed %><br>
+    <%= f.number_field :diners_fed %>
+  </div>
+  <div class="field">
+    <%= f.label :avg_headcount_per_booking %><br>
+    <%= f.text_field :avg_headcount_per_booking %>
+  </div>
+  <div class="field">
+    <%= f.label :avg_days_prior_to_booking %><br>
+    <%= f.text_field :avg_days_prior_to_booking %>
+  </div>
+  <div class="field">
+    <%= f.label :avg_days_prior_to_booking_under_seven %><br>
+    <%= f.text_field :avg_days_prior_to_booking_under_seven %>
+  </div>
+  <div class="field">
+    <%= f.label :avg_days_prior_to_booking_over_six %><br>
+    <%= f.text_field :avg_days_prior_to_booking_over_six %>
+  </div>
+  <div class="field">
+    <%= f.label :dawn %><br>
+    <%= f.number_field :dawn %>
+  </div>
+  <div class="field">
+    <%= f.label :early %><br>
+    <%= f.number_field :early %>
+  </div>
+  <div class="field">
+    <%= f.label :lunch %><br>
+    <%= f.number_field :lunch %>
+  </div>
+  <div class="field">
+    <%= f.label :afternoon %><br>
+    <%= f.number_field :afternoon %>
+  </div>
+  <div class="field">
+    <%= f.label :hometime %><br>
+    <%= f.number_field :hometime %>
+  </div>
+  <div class="field">
+    <%= f.label :evening %><br>
+    <%= f.number_field :evening %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

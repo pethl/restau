@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Dailystats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action date</th>
+      <th>Cancelled bookings</th>
+      <th>Confirmed bookings</th>
+      <th>Diners fed</th>
+      <th>Avg headcount per booking</th>
+      <th>Avg days prior to booking</th>
+      <th>Avg days prior to booking under seven</th>
+      <th>Avg days prior to booking over six</th>
+      <th>Dawn</th>
+      <th>Early</th>
+      <th>Lunch</th>
+      <th>Afternoon</th>
+      <th>Hometime</th>
+      <th>Evening</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dailystats.each do |dailystat| %>
+      <tr>
+        <td><%= dailystat.action_date %></td>
+        <td><%= dailystat.cancelled_bookings %></td>
+        <td><%= dailystat.confirmed_bookings %></td>
+        <td><%= dailystat.diners_fed %></td>
+        <td><%= dailystat.avg_headcount_per_booking %></td>
+        <td><%= dailystat.avg_days_prior_to_booking %></td>
+        <td><%= dailystat.avg_days_prior_to_booking_under_seven %></td>
+        <td><%= dailystat.avg_days_prior_to_booking_over_six %></td>
+        <td><%= dailystat.dawn %></td>
+        <td><%= dailystat.early %></td>
+        <td><%= dailystat.lunch %></td>
+        <td><%= dailystat.afternoon %></td>
+        <td><%= dailystat.hometime %></td>
+        <td><%= dailystat.evening %></td>
+        <td><%= link_to 'Show', dailystat %></td>
+        <td><%= link_to 'Edit', edit_dailystat_path(dailystat) %></td>
+        <td><%= link_to 'Destroy', dailystat, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dailystat', new_dailystat_path %>

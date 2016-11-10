@@ -83,13 +83,46 @@ task :purge_held_bookings => :environment do
       confirmed = Booking.where(status: "Confirmed").count
       cancelled = Booking.where(status: "Cancelled").count
       
-      puts "#{customer}"
-      puts "#{confirmed}"
-      puts "#{cancelled}"
+      puts "Customer: #{customer}"
+      puts "Confirmed: #{confirmed}"
+      puts "Cancelled: #{cancelled}"
       UserMailer.send_table_stats.deliver_now
           
       puts "_____Table stats have been sent"
       puts "----------------------SEND_TABLE_STATS:END-------------------------"
       puts "\n"
     end   
+    
+   task :write_stats_and_purge => :environment do
+     puts "\n"
+      puts "----------------------DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:START-------------------------"
+
+      puts "_____Daily job (part A) to generate simple stats from a given day's bookings."
+      
+      @date = get_action_date_for_stats_and_purge
+      puts "_____Date: #{@date}"
+      
+      @day_confirmed = get_confirmed_bookings_by_date(@date)
+      @day_cancelled = get_cancelled_bookings_by_date(@date)
+      puts "_____Cancelled Bookings: #{@day_cancelled.count}"
+      puts "_____Confirmed Bookings: #{@day_confirmed.count}"
+      
+     if @day_confirmed.count > 0
+      puts "_____Diners Fed: #{get_sum_from_array_for_field(@day_confirmed)}"
+      puts "_____Avg HeadCount Per Booking: #{number_with_precision(@day_confirmed.average(:number_of_diners), :precision => 2)} diners"
+      puts "_____Avg Days Prior to Booking: #{number_with_precision(avg_days_between_booking_made_and_taken(@day_confirmed), :precision => 1)} days"
+     end
+    write_stats
+    puts "_____Daily job (part A) table stats have been generated"
+
+      puts "_____"
+      puts "_____Daily job (part B) to delete the records for the action date."
+      puts "_____Records to be deleted: #{(@day_confirmed.count)+(@day_cancelled.count)}"
+     Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).destroy_all
+      puts "_____Daily job (part B) complete - records deleted."
+      
+      
+      puts "----------------------DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:END-------------------------"
+      puts "\n"
+   end
  

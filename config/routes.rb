@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :dailystats
  # post "dailybanks/save_draft" => "dailybanks#save_draft", :as => :save_draft
   resources :dailybanks
   resources :exemptions
