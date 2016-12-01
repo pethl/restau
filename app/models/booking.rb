@@ -36,7 +36,7 @@ class Booking < ActiveRecord::Base
         end
       
       #12) DUP check to ensure booking is not in December
-        if ([12].include? (params[:booking_date]).to_date.month)
+        if (([12].include? (params[:booking_date]).to_date.month) && (params[:number_of_diners].to_i >4))
           return Error.get_msg("999999120")    
         end
       
@@ -186,9 +186,9 @@ class Booking < ActiveRecord::Base
         end 
 
   #12) check to ensure booking is not in December
-    if ([12].include? (params[:booking_date]).to_date.month)
-      return Error.get_msg("999999120")    
-    end
+#    if ([12].include? (params[:booking_date]).to_date.month)
+#      return Error.get_msg("999999120")    
+#    end
     
     #13) DUP check to ensure booking is not after latest booking *cuurently 29 may 2017
       if  (params[:booking_date]).to_date > Date.new(2017,5,31)
@@ -365,15 +365,27 @@ def self.all_search(search)
     
     hash_of_times = Booking.get_times_hash(booking_datetime.to_datetime.wday)
     hash_to_delete = Array.new
+    
+    # December special - prevent online bookings of 6pm onwards
+    if ([12].include? (booking_datetime.to_date.month.to_i))
+      #Rails.logger.debug("hash_of_times before : #{hash_of_times}")
+      hash_of_times.delete(["18:00"])
+      hash_of_times.delete(["18:30"])
+      hash_of_times.delete(["19:00"])
+      hash_of_times.delete(["19:30"])
+      hash_of_times.delete(["20:00"])
+      hash_of_times.delete(["20:30"])
+      #Rails.logger.debug("hash_of_times after : #{hash_of_times}")
+    end
+    
     if number_of_diners >= 7
       if ([0,3,4,5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.pop
       end
       if ([5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.delete(["14:00"])
-      end
+      end    
     end
-    
      
       if @existing_bookings.count == 0
         return hash_of_times
