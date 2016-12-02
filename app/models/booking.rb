@@ -37,7 +37,7 @@ class Booking < ActiveRecord::Base
       
       #12) DUP check to ensure booking is not in December
         if (([12].include? (params[:booking_date]).to_date.month) && (params[:number_of_diners].to_i >4))
-          return Error.get_msg("999999120")    
+          return Error.get_msg("999999107")    
         end
       
       #13) DUP check to ensure booking is not after latest booking *cuurently 31 may 2017
@@ -369,6 +369,7 @@ def self.all_search(search)
     # December special - prevent online bookings of 6pm onwards
     if ([12].include? (booking_datetime.to_date.month.to_i))
       #Rails.logger.debug("hash_of_times before : #{hash_of_times}")
+      hash_of_times.delete(["15:00"])
       hash_of_times.delete(["18:00"])
       hash_of_times.delete(["18:30"])
       hash_of_times.delete(["19:00"])
