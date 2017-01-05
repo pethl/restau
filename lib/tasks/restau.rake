@@ -55,6 +55,29 @@ namespace :restau do
       puts "\n"
     end 
     
+    task :send_booking_reminder_tomorrow => :environment do
+      puts "\n"
+       puts "----------------------SEND_BOOKING_REMINDER_TOMORROW:START-------------------------"
+     
+       puts "_____Send a booking reminder email to everyone with a booking tomorrow"
+       date = Date.tomorrow
+         
+       @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed")
+       reminders_count = @bookings.count
+       puts "_____Booking records requiring reminder - count #{reminders_count}" 
+     
+       if reminders_count > 0
+       @bookings.each.with_index(1) do |booking, index|
+               puts "#{index}/#{reminders_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners}"
+               BookingMailer.booking_reminder_customer(booking).deliver_now
+           end
+         end
+     
+       puts "_____Customer booking reminders for tomorrow have been sent"
+        puts "----------------------SEND_BOOKING_REMINDER_TOMORROW:END-------------------------"
+       puts "\n"
+     end 
+    
     task :test_feedback => :environment do
       puts "----------------------TEST_FEEDBACK:START-------------------------"
       
