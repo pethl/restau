@@ -192,7 +192,7 @@ module BookingsHelper
     def get_bookings_over_seven(one_day_of_bookings)
       @bookings = one_day_of_bookings
       return_string = "-"
-      find_values = [7,8,9,10]
+      find_values = [7,8,9,10,11,12]
       
       @bookings.each do |booking|
         if find_values.include?(booking.number_of_diners)
@@ -206,7 +206,7 @@ module BookingsHelper
     def get_bookings_over_seven_array(one_day_of_bookings)
       @bookings = one_day_of_bookings
       return_string = []
-      find_values = [7,8,9,10]
+      find_values = [7,8,9,10,11,12]
       
       @bookings.each do |booking|
         if find_values.include?(booking.number_of_diners)
@@ -220,7 +220,7 @@ module BookingsHelper
     def has_bookings_over_nine(one_day_of_bookings)
       @bookings = one_day_of_bookings
       @return_string= false
-      find_values = [9,10]
+      find_values = [9,10,11,12]
       
       @bookings.each do |booking|
         if find_values.include?(booking.number_of_diners)

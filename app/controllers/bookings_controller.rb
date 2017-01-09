@@ -67,11 +67,11 @@ class BookingsController < ApplicationController
       
         if @booking.is_a? Integer
            # specific error msge returned, cannot book
-           redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(@booking) }
+           redirect_to static_pages_new_booking_enquiry_path, :flash => { :warning => Error.get_msg(@booking) }
       
         elsif @booking.is_a? String 
            # generic error message returned for fully booked 
-           redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(999999118) }
+           redirect_to static_pages_new_booking_enquiry_path, :flash => { :warning => Error.get_msg(999999118) }
         
         elsif @booking.is_a? Object
            #original booking successful, proceed to confirmation
@@ -79,12 +79,12 @@ class BookingsController < ApplicationController
      
          else  
            #Non-specific, system error.
-           redirect_to static_pages_booking_enquiry_path, :flash => { :warning => Error.get_msg(999999109) }
+           redirect_to static_pages_new_booking_enquiry_path, :flash => { :warning => Error.get_msg(999999109) }
          end 
         
       else # if validation comes back with error
         # send user back to booking page and display specific validation error msg
-        redirect_to static_pages_booking_enquiry_path, :flash => { :warning => validate }
+        redirect_to static_pages_new_booking_enquiry_path, :flash => { :warning => validate }
       end
       
 
