@@ -71,7 +71,9 @@ class Booking < ActiveRecord::Base
     @large_table_max = Rdetail.get_value(restaurant_id, "large_table_count") 
     
     #NEW STATMENT ADDED JAN 2017, can only be 2 tables over 6 in any session, but can only be 2  at 7 or 8 or 1 large and 1 at 7 or 8 , not 2 at over 8
-    if @total_over_six_count < 2
+    if number_of_diners >6
+      
+      if @total_over_six_count < 2
     
       #VAILDATIONS
     if ((number_of_diners == 7) && (@large_tables_count >= @large_table_max))
@@ -100,6 +102,8 @@ class Booking < ActiveRecord::Base
    else
      return Error.get_msg("999999107") 
    end
+ else
+ end
         
   end
   

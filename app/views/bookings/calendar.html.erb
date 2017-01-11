@@ -40,8 +40,9 @@
       <br>Eve: <b><%= get_sum_from_array_for_field_evening(@bookings_by_date[date]) %></b></font> 
       <font color=#999999>(<%= get_sum_from_array_for_field(@bookings_by_date[date]) %>)</b>
       <br><font color=#3333CC>
-      <%= get_bookings_over_seven(@bookings_by_date[date]) %></font>
-      </small></h6>
+
+      <%= get_bookings_over_seven(@bookings_by_date[date]) %></font><br >
+       </small></h6>
        
        <% else %>
         <center>
