@@ -35,15 +35,20 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999103")    
         end
       
-      #12) DUP check to ensure booking is not in December
-        if (([12].include? (params[:booking_date]).to_date.month) && (params[:number_of_diners].to_i >4))
-          return Error.get_msg("999999107")    
-        end
+      # REMOVED JAN 2017 - 12) DUP check to ensure booking is not in December
+      #  if (([12].include? (params[:booking_date]).to_date.month) && (params[:number_of_diners].to_i >4))
+      #   return Error.get_msg("999999107")    
+      #  end
       
-      #13) DUP check to ensure booking is not after latest booking *cuurently 31 may 2017
+      #13) DUP check to ensure booking is not after latest booking *curently 31 may 2017
         if  (params[:booking_date]).to_date > Date.new(2017,5,31)
           return Error.get_msg("999999123")    
         end
+        
+      #14) Check to ensure booking date is not on list of exemption dates
+        if  (params[:booking_date]).to_date > Date.new(2017,5,31)
+          return Error.get_msg("999999123")    
+        end  
     
     #002) SECOND LINE VALIDATIONS   
     #PREP
@@ -70,6 +75,7 @@ class Booking < ActiveRecord::Base
     @big_table_max = Rdetail.get_value(restaurant_id, "big_table_count") 
     @large_table_max = Rdetail.get_value(restaurant_id, "large_table_count") 
     
+
     #NEW STATMENT ADDED JAN 2017, can only be 2 tables over 6 in any session, but can only be 2  at 7 or 8 or 1 large and 1 at 7 or 8 , not 2 at over 8
     if number_of_diners >6
       
@@ -91,14 +97,34 @@ class Booking < ActiveRecord::Base
     if ((number_of_diners == 10) && (@big_tables_count >= @big_table_max))
           return Error.get_msg("999999107")  
      end
+   end
+ end
+    #NEW STATMENT ADDED JAN 2017, can only be 2 tables over 6 in any session, but can only be 2  at 7 or 8 or 1 large and 1 at 7 or 8 , not 2 at over 8. First section only checks rough stab at existing bookings not what session they are in. see get_available_times for next steps.
 
-    if ((number_of_diners == 11) && (@big_tables_count >= @big_table_max))
-         return Error.get_msg("999999107")  
-     end
 
-    if ((number_of_diners == 12) && (@big_tables_count >= @big_table_max))
-          return Error.get_msg("999999107")  
-     end
+    if ([7,8,9,10,11,12].include? number_of_diners)
+
+    if (([0,3,4].include? (params[:booking_date]).to_date.wday) && (@total_over_six_count < 2)) 
+    
+      #VAILDATIONS for non-lunch days
+      if (([7,8].include? number_of_diners) && (@large_tables_count >= @large_table_max))
+           return Error.get_msg("999999108")  
+       end
+       
+      if (([9,10,11,12].include? number_of_diners) && (@big_tables_count >= @big_table_max))
+           return Error.get_msg("999999107")  
+       end
+       
+    elsif (([5,6].include? (params[:booking_date]).to_date.wday) && (@total_over_six_count < 4))   
+     
+      #VAILDATIONS for days with lunch session
+      if (([7,8].include? number_of_diners) && (@large_tables_count >= (@large_table_max*2)))
+           return Error.get_msg("999999108")  
+       end
+       
+      if (([9,10,11,12].include? number_of_diners) && (@big_tables_count >= (@big_table_max*2)))
+           return Error.get_msg("999999107")  
+       end
    else
      return Error.get_msg("999999107") 
    end
@@ -247,17 +273,7 @@ class Booking < ActiveRecord::Base
         
     # HASH OF EXISTING DINERS NUMBER (USED ONLY FOR LARGE/BIG BOOKINGS)
     @existing_diners_number = @existing_bookings.pluck(:number_of_diners)
-    
-    # EXISTING TABLES OF 9, 10, 11, 12) IN THE DAY COUNT
-    @big_tables_count = (@existing_diners_number.count(9)+ @existing_diners_number.count(10)+ @existing_diners_number.count(11)+ @existing_diners_number.count(12))
-
-    # EXISTING TABLES OF 7 OR 8) IN THE DAY COUNT
-    @large_tables_count = (@existing_diners_number.count(8))+ (@existing_diners_number.count(7))
-  
-    # GET BIG AND LARGE TABLE MAX FROM SYSTEM PARAMETERS
-    @big_table_max = Rdetail.get_value(@booking[:restaurant_id], "big_table_count") 
-    @large_table_max = Rdetail.get_value(@booking[:restaurant_id], "large_table_count") 
-    
+      
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
       @max_diners_at_same_start_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
      # Rails.logger.debug("@max_diners_at_same_start_time : #{@max_diners_at_same_start_time}")
@@ -275,31 +291,21 @@ class Booking < ActiveRecord::Base
    
     case @diners
     when 9,10,11,12
-      if (@big_tables_count < @big_table_max)
           @booking = Booking.new(@booking)
           @booking.save
           return @booking
-        else
-        #Error for too many big groups, return Integer to prevent automated re-book
-        return 999999107
-      end
     when 8, 7 
-        if (@large_tables_count < @large_table_max)
           @booking = Booking.new(@booking)
           @booking.save
           return @booking
-        else
-          #Error for too many large groups, return Integer to prevent automated re-book
-        return 999999108
-      end
     when 1,2,3,4,5,6
-       @booking = Booking.new(@booking)
-       @booking.save
-       return @booking
+          @booking = Booking.new(@booking)
+          @booking.save
+          return @booking
      else 
-        #Error for ++current diners or ++diners at same time, return string for automated re-book
-        msg = "Try again"
-       return msg
+          #Error for ++current diners or ++diners at same time, return string for automated re-book
+          msg = "Try again"
+          return msg
     end
   end #case statement end
 
@@ -353,22 +359,36 @@ def self.all_search(search)
   def self.get_available_space(booking_datetime, number_of_diners)
     @existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", booking_datetime.beginning_of_day, booking_datetime.end_of_day).where(:status => "Confirmed")
     @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
+    @lunch_existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", booking_datetime.beginning_of_day, booking_datetime.change({ hour: 16, min: 55 })).where(:status => "Confirmed")
+    @eve_existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", booking_datetime.change({ hour: 17, min: 00 }), booking_datetime.end_of_day).where(:status => "Confirmed")
     
+    # HASH OF EXISTING DINERS NUMBER (USED ONLY FOR LARGE/BIG BOOKINGS)
+    @existing_diners_number = @existing_bookings.pluck(:number_of_diners)  
+    @lunch_existing_diners_number = @lunch_existing_bookings.pluck(:number_of_diners)
+    @eve_existing_diners_number = @eve_existing_bookings.pluck(:number_of_diners)
+    
+    # EXISTING TABLES OF 9, 10, 11 OR 12) IN THE DAY COUNT
+    @day_big_tables_count = (@existing_diners_number.count(9)+ @existing_diners_number.count(10)+ @existing_diners_number.count(11)+ @existing_diners_number.count(12))
+    @lunch_big_tables_count = (@lunch_existing_diners_number.count(9)+ @lunch_existing_diners_number.count(10)+ @lunch_existing_diners_number.count(11)+ @lunch_existing_diners_number.count(12))
+    @eve_big_tables_count = (@eve_existing_diners_number.count(9)+ @eve_existing_diners_number.count(10)+ @eve_existing_diners_number.count(11)+ @eve_existing_diners_number.count(12))
+
+    # EXISTING TABLES OF 7 OR 8) IN THE DAY COUNT
+    @day_large_tables_count = (@existing_diners_number.count(8))+ (@existing_diners_number.count(7))
+    @lunch_large_tables_count = (@lunch_existing_diners_number.count(8))+ (@lunch_existing_diners_number.count(7))
+    @eve_large_tables_count = (@eve_existing_diners_number.count(8))+ (@eve_existing_diners_number.count(7))
+    
+    # TOTAL EXISTING TABLES OVER 6, (7-12) IN THE DAY COUNT
+    @day_total_over_six_count = (@day_big_tables_count + @day_large_tables_count)
+    @lunch_total_over_six_count = (@lunch_big_tables_count + @lunch_large_tables_count)
+    @eve_total_over_six_count = (@eve_big_tables_count + @eve_large_tables_count)
+    
+    # GET BIG AND LARGE TABLE MAX FROM SYSTEM PARAMETERS
+    restaurant_id= @existing_bookings.first.restaurant_id
+    @big_table_max = Rdetail.get_value(restaurant_id, "big_table_count") 
+    @large_table_max = Rdetail.get_value(restaurant_id, "large_table_count") 
+   
     hash_of_times = Booking.get_times_hash(booking_datetime.to_datetime.wday)
     hash_to_delete = Array.new
-    
-    # REMOVED JAN 2017 - December special - prevent online bookings of 6pm onwards
-  #  if ([12].include? (booking_datetime.to_date.month.to_i))
-      #Rails.logger.debug("hash_of_times before : #{hash_of_times}")
-  #    hash_of_times.delete(["15:00"])
-  #    hash_of_times.delete(["18:00"])
-  #    hash_of_times.delete(["18:30"])
-  #    hash_of_times.delete(["19:00"])
-  #    hash_of_times.delete(["19:30"])
-  #    hash_of_times.delete(["20:00"])
-  #    hash_of_times.delete(["20:30"])
-      #Rails.logger.debug("hash_of_times after : #{hash_of_times}")
-  #  end
     
     if number_of_diners >= 7
       if ([0,3,4,5,6].include? (booking_datetime.to_date.wday))
@@ -376,7 +396,48 @@ def self.all_search(search)
       end
       if ([5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.delete(["14:00"])
-      end    
+      end   
+      #new conditions to rid array of times if current clashing large groups
+      if  (([5,6].include? (booking_datetime.to_date.wday))&&(@lunch_total_over_six_count>=2))
+        hash_of_times.delete(["12:00"])
+        hash_of_times.delete(["12:30"])
+        hash_of_times.delete(["13:00"])
+        hash_of_times.delete(["13:30"])
+        hash_of_times.delete(["14:00"])
+        hash_of_times.delete(["14:30"])
+      end
+      if  (([5,6].include? (booking_datetime.to_date.wday))&&(@eve_total_over_six_count>=2))
+        hash_of_times.delete(["17:00"])
+        hash_of_times.delete(["17:30"])
+        hash_of_times.delete(["18:00"])
+        hash_of_times.delete(["18:30"])
+        hash_of_times.delete(["19:00"])
+        hash_of_times.delete(["19:30"])
+        hash_of_times.delete(["20:00"])
+        hash_of_times.delete(["20:30"])
+      end
+      
+    end
+     
+    if number_of_diners >= 9
+      if  (([5,6].include? (booking_datetime.to_date.wday))&&(@lunch_big_tables_count >= @big_table_max))
+        hash_of_times.delete(["12:00"])
+        hash_of_times.delete(["12:30"])
+        hash_of_times.delete(["13:00"])
+        hash_of_times.delete(["13:30"])
+        hash_of_times.delete(["14:00"])
+        hash_of_times.delete(["14:30"])
+      end
+      if  (([5,6].include? (booking_datetime.to_date.wday))&&(@eve_big_tables_count >= @big_table_max))
+        hash_of_times.delete(["17:00"])
+        hash_of_times.delete(["17:30"])
+        hash_of_times.delete(["18:00"])
+        hash_of_times.delete(["18:30"])
+        hash_of_times.delete(["19:00"])
+        hash_of_times.delete(["19:30"])
+        hash_of_times.delete(["20:00"])
+        hash_of_times.delete(["20:30"])
+      end
     end
      
       if @existing_bookings.count == 0

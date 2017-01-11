@@ -13,8 +13,10 @@
   <% end %>
 
    
-    <%= f.date_select :exempt_day %>
-    <%= f.text_field :exempt_message %>
+    <%= f.date_select :exempt_day, start_year: 2017 %>
+    <%= f.text_area :exempt_message %> 
+    <h6><font color=#33CC33>Exemption message will be shown to customers when they try to book on this date,<br> so <b>please</b> check spelling and wording carefully.
+    </font></h6>
   
     <div class="col-sm-offset-2 col-sm-10">
      <div class="actions">

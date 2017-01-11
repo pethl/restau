@@ -22,7 +22,7 @@
              
         <tr>
         <td><strong><%= booking.name %></strong></td>
-        <td><%= booking.phone %> / <%= booking.email %><br><small><font color=#B0B0B0>Booking created at: <%= booking.created_at.strftime('%a, %d %B %Y') %></td>
+        <td><%= booking.phone %> / <%= booking.email %><br><small><font color=#B0B0B0>Booking created: <%= booking.created_at.strftime('%a, %d %b %Y, %H:%M') %></td>
         <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
         <td><center><%= booking.number_of_diners %></center></td>
         <td><center>
