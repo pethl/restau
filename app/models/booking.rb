@@ -44,6 +44,11 @@ class Booking < ActiveRecord::Base
         if  (params[:booking_date]).to_date > Date.new(2017,5,31)
           return Error.get_msg("999999123")    
         end
+        
+      #14) Check to ensure booking date is not on list of exemption dates
+        if  (params[:booking_date]).to_date > Date.new(2017,5,31)
+          return Error.get_msg("999999123")    
+        end  
     
     #002) SECOND LINE VALIDATIONS   
     #PREP

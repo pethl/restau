@@ -3,19 +3,24 @@
 <%= render 'layouts/sidebar' %>
 </div>
 
-<div class="col-md-10">
+<div class="col-md-6">
 
-<h3>Exemption Day</h3>
+<h4>Booking Exemption Day</h4>
 <br>
+<div class="well" style="background-color: grey;">
+
 <p>
   <strong>Exempt day:</strong>
-  <%= @exemption.exempt_day %>
+  <%= @exemption.exempt_day.strftime('%a, %d %b %Y')  %>
 </p>
 
 <p>
   <strong>Exempt message:</strong>
   <%= @exemption.exempt_message %>
 </p>
-<br><br>
-<%= link_to 'Edit', edit_exemption_path(@exemption), style: 'color:#FFFFFF;'  %> |
-<%= link_to 'Back to All Exemptions', exemptions_path, style: 'color:#FFFFFF;'  %>
+</div>
+
+<br>
+<%= link_to 'Back to All Booking Exemptions', exemptions_path, style: 'color:#FFFFFF;'  %> <br>
+<%= link_to 'Create a new booking exemption day', new_exemption_path, style: 'color:#FFFFFF;' %>
+

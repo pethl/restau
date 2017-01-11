@@ -5,26 +5,36 @@
 
 <div class="col-md-10">
 
-<h3>Booking Exemption Days</h3>
+<h4>Booking Exemption Days</h4>
 <br>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Exempt day</th>
-      <th>Exempt message</th>
-      <th colspan="3"></th>
+      <th style="width: 20%">Exempt day</th>
+      <th style="width: 50%">Exempt message</th>
+      <th colspan="3" style="width: 30%"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @exemptions.each do |exemption| %>
       <tr>
-        <td><%= exemption.exempt_day %></td>
-        <td><%= exemption.exempt_message %></td>
+      <% if exemption.exempt_day < Date.today %>
+        <font color=#A9A9A9>
+        <td><font color=#A9A9A9><%= exemption.exempt_day.strftime('%a, %d %b %Y') %></td>
+        <td><font color=#A9A9A9><%= exemption.exempt_message %></font></td>
+        <td><%= link_to 'Show', exemption %></td>
+        <td colspan="2"></td>
+     
+      <% else %>  
+      <td><%= exemption.exempt_day.strftime('%a, %d %b %Y') %></td>
+      <td><%= exemption.exempt_message %></td>
+ 
         <td><%= link_to 'Show', exemption %></td>
         <td><%= link_to 'Edit', edit_exemption_path(exemption) %></td>
         <td><%= link_to 'Destroy', exemption, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+           <% end %> 
       </tr>
     <% end %>
   </tbody>
@@ -32,4 +42,4 @@
 
 <br>
 
-<%= link_to 'New Exemption', new_exemption_path, style: 'color:#FFFFFF;' %>
+<%= link_to 'Create a new booking exemption day', new_exemption_path, style: 'color:#FFFFFF;' %>
