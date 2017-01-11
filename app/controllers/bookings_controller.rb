@@ -202,6 +202,8 @@ class BookingsController < ApplicationController
   end
   
   def basic_report
+    @bookings = Booking.where(status: 'Confirmed').last(15)
+    @bookings = @bookings.reverse
   end
   
   def calendar
