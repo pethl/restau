@@ -31,6 +31,7 @@ class BookingsController < ApplicationController
   
   # NEW METHOD OF FINDING AVAILABLE TIMES
   def booking_get_times
+    #Check_Entry does basic validations and ensures if large booking that not too many existing bookings exist
     check_entry = Booking.check_entry_params(params[:booking])
     if check_entry.blank?
       hashhere = Booking.get_available_space((params[:booking][:booking_date].to_datetime), (params[:booking][:number_of_diners].to_i))
@@ -206,8 +207,7 @@ class BookingsController < ApplicationController
   def calendar
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_month.beginning_of_day, @date.end_of_month.end_of_day).where(:status => "Confirmed")
-    @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}  
-      
+    @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date}    
   end
   
   def availability

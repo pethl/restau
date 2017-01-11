@@ -202,6 +202,44 @@ module BookingsHelper
        return return_string
     end
     
+    # THeSe  TWO FUNCTION RETURNS ALL BOOKINGS OF 7 OR OVER AS DELIMITED CHAR STRING, i.e. 7-9-10-8
+    # FOR SPECIFIED SESSION
+    def get_lunch_bookings_over_seven(one_day_of_bookings)
+      @bookings = one_day_of_bookings
+      return_string = "-"
+      find_values = [7,8,9,10,11,12]
+     time_compare = @bookings.first.booking_date_time.change({ hour: 16, min: 55 })
+     
+      Rails.logger.debug("in time_compare: #{time_compare.inspect}")
+      
+      @bookings.each do |booking|
+        unless booking.booking_date_time > time_compare
+        if find_values.include?(booking.number_of_diners)
+          return_string = return_string+booking.number_of_diners.to_s+"-"
+        end
+     end
+      end
+       return return_string
+    end
+    
+    def get_eve_bookings_over_seven(one_day_of_bookings)
+      @bookings = one_day_of_bookings
+      return_string = "-"
+      find_values = [7,8,9,10,11,12]
+     time_compare = @bookings.first.booking_date_time.change({ hour: 16, min: 56 })
+     
+      Rails.logger.debug("in time_compare: #{time_compare.inspect}")
+      
+      @bookings.each do |booking|
+        unless booking.booking_date_time < time_compare
+        if find_values.include?(booking.number_of_diners)
+          return_string = return_string+booking.number_of_diners.to_s+"-"
+        end
+     end
+      end
+       return return_string
+    end
+    
     # THIS FUNCTION RETURNS ALL BOOKINGS OF 7 OR OVER AS an array
     def get_bookings_over_seven_array(one_day_of_bookings)
       @bookings = one_day_of_bookings
