@@ -209,8 +209,6 @@ module BookingsHelper
       return_string = "-"
       find_values = [7,8,9,10,11,12]
      time_compare = @bookings.first.booking_date_time.change({ hour: 16, min: 55 })
-     
-      Rails.logger.debug("in time_compare: #{time_compare.inspect}")
       
       @bookings.each do |booking|
         unless booking.booking_date_time > time_compare
@@ -227,9 +225,7 @@ module BookingsHelper
       return_string = "-"
       find_values = [7,8,9,10,11,12]
      time_compare = @bookings.first.booking_date_time.change({ hour: 16, min: 56 })
-     
-      Rails.logger.debug("in time_compare: #{time_compare.inspect}")
-      
+       
       @bookings.each do |booking|
         unless booking.booking_date_time < time_compare
         if find_values.include?(booking.number_of_diners)
