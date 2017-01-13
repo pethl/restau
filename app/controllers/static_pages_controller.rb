@@ -35,6 +35,9 @@ class StaticPagesController < ApplicationController
   def hfsk_location
   end
   
+  def hfsk_careers
+  end
+  
   def hfsk_get_in_touch
       @message = Message.new
       @customer = Customer.new

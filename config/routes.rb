@@ -82,6 +82,7 @@ Rails.application.routes.draw do
   get '/hfsk_booking' => 'static_pages#booking_enquiry'
   get '/hfsk_location' => 'static_pages#hfsk_location'
   get '/hfsk_get_in_touch' => 'static_pages#hfsk_get_in_touch'
+  get '/hfsk_careers' => 'static_pages#hfsk_careers'
   get '/hfsk_menu' => 'static_pages#hfsk_menu'
   get '/hfsk_holiday_season' => 'static_pages#hfsk_holiday_season'
   
@@ -99,6 +100,7 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_about"
   get "static_pages/hfsk_location"
   get "static_pages/hfsk_get_in_touch"
+  get "static_pages/hfsk_careers"
   get "static_pages/hfsk_menu"
   get "static_pages/hfsk_holiday_season"
   get "sessions/new"

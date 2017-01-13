@@ -1,6 +1,7 @@
 class ExemptionsController < ApplicationController
+  before_action :logged_in_user, only: [:show, :edit, :update, :destroy, :index, :new]
   before_action :set_exemption, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /exemptions
   # GET /exemptions.json
   def index
