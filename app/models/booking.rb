@@ -463,14 +463,15 @@ def self.all_search(search)
     # EXISTING TABLES OF 7 OR 8) IN THE DAY COUNT
     @day_large_tables_count = (@existing_diners_number.count(8))+ (@existing_diners_number.count(7))
     @lunch_large_tables_count = (@lunch_existing_diners_number.count(8))+ (@lunch_existing_diners_number.count(7))
+    # Rails.logger.debug("xxxxx_@lunch_large_tables_count : #{@lunch_large_tables_count.inspect}")
     @eve_large_tables_count = (@eve_existing_diners_number.count(8))+ (@eve_existing_diners_number.count(7))
+    # Rails.logger.debug("xxxxx_@eve_large_tables_count : #{@eve_large_tables_count.inspect}")
     
     # TOTAL EXISTING TABLES OVER 6, (7-12) IN THE DAY COUNT
     @day_total_over_six_count = (@day_big_tables_count + @day_large_tables_count)
-   # @lunch_total_over_six_count = (@lunch_big_tables_count + @lunch_large_tables_count)
-  #  Rails.logger.debug("in @lunch_total_over_six_count: #{@lunch_total_over_six_count.inspect}")
-   	      
-   # @eve_total_over_six_count = (@eve_big_tables_count + @eve_large_tables_count)
+   @lunch_total_over_six_count = (@lunch_big_tables_count + @lunch_large_tables_count)
+  Rails.logger.debug("in @lunch_total_over_six_count: #{@lunch_total_over_six_count.inspect}")
+   @eve_total_over_six_count = (@eve_big_tables_count + @eve_large_tables_count)
   #      
     
     #NEW STATMENT ADDED JAN 2017, can only be 2 tables over 6 in any session, but can only be 2  at 7 or 8 or 1 large and 1 at 7 or 8 , not 2 at over 8
@@ -489,7 +490,7 @@ def self.all_search(search)
     elsif ([5,6].include? (params[:booking_date]).to_date.wday)   
      
       #VAILDATIONS for days with lunch session
-      if ((([7,8].include? number_of_diners) && (@lunch_large_tables_count >= @large_table_max)) && (([7,8].include? number_of_diners) && (@eve_large_tables_count >= @large_table_max)))
+      if ((([7,8].include? number_of_diners) && (@lunch_total_over_six_count >= @large_table_max)) && (([7,8].include? number_of_diners) && (@eve_total_over_six_count >= @large_table_max)))
            return Error.get_msg("999999108")  
       end
       
