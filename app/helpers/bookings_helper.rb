@@ -4,8 +4,60 @@ module BookingsHelper
     Booking.where("booking_date_time < ?", Date.yesterday.end_of_day).where(:status => "Confirmed")
   end
   
+  def booking_completed
+    Dailystat.sum(:confirmed_bookings)+Booking.where("booking_date_time < ?", Date.yesterday.end_of_day).where(:status => "Confirmed").count
+  end
+  
+  def people_fed_to_date
+    Dailystat.sum(:diners_fed)+get_sum_from_array_for_field(booking_completed_raw)
+  end
+  
+  def people_fed_total
+    Dailystat.sum(:diners_fed) + get_sum_from_array_for_field(booking_all_confirmed_raw)
+  end
+  
+  def average_diners_per_completed_booking
+    (Dailystat.average(:avg_headcount_per_booking) + booking_completed_raw.average(:number_of_diners))/2
+  end
+  
+  def average_diners_per_outstanding_booking
+    booking_outstanding_raw.average(:number_of_diners)
+  end
+  
+  def average_diners_per_total_booking
+    (Dailystat.average(:avg_headcount_per_booking) + booking_all_confirmed_raw.average(:number_of_diners))/2
+  end
+  
   def booking_outstanding_raw
     Booking.where("booking_date_time > ?", Date.yesterday.end_of_day).where(:status => "Confirmed")
+  end
+  
+  
+  
+  def average_days_to_completed_booking_under_7
+    (Dailystat.average(:avg_days_prior_to_booking_under_seven) + (avg_days_between_booking_made_and_taken_under_7(booking_completed_raw)))/2
+  end
+  
+  def average_days_to_outstanding_booking_under_7
+    (avg_days_between_booking_made_and_taken_under_7(booking_outstanding_raw))
+  end
+  
+  def average_days_to_total_booking_under_7
+    (Dailystat.average(:avg_days_prior_to_booking_under_seven) + (avg_days_between_booking_made_and_taken_under_7(booking_all_confirmed_raw)))/2
+  end
+  
+  
+  
+  def average_days_to_completed_booking_over_6
+    (Dailystat.average(:avg_days_prior_to_booking_over_six) + (avg_days_between_booking_made_and_taken_over_6(booking_completed_raw)))/2
+  end
+  
+  def average_days_to_outstanding_booking_over_6
+    (avg_days_between_booking_made_and_taken_over_6(booking_outstanding_raw))
+  end
+  
+  def average_days_to_total_booking_over_6
+    (Dailystat.average(:avg_days_prior_to_booking_over_six) + (avg_days_between_booking_made_and_taken_over_6(booking_all_confirmed_raw)))/2
   end
   
   def booking_made_on_this_day(date)
@@ -21,7 +73,7 @@ module BookingsHelper
   end
   
   def booking_all_confirmed
-    Booking.where(:status => "Confirmed").count
+    Dailystat.sum(:confirmed_bookings)+Booking.where(:status => "Confirmed").count
   end
   
   def booking_all_confirmed_raw

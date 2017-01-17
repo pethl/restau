@@ -1,13 +1,14 @@
 <br>
-<h6>Booking details matching customer's email address:</h6>
 
 <TABLE class="table table-bordered table-condensed table-hover">
   <thead>
     <tr>
-    <th>When Booked?</th>
-     <th>Status</th>
+      <th>When Booked?</th>
+      <th>Last Updated?</th>
+      <th>Status</th>
       <th>Booking Date</th>
       <th><center>Booking Time</center></th>
+      <th>Days Bkd Prior to Eating</th>
       <th>Customer</th>
       <th>Contact</th>
       <th><center>Diners</center></th>
@@ -22,6 +23,8 @@
              
         <tr>
         <td><small><font color=#8c99a6><%= booking.created_at.strftime('%Y %b %d %H:%M') %></small></td>
+        <td><small><font color=#8c99a6><%= booking.updated_at.strftime('%Y %b %d %H:%M') %></small></td>
+       
        <% if booking.status == "Cancelled" %>
        <td class="danger"><%= booking.status %><br><small>[<%= booking.cancelled_at.strftime('%d %b %y') %>]</td>
        <% elsif booking.status == "Confirmed" %>
@@ -29,8 +32,9 @@
         <% else %>
         <td><%= booking.status %></td>
         <% end %>
-        <td><%= booking.booking_date_time.strftime('%a, %d %B %Y') %></td>
+        <td><%= booking.booking_date_time.strftime('%a, %d %b %Y') %></td>
         <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+        <td><center><%= ((booking.booking_date_time.to_date)-(booking.created_at.to_date)).to_i %></center></td>
         <td><strong><%= booking.name %></strong></td>
         <td><%= booking.phone %></td>
         <td><center><%= booking.number_of_diners %></center></td>

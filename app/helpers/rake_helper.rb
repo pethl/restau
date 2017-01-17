@@ -3,7 +3,7 @@ module RakeHelper
   
   def get_action_date_for_stats_and_purge
     if Dailystat.all.count == 0 
-      return Date.new(2016,3,10)
+      return Date.new(2016,3,4)
     else Dailystat.last.action_date+1.day
     end 
   end

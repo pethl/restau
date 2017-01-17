@@ -17,18 +17,18 @@
   <tr style="text-align:center">
     <td></td>
     
-    <td colspan=2><%= booking_completed_raw.count %> bookings</td>
-    <td colspan=2><%= booking_outstanding_raw.count %> bookings</td>
-    <td colspan=2><%= booking_all_confirmed %> bookings</td>
+    <td colspan=2><%= number_with_delimiter(booking_completed, :delimiter => ',') %> bookings</td>
+    <td colspan=2><%= number_with_delimiter(booking_outstanding_raw.count, :delimiter => ',') %> bookings</td>
+    <td colspan=2><%= number_with_delimiter(booking_all_confirmed, :delimiter => ',') %> bookings</td>
     
   </tr>  
   
   <tr style="text-align:center">
     <td></td>
    
-    <td colspan=2><%= get_sum_from_array_for_field(booking_completed_raw) %> people</td>
-    <td colspan=2><%= get_sum_from_array_for_field(booking_outstanding_raw) %> people</td>
-     <td colspan=2><%= get_sum_from_array_for_field(booking_all_confirmed_raw) %> people</td>
+    <td colspan=2><%= number_with_delimiter(people_fed_to_date, :delimiter => ',') %> people</td>
+    <td colspan=2><%= number_with_delimiter(get_sum_from_array_for_field(booking_outstanding_raw), :delimiter => ',') %> people</td>
+     <td colspan=2><%= number_with_delimiter(people_fed_total, :delimiter => ',') %> people</td>
   </tr>  
   
   </table>
@@ -36,20 +36,24 @@
   <table class="table">
   <tr>
     <th style="text-align:center"></th>
-    <th style="text-align:center"><font color=#ffff66>Today</th>
-    <th style="text-align:center"><font color=#ffff66>Yesterday</th>
+    <th style="text-align:center"><font color=#ffff66>Today<br><br><%= Date.today.strftime('%d-%b') %></th>
+    <th style="text-align:center"><font color=#ffff66>Yesterday<br><br><%= Date.yesterday.strftime('%d-%b') %></th>
+    <th style="text-align:center"><font color=#ffff66>Day Before<br>Yesterday<br><%= (Date.yesterday-1.day).strftime('%d-%b') %></th>
     <th style="text-align:center"><font color=#ffcc00>This Week</th>
     <th style="text-align:center"><font color=#ffcc00>Last Week</th>
-    <th style="text-align:center"><font color=#ff9933>This Month</th>
-    <th style="text-align:center"><font color=#ff9933>Previous Month</th>
+     <th style="text-align:center"><font color=#ffcc00>Previous Week</th>
+    <th style="text-align:center"><font color=#ff9933>This Month<br>- <%= Date.today.strftime('%b') %> -</th>
+    <th style="text-align:center"><font color=#ff9933>Previous Month<br>- <%= (Date.today-1.month).strftime('%b') %> -</th>
   </tr>
   
   <tr style="text-align:center">
     <td><b>Confirmed</td>
     <td><font color=#ffff66><%= booking_made_on_this_day(Date.today) %></td>
     <td><font color=#ffff66><%= booking_made_on_this_day(Date.yesterday) %></td>
+    <td><font color=#ffff66><%= booking_made_on_this_day(Date.yesterday-1.day) %></td>
     <td><font color=#ffcc00><%= booking_made_in_this_week(Date.today) %></td>
     <td><font color=#ffcc00><%= booking_made_in_this_week(Date.today-7.days) %></td>
+     <td><font color=#ffcc00><%= booking_made_in_this_week(Date.today-14.days) %></td>
     <td><font color=#ff9933><%= booking_made_in_this_month(Date.today) %></td>
     <td><font color=#ff9933><%= booking_made_in_this_month(Date.today.last_month) %></td>
   </tr>  
@@ -58,15 +62,47 @@
     <td><b>Cancelled</td>
     <td><font color=#ffff66><%= booking_cancelled_on_this_day(Date.today) %></td>
     <td><font color=#ffff66><%= booking_cancelled_on_this_day(Date.yesterday) %></td>
+    <td><font color=#ffff66><%= booking_cancelled_on_this_day(Date.yesterday-1.day) %></td>
     <td><font color=#ffcc00><%= booking_cancelled_in_this_week(Date.today) %></td>
     <td><font color=#ffcc00><%= booking_cancelled_in_this_week(Date.today-7.days) %></td>
+    <td><font color=#ffcc00><%= booking_cancelled_in_this_week(Date.today-14.days) %></td>
     <td><font color=#ff9933><%= booking_cancelled_in_this_month(Date.today) %></td>
     <td><font color=#ff9933><%= booking_cancelled_in_this_month(Date.today.last_month) %></td>
   </tr>  
-  
   </table>
   
-  <h6>Table below shows last 15 bookings made as of:</h6>
+  <br>
+  <table class="table">
+  <tr>
+    <th style="text-align:center"></th>
+    <th style="text-align:center">Completed</th>
+    <th style="text-align:center">Outstanding</th>
+    <th style="text-align:center">Total</th>
+    </tr>
+  
+    <tr style="text-align:center">
+      <td><b>Average Number of <br>Diners per Booking</b></td>
+       <td><%= number_with_precision(average_diners_per_completed_booking, :precision => 2) %></td>
+       <td><%= number_with_precision(average_diners_per_outstanding_booking, :precision => 2) %></td>
+       <td><%= number_with_precision(average_diners_per_total_booking, :precision => 2) %></td>
+     </tr>
+
+     <tr style="text-align:center">
+      <td><b>Average Days Booking<br> Made Prior to Eating (<7)</b></td>
+      <td><%= number_with_precision(average_days_to_completed_booking_under_7, :precision => 2) %></td>
+      <td><%= number_with_precision(average_days_to_outstanding_booking_under_7, :precision => 2) %></td>
+      <td><%= number_with_precision(average_days_to_total_booking_under_7, :precision => 2) %></td>
+      </tr>
+
+      <tr style="text-align:center">
+      <td><b>Average Days Booking<br> Made Prior to Eating (7+)</b></td>
+      <td><%= number_with_precision(average_days_to_completed_booking_over_6, :precision => 2) %></td>
+      <td><%= number_with_precision(average_days_to_outstanding_booking_over_6, :precision => 2) %></td>
+      <td><%= number_with_precision(average_days_to_total_booking_over_6, :precision => 2) %></td>
+      </tr>
+    </table>
+  <br>
+  <h6>Table below shows last 15 bookings made on the system:</h6>
   <%= render 'bookings/very_simple_index' %>
   
   </div>

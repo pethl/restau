@@ -109,6 +109,7 @@ task :purge_held_bookings => :environment do
       puts "Customer: #{customer}"
       puts "Confirmed: #{confirmed}"
       puts "Cancelled: #{cancelled}"
+      puts "Total: #{cancelled+customer+confirmed}"
       UserMailer.send_table_stats.deliver_now
           
       puts "_____Table stats have been sent"

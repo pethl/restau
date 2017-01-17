@@ -5,6 +5,7 @@
     <p>Customer: <%= Customer.all.count %></p>
     <p>Bookings - Confirmed: <%= Booking.where(status: "Confirmed").count %></p>
     <p>Bookings - Cancelled: <%= Booking.where(status: "Cancelled").count %></p>
+    <p>Total - <%= (Customer.all.count)+(Booking.where(status: "Cancelled").count)+(Booking.where(status: "Confirmed").count) %></p>
 
   </body>
 </html>
