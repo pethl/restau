@@ -7,7 +7,7 @@
 <div class="col-md-10">
 <h2>End of Day - Draft Records</h2><br>
  <% if current_user.admin?  || current_user.super_user? %>
-<h6><%= link_to 'Search End of Day Records', history_path, :class => "link", :style => "color:orange" %></h6>
+<h6><%= link_to 'Search End of Day Records', latest_path, :class => "link", :style => "color:orange" %></h6>
 <% end %>
 
 <table class="table">
@@ -17,7 +17,7 @@
       <th>User</th>
       <th>Date</th>
       <th style="text-align:right">Takings</th>
-      <th style="text-align:right">Expected Takings</th>
+      <th style="text-align:right">Expected<br>Takings</th>
       <th style="text-align:right">Variance</th>
       <th style="text-align:right" colspan="3"></th>
     </tr>
@@ -26,21 +26,37 @@
   <tbody>
     <% @dailybanks.each do |dailybank| %>
       <tr>
-        <td><%= dailybank.status %></td>
+        <td>
+        <% if dailybank.status == "Locked" %>
+        <font color=#00ff00><b><%= dailybank.status %></b>
+        <% elsif dailybank.status == "Draft" %>
+         <font color=#FF0000><b><%= dailybank.status %></b>
+         <% else %>
+         <b><%= dailybank.status %></b>
+         <% end%>
+         </td>
+        
         <td><%= User.where(id: dailybank.user_id).first.name %></td>
         <td><%= dailybank.effective_date.strftime('%a, %d %b %Y') %></td>
-        <td style="text-align:right"><%= dailybank.actual_cash_total %></td>
-        <td style="text-align:right"><%= dailybank.actual_till_takings %></td>
-        <td style="text-align:right"><%= dailybank.calculated_variance %></td>
+        <td style="text-align:right"><%= number_to_currency(dailybank.actual_cash_total, :locale => :en) %></td>
+        <td style="text-align:right"><%= number_to_currency(dailybank.actual_till_takings, :locale => :en) %></td>
+        <td style="text-align:right"><%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></td>
         
         <% if dailybank.status == "Created" %>
-        <td style="text-align:right"><%= link_to 'Details', edit_dailybank_path(dailybank) %></td>
-        <% elsif dailybank.status == "Draft"%>
-        <td style="text-align:right"><%= link_to 'Details', dailybank %></td>
+        <td style="text-align:right"><%= link_to 'Edit Details', edit_dailybank_path(dailybank) %></td>
+        <% else %>
+        <td style="text-align:right"><%= link_to 'Show Details', dailybank %></td>
         <% end %>
+        
          <% if current_user.admin?  || current_user.super_user? %>
+            <% if dailybank.status == "Locked" %>
+              <% elsif dailybank.status == "Draft" %>   
         <td style="text-align:right"><%= link_to 'Mgmt Review', edit_dailybank_path(dailybank) %></td>
         <td style="text-align:right"><%= link_to 'Destroy', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+        <td></td>
+        <td style="text-align:right"><%= link_to 'Destroy', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
       <% end %>
       </tr>
     <% end %>

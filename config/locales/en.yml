@@ -25,3 +25,6 @@ en:
       format:
         format: "%u%n"
         unit: "£"
+        delimiter: ","
+        separator: "."
+        precision: 2

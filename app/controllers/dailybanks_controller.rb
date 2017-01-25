@@ -1,7 +1,11 @@
 class DailybanksController < ApplicationController
-  before_action :logged_in_user, only: [:show, :edit, :history, :history_week, :history_month, :index, :update, :destroy]
- before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :save_draft]
+ before_action :logged_in_user, only: [:show, :edit, :history, :history_week, :history_month, :index, :update, :destroy]
+ before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :submit_comment, :mgmt_lock]
    
+ def latest
+    @dailybanks = Dailybank.last(1)
+ end
+
   def history
     @dailybanks = []
       #take params from search on History view, or if no search, return 0
@@ -51,7 +55,7 @@ class DailybanksController < ApplicationController
                if @dailybanks.any?
                  # params= []
                  @dailybanks
-                 @dailybanks_by_week = @dailybanks.group_by { |t| t.effective_date.strftime("%U") }
+                 @dailybanks_by_week = @dailybanks.group_by { |t| t.effective_date.strftime("%W") }
        
                else
                  params= []
@@ -67,7 +71,8 @@ class DailybanksController < ApplicationController
   # GET /dailybanks
   # GET /dailybanks.json
   def index
-    @dailybanks = Dailybank.where.not(status: "Locked")
+   # @dailybanks = Dailybank.where.not(status: "Locked")
+   @dailybanks = Dailybank.where("effective_date >= ?", Date.today.beginning_of_week)
   end
 
   # GET /dailybanks/1
@@ -106,21 +111,46 @@ class DailybanksController < ApplicationController
     end
   end
 
+  # This function is used to save the comment if it is not blank
+  def submit_comment
+   #  Rails.logger.debug("XXXXXXXXX in update: #{dailybank_params[:variance_comment].inspect}")
+   if dailybank_params[:variance_comment].length == 0
+     redirect_to @dailybank, :flash => { :error => "Please enter a comment to explain your variance."}
+   else
+    respond_to do |format|
+       if @dailybank.update(dailybank_params)
+        run_calc_rules(@dailybank)
+        format.html { redirect_to @dailybank}
+        format.json { render :show, status: :ok, location: @dailybank }
+      else
+        format.html { render :edit }
+        format.json { render json: @dailybank.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  end
+  
+  #This function is used for mgmt_review_re_calculate
+  def mgmt_lock
+    Rails.logger.debug("XXXXXXXXX in mgmt_lock: #{dailybank_params.inspect}")
+    dailybank_params[:status] = "Locked"
+    Rails.logger.debug("XXXXXXXXX after update of params in mgmt_lock: #{dailybank_params.inspect}")
+    if @dailybank.update(dailybank_params)
+      redirect_to @dailybank, notice: "Thank you for completing End of Day. This record is now locked"
+    else  
+      redirect_to @dailybank, :flash => { :error => "An error has occurred, please contact IT Support."}
+    end
+  end
+
   # PATCH/PUT /dailybanks/1
   # PATCH/PUT /dailybanks/1.json
   def update
     respond_to do |format|
-  #    Rails.logger.debug("in update: #{dailybank_params}")
-  #    if dailybank_params.first.second.blank?
-  #      Rails.logger.debug("LOG : #{dailybank_params.first.second}")
-  #    end
        if @dailybank.update(dailybank_params)
         run_calc_rules(@dailybank)
-   #     check_comment(@dailybank)
-        
         format.html { redirect_to @dailybank}
         format.json { render :show, status: :ok, location: @dailybank }
-      else
+   else
         format.html { render :edit }
         format.json { render json: @dailybank.errors, status: :unprocessable_entity }
       end
@@ -150,18 +180,15 @@ class DailybanksController < ApplicationController
     end
     
     def run_calc_rules(dailybank)
-     
       if (!dailybank.banking.blank? && !dailybank.card_payments.blank? && !dailybank.expenses.blank? )
         dailybank.update_attribute(:actual_cash_total, (dailybank.banking+dailybank.card_payments+dailybank.expenses))
       else
-         
        end
        
        if (!dailybank.till_takings.blank? && !dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank?)
          dailybank.update_attribute(:actual_till_takings, ((dailybank.till_takings+dailybank.vouchers_sold+dailybank.deposit_sold)-(dailybank.deposit_used+dailybank.vouchers_used)))
         else
-        
-      end 
+       end 
         if (!dailybank.actual_cash_total.blank? && !dailybank.actual_till_takings.blank?)
           dailybank.update_attribute(:calculated_variance, (dailybank.actual_cash_total-dailybank.actual_till_takings))
         else
@@ -170,27 +197,23 @@ class DailybanksController < ApplicationController
         if (!dailybank.calculated_variance.blank? && !dailybank.user_variance.blank?)
           dailybank.update_attribute(:variance_gap, (dailybank.user_variance-dailybank.calculated_variance))
         else
-          Rails.logger.debug("in 3rd else: #{dailybank}")
+          #Rails.logger.debug("in 3rd else: #{dailybank}")
         end
       end
       
-      #currently not in use
-      def check_comment(dailybank)
-        if (dailybank.first.second.blank? && dailybank.status=="Draft")
-        else
-        end
-       end
        
        #check if there is already a daily bank record for effective date of today - where today is
        def does_record_exist_for_today?
          if Time.now < "05:00:10"
-           start_time = DateTime.yesterday.beginning_of_day.change({ hour: 05, min: 01 })
-           end_time = Time.now.beginning_of_day.change({ hour: 05, min: 00 })
+          # start_time = DateTime.yesterday.beginning_of_day.change({ hour: 05, min: 01 })
+          # end_time = Time.now.beginning_of_day.change({ hour: 05, min: 00 })
+          today_date = Date.yesterday
          else 
-          start_time = Time.now.beginning_of_day.change({ hour: 05, min: 01 })
-          end_time = DateTime.tomorrow.beginning_of_day.change({ hour: 05, min: 00 })
+        #  start_time = Time.now.beginning_of_day.change({ hour: 05, min: 01 })
+        #  end_time = DateTime.tomorrow.beginning_of_day.change({ hour: 05, min: 00 })
+        today_date = Date.today
          end
-        if Dailybank.where("effective_date BETWEEN ? AND ?",start_time, end_time).count >0
+        if Dailybank.where('DATE(effective_date) = ?', today_date).count >0
           return true
         else
           return false

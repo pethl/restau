@@ -143,7 +143,7 @@ RSpec.describe Dailybank, :type => :model do
           user_variance: 1)
     
     dailybank.valid?
-    expect(dailybank.errors[:vouchers_sold]).to include("cannot be blank")
+    expect(dailybank.errors[:vouchers_sold]).to include("cannot be blank, enter zero if none sold")
   end
   
   it "is invalid without vouchers_used" do
@@ -161,7 +161,7 @@ RSpec.describe Dailybank, :type => :model do
           user_variance: 1)
     
     dailybank.valid?
-    expect(dailybank.errors[:vouchers_used]).to include("cannot be blank")
+    expect(dailybank.errors[:vouchers_used]).to include("cannot be blank, enter zero if none used")
   end
   
   it "is invalid without deposit_sold:" do
@@ -179,7 +179,7 @@ RSpec.describe Dailybank, :type => :model do
           user_variance: 1)
     
     dailybank.valid?
-    expect(dailybank.errors[:deposit_sold]).to include("cannot be blank")
+    expect(dailybank.errors[:deposit_sold]).to include("cannot be blank, enter zero if none sold")
   end
   
   it "is invalid without deposit_used:" do
@@ -197,7 +197,7 @@ RSpec.describe Dailybank, :type => :model do
           user_variance: 1)
     
     dailybank.valid?
-    expect(dailybank.errors[:deposit_used]).to include("cannot be blank")
+    expect(dailybank.errors[:deposit_used]).to include("cannot be blank, enter zero if none used")
   end
   
   it "is invalid without user_variance::" do
@@ -215,6 +215,23 @@ RSpec.describe Dailybank, :type => :model do
           user_variance: nil)
     
     dailybank.valid?
-    expect(dailybank.errors[:user_variance]).to include("cannot be blank")
+    expect(dailybank.errors[:user_variance]).to include("cannot be blank, enter variance value which may be zero")
   end
+  
+  it "redirects to show with essential user inputs and zero variance" do
+      dailybank = Dailybank.new(
+        effective_date: '2016-06-01',
+        status: 'Created',
+        banking: 100,
+        card_payments: 50,
+        expenses: 10,
+        till_takings: 100,
+        vouchers_sold: 50,
+        vouchers_used: 0,
+        deposit_sold: 10,
+        deposit_used: 0,
+        user_variance: 0)
+      dailybank.create  
+        
+  expect(response).to redirect_to dailybank end
 end

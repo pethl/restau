@@ -4,27 +4,18 @@
 <%= render 'layouts/sidebar' %>
 </div>
 
-<div class="col-md-10">
+<div class="col-md-8">
 <h3>End of Day Banking History</h3><br>
 
 <ul class="nav nav-tabs">
-<li role="presentation"><%= link_to "Latest", latest_path %></li>
-<li role="presentation"><%= link_to "By Day", history_path %></li>
-<li role="presentation" class="active"><%= link_to "By Week", history_week_path %></li>
-<li role="presentation"><%= link_to "By Month", history_month_path %></li>
+  <li role="presentation" class="active"><%= link_to "Latest", latest_path %></li>
+  <li role="presentation"><%= link_to "By Day", history_path %></li>
+  <li role="presentation"><%= link_to "By Week", history_week_path %></li>
+  <li role="presentation"><%= link_to "By Month", history_month_path %></li>
 </ul>
 <br>
-<%= form_tag history_week_path, method: :get, :class => "form-inline" do %>
 
-    <h6><small>Search by:
-    
-     <input class="datepicker" data-provide='datepicker' id="search" name=[day] type="text" data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Select any day in week" >
-    
-  <button type="submit" class="btn btn-primary btn-sm">Search</button>
-<% end %>
-<br><br>
-
-
+<br>
 
 <% if @dailybanks == 0 %>
   
@@ -35,11 +26,11 @@
   <table class="table">
  
   <tr>
-  <td  class="active"><b>Date</b></td>
+  <td class="active"><b>Date</b></td>
   <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"  class="active"><b><%= dailybank.effective_date.strftime('%A') %><br><%= dailybank.effective_date.strftime('%d %B') %></b></td>
+  <td style="text-align:right" class="active"><b><%= dailybank.effective_date.strftime('%A') %><br><%= dailybank.effective_date.strftime('%d %B') %></b></td>
   <% end %>
-  <td style="text-align:right"  class="active"><b>Total<b></td>
+  <td style="text-align:right" class="active"><b>Total<b></td>
   </tr>
  
   <tr>
@@ -137,7 +128,7 @@
   <% end %>
   <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "calculated_variance") %><b></td>
   </tr>
- 
+  
   <tr>
   <td></td>
   <% @dailybanks.each do |dailybank| %>
@@ -151,3 +142,4 @@
   
   <% end %>
   
+

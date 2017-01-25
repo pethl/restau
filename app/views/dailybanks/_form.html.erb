@@ -1,4 +1,5 @@
 <%= form_for(@dailybank) do |f| %>
+
   <% if @dailybank.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
@@ -31,47 +32,55 @@
    </td>
   </tr>   <tr>
    <td> <%= f.label :banking %><br>
-    <%= f.text_field :banking, :style => "text-align: Right" %>
+    <%= f.text_field :banking, :style => "text-align: Right", :value => (number_with_precision(f.object.banking, :precision => 2)) %>
     </td>
    <td> <%= f.label :card_payments, "Total Card" %><br>
-    <%= f.text_field :card_payments, :style => "text-align: Right" %>
+    <%= f.text_field :card_payments, :style => "text-align: Right", :value => (number_with_precision(f.object.card_payments, :precision => 2)) %>
     </td>
     <td> <%= f.label :expenses %><br>
-     <%= f.text_field :expenses, :style => "text-align: Right" %>
+     <%= f.text_field :expenses, :style => "text-align: Right", :value => (number_with_precision(f.object.expenses, :precision => 2)) %>
      </td>
    <td><font color=#FFA500> <%= f.label :actual_cash_total, "Takings" %><br>
-   <%=  @dailybank.actual_cash_total %></td>
+   <%=  number_with_precision(@dailybank.actual_cash_total, :delimiter => ',', precision: 2) %></td>
     </tr>
    <tr>
     <td><%= f.label :till_takings, "Total Sales" %><br>
-    <%= f.text_field :till_takings, :style => "text-align: Right" %>
+    <%= f.text_field :till_takings, :style => "text-align: Right", :value => (number_with_precision(f.object.till_takings, :precision => 2)) %>
      </td>
     <td>  <%= f.label :vouchers_sold, "Vouchers Sold" %><br>
-    <%= f.text_field :vouchers_sold, :style => "text-align: Right" %>
+    <%= f.text_field :vouchers_sold, :style => "text-align: Right", :value => (number_with_precision(f.object.vouchers_sold, :precision => 2)) %>
     <br>
     <%= f.label :vouchers_used, "Vouchers Used" %><br>
-      <%= f.text_field :vouchers_used, :style => "text-align: Right" %>
+      <%= f.text_field :vouchers_used, :style => "text-align: Right", :value => (number_with_precision(f.object.vouchers_used, :precision => 2)) %>
      </td>
     <td><%= f.label :deposit_sold, "Deposits Sold" %><br>
-    <%= f.text_field :deposit_sold, :style => "text-align: Right" %>
+    <%= f.text_field :deposit_sold, :style => "text-align: Right", :value => (number_with_precision(f.object.deposit_sold, :precision => 2)) %>
     <br>
     <%= f.label :deposit_used, "Deposits Used" %><br>
-         <%= f.text_field :deposit_used, :style => "text-align: Right" %>
+         <%= f.text_field :deposit_used, :style => "text-align: Right", :value => (number_with_precision(f.object.deposit_used, :precision => 2)) %>
      </td>
     <td><font color=#FFA500><%= f.label :actual_till_takings, "Expected Takings" %><br>
-     <%=  @dailybank.actual_till_takings %></td>
+     <%=  number_with_precision(@dailybank.actual_till_takings, :delimiter => ',', precision: 2) %></td>
        </tr>
    <tr>
    <td> </td> 
+   
+   <% if f.object.status == "Created" %>
      <td> <%= f.label :user_variance, "User Variance" %><br>
-      <%= f.text_field :user_variance, :style => "text-align: Right" %>
+      <%= f.text_field :user_variance, :style => "text-align: Right", :value => (number_with_precision(f.object.user_variance, :precision => 2)) %>
       </td>
+    <% else %>
+    <td> <%= f.label :user_variance, "User Variance" %><br>
+       <%= number_with_precision(@dailybank.user_variance, :delimiter => ',', precision: 2)%></td>
+    <% end %>  
+    <td><b><font color=#FFDC00>< < Variance Gap > > </b><br>
+     <%=  number_with_precision(@dailybank.variance_gap, :delimiter => ',', precision: 2) %></td>
+    
      <td><font color=#FFA500> <%= f.label :calculated_variance, "Calculated Variance" %><br>
-      <%=  @dailybank.calculated_variance %></td>
-      <td><b><font color=#FFA500>Variance Gap: </b><br>
-       <%=  @dailybank.variance_gap %></td>
-      </tr>
+      <%=  number_with_precision(@dailybank.calculated_variance, :delimiter => ',', precision: 2) %></td>
       
+      </tr>
+      <% if @dailybank.status == "Draft" %>
        <% if current_user.admin?  || current_user.super_user? %>
          <tr>
          <td colspan="4">
@@ -82,23 +91,17 @@
         </tr>
         <% else %>
        <% end %>
+        <% end %>
    </table>
 
   <div class="row">
-  <div class="col-md-1  col-md-offset-4">
+  <div class="col-md-1  ">
   <%= f.submit "Calculate", class: "btn btn-primary btn-sm" %>
     <% end %>
     </div>
-     <div class="col-md-1 col-md-offset-1" >
-     <% if @dailybank.status == "Locked" %>
-        <% else %>
-     <% if current_user.admin?  || current_user.super_user? %>
-       <%= form_for(@dailybank) do |f| %>
-        <%= f.hidden_field :status, :value => "Locked" %>
-        <%= f.submit "Mgmt Lock", class: "btn btn-success btn-sm" %>
-       <% end %>
-      <% end %>
-       <% end %>
+    
+    
+   
 </div>
 <% end %>
 </div>   

@@ -4,15 +4,15 @@ class Dailybank < ActiveRecord::Base
    
    validates :effective_date, presence: true
    validates :status, presence: true
-   validates_numericality_of :banking, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_numericality_of :card_payments, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_numericality_of :expenses, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_numericality_of :till_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_numericality_of :vouchers_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
-   validates_numericality_of :vouchers_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
-   validates_numericality_of :deposit_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
-   validates_numericality_of :deposit_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
-   validates_numericality_of :user_variance, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero none'
+   validates_presence_of :banking, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_presence_of :card_payments, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_presence_of :expenses, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_presence_of :till_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   validates_presence_of :vouchers_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
+   validates_presence_of :vouchers_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
+   validates_presence_of :deposit_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
+   validates_presence_of :deposit_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
+   validates_presence_of :user_variance, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter variance value which may be zero'
  
    # :wet_takings, :dry_takings, :merch_takings
    

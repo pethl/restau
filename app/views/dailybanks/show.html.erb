@@ -11,68 +11,76 @@
 <h2>End of Day - Draft</h2><br>
   <% elsif @dailybank.status== "Locked" %>
 <h2>End of Day - Completed</h2><br>
-<% end %> 
-<p>
+<% end %> <p>
   <table class= "table" style="text-align:right">
  <tr>
- <td><b>Date: </b><%= @dailybank.effective_date.strftime('%a, %d %b %Y') %>
+ <td><b><font color=#D3D3D3>Date: </b></font>
+ <%= @dailybank.effective_date.strftime('%a, %d %b %Y') %>
 </td>
  <td>
-   <b>Status: </b><%= @dailybank.status %> 
+   <b><font color=#D3D3D3>Status: </b></font></b><%= @dailybank.status %> 
   </td>
  <td>
- <b>User: </b><%= User.where(id: @dailybank.user_id).first.name %>
+ <b><font color=#D3D3D3>User: </b></font></b><%= User.where(id: @dailybank.user_id).first.name %>
   </td>
   <td>
-  <b>Created </b><%= @dailybank.created_at.strftime('%H:%M')  %>
+  <b><font color=#D3D3D3>Created at: </b></font></b><%= @dailybank.created_at.strftime('%H:%M')  %>
    </td>
  </tr>
   <tr>
-  <td><b>Banking</b><br>
-   <%= @dailybank.banking %>
+  <td><b><font color=#D3D3D3>Banking </b></font><br>
+   <%= number_to_currency(@dailybank.banking, :locale => :en) %>
    </td>
-  <td><b>Total Card</b><br>
-   <%= @dailybank.card_payments %>
+  <td><b><font color=#D3D3D3>Total Card </b></font><br>
+   <%= number_to_currency(@dailybank.card_payments, :locale => :en) %>
    </td>
-  <td><b>Expenses</b><br>
-   <%= @dailybank.expenses %>
+  <td><b><font color=#D3D3D3>Expenses </b></font><br>
+   <%= number_to_currency(@dailybank.expenses, :locale => :en) %>
    </td>
   <td><font color=#FFA500><b>Takings</b><br>
-   <%= @dailybank.actual_cash_total %></td>
+   <%= number_to_currency(@dailybank.actual_cash_total, :locale => :en) %></td>
    </tr>
     <tr>
-   <td><b>Total Sales</b><br>
-   <%= @dailybank.till_takings %>
+   <td><b><font color=#D3D3D3>Total Sales </b></font><br>
+   <%= number_to_currency(@dailybank.till_takings, :locale => :en) %>
     </td>
-   <td> <b>Vouchers Sold</b><br>
-   <%= @dailybank.vouchers_sold %>
+   <td> <b><font color=#D3D3D3>Vouchers Sold</b></font><br>
+   <%= number_to_currency(@dailybank.vouchers_sold, :locale => :en) %>
    <br>
-   <b>Vouchers Used</b><br>
-   <%= @dailybank.vouchers_used %>
+   <b><font color=#D3D3D3>Vouchers Used</b></font><br>
+   <%= number_to_currency(@dailybank.vouchers_used, :locale => :en) %>
    </td>
-   <td><b>Deposits Sold</b><br>
-   <%= @dailybank.deposit_sold %>
+   <td><b><font color=#D3D3D3>Deposits Sold</b></font><br>
+   <%= number_to_currency(@dailybank.deposit_sold, :locale => :en) %>
    <br>
-   <b>Deposits Used</b><br>
-   <%= @dailybank.deposit_used %>
+   <b><font color=#D3D3D3>Deposits Used</b></font></b><br>
+   <%= number_to_currency(@dailybank.deposit_used, :locale => :en) %>
    </td>
    <td><font color=#FFA500><b>Expected Takings</b><br>
-    <%= @dailybank.actual_till_takings %>
+    <%= number_to_currency(@dailybank.actual_till_takings, :locale => :en) %>
     </td> 
     </tr>
     
     <tr>
-   <td><b>User Variance</b><br>
-   <%= @dailybank.user_variance %>
+   <td><b><font color=#D3D3D3>User Variance</b></font><br>
+   <%= number_to_currency(@dailybank.user_variance, :locale => :en) %>
     </td>
+    <td>
+    </td>
+    <td>
+    <b><font color=#FFDC00>< < Variance Gap > > </b><br>
+         <%=  number_with_precision(@dailybank.variance_gap, :delimiter => ',', precision: 2) %>
+     </td> 
    <td><font color=#FFA500><b>System Variance</b><br>
-   <%= @dailybank.calculated_variance %>
+   <%= number_to_currency(@dailybank.calculated_variance, :locale => :en) %>
    </td>
-   <td>
-   </td>
-   <td>
-    </td> 
+   
     </tr>
+     <% if current_user.admin?  || current_user.super_user? %>
+       <tr><td><b><font color=#D3D3D3>User Variance Comments</b></font></td>
+       <td colspan="3"  style="text-align:left">
+   <%= @dailybank.variance_comment %></td></tr>
+       <% end %>
     </table>
  
   
@@ -80,22 +88,23 @@
   
    <% if @dailybank.variance_gap== 0%>
  
- <h6><b><font color=#13E84A>You have a variance of £<%= @dailybank.variance_gap %></b><br><br>
- <%= form_for(@dailybank) do |f| %>
+ <h6><b><font color=#13E84A>You have a variance of <%= number_to_currency(@dailybank.variance_gap, :locale => :en)  %>, please now lock this record.</b><br><br>
+ <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
    <%= f.hidden_field :status, :value => "Locked" %>
-   <%= f.submit "Lock & Complete", class: "btn btn-primary" %>
+   <%= f.submit "Lock & Complete", class: "btn-sm btn-success" %>
  <% end %>
  <h6>
  
   <% else %>
-  <h6><b><font color=#FF3F33>You have a variance of £<%= @dailybank.variance_gap %></b><h6>
+  <h6><b><font color=#FF3F33>You have a variance of <%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></b><h6>
    <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success btn-sm" %> to correct any errors
    <h5> or </h5>
-   <h6>Enter variance reason and Save as Draft.
+   <h6>Enter variance reason and save as Draft for mgmt review.
   </font><h6>
   
-    <%= form_for(@dailybank) do |f| %>
-     <font=black> <%= f.text_area :variance_comment, rows: "2", placeholder: "Enter variance reason", :style => "text-align: Left", class:"form-control input-sm" %>
+  <%= form_for @dailybank, :url => { :action => "submit_comment", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+
+      <font=black> <%= f.text_area :variance_comment, rows: "2", placeholder: "Enter variance reason", :style => "text-align: Left", class:"form-control input-sm" %>
      </font>
       <%= f.hidden_field :status, :value => "Draft" %>
       <%= f.submit "Save as Draft", class: "btn btn-primary btn-sm" %>
@@ -103,10 +112,22 @@
   <% end %>
   
     <% elsif   @dailybank.status== "Draft" %>
-    <h6>Draft has been saved for management review.</h6>
     
+     <div class="col-md-4 col-md-offset-1" >
+    
+     <% if current_user.admin?  || current_user.super_user? %>
+       <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+         <%= f.hidden_field :status, :value => "Locked" %>
+         <%= f.submit "Lock & Complete", class: "btn-sm btn-success" %>
+       <% end %>
+       <% else %>
+        <h6>Draft has been saved for management review.</h6>
+      <% end %>
+      
+   </div>
      <% elsif   @dailybank.status== "Locked" %>
      
+      <h6>This record is locked and cannot be edited.</h6>
       <% else %>
        <h6>Error - Unknown status on record - please report to IT dept.</h6>
     

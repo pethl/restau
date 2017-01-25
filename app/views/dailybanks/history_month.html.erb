@@ -5,19 +5,20 @@
 </div>
 
 <div class="col-md-10">
-<h2>End of Day Banking History</h2><br>
+<h3>End of Day Banking History</h3><br>
 
 <ul class="nav nav-tabs">
-<li role="presentation"><%= link_to "By Day", history_path(@dailybanks) %></li>
+<li role="presentation"><%= link_to "Latest", latest_path %></li>
+<li role="presentation"><%= link_to "By Day", history_path %></li>
 <li role="presentation"><%= link_to "By Week", history_week_path %></li>
-<li role="presentation" class="active"><%= link_to "By Month", history_month_path(@dailybanks) %></li>
+<li role="presentation" class="active"><%= link_to "By Month", history_month_path %></li>
 </ul>
 <br>
 <%= form_tag history_month_path, method: :get, :class => "form-inline" do %>
 
     <h6><small>Search by:
     
-     <input class="datepicker" data-provide='datepicker' id="search" name=[month] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Select any day in month" >
+     <input class="datepicker" data-provide='datepicker' id="search" name=[month] type="text" data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Select any day in month" >
    
   <button type="submit" class="btn btn-primary btn-sm">Search</button>
 <% end %>

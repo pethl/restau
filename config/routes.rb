@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   resources :dailystats
  # post "dailybanks/save_draft" => "dailybanks#save_draft", :as => :save_draft
-  resources :dailybanks
+  resources :dailybanks do
+      collection { post :submit_comment };
+      collection { post :mgmt_lock }
+    end
   resources :exemptions
   resources :functions
   resources :cashfloats do
@@ -49,6 +52,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'static_pages#hfsk_home'
   
+  get '/latest' => 'dailybanks#latest'
   get '/history' => 'dailybanks#history'
   get '/history_week' => 'dailybanks#history_week'
   get '/history_month' => 'dailybanks#history_month'
