@@ -82,23 +82,23 @@
   
     <tr style="text-align:center">
       <td><b>Average Number of <br>Diners per Booking</b></td>
-       <td><%= number_with_precision(average_diners_per_completed_booking, :precision => 2) %></td>
-       <td><%= number_with_precision(average_diners_per_outstanding_booking, :precision => 2) %></td>
-       <td><%= number_with_precision(average_diners_per_total_booking, :precision => 2) %></td>
+       <td><%= number_with_precision(average_diners_per_completed_booking, :precision => 1) %></td>
+       <td><%= number_with_precision(average_diners_per_outstanding_booking, :precision => 1) %></td>
+       <td><%= number_with_precision(average_diners_per_total_booking, :precision => 1) %></td>
      </tr>
 
      <tr style="text-align:center">
       <td><b>Average Days Booking<br> Made Prior to Eating (<7)</b></td>
-      <td><%= number_with_precision(average_days_to_completed_booking_under_7, :precision => 2) %></td>
-      <td><%= number_with_precision(average_days_to_outstanding_booking_under_7, :precision => 2) %></td>
-      <td><%= number_with_precision(average_days_to_total_booking_under_7, :precision => 2) %></td>
+      <td><%= number_with_precision(average_days_to_completed_booking_under_7, :precision => 0) %></td>
+      <td><%= number_with_precision(average_days_to_outstanding_booking_under_7, :precision => 0) %></td>
+      <td><%= number_with_precision(average_days_to_total_booking_under_7, :precision => 0) %></td>
       </tr>
 
       <tr style="text-align:center">
       <td><b>Average Days Booking<br> Made Prior to Eating (7+)</b></td>
-      <td><%= number_with_precision(average_days_to_completed_booking_over_6, :precision => 2) %></td>
-      <td><%= number_with_precision(average_days_to_outstanding_booking_over_6, :precision => 2) %></td>
-      <td><%= number_with_precision(average_days_to_total_booking_over_6, :precision => 2) %></td>
+      <td><%= number_with_precision(average_days_to_completed_booking_over_6, :precision => 0) %></td>
+      <td><%= number_with_precision(average_days_to_outstanding_booking_over_6, :precision => 0) %></td>
+      <td><%= number_with_precision(average_days_to_total_booking_over_6, :precision => 0) %></td>
       </tr>
     </table>
   <br>

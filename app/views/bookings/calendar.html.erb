@@ -26,7 +26,8 @@
      <% if @date.month != date.month %>
        
       <% elsif date < Date.today %>
-       <center>
+     
+        <center>
        <h6><small><font color=#A0A0A0>Diners: 
        <b><%= get_sum_from_array_for_field(@bookings_by_date[date]) %></b>
        <br>

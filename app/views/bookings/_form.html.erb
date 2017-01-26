@@ -14,7 +14,7 @@
 
      <%= f.collection_select :restaurant_id, Restaurant.all, :id, :name %>
   
-     <%= f.datetime_select :booking_date_time, :minute_step => 15, :start_year => Date.today.year, :end_year => Date.today.year + 1, selected: Date.tomorrow, :start_hour => 12, :end_hour=> 22  %>
+     <%= f.datetime_select :booking_date_time, :minute_step => 15, :start_year => Date.today.year, :end_year => Date.today.year + 1, selected: Date.today, :start_hour => 12, :end_hour=> 22  %>
     <%= f.select :number_of_diners, options_for_select(1..21, f.object.number_of_diners ) %>
     <%= f.text_field :name, placeholder: "Customer Name" %>
     <%= f.text_field :phone, placeholder: "Customer Phone (if unknown enter 0000)" %>
