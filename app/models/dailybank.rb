@@ -1,20 +1,31 @@
 class Dailybank < ActiveRecord::Base
   
-   DAILYBANK_STATUS_TYPES = ["Created", "Draft", "Locked"]
+  has_many :expenses
+  accepts_nested_attributes_for :expenses
+  has_many :cashfloats, :dependent => :destroy
+  accepts_nested_attributes_for :cashfloats
+  
+   DAILYBANK_STATUS_TYPES = ["Start", "Created", "In Progress", "Draft", "Locked"]
    
    validates :effective_date, presence: true
    validates :status, presence: true
-   validates_presence_of :banking, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_presence_of :card_payments, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_presence_of :expenses, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_presence_of :till_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
-   validates_presence_of :vouchers_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
-   validates_presence_of :vouchers_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
-   validates_presence_of :deposit_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
-   validates_presence_of :deposit_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
-   validates_presence_of :user_variance, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter variance value which may be zero'
- 
-   # :wet_takings, :dry_takings, :merch_takings
+   validates :user_id, presence: true
+   
+#   validates_presence_of :till_float, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+#    validates_presence_of :till_cash, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   #validates_presence_of :card_payments, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+ #  validates_presence_of :expenses, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+#   validates_presence_of :wet_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+#   validates_presence_of :dry_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+#   validates_presence_of :merch_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+   
+   #validates_presence_of :till_takings, :greater_than_or_equal_to => 0, message: 'cannot be blank'
+ #  validates_presence_of :vouchers_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
+#   validates_presence_of :vouchers_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
+#   validates_presence_of :deposit_sold, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none sold'
+#   validates_presence_of :deposit_used, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter zero if none used'
+ #  validates_presence_of :user_variance, :greater_than_or_equal_to => 0, message: 'cannot be blank, enter variance value which may be zero'
+
    
    HUMANIZED_ATTRIBUTES = {
        :card_payments => "Total Card", :deposit_sold => "Deposits Sold", :deposit_used => "Deposits Used", :till_takings => "Total Sales", :vouchers_sold => "Vouchers Sold", :vouchers_used => "Vouchers Used"  

@@ -1,0 +1,61 @@
+<%= form_for(@dailybank) do |f| %>
+  <% if @dailybank.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
+
+      <ul>
+      <% @dailybank.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+   
+ <h6>Date: <%= f.date_select :effective_date %></h6>
+  <%= f.hidden_field :user_id, :value => current_user.id%>
+  <%= f.hidden_field :status, :value => "Start" %>
+    <%= f.fields_for :cashfloats do |builder| %>
+      
+      <fieldset>
+      <%= builder.hidden_field :float_type, :value => "Main Till" %>
+      <%= builder.hidden_field :period, :value => "Morning" %>
+      <%= builder.hidden_field :completed_by, :value => current_user.name %>
+      <%= builder.hidden_field :float_target, :value => Rdetail.get_value(1, "till_float_main")%>
+    
+      <div class="col-md-2">
+      <h6><small> Target: </small></h6>
+       <font color=#D3D3D3><%= builder.label :fifties, "£50" %></font><br>
+        <font color=#D3D3D3><%= builder.label :twenties, "£20" %></font><br>
+        <font color=#D3D3D3><%= builder.label :tens, "£10" %></font><br>
+        <font color=#D3D3D3><%= builder.label :fives, " £5 " %></font><br>
+        <font color=#D3D3D3><%= builder.label :two_pound_single, " £2 " %></font><br>
+        <font color=#D3D3D3><%= builder.label :pound_single, " £1 " %></font><br>
+        <font color=#D3D3D3><%= builder.label :fifty_single, " 50p" %></font><br>
+        <font color=#D3D3D3><%= builder.label :twenty_single, " 20p" %></font><br> 
+        <font color=#D3D3D3><%= builder.label :ten_single, " 10p" %></font><br>
+        <font color=#D3D3D3><%= builder.label :five_single, " 5p " %></font><br>
+        <font color=#D3D3D3><%= builder.label :two_single, " 2p " %></font><br> 
+        <font color=#D3D3D3><%= builder.label :one_single, " 1p " %></font>
+       </div>
+       
+       <div class="col-md-3">
+       <h6><small><%= number_to_currency(Rdetail.get_value(1, "till_float_main"), :locale => :en) %></small></h6>
+       <%= builder.text_field :fifties, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :twenties, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :tens, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :fives, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :two_pound_single, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :pound_single, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :fifty_single, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :twenty_single, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :ten_single, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :five_single, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :two_single, :style => "width:74px; text-align:right" %><br>
+       <%= builder.text_field :one_single, :style => "width:74px; text-align:right" %>
+       </div>
+       
+</fieldset>
+
+<% end %>
+<%= f.submit "Check", class: "btn btn-primary" %>
+ <% end %>

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Dailybank:</strong>
+  <%= @expense.dailybank_id %>
+</p>
+
+<p>
+  <strong>What:</strong>
+  <%= @expense.what %>
+</p>
+
+<p>
+  <strong>Where:</strong>
+  <%= @expense.where %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @expense.price %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @expense.price %>
+</p>
+
+<p>
+  <strong>Ref:</strong>
+  <%= @expense.ref %>
+</p>
+
+<%= link_to 'Edit', edit_expense_path(@expense) %> |
+<%= link_to 'Back', expenses_path %>

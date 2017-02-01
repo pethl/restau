@@ -1,0 +1,59 @@
+  <br>
+<h6>Morning float check completed details are:</h6>
+
+
+<%= form_for @dailybank, :url => { :action => "lock_float", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+  <% if @dailybank.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
+
+      <ul>
+      <% @dailybank.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  
+<% @dailybank.cashfloats.each do |cashfloat| %>
+ 
+ <div class="col-md-6">
+<table class="table table-condensed text-right">
+<tbody>
+<tr><td  rowspan="4" style="width: 20%" class="text-center"> <h5>Notes</h5></td> 
+  <td style="width: 30%"><font color=#d8d6d6>£50</td><td style="width: 40%"><font color=#d8d6d6><%= cashfloat.fifties %></td></tr>
+<tr><td>£20</td> <td><%= cashfloat.twenties %></td></tr>
+<tr><td><font color=#d8d6d6>£10</td> <td><font color=#d8d6d6><%= cashfloat.tens %></td></tr>
+<tr><td>£5</td>  <td><%= cashfloat.fives %></td></tr>
+
+<tr><td rowspan="8" style="width: 20%" class="text-center"> <h5>Coins</h5></td> 
+    <td style="width: 30%"><font color=#d8d6d6>£2</td> <td style="width: 40%"><font color=#d8d6d6><%= cashfloat.two_pound_single %></td></tr>
+    <td>£1</td> <td style="width: 20%"><%= cashfloat.pound_single %></td></tr>
+    <td><font color=#d8d6d6>50p</td> <td><font color=#d8d6d6><%= number_with_precision(cashfloat.fifty_single, precision: 2)%></td></tr>
+    <td>20p</td> <td><%= number_with_precision(cashfloat.twenty_single, precision: 2) %></td></tr>
+    <td><font color=#d8d6d6>10p</td> <td><font color=#d8d6d6><%= number_with_precision(cashfloat.ten_single, precision: 2) %></td></tr>
+    <td>5p</td> <td><%= number_with_precision(cashfloat.five_single, precision: 2) %></td></tr>
+    <td><font color=#d8d6d6>2p</td> <td><font color=#d8d6d6><%= number_with_precision(cashfloat.two_single, precision: 2) %></td></tr>
+    <td>1p</td> <td><%= number_with_precision(cashfloat.one_single, precision: 2) %></td></tr>
+ <tr><td>Target: </td><td class="text-right"><b><%= number_to_currency(cashfloat.float_target, :locale => :en) %></b></td><td>Total: <b><%= number_to_currency(cashfloat.float_actual, :locale => :en) %></b></td></tr>
+ <tr><td></td><td></td><td><b><font color=#FFDC00>Gap: <%= number_to_currency(cashfloat.float_gap, :locale => :en) %></b></td></tr>
+</tbody>
+ </table>
+ 
+   <%= f.hidden_field :status, :value => "Created" %>
+    <%= f.hidden_field :till_float, :value => @dailybank.cashfloats.first.float_actual %>
+    
+   <%= f.fields_for :cashfloats do |builder| %>
+     
+     <fieldset>
+    <%= builder.hidden_field :completed, :value => "Completed" %>
+       </fieldset>
+        <% end %>
+         <% end %>
+ <%= f.submit "Lock Float", class: "btn btn-primary" %>
+  <% end %>
+ 
+ </div>
+
+ 

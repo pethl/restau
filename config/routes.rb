@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+  resources :expenses
   resources :dailystats
  # post "dailybanks/save_draft" => "dailybanks#save_draft", :as => :save_draft
   resources :dailybanks do
       collection { post :submit_comment };
-      collection { post :mgmt_lock }
+      collection { post :mgmt_lock };
+     collection { post :lock_float };
+     collection { post :lock_evening_till }
     end
   resources :exemptions
   resources :functions

@@ -6,85 +6,146 @@
 
 <div class="col-md-8">
   <% if @dailybank.status== "Created" %>
-<h2>End of Day - Review</h2><br>
+<h3>End of Day - Review</h3><br>
   <% elsif @dailybank.status== "Draft" %>
-<h2>End of Day - Draft</h2><br>
+<h3>End of Day - Draft</h3><br>
   <% elsif @dailybank.status== "Locked" %>
-<h2>End of Day - Completed</h2><br>
-<% end %> <p>
+<h3>End of Day - Completed</h3>
+<% end %> 
+
+<% if  @dailybank.status== "Start" %>
+  <%= render 'dailybanks/cashfloat_show'%>
+
+<% elsif @dailybank.status== "Created" %>
+<h6><b>
+<small>Record for: </small><%= @dailybank.effective_date.strftime('%a, %d %b %Y') %>
+<small> created by: </small><%= User.where(id: @dailybank.user_id).first.name %>
+<small> at </small><%= @dailybank.created_at.strftime('%H:%M')%>
+<small> status of: </small><%= @dailybank.status %>
+</b></h6>
+
   <table class= "table" style="text-align:right">
  <tr>
- <td><b><font color=#D3D3D3>Date: </b></font>
- <%= @dailybank.effective_date.strftime('%a, %d %b %Y') %>
-</td>
- <td>
-   <b><font color=#D3D3D3>Status: </b></font></b><%= @dailybank.status %> 
-  </td>
- <td>
- <b><font color=#D3D3D3>User: </b></font></b><%= User.where(id: @dailybank.user_id).first.name %>
-  </td>
-  <td>
-  <b><font color=#D3D3D3>Created at: </b></font></b><%= @dailybank.created_at.strftime('%H:%M')  %>
-   </td>
+   <td style="width: 18%"></td>
+   <td style="width: 14%"></td>
+   <td style="width: 18%"></td>
+   <td style="width: 14%"></td>
+   <td style="width: 18%"></td>
+   <td style="width: 14%"></td>
  </tr>
+ 
   <tr>
-  <td><b><font color=#D3D3D3>Banking </b></font><br>
-   <%= number_to_currency(@dailybank.banking, :locale => :en) %>
-   </td>
-  <td><b><font color=#D3D3D3>Total Card </b></font><br>
-   <%= number_to_currency(@dailybank.card_payments, :locale => :en) %>
-   </td>
-  <td><b><font color=#D3D3D3>Expenses </b></font><br>
-   <%= number_to_currency(@dailybank.expenses, :locale => :en) %>
-   </td>
-  <td><font color=#FFA500><b>Takings</b><br>
-   <%= number_to_currency(@dailybank.actual_cash_total, :locale => :en) %></td>
-   </tr>
-    <tr>
-   <td><b><font color=#D3D3D3>Total Sales </b></font><br>
-   <%= number_to_currency(@dailybank.till_takings, :locale => :en) %>
-    </td>
-   <td> <b><font color=#D3D3D3>Vouchers Sold</b></font><br>
-   <%= number_to_currency(@dailybank.vouchers_sold, :locale => :en) %>
-   <br>
-   <b><font color=#D3D3D3>Vouchers Used</b></font><br>
-   <%= number_to_currency(@dailybank.vouchers_used, :locale => :en) %>
-   </td>
-   <td><b><font color=#D3D3D3>Deposits Sold</b></font><br>
-   <%= number_to_currency(@dailybank.deposit_sold, :locale => :en) %>
-   <br>
-   <b><font color=#D3D3D3>Deposits Used</b></font></b><br>
-   <%= number_to_currency(@dailybank.deposit_used, :locale => :en) %>
-   </td>
-   <td><font color=#FFA500><b>Expected Takings</b><br>
-    <%= number_to_currency(@dailybank.actual_till_takings, :locale => :en) %>
-    </td> 
-    </tr>
-    
-    <tr>
-   <td><b><font color=#D3D3D3>User Variance</b></font><br>
-   <%= number_to_currency(@dailybank.user_variance, :locale => :en) %>
-    </td>
-    <td>
-    </td>
-    <td>
-    <b><font color=#FFDC00>< < Variance Gap > > </b><br>
-         <%=  number_with_precision(@dailybank.variance_gap, :delimiter => ',', precision: 2) %>
-     </td> 
-   <td><font color=#FFA500><b>System Variance</b><br>
-   <%= number_to_currency(@dailybank.calculated_variance, :locale => :en) %>
-   </td>
+    <td><b><font color=#D3D3D3>Till Float </b></font><br>
+    <b><font color=#D3D3D3>Till Cash </b></font></td>
+    <td><%= number_to_currency( @morning_float.float_actual, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.till_cash, :locale => :en) %></td>
+  
+    <td><b><font color=#D3D3D3>Card 1</b></font><br>
+    <b><font color=#D3D3D3>Card 2</b></font></td>
+    <td><%= number_to_currency(@dailybank.card_1, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.card_2, :locale => :en) %></td>
    
+    <td><b><font color=#D3D3D3>Expenses </b></font>
+    <br>(<%= @dailybank.expenses.count %>)</td>
+    <td><br><%= number_to_currency(@dailybank.expenses.sum(:price), :locale => :en) %></td>
+  </tr>
+  
+<tr>
+    <td><b><font color=#FFA500>Banking </b></font></td>
+    <td><b><%= number_to_currency(@dailybank.banking, :locale => :en) %></b></td>
+    
+    <td><b><font color=#FFA500>Total Card </b></font></td>
+    <td><b><%= number_to_currency(@dailybank.card_payments, :locale => :en) %></b></td>
+    
+    <td><b><font color=#FFA500>Total<br>Takings </b></font></td>
+    <td><h5><%= number_to_currency(@dailybank.actual_cash_total, :locale => :en) %></h5></td>
+  </tr>
+  
+   <tr>
+   <td></td>
+   <td></td>
+   <td></td>
+   <td></td>
+   <td></td>
+   <td></td>
+    </tr>
+  
+  <tr>
+    <td>
+    <b><font color=#D3D3D3>Wet Sales </b></font><br>
+    <b><font color=#D3D3D3>Dry Sales </b></font><br>
+    <b><font color=#D3D3D3>Misc Sales </b></font></td>
+    
+    <td>
+    <%= number_to_currency(@dailybank.wet_takings, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.dry_takings, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.merch_takings, :locale => :en) %></td>
+  
+    <td>
+    <b><font color=#D3D3D3>Vouchers Sold</b></font><br>
+    <b><font color=#D3D3D3>Vouchers Used</b></font><br>
+    <b><font color=#D3D3D3>Deposits Sold</b></font><br>
+    <b><font color=#D3D3D3>Deposits Used</b></font></td>
+    
+    <td>
+    <%= number_to_currency(@dailybank.vouchers_sold, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.vouchers_used, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.deposit_sold, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.deposit_used, :locale => :en) %></td>
+   
+    <td></td>
+     <td></td>
+  </tr>
+  <tr>
+    <td><b><font color=#FFA500>Total Sales </b></font></td>
+    <td><b><%= number_to_currency(@dailybank.till_takings, :locale => :en) %></b></td>
+    <td><b><font color=#FFA500>D/V Adjustments </b></font></td>
+    <td><b><%= number_to_currency(((@dailybank.vouchers_sold+@dailybank.deposit_sold)-(@dailybank.vouchers_used+@dailybank.deposit_used)), :locale => :en) %></b></td>
+    
+    <td><b><font color=#FFA500>Expected Takings </b></font></td>
+    <td><h5><%= number_to_currency(@dailybank.actual_till_takings, :locale => :en) %></h5></td>
+  </tr>
+  
+  <tr>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+   </tr>
+ 
+  
+  <tr>
+    <td><b><font color=#FFA500>User Variance </b></font></td>
+    <td><b><%= number_to_currency(@dailybank.user_variance, :locale => :en) %></b></td>
+  
+    <td><b><font color=#FFDC00>Variance Gap </b></font></td>
+    <td><%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></td>
+   
+    <td><b><font color=#FFA500>Calc Variance </b></font></td>
+    <td><b><%= number_to_currency(@dailybank.calculated_variance, :locale => :en) %></b></td>
+  </tr>  
+  
     </tr>
      <% if current_user.admin?  || current_user.super_user? %>
-       <tr><td><b><font color=#D3D3D3>User Variance Comments</b></font></td>
-       <td colspan="3"  style="text-align:left">
+       <tr>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+        </tr>
+  
+       <tr><td colspan="2" ><b><font color=#D3D3D3>User Variance Comments</b></font></td>
+       <td colspan="4"  style="text-align:left">
    <%= @dailybank.variance_comment %></td></tr>
        <% end %>
     </table>
  
   
-    <% if @dailybank.status== "Created" %>
+    
   
    <% if @dailybank.variance_gap== 0%>
  
@@ -128,6 +189,7 @@
      <% elsif   @dailybank.status== "Locked" %>
      
       <h6>This record is locked and cannot be edited.</h6>
+     
       <% else %>
        <h6>Error - Unknown status on record - please report to IT dept.</h6>
     
