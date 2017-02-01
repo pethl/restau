@@ -320,7 +320,7 @@ def self.all_search(search)
     @eve_total_over_six_count = (@eve_big_tables_count + @eve_large_tables_count)
     
     # GET BIG AND LARGE TABLE MAX FROM SYSTEM PARAMETERS
-    restaurant_id= @existing_bookings.first.restaurant_id
+    restaurant_id= 1
     @big_table_max = Rdetail.get_value(restaurant_id, "big_table_count") 
     @large_table_max = Rdetail.get_value(restaurant_id, "large_table_count") 
    

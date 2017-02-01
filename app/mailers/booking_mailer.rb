@@ -4,7 +4,7 @@ class BookingMailer < ActionMailer::Base
   def booking_confirmation_customer(booking)
     @booking = booking
     if @booking
-      mail(to: @booking.email, subject: "Booking Confirmation for: #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: @booking.email, subject: "Hang Fire Booking Confirmation for: #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
   
@@ -18,14 +18,14 @@ class BookingMailer < ActionMailer::Base
   def booking_cancellation_customer(booking)
     @booking = Booking.find(booking)
      if @booking
-      mail(to: @booking[:email], subject: "Booking Cancellation for: #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: @booking[:email], subject: "Hang Fire Booking Cancellation for: #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
   
   def booking_cancellation_mgmt(booking)
     @booking = Booking.find(booking)
      if @booking
-      mail(to: 'hangfirebarry@gmail.com', subject: "Booking Cancellation for: #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: 'hangfirebarry@gmail.com', subject: "Hang Fire Booking Cancellation for: #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
   
