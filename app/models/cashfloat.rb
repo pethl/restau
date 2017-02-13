@@ -71,15 +71,20 @@ class Cashfloat < ActiveRecord::Base
   end
   
   def must_balance_target_float
-    if period== "Morning"
-      if completed!="Completed"
-      total = (fifties+twenties+tens+fives+two_pound_single+pound_single+fifty_single+twenty_single+ten_single+five_single+two_single+one_single)
-      gap= float_target - total
-      if float_target - total != 0
-        errors.add(:float_target, "float does not balance, gap of £#{gap}")
+    #do not run if user has clicked float override - this is what they are overriding
+    unless ((override == true) && (float_comment.present?))
+    # do not run when user is closing float and marking as complete
+    if period== "Morning" && completed!="Completed"
+      #do not run if any values missing, allow the above validations to take care of this first
+      if ((fifties.present?) && (twenties.present?) && (tens.present?) && (fives.present?) && (two_pound_single.present?) && (pound_single.present?) && (fifty_single.present?) && (twenty_single.present?) && (ten_single.present?) && (five_single.present?) && (two_single.present?) && (one_single.present?))
+        total = (fifties+twenties+tens+fives+two_pound_single+pound_single+fifty_single+twenty_single+ten_single+five_single+two_single+one_single)
+        gap = float_target - total
+        if float_target - total != 0
+          errors.add(:float_target, "not balanced, gap of £#{gap}, recount or use override with comment to continue.")
+        end
       end
     end
-  end
+    end
   end
   
 #  def generate_cheat_value

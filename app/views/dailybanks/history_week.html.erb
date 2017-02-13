@@ -5,7 +5,7 @@
 </div>
 
 <div class="col-md-10">
-<h3>End of Day Banking History</h3><br>
+<h4>End of Night Weekly History</h4><br>
 
 <ul class="nav nav-tabs">
 <li role="presentation"><%= link_to "Latest", latest_path %></li>
@@ -69,9 +69,9 @@
   <tr>
   <td><b>Expenses</b></td>
   <% @dailybanks.each do |dailybank| %>
-  <td style="text-align:right"><%= dailybank.expenses %></td>
+  <td style="text-align:right"><%= dailybank.expenses_total %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "expenses") %><b></td>
+  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "expenses_total") %><b></td>
   </tr> 
   
   <tr class="success">

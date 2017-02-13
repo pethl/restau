@@ -10,9 +10,10 @@
       </ul>
     </div>
   <% end %>
-   
-  <h6><b><small>Record for: </small><%= @dailybank.effective_date.strftime('%A, %d %b %Y') %></b></h6> 
   
+  <h6><small>
+  1. Enter till cash and use CHECK TILL button to validate entries and calculate "float cheat" figure.</small></h6>
+  <br>
   <%= f.hidden_field :user_id, :value => current_user.id%>
    
   <% @dailybank.cashfloats.each do |cashfloat| %>
@@ -26,77 +27,98 @@
       <%= builder.hidden_field :float_target, :value => Rdetail.get_value(1, "till_float_main")%>
     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :fifties, "£50" %></font></div>
+       <div class="col-md-1"><font color=#D3D3D3>Notes</font></div>
+       <div class="col-md-1"><font color=#D3D3D3><%= builder.label :fifties, "£50" %></font></div>
        <div class="col-md-2"><%= builder.text_field :fifties, :style => "width:74px; text-align:right" %></div>
-       <div class="col-md-4"><% if cashfloat.cheat.present? %>
-       <font color=#D3D3D3>Cheat value = <b><%= cashfloat.cheat %></b></font><% end %></div>
+       
      </div>
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :twenties, "£20" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :twenties, "£20" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :twenties, :style => "width:74px; text-align:right" %></div>
-       <div class="col-md-4"><% if cashfloat.cheat.present? %>
-       <font color=#D3D3D3>Float-(£50s+£20s+£10s)</font><% end %></div>
+       
     </div>
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :tens, "£10" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :tens, "£10" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :tens, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-4"><% if cashfloat.cheat.present? %>     
+       <font color=#D3D3D3>Cheat value = <b><%= number_to_currency(cashfloat.cheat, :locale => :en) %></b></font>
+       <% end %></div>
      </div>
+
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :fives, "£5" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :fives, "£5" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :fives, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-4"><% if cashfloat.cheat.present? %>
+         <font color=#D3D3D3>Float-(£50s+£20s+£10s)</font><% end %></div>
      </div>
+     
+     <br>  
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :two_pound_single, "£2" %></font><br></div>
+       <div class="col-md-1"><font color=#D3D3D3>Coins</font></div>
+       <div class="col-md-1"><font color=#D3D3D3><%= builder.label :two_pound_single, "£2" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :two_pound_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :pound_single, "£1" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :pound_single, "£1" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :pound_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :fifty_single, "50p" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :fifty_single, "50p" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :fifty_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :twenty_single, "20p" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :twenty_single, "20p" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :twenty_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :ten_single, "10p" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :ten_single, "10p" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :ten_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :five_single, "5p" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :five_single, "5p" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :five_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :two_single, "2p" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :two_single, "2p" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :two_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <div class="row">
-       <div class="col-md-2"><font color=#D3D3D3><%= builder.label :one_single, "1p" %></font><br></div>
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :one_single, "1p" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :one_single, :style => "width:74px; text-align:right" %></div>
      </div>
+     
      <% if cashfloat.cheat.present? %>
      <div class="row">
-       <div class="col-md-2"><h6>Total</div>
-       <div class="col-md-3"><h6><%= number_to_currency(cashfloat.float_actual, :locale => :en) %></div>
+      <div class="col-md-2"><p><font color=#D3D3D3>Total</p></font></div>
+      <div class="col-md-2" :style="text:align-right"> <p><font color=#D3D3D3><%= number_to_currency(cashfloat.float_actual, :locale => :en) %></p></font></div>
      </div>
      <% end %>
+     
   </fieldset>
   <% end %>
 <% end %>
  <% end %>
+ <br>
  <div class="row">
  <div class="col-md-3">
-   <%= f.submit "Check", class: "btn btn-primary" %>
+   <%= f.submit "Check Till", class: "btn btn-primary" %>
    <% end %>
  </div>
- <div class="col-md-3">
  
- <%= form_for @dailybank, :url => { :action => "lock_evening_till", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
-   <%= f.hidden_field :status, :value => "In Progress" %>
-   <%= f.hidden_field :till_cash, :value => @dailybank.cashfloats.last.float_actual %>
+ <div class="col-md-2">
+ <% if @dailybank.cashfloats.where(:period => "Evening",:dailybank_id => @dailybank.id).first.float_actual.present? %>
+ 
+ <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+  
+   <%= f.hidden_field :status, :value => "Enter Expenses" %>
+   <%= f.hidden_field :till_cash, :value => @dailybank.cashfloats.where(:period => "Evening",:dailybank_id => @dailybank.id).first.float_actual %>
   
    <%= f.fields_for :cashfloats do |builder| %>
      
@@ -105,8 +127,9 @@
        </fieldset>
   
          <% end %>
- <%= f.submit "Lock Float", class: "btn btn-primary btn-success" %>
+ <%= f.submit "Lock Till", class: "btn btn-primary btn-success" %>
   <% end %>
+    <% end %>
  
    </div>
 </div>

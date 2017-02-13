@@ -1,41 +1,27 @@
-<%= form_for(@expense) do |f| %>
-  <% if @expense.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@expense.errors.count, "error") %> prohibited this expense from being saved:</h2>
 
-      <ul>
-      <% @expense.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :dailybank_id %><br>
-    <%= f.number_field :dailybank_id %>
-  </div>
-  <div class="field">
-    <%= f.label :what %><br>
-    <%= f.text_field :what %>
-  </div>
-  <div class="field">
-    <%= f.label :where %><br>
-    <%= f.text_field :where %>
-  </div>
-  <div class="field">
-    <%= f.label :price %><br>
-    <%= f.text_field :price %>
-  </div>
-  <div class="field">
-    <%= f.label :price %><br>
-    <%= f.text_field :price %>
-  </div>
-  <div class="field">
-    <%= f.label :ref %><br>
-    <%= f.number_field :ref %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+<%= form_for([@dailybank, @dailybank.expenses.build]) do |f| %>
+ 
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align:center">What</th>
+        <th style="text-align:center">Where</th>
+        <th style="text-align:center">Price</th>
+        <th style="text-align:center"></th>
+        </tr>
+    </thead>
+     <tbody>
+    <tr> 
+        <%= f.hidden_field :ref, :style => "width:74px" %>
+        <%= f.hidden_field :dailybank_id, :value => @dailybank.id %>
+        <td> <%= f.text_field :what, :style => "width:200px", :placeholder => "items bought" %></td>
+        <td> <%= f.text_field :where, :style => "width:140px", :placeholder => "store name"  %></td>
+        <td> <%= f.text_field :price, :style => "width:74px; text-align:right", :placeholder => "£0.00"  %></td>
+        <td> <%= f.submit "Add Expense", class: "btn btn-warning btn-xs"  %> </td> 
+     </tr> 
+     </tbody>
+  </table>
   </div>
 <% end %>
+
+ 

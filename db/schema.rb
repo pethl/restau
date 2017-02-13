@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170201145715) do
+ActiveRecord::Schema.define(version: 20170213153401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,12 +65,13 @@ ActiveRecord::Schema.define(version: 20170201145715) do
     t.float    "float_target"
     t.float    "float_gap"
     t.text     "float_comment"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
     t.integer  "two_pound_single"
     t.string   "completed"
     t.integer  "dailybank_id"
     t.decimal  "cheat",            precision: 7, scale: 2
+    t.boolean  "override",                                 default: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -95,31 +96,36 @@ ActiveRecord::Schema.define(version: 20170201145715) do
   create_table "dailybanks", force: :cascade do |t|
     t.integer  "user_id"
     t.date     "effective_date"
-    t.decimal  "till_cash",           precision: 8, scale: 2
-    t.decimal  "till_float",          precision: 8, scale: 2
-    t.decimal  "card_payments",       precision: 8, scale: 2
-    t.decimal  "expenses_total",      precision: 8, scale: 2
-    t.decimal  "actual_cash_total",   precision: 8, scale: 2
-    t.decimal  "till_takings",        precision: 8, scale: 2
-    t.decimal  "wet_takings",         precision: 8, scale: 2
-    t.decimal  "dry_takings",         precision: 8, scale: 2
-    t.decimal  "merch_takings",       precision: 8, scale: 2
-    t.decimal  "vouchers_sold",       precision: 8, scale: 2
-    t.decimal  "vouchers_used",       precision: 8, scale: 2
-    t.decimal  "deposit_sold",        precision: 8, scale: 2
-    t.decimal  "deposit_used",        precision: 8, scale: 2
-    t.decimal  "actual_till_takings", precision: 8, scale: 2
-    t.decimal  "calculated_variance", precision: 8, scale: 2
-    t.decimal  "user_variance",       precision: 8, scale: 2
-    t.decimal  "varaince_comment",    precision: 8, scale: 2
+    t.decimal  "till_cash",             precision: 8, scale: 2
+    t.decimal  "till_float",            precision: 8, scale: 2
+    t.decimal  "card_payments",         precision: 8, scale: 2
+    t.decimal  "expenses_total",        precision: 8, scale: 2
+    t.decimal  "actual_cash_total",     precision: 8, scale: 2
+    t.decimal  "till_takings",          precision: 8, scale: 2
+    t.decimal  "wet_takings",           precision: 8, scale: 2
+    t.decimal  "dry_takings",           precision: 8, scale: 2
+    t.decimal  "merch_takings",         precision: 8, scale: 2
+    t.decimal  "vouchers_sold",         precision: 8, scale: 2
+    t.decimal  "vouchers_used",         precision: 8, scale: 2
+    t.decimal  "deposit_sold",          precision: 8, scale: 2
+    t.decimal  "deposit_used",          precision: 8, scale: 2
+    t.decimal  "actual_till_takings",   precision: 8, scale: 2
+    t.decimal  "calculated_variance",   precision: 8, scale: 2
+    t.decimal  "user_variance",         precision: 8, scale: 2
+    t.decimal  "varaince_comment",      precision: 8, scale: 2
     t.string   "status"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.decimal  "variance_gap",        precision: 8, scale: 2
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.decimal  "variance_gap",          precision: 8, scale: 2
     t.string   "variance_comment"
-    t.decimal  "banking",             precision: 8, scale: 2
-    t.decimal  "card_1",              precision: 7, scale: 2
-    t.decimal  "card_2",              precision: 7, scale: 2
+    t.decimal  "banking",               precision: 8, scale: 2
+    t.decimal  "card_1",                precision: 7, scale: 2
+    t.decimal  "card_2",                precision: 7, scale: 2
+    t.decimal  "reported_till_takings", precision: 7, scale: 2
+    t.decimal  "v_d_adjustments",       precision: 7, scale: 2
+    t.boolean  "till_takings_check"
+    t.decimal  "total_expected_cash",   precision: 7, scale: 2
+    t.decimal  "total_eft_taken",       precision: 7, scale: 2
   end
 
   create_table "dailystats", force: :cascade do |t|

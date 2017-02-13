@@ -24,17 +24,13 @@ class ExpensesController < ApplicationController
   # POST /expenses
   # POST /expenses.json
   def create
-    @expense = Expense.new(expense_params)
-
-    respond_to do |format|
-      if @expense.save
-        format.html { redirect_to @expense, notice: 'Expense was successfully created.' }
-        format.json { render :show, status: :created, location: @expense }
-      else
-        format.html { render :new }
-        format.json { render json: @expense.errors, status: :unprocessable_entity }
-      end
-    end
+    @dailybank = Dailybank.find(params[:dailybank_id])
+    ep= expense_params
+    #THIS LINE OF CODE CANNOT BE SCALED UP TO MULTIPLE USERS _ NEEDS REWRITE
+    ep[:ref] = Expense.all.last.ref+1
+   
+    @expense = @dailybank.expenses.create(ep)
+    redirect_to edit_dailybank_path(@dailybank)
   end
 
   # PATCH/PUT /expenses/1
@@ -54,11 +50,10 @@ class ExpensesController < ApplicationController
   # DELETE /expenses/1
   # DELETE /expenses/1.json
   def destroy
-    @expense.destroy
-    respond_to do |format|
-      format.html { redirect_to expenses_url, notice: 'Expense was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @dailybank = Dailybank.find(params[:dailybank_id])
+     @expense = @dailybank.expenses.find(params[:id])
+     @expense.destroy
+      redirect_to edit_dailybank_path(@dailybank)
   end
 
   private

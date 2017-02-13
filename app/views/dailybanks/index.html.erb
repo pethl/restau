@@ -5,17 +5,17 @@
 </div>
 
 <div class="col-md-10">
-<h2>End of Day - Draft Records</h2><br>
+<h3>End of Night - Current Week Records</h3><br>
  <% if current_user.admin?  || current_user.super_user? %>
-<h6><%= link_to 'Search End of Day Records', latest_path, :class => "link", :style => "color:orange" %></h6>
+<h6><%= link_to 'Search End of Night Records', latest_path, :class => "link", :style => "color:orange" %></h6>
 <% end %>
 
 <table class="table">
   <thead>
     <tr>
+      <th>Date</th>
       <th>Status</th>
       <th>User</th>
-      <th>Date</th>
       <th style="text-align:right">Takings</th>
       <th style="text-align:right">Expected<br>Takings</th>
       <th style="text-align:right">Variance</th>
@@ -26,7 +26,8 @@
   <tbody>
     <% @dailybanks.each do |dailybank| %>
       <tr>
-        <td>
+      <td><%= dailybank.effective_date.strftime('%a, %d %b %Y') %></td>
+      <td>
         <% if dailybank.status == "Locked" %>
         <font color=#00ff00><b><%= dailybank.status %></b>
         <% elsif dailybank.status == "Draft" %>
@@ -37,7 +38,6 @@
          </td>
         
         <td><%= User.where(id: dailybank.user_id).first.name %></td>
-        <td><%= dailybank.effective_date.strftime('%a, %d %b %Y') %></td>
         <td style="text-align:right"><%= number_to_currency(dailybank.actual_cash_total, :locale => :en) %></td>
         <td style="text-align:right"><%= number_to_currency(dailybank.actual_till_takings, :locale => :en) %></td>
         <td style="text-align:right"><%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></td>
@@ -65,5 +65,5 @@
 
 <br>
 
-<%= link_to 'Enter End of Day', new_dailybank_path, class:"btn btn-success btn-sm" %> 
+<%= link_to 'Start', new_dailybank_path, class:"btn btn-success btn-sm" %> 
 

@@ -13,7 +13,7 @@
    
  <h6>Date: <%= f.date_select :effective_date %></h6>
   <%= f.hidden_field :user_id, :value => current_user.id%>
-  <%= f.hidden_field :status, :value => "Start" %>
+  <%= f.hidden_field :status, :value => "Balance Morning Float" %>
     <%= f.fields_for :cashfloats do |builder| %>
       
       <fieldset>
@@ -21,13 +21,39 @@
       <%= builder.hidden_field :period, :value => "Morning" %>
       <%= builder.hidden_field :completed_by, :value => current_user.name %>
       <%= builder.hidden_field :float_target, :value => Rdetail.get_value(1, "till_float_main")%>
+    <br>
     
-      <div class="col-md-2">
-      <h6><small> Target: </small></h6>
+    <div class="row">
+    <div class="col-md-1">
+      <font color=#D3D3D3>Notes</font>
+     </div>
+     
+     <div class="col-md-1">
        <font color=#D3D3D3><%= builder.label :fifties, "£50" %></font><br>
-        <font color=#D3D3D3><%= builder.label :twenties, "£20" %></font><br>
-        <font color=#D3D3D3><%= builder.label :tens, "£10" %></font><br>
-        <font color=#D3D3D3><%= builder.label :fives, " £5 " %></font><br>
+       <font color=#D3D3D3><%= builder.label :twenties, "£20" %></font><br>
+       <font color=#D3D3D3><%= builder.label :tens, "£10" %></font><br>
+       <font color=#D3D3D3><%= builder.label :fives, " £5 " %></font><br>
+    </div> 
+     
+    <div class="col-md-2">
+    <%= builder.text_field :fifties, :style => "width:74px; text-align:right" %><br>
+    <%= builder.text_field :twenties, :style => "width:74px; text-align:right" %><br>
+    <%= builder.text_field :tens, :style => "width:74px; text-align:right" %><br>
+    <%= builder.text_field :fives, :style => "width:74px; text-align:right" %><br>
+    </div>
+    
+    <div class="col-md-3">
+     <h6><small> Target: <b><%= number_to_currency(Rdetail.get_value(1, "till_float_main"), :locale => :en) %></small></h6></b>
+   </div>
+   </div> 
+     
+  <br>   
+    <div class="row"> 
+    <div class="col-md-1">
+      <font color=#D3D3D3>Coins</font>
+     </div>
+     
+      <div class="col-md-1">
         <font color=#D3D3D3><%= builder.label :two_pound_single, " £2 " %></font><br>
         <font color=#D3D3D3><%= builder.label :pound_single, " £1 " %></font><br>
         <font color=#D3D3D3><%= builder.label :fifty_single, " 50p" %></font><br>
@@ -38,12 +64,7 @@
         <font color=#D3D3D3><%= builder.label :one_single, " 1p " %></font>
        </div>
        
-       <div class="col-md-3">
-       <h6><small><%= number_to_currency(Rdetail.get_value(1, "till_float_main"), :locale => :en) %></small></h6>
-       <%= builder.text_field :fifties, :style => "width:74px; text-align:right" %><br>
-       <%= builder.text_field :twenties, :style => "width:74px; text-align:right" %><br>
-       <%= builder.text_field :tens, :style => "width:74px; text-align:right" %><br>
-       <%= builder.text_field :fives, :style => "width:74px; text-align:right" %><br>
+       <div class="col-md-2">
        <%= builder.text_field :two_pound_single, :style => "width:74px; text-align:right" %><br>
        <%= builder.text_field :pound_single, :style => "width:74px; text-align:right" %><br>
        <%= builder.text_field :fifty_single, :style => "width:74px; text-align:right" %><br>
@@ -54,8 +75,17 @@
        <%= builder.text_field :one_single, :style => "width:74px; text-align:right" %>
        </div>
        
+        <div class="col-md-3">
+         <h6><small> <br><br><br><br>
+         <font color=#D3D3D3>Float Override</font><%= builder.check_box :override, :style => "width:74px; text-align:right" %><br><br>
+          <font color=#D3D3D3>Override Reason</font><%= builder.text_area :float_comment, :cols => 20, :rows => 3, :style => "text-align:right" %>
+         </div>
+    </div>
+    <br>
+       
 </fieldset>
-
+     <div class="row">
 <% end %>
-<%= f.submit "Check", class: "btn btn-primary" %>
+<%= f.submit "Check Float", class: "btn btn-primary" %>
  <% end %>
+    </div>

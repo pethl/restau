@@ -5,8 +5,11 @@ Rails.application.routes.draw do
   resources :dailybanks do
       collection { post :submit_comment };
       collection { post :mgmt_lock };
-     collection { post :lock_float };
-     collection { post :lock_evening_till }
+      collection { post :lock_float };
+      collection { post :lock_event };
+      collection { post :create_new_expense_record };
+      collection { post :no_expenses_to_add}; 
+      resources :expenses
     end
   resources :exemptions
   resources :functions

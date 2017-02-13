@@ -1,26 +1,31 @@
-<div class="col-md-8">
-<% if @dailybank.status ="Created" %>
-<h3>Evening Till Count</h3><br>
-<% elsif @dailybank.status ="InProgress"%>
-<h3>Expenses</h3><br>
-<% end %>
-  
-<% if @dailybank.status == "Locked" %>
-  <h6> Record is locked and can no longer be edited.</h6>
-  
-  <% elsif @dailybank.status == "Created" %>
-   <%= render 'dailybanks/cashfloat_new_pm' %>
-   
-  <% elsif @dailybank.status == "In Progress" %>
-    <%= render 'dailybanks/cards_and_expenses' %>
+<div class="col-md-10">
+ <h6><small><b><%= @dailybank.effective_date.strftime('%A, %d %b %Y') %></b></small></h6> 
+ <h3><%= @dailybank.status %></h3>
  
- <% end %>
-    </div>
+ <% case @dailybank.status %>
+ <% when "Count Evening Till" %>
+   <%= render 'dailybanks/cashfloat_new_pm' %>
+        
+ <% when "Enter Expenses"  %>
+   <%= render 'dailybanks/expenses' %>
    
-</div>
+ <% when "Enter Cards"  %>
+    <%= render 'dailybanks/cards_and_totals' %>   
+       
+ <% when "Enter Till Totals" %>
+   <%= render 'dailybanks/till_totals' %>
 
-</div>   
-
-
-    
+ <% when "Validate and Lock" %>
+   <%= render 'dailybanks/validate_lock' %>  
+        
+ <% when "Mgmt Review" %>
+   <%= render 'dailybanks/mgmt_review' %>    
+   
+ <% else  %>
+  <h6> Unknown status please contact IT depart with ref: DB_<%= @dailybank.id %>.</h6>
+      
+ <% end %>
+ 
+ </div>
+   
  

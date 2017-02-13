@@ -17,6 +17,4 @@ module ApplicationHelper
     Rdetail.where(:restaurant_id => restaurant_id)[0].max_diners_at_current_time
  end
  
-
-
 end

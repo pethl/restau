@@ -1,23 +1,16 @@
 <div class="row">
-<div class="col-md-2">
-<%= render 'layouts/sidebar' %>
-</div>
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
 
-<div class="col-md-8">
-<% if @dailybank.status ="Start" %>
-<h3>Morning Float Count</h3><br>
-<% else %>
-<h3>Dailybank - New</h3><br>
-<% end %>
-
-    <% if @dailybank.status == "Start" %>
-       
-      <%= render 'dailybanks/cashfloat_new_am' %>
+ <div class="col-md-10">
+  <h3><%= @dailybank.status %></h3>
+   <h6><small>
+   1. Count and enter float then use CHECK FLOAT to validate entries.<br>
+   2. If float does not balance, check override flag and enter comment.</small></h6>
+   
+     <%= render 'dailybanks/cashfloat_new_am' %>
         
-        <% else %>
-        
-         <%= render 'dailybanks/form' %>
-  
-        <% end %>
-     <div>
-     <div>
+ <div>
+ 
+<div>
