@@ -15,12 +15,13 @@
 </ul>
 </div>
 <br>
-
 <br>
+
+
 <div class="row">
 <div class="col-md-4">
+<% if @dailybank.present? %>
   <table class="table table-condensed">
- 
   <tr>
   <td class="active"><b>Date</b></td>
   <td style="text-align:right" class="active"><b><%= @dailybank.effective_date.strftime('%A') %><br><%= @dailybank.effective_date.strftime('%d %B') %></b></td>
@@ -91,4 +92,9 @@
   <td style="text-align:right"><%= link_to 'Details', @dailybank %></td>
    </tr>  
   </table>
+  
+  <% else %>
+  <br>
+  <p>No records to display</p>
+    <% end %>
   </div>

@@ -90,7 +90,7 @@ class DailybanksController < ApplicationController
        1.times { @dailybank.cashfloats.build }
   #  @dailybank = Dailybank.new(:status => "Start", :cashfloats_attributes => [{ :float_type => "Main Till", :period => "Morning", :completed_by => current_user.name, :float_target =>Rdetail.get_value(1, "till_float_main") }])
     else
-      redirect_to dailybanks_url, notice: 'End of Day already entered for this business day.'
+      redirect_to dailybanks_url, notice: 'End of Night already entered for this business day.'
     end
    end
    
@@ -147,7 +147,7 @@ class DailybanksController < ApplicationController
   def mgmt_lock
     dailybank_params[:status] = "Locked"
     if @dailybank.update(dailybank_params)
-      redirect_to @dailybank, notice: "Thank you for completing End of Day. This record is now locked"
+      redirect_to @dailybank, notice: "Thank you for reviewing End of Night. This record is now locked"
     else  
       redirect_to @dailybank, :flash => { :error => "An error has occurred, please contact IT Support."}
     end
@@ -203,18 +203,18 @@ class DailybanksController < ApplicationController
   
   # PATCH/PUT /dailybanks/1
   # PATCH/PUT /dailybanks/1.json
-  def no_expenses_to_add
-    respond_to do |format|
-       if @dailybank.update(dailybank_params)
-         run_calc_rules(@dailybank)
-         format.html { redirect_to edit_dailybank_path(@dailybank)}
-        format.json { render :show, status: :ok, location: @dailybank }
-   else
-        format.html { render :edit }
-        format.json { render json: @dailybank.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+ # def no_expenses_to_add
+#    respond_to do |format|
+#       if @dailybank.update(dailybank_params)
+#         run_calc_rules(@dailybank)
+#         format.html { redirect_to edit_dailybank_path(@dailybank)}
+#        format.json { render :show, status: :ok, location: @dailybank }
+#   else
+#        format.html { render :edit }
+#        format.json { render json: @dailybank.errors, status: :unprocessable_entity }
+#      end
+#    end
+#  end
 
   # DELETE /dailybanks/1
   # DELETE /dailybanks/1.json
@@ -242,36 +242,46 @@ class DailybanksController < ApplicationController
       if (!dailybank.till_float.blank? && !dailybank.till_cash.blank?)
         dailybank.update_attribute(:banking, (dailybank.till_cash-dailybank.till_float))
        end
+      
       #good
       if (!dailybank.card_1.blank? && !dailybank.card_2.blank?)
         dailybank.update_attribute(:card_payments, (dailybank.card_1+dailybank.card_2))
       end
+      
       #good
       if (!dailybank.banking.blank? && !dailybank.card_payments.blank? && !dailybank.expenses_total.blank?)
         dailybank.update_attribute(:actual_cash_total, (dailybank.banking+dailybank.card_payments+dailybank.expenses_total))
       else
        end
-       #good
-       if (!dailybank.wet_takings.blank? && !dailybank.dry_takings.blank? && !dailybank.merch_takings.blank?)
-         dailybank.update_attribute(:till_takings, (dailybank.wet_takings+dailybank.dry_takings+dailybank.merch_takings))
-        else
-       end 
-       #good
-       if (!dailybank.till_takings.blank? && !dailybank.reported_till_takings.blank?)
+      
+      #good
+      if (!dailybank.wet_takings.blank? && !dailybank.dry_takings.blank? && !dailybank.merch_takings.blank?)
+        dailybank.update_attribute(:till_takings, (dailybank.wet_takings+dailybank.dry_takings+dailybank.merch_takings))
+       else
+      end 
+      
+      #good
+      if (!dailybank.till_takings.blank? && !dailybank.reported_till_takings.blank?)
          if (dailybank.till_takings-dailybank.reported_till_takings==0)
          dailybank.update_attribute(:till_takings_check, true)
-       else
-         dailybank.update_attribute(:till_takings_check, false)
-       end
         else
-       end 
+         dailybank.update_attribute(:till_takings_check, false)
+        end
+      end 
        
-       #test
-       if (!dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank?)
+      #good
+      if (!dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank?)
          dailybank.update_attribute(:v_d_adjustments, ((dailybank.vouchers_sold+dailybank.deposit_sold)-(dailybank.deposit_used+dailybank.vouchers_used)))
         else
-       end 
-       #bad
+      end 
+      
+      #good
+      if (!dailybank.v_d_adjustments.blank? && !dailybank.till_takings.blank?)
+         dailybank.update_attribute(:actual_till_takings, (dailybank.till_takings+dailybank.v_d_adjustments))
+        else
+      end 
+      
+      #test
         if (!dailybank.actual_cash_total.blank? && !dailybank.actual_till_takings.blank?)
           dailybank.update_attribute(:calculated_variance, (dailybank.actual_cash_total-dailybank.actual_till_takings))
         else

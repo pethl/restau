@@ -1,4 +1,4 @@
-<h6>Morning float check completed, LOCK FLOAT to continue.</h6><br>
+<h6>1. Morning float completed, LOCK FLOAT to continue.</h6><br>
 
 <%= form_for @dailybank, :url => { :action => "lock_float", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
   <% if @dailybank.errors.any? %>
@@ -56,11 +56,20 @@
   
    <div class="col-md-2" :style="text:align-right">
    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <p><font color=#FFDC00>Gap:<br><%= number_to_currency(cashfloat.float_gap, :locale => :en) %></b>
+    <p><font color=#FFDC00>Gap:<br><%= number_to_currency(cashfloat.float_gap, :locale => :en) %></font></b>
  </p>
  </div>
  </div>
- 
+ <% if cashfloat.float_comment.present? %>
+ <div class="row">
+  <div class="col-md-2"><p>Reason<br>for gap:</p>
+  </div>
+  <div class="col-md-5">
+   <p><%= cashfloat.float_comment %></p>
+  </div>
+  </div>
+  <% end%>
+  
    <%= f.hidden_field :status, :value => "Count Evening Till" %>
     <%= f.hidden_field :till_float, :value => @dailybank.cashfloats.first.float_actual %>
     

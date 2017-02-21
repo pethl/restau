@@ -1,22 +1,16 @@
-
 <div class="row">
 <div class="col-md-2">
 <%= render 'layouts/sidebar' %>
 </div>
 
 <div class="col-md-8">
- <h3><%= @dailybank.status %></h3><br> 
+ <h6><small><b><%= @dailybank.effective_date.strftime('%A, %d %b %Y') %></b></small></h6> 
+ <h3><%= @dailybank.status %></h3>
 
 <% if  @dailybank.status== "Balance Morning Float" %>
   <%= render 'dailybanks/cashfloat_show'%>
 
-<% elsif @dailybank.status== "Mgmt Review" %>
-<h6><b>
-<small>Record for: </small><%= @dailybank.effective_date.strftime('%a, %d %b %Y') %>
-<small> created by: </small><%= User.where(id: @dailybank.user_id).first.name %>
-<small> at </small><%= @dailybank.created_at.strftime('%H:%M')%>
-<small> status of: </small><%= @dailybank.status %>
-</b></h6>
+<% else %>
 
   <table class= "table" style="text-align:right">
  <tr>
@@ -41,7 +35,8 @@
    
     <td><b><font color=#D3D3D3>Expenses </b></font>
     <br>(<%= @dailybank.expenses.count %>)</td>
-    <td><br><%= number_to_currency(@dailybank.expenses.sum(:price), :locale => :en) %></td>
+    <td><%= link_to "See Expenses", show_many_expenses_path(:id => @dailybank.expenses.first.id), :class => "btn btn-sm btn-success", :style => "color:black" %>
+    <br><%= number_to_currency(@dailybank.expenses.sum(:price), :locale => :en) %></td>
   </tr>
   
 <tr>
@@ -109,15 +104,14 @@
   <td></td>
    </tr>
  
-  
   <tr>
-    <td><b><font color=#FFA500>User Variance </b></font></td>
-    <td><b><%= number_to_currency(@dailybank.user_variance, :locale => :en) %></b></td>
+    <td></td>
+    <td></td>
   
     <td><b><font color=#FFDC00>Variance Gap </b></font></td>
-    <td><%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></td>
+    <td>??<%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></td>
    
-    <td><b><font color=#FFA500>Calc Variance </b></font></td>
+    <td><b><font color=#FFA500>Variance </b></font></td>
     <td><b><%= number_to_currency(@dailybank.calculated_variance, :locale => :en) %></b></td>
   </tr>  
   
@@ -140,38 +134,42 @@
  
   
     
-  
+  <% if @dailybank.status == "Validate and Lock"%>
    <% if @dailybank.variance_gap== 0%>
  
- <h6><b><font color=#13E84A>You have a variance of <%= number_to_currency(@dailybank.variance_gap, :locale => :en)  %>, please now lock this record.</b><br><br>
- <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
-   <%= f.hidden_field :status, :value => "Locked" %>
-   <%= f.submit "Lock & Complete", class: "btn-sm btn-success" %>
- <% end %>
- <h6>
+   <h6><b><font color=#13E84A>You have a variance of 
+   <%= number_to_currency(@dailybank.variance_gap, :locale => :en)  %>, please now lock this record.</b><br><br>
+ 
+   <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+     <%= f.hidden_field :status, :value => "Locked" %>
+     <%= f.submit "Lock & Complete", class: "btn-sm btn-success" %>
+   <% end %>
+   <h6>
  
   <% else %>
-  <h6><b><font color=#FF3F33>You have a variance of <%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></b><h6>
-   <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success btn-sm" %> to correct any errors
-   <h5> or </h5>
-   <h6>Enter variance reason and save as Draft for mgmt review.
-  </font><h6>
+    <h6><b><font color=#FF3F33>You have a variance of 
+     <%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></b><h6>
+     <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success btn-sm" %> to correct any errors
+     <h5> or </h5>
+     <h6>Enter variance reason and save as Draft for mgmt review.
+    </font><h6>
   
   <%= form_for @dailybank, :url => { :action => "submit_comment", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
-
       <font=black> <%= f.text_area :variance_comment, rows: "2", placeholder: "Enter variance reason", :style => "text-align: Left", class:"form-control input-sm" %>
      </font>
-      <%= f.hidden_field :status, :value => "Draft" %>
+      <%= f.hidden_field :status, :value => "Mgmt Review" %>
       <%= f.submit "Save as Draft", class: "btn btn-primary btn-sm" %>
     <% end %>
   <% end %>
+ 
   
-    <% elsif   @dailybank.status== "Draft" %>
-    
-     <div class="col-md-4 col-md-offset-1" >
-    
+    <% elsif @dailybank.status== "Mgmt Review" %>
      <% if current_user.admin?  || current_user.super_user? %>
-       <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+     <div class="col-md-1 ">
+     <button type="button" class="btn btn-warning btn-sm"><%= link_to 'Edit Details', edit_dailybank_path(@dailybank) %></button>
+     </div>
+     <div class="col-md-8 col-md-offset-1" >
+     <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
          <%= f.hidden_field :status, :value => "Locked" %>
          <%= f.submit "Lock & Complete", class: "btn-sm btn-success" %>
        <% end %>
@@ -186,5 +184,6 @@
      
       <% else %>
        <h6>Error - Unknown status on record - please report to IT dept.</h6>
-    
+   
   <% end %>
+   <% end %>

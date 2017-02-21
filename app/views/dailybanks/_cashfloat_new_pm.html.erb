@@ -12,7 +12,8 @@
   <% end %>
   
   <h6><small>
-  1. Enter till cash and use CHECK TILL button to validate entries and calculate "float cheat" figure.</small></h6>
+  1. Enter till cash and use CHECK TILL button to validate entries and calculate "float cheat" figure.<br>
+  2. When complete, click TILL CASH DONE to continue.</small></h6>
   <br>
   <%= f.hidden_field :user_id, :value => current_user.id%>
    
@@ -127,7 +128,7 @@
        </fieldset>
   
          <% end %>
- <%= f.submit "Lock Till", class: "btn btn-primary btn-success" %>
+ <%= f.submit "Till Cash Done", class: "btn btn-primary btn-success" %>
   <% end %>
     <% end %>
  

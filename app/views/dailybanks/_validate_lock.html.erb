@@ -11,7 +11,9 @@
     </div>
   <% end %>
    
-  <h6><small>words words BUTTON  to validate entries.</small></h6>
+  <h6><small>1. Check all values, if changes are made use RE-CALCULATE button.<br>
+  2. If variance more than +/- £1, reason must be given.<br>
+  3. Click FINISH END OF NIGHT to submit for mgmt review.</small></h6>
 <br>
 <div class="row">
   <div class="col-md-2"> 
@@ -26,8 +28,12 @@
   <font color=#D3D3D3><%= f.label :banking, "Banking Total" %></font><br>
   </div>       
   <div class="col-md-2">
-  <%= f.text_field :banking, :style => "width:74px; text-align:right" %> <br>
-  </div>       
+  <%= f.text_field :banking, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+  </div>  
+  <div class="col-md-3"> 
+   <%= f.text_field :total_expected_cash, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+   <font color=#D3D3D3>Till Report Cash</font> 
+  </div>      
 </div>
 
 <div class="row">
@@ -43,13 +49,17 @@
   <font color=#D3D3D3><%= f.label :banking, "Cards Total" %></font><br>
   </div>       
   <div class="col-md-2">
-  <%= f.text_field :card_payments, :style => "width:74px; text-align:right" %> <br>
-  </div>       
+  <%= f.text_field :card_payments, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+  </div> 
+  <div class="col-md-3"> 
+   <%= f.text_field :total_eft_taken, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+   <font color=#D3D3D3>Till Report Cards</font> 
+  </div>        
 </div>  
 
 <div class="row">
   <div class="col-md-2"> 
-  <font color=#D3D3D3><%= f.label :expenses %></font><br>
+  <font color=#D3D3D3><%= f.label :expenses, "No. of Expenses" %></font><br>
   </div>
   <div class="col-md-2">
  <font color=#D3D3D3><%= @dailybank.expenses.count  %></font> <br>
@@ -58,11 +68,11 @@
   <font color=#D3D3D3><%= f.label :expenses, "Expenses Total" %></font><br>
   </div>       
   <div class="col-md-2">
-  <%= f.text_field :expenses_total, :style => "width:74px; text-align:right" %> <br>
+  <%= f.text_field :expenses_total, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
   </div> 
   <div class="col-md-3"> 
-  <font color=#FFDC00>Actual<br>Takings</font>
-  <%= f.text_field :actual_cash_total, :style => "width:74px; text-align:right" %> 
+   <%= f.text_field :actual_cash_total, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+   <b><font color=#FFDC00>Actual Takings</font></b>
   </div>       
 </div>   
 
@@ -70,9 +80,9 @@
 
  <div class="row">
    <div class="col-md-2"> 
-   <font color=#D3D3D3><%= f.label :wet_takings %></font><br>
-   <font color=#D3D3D3><%= f.label :dry_takings %></font><br>
-   <font color=#D3D3D3><%= f.label :merch_takings, "Misc Takings" %></font><br>
+   <font color=#D3D3D3><%= f.label :wet_takings, "Wet Sales" %></font><br>
+   <font color=#D3D3D3><%= f.label :dry_takings, "Dry Sales" %></font><br>
+   <font color=#D3D3D3><%= f.label :merch_takings, "Misc Sales" %></font><br>
    </div>
    <div class="col-md-2">
    <%= f.text_field :wet_takings, :style => "width:74px; text-align:right" %><br>
@@ -80,10 +90,10 @@
    <%= f.text_field :merch_takings, :style => "width:74px; text-align:right" %>
    </div>
    <div class="col-md-2"> 
-   <font color=#D3D3D3><%= f.label :till_takings, "Total Takings" %></font><br>
+   <font color=#D3D3D3><%= f.label :till_takings, "Total Sales" %></font><br>
    </div>       
    <div class="col-md-2">
-   <%= f.text_field :till_takings, :style => "width:74px; text-align:right" %><br>
+   <%= f.text_field :till_takings, :disabled=>true, :style => "width:74px; text-align:right" %><br>
    </div>       
  </div> 
 
@@ -99,10 +109,10 @@
    <%= f.text_field :deposit_sold, :style => "width:74px; text-align:right" %> <br>
    </div>
    <div class="col-md-2"> 
-   <font color=#D3D3D3><%= f.label :v_d_adjustments, "V/D Totals" %>:</font><br>
+   <font color=#D3D3D3><%= f.label :v_d_adjustments, "V/D Adjustment" %></font><br>
    </div>       
    <div class="col-md-2">
-   <%= f.text_field :v_d_adjustments, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :v_d_adjustments, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
    </div>       
  </div> 
  
@@ -114,45 +124,49 @@
    <%= f.text_field :deposit_used, :style => "width:74px; text-align:right" %> <br>
    </div>
    <div class="col-md-3 col-md-offset-4"> 
-   <font color=#FFDC00>Expected<br>Takings</font>
-    <%= f.text_field :actual_till_takings, :style => "width:74px; text-align:right" %>
+    <%= f.text_field :actual_till_takings, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+    <b><font color=#FFDC00>Expected Takings</font></b>
    </div>           
  </div> 
  
 <br>
 <div class="row">
- <div class="col-md-2"> 
-  <font color=#D3D3D3><%= f.label :user_variance %></font>
-  </div>       
-  <div class="col-md-2">
-  <%= f.text_field :user_variance, :style => "width:74px; text-align:right" %><br>
-  </div> 
-  <div class="col-md-2"> 
-   <font color=#D3D3D3><%= f.label :calculated_variance %> </font>
+  <div class="col-md-2 col-md-offset-4"> 
+   <font color=#D3D3D3><%= f.label :calculated_variance, "Variance" %> </font>
    </div>       
    <div class="col-md-2">
-   <%= f.text_field :calculated_variance, :style => "width:74px; text-align:right" %><br>
-   </div>       
+   <%= f.text_field :calculated_variance, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+   </div>    
+   <div class="col-md-4">
+   <%= f.text_field :variance_gap, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+   <font color=#FFDC00>Variance Gap</font>
+   </div>    
 </div>  
  
+  <% if @dailybank.calculated_variance.present?&& (@dailybank.calculated_variance < -1 || @dailybank.calculated_variance > 1) %>
+    <p><font color=#FF0000>Variance exceeds limit of +/- £1, given reason, then click RE-CALCULATE.</font></p>
 <div class="row">
- <div class="col-md-2 col-md-offset-4"> 
-  <font color=#FFDC00><%= f.label :variance_gap, "Variance Gap" %></font><br>
+ <div class="col-md-2"> 
+  <font color=#D3D3D3><%= f.label :variance_comment, "Variance Reason" %></font>
   </div>       
-  <div class="col-md-2">
-  <%= f.text_field :variance_gap, :style => "width:74px; text-align:right" %> <br>
+  <div class="col-md-6">
+  <font color=#000000>
+  <%= f.text_area :variance_comment, :cols => 48, :rows => 2 %></font>
   </div>       
 </div> 
+<% end %>
+
 <br>
 <div class="row">
  <div class="col-md-2"> 
-   <%= f.submit "Calculate", class: "btn btn-primary" %>
+   <%= f.submit "Re-calculate", class: "btn btn-primary" %>
      <% end %>
   </div>
+  
    <div class="col-md-2 col-md-offset-2">
-   <% if @dailybank.till_takings.present? %>
+   <% if (@dailybank.calculated_variance.present? && (@dailybank.calculated_variance > -1 && @dailybank.calculated_variance < 1)) ||( @dailybank.calculated_variance.present? && @dailybank.variance_comment.present?) %>
     <div class="col-md-2">
-    <%= form_for @dailybank, :url => { :action => "lock_float", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+    <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
       <%= f.hidden_field :status, :value => "Mgmt Review" %>
         <%= f.submit "Finish End of Night", class: "btn btn-primary btn-success" %>
         <% end %>

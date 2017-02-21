@@ -13,7 +13,8 @@
    
   <h6><small>1. Enter expenses one by one, complete ALL fields.<br>
   2. Unique reference numbers are generated on save - write this number on your paper recipt.<br>
-  3. Use LOCK EXPENSES to continue when done.<br>
+  3. Use EXPENSES DONE to continue when finished.<br><br>
+  
   * If no expenses for this day, click button to continue. *</small></h6>
  <br>
   <div class="row">
@@ -51,7 +52,7 @@
        <hr>
      <% else %>   
      
-	   <%= form_for @dailybank, :url => { :action => "no_expenses_to_add", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+	   <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
          <%= f.hidden_field :status, :value => "Enter Cards" %>
 	       <%= f.hidden_field :expenses_total, :value => 0 %>
          <%= f.submit "No expenses today", class: "btn btn-primary btn-success" %>
@@ -68,7 +69,7 @@
        <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
            <%= f.hidden_field :status, :value => "Enter Cards" %>
    	       <%= f.hidden_field :expenses_total, :value => @dailybank.expenses.sum(:price) %>
-   	       <%= f.submit "Next", class: "btn btn-primary btn-success" %>
+   	       <%= f.submit "Expenses Done", class: "btn btn-primary btn-success" %>
    	   <% end %>
     <% end %>
   

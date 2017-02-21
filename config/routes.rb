@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :expenses
+  resources :expenses do
+      collection { get :show_many }
+    end
+    
   resources :dailystats
  # post "dailybanks/save_draft" => "dailybanks#save_draft", :as => :save_draft
   resources :dailybanks do
@@ -57,7 +60,8 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'static_pages#hfsk_home'
-  
+ 
+ # get '/show_many/:id' => 'expenses#show_many'
   get '/latest' => 'dailybanks#latest'
   get '/history' => 'dailybanks#history'
   get '/history_week' => 'dailybanks#history_week'

@@ -1,42 +1,59 @@
-
 <div class="row">
 <div class="col-md-2">
 <%= render 'layouts/sidebar' %>
 </div>
 
-<div class="col-md-10">
-<h3>All Expenses</h3>
+<div class="col-md-8">
+<h3>Expenses</h3>
 
+<%= form_tag expenses_path, method: :get, :class => "form-inline" do %>
+
+    <h6><small>Search by:
+    
+     <input class="datepicker" data-provide='datepicker' id="search" name=[from] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Search From" >
+     <input class="datepicker" data-provide='datepicker' id="search" name=[to] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Search To" >
+    
+  <button type="submit" class="btn btn-primary btn-sm">Search</button>
+<% end %>
+<br><br>
+
+<% if @expenses_by_dailybank == 0 %>
+  
+  <% elsif @expenses_by_dailybank == 1 %>
+  <p>No records found matching date criteria.</p>
+ 
+  <% else %>
+  
+  <% @expenses_by_dailybank.each do |dailybank, expenses| %>
+    
 <table class= "table table-condensed">
   <thead>
     <tr>
-      <th>Ref</th>
-      <th>Date</th>
-      <th>What</th>
-      <th>Where</th>
-      <th>Price</th>
-      
-      <th colspan="3"></th>
+      <th style="width: 10%">Ref</th>
+      <th style="width: 30%">What</th>
+      <th style="width: 20%">Where</th>
+      <th style="width: 10%">Price</th>
+      <th style="width: 30%" colspan="2"></th>
     </tr>
   </thead>
-
+ <%= Dailybank.where(:id => dailybank).first.effective_date.strftime('%a, %d %b %Y')  %> - <b><%= a= Dailybank.where(:id => dailybank).first.status %></b> - <%= link_to 'See End of Night Record', dailybank_path(dailybank), :style => "color:orange" %>
   <tbody>
-    <% @expenses.each do |expense| %>
+    <% expenses.each do |expense| %>
       <tr>
         <td><%= expense.ref %></td>
-        <td><%= Dailybank.where(:id => expense.dailybank_id).first.effective_date %></td>
         <td><%= expense.what %></td>
         <td><%= expense.where %></td>
         <td><%= number_to_currency(expense.price, :locale => :en) %></td>
         
-        <td><%= link_to 'See End of Night', dailybank_path(Dailybank.where(:id => expense.dailybank_id).first.id) %></td>
+        <% if a == "Locked" %>
+          <td colspan="2">Record cannot be edited.</td>
+          <% else %>
         <td><%= link_to 'Edit', edit_expense_path(expense) %></td>
         <td><%= link_to 'Destroy', expense, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+         <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Expense', new_expense_path %>
+<% end %>
+<% end %>

@@ -10,7 +10,8 @@ class Expense < ActiveRecord::Base
    validates :price, presence: true
    validates :ref, presence: true
    
-#THESE DO NOT VALIDATE NO USER MESSAGE IF ERRORS   
+#THESE DO NOT VALIDATE NO USER MESSAGE IF ERRORS 
+ 
    private
 
    def titleize_where

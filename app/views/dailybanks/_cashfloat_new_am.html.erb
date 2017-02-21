@@ -77,8 +77,11 @@
        
         <div class="col-md-3">
          <h6><small> <br><br><br><br>
-         <font color=#D3D3D3>Float Override</font><%= builder.check_box :override, :style => "width:74px; text-align:right" %><br><br>
-          <font color=#D3D3D3>Override Reason</font><%= builder.text_area :float_comment, :cols => 20, :rows => 3, :style => "text-align:right" %>
+         <font color=#D3D3D3>Float Override</font>
+         <%= builder.check_box :override, :style => "width:74px; text-align:right" %><br><br>
+          <font color=#D3D3D3>Override Reason</font>
+          <font color=#000000>
+          <%= builder.text_area :float_comment, :cols => 26, :rows => 4 %></font>
          </div>
     </div>
     <br>

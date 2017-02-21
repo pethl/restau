@@ -6,7 +6,7 @@ class Dailybank < ActiveRecord::Base
   has_many :cashfloats, :dependent => :destroy
   accepts_nested_attributes_for :cashfloats, :allow_destroy => true
   
-   DAILYBANK_STATUS_TYPES = ["Balance Morning Float", "Count Evening Till", "Enter Expenses", "Enter Cards", "Enter Till Totals", "Validate and Lock", "Mgmt Review"]
+   DAILYBANK_STATUS_TYPES = ["Balance Morning Float", "Count Evening Till", "Enter Expenses", "Enter Cards", "Enter Till Totals", "Validate and Lock", "Mgmt Review", "Locked"]
    
    def expenses_attributes_missing(attributes)
          # where cannot be missing
@@ -38,8 +38,9 @@ class Dailybank < ActiveRecord::Base
      def self.human_attribute_name(attr, options = {})
         HUMANIZED_ATTRIBUTES[attr.to_sym] || super
       end
-      def self.search(search)
-     
+      
+      
+    def self.search(search)
     search_from = search[:from]
     search_to = search[:to]
    if !search_from.blank? && !search_to.blank?
