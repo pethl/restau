@@ -164,6 +164,8 @@
    <%= f.submit "Re-Calculate", class: "btn btn-sm btn-primary" %>
      <% end %>
   </div>
+
+     <% end %>
    
    <div class="col-md-2 col-md-offset-2">
     <% if current_user.admin?  || current_user.super_user? %>
@@ -172,9 +174,9 @@
         <%= f.submit "Lock & Complete", class: "btn-sm btn-success" %>
         <% end %>
      <% end %>
-        
+           </div> 
    </div>
  </div>
- </div>
- <% end %>
+
+
  

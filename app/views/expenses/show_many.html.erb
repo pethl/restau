@@ -17,7 +17,7 @@
       <th style="width: 30%" colspan="2"></th>
     </tr>
   </thead>
-<h6> <%= Dailybank.where(:id => @expenses.first.dailybank_id).first.effective_date.strftime('%a, %d %b %Y')  %> - <b><%= a= Dailybank.where(:id => @expenses.first.dailybank_id).first.status %></b> - </h6>
+<h6> <%= Dailybank.where(:id => @expenses.first.dailybank_id).first.effective_date.strftime('%a, %d %b %Y')  %> - <b><%= a= Dailybank.where(:id => @expenses.first.dailybank_id).first.status %></b>  </h6>
   <tbody>
     <% @expenses.each do |expense| %>
       <tr>
@@ -36,4 +36,4 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to '<< Back to  End of Night Record', dailybank_path(Dailybank.where(:id => @expenses.first.dailybank_id)), :style => "color:orange" %>
+<%= link_to '<< Back to  End of Night Record', dailybank_path(@expenses.first.dailybank_id), :style => "color:orange" %>
