@@ -124,7 +124,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cashfloat_params
-      params.require(:cashfloat).permit(:float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_bag, :two_pound_single, :pound_bag, :pound_single, :fifty_bag, :fifty_single, :twenty_bag, :twenty_single, :ten_bag, :ten_single, :five_bag, :five_single, :two_bag, :two_single, :one_bag, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed)
+      params.require(:cashfloat).permit(:dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single,:pound_single, :fifty_single, :twenty_single, :ten_single, :five_single,:two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override)
       
     end
 end

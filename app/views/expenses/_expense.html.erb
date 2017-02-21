@@ -1,0 +1,18 @@
+<p>
+  <strong>Expenses:</strong>
+   <table>
+   <tbody>
+  <tr>
+      <td> <%= expense.ref %></td>
+      <td> <%= expense.dailybank_id %></td>
+      <td> <%= expense.what %></td>
+      <td> <%= expense.where %></td>
+      <td> <%= number_to_currency(expense.price, :locale => :en) %></td>
+      <td>  <%= link_to 'Remove', [expense.dailybank, expense], :confirm => 'Really remove expense?', :method => :delete %> </td>
+   </tr> 
+
+  </tbody>
+</table>
+</p>
+
+ 

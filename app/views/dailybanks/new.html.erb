@@ -1,73 +1,16 @@
 <div class="row">
-<div class="col-md-2">
-<%= render 'layouts/sidebar' %>
-</div>
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
 
-<div class="col-md-9">
-<h2>Enter End of Day</h2><br>
-
-<%= form_for(@dailybank) do |f| %>
-  <% if @dailybank.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
-
-      <ul>
-      <% @dailybank.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-  
-  <table class="table">
-  <tr>
-  <td colspan="1"><b>Date: </b><%= f.date_select :effective_date %>
- </td>
-  <td>
-   <%= f.hidden_field :status, :value => "Created" %>
-   </td>
-  <td>
-  <b>User: </b>
-   <%= f.hidden_field :user_id, :value => current_user.id%><%= current_user.name %>
-  </td>
-  </tr>
-  <tr>
-   <td> <%= f.label :banking %><br>
-    <%= f.text_field :banking, :style => "text-align: Right" %>
-    </td>
-   <td> <%= f.label :card_payments, "Total Card" %><br>
-    <%= f.text_field :card_payments, :style => "text-align: Right" %>
-    </td>
-    <td> <%= f.label :expenses %><br>
-     <%= f.text_field :expenses, :style => "text-align: Right" %>
-     </td>
-   </tr> 
-    <tr>
-    <td><%= f.label :till_takings, "Total Sales" %><br>
-    <%= f.text_field :till_takings, :style => "text-align: Right" %>
-     </td>
-    <td>  <%= f.label :vouchers_sold, "Vouchers Sold" %><br>
-    <%= f.text_field :vouchers_sold, :style => "text-align: Right" %>
-    <br>
-    <%= f.label :vouchers_used, "Vouchers Used" %><br>
-      <%= f.text_field :vouchers_used, :style => "text-align: Right" %>
-     </td>
-    <td><%= f.label :deposit_sold, "Deposits Sold" %><br>
-    <%= f.text_field :deposit_sold, :style => "text-align: Right" %>
-    <br>
-    <%= f.label :deposit_used, "Deposits Used" %><br>
-         <%= f.text_field :deposit_used, :style => "text-align: Right" %>
-     </td>
-     </tr>
-       <tr><td></td>
-      <td> </td> 
-     <td> <%= f.label :user_variance, "User Variance" %><br>
-      <%= f.text_field :user_variance, :style => "text-align: Right" %>
-      </td>
-     
-      </tr>
-      
-  </table>
-  
-  <%= f.submit "Calculate", class: "btn btn-primary" %>
-   <% end %>
+ <div class="col-md-10">
+  <h3><%= @dailybank.status %></h3>
+   <h6><small>
+   1. Count and enter float then use CHECK FLOAT to validate entries.<br>
+   2. If float does not balance, check override flag and enter reason.</small></h6>
+   
+     <%= render 'dailybanks/cashfloat_new_am' %>
+        
+ <div>
+ 
+<div>

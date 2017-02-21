@@ -1,0 +1,137 @@
+<%= form_for(@dailybank) do |f| %>
+  <% if @dailybank.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
+
+      <ul>
+      <% @dailybank.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <h6><small>
+  1. Enter till cash and use CHECK TILL button to validate entries and calculate "float cheat" figure.<br>
+  2. When complete, click TILL CASH DONE to continue.</small></h6>
+  <br>
+  <%= f.hidden_field :user_id, :value => current_user.id%>
+   
+  <% @dailybank.cashfloats.each do |cashfloat| %>
+      <% if cashfloat.period=="Evening" %>
+       <%= f.fields_for :cashfloats, cashfloat do |builder| %>
+      
+      <fieldset>
+      <%= builder.hidden_field :float_type, :value => "Main Till" %>
+      <%= builder.hidden_field :period, :value => "Evening" %>
+      <%= builder.hidden_field :completed_by, :value => current_user.name %>
+      <%= builder.hidden_field :float_target, :value => Rdetail.get_value(1, "till_float_main")%>
+    
+     <div class="row">
+       <div class="col-md-1"><font color=#D3D3D3>Notes</font></div>
+       <div class="col-md-1"><font color=#D3D3D3><%= builder.label :fifties, "£50" %></font></div>
+       <div class="col-md-2"><%= builder.text_field :fifties, :style => "width:74px; text-align:right" %></div>
+       
+     </div>
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :twenties, "£20" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :twenties, :style => "width:74px; text-align:right" %></div>
+       
+    </div>
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :tens, "£10" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :tens, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-4"><% if cashfloat.cheat.present? %>     
+       <font color=#D3D3D3>Cheat value = <b><%= number_to_currency(cashfloat.cheat, :locale => :en) %></b></font>
+       <% end %></div>
+     </div>
+
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :fives, "£5" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :fives, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-4"><% if cashfloat.cheat.present? %>
+         <font color=#D3D3D3>Float-(£50s+£20s+£10s)</font><% end %></div>
+     </div>
+     
+     <br>  
+     <div class="row">
+       <div class="col-md-1"><font color=#D3D3D3>Coins</font></div>
+       <div class="col-md-1"><font color=#D3D3D3><%= builder.label :two_pound_single, "£2" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :two_pound_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :pound_single, "£1" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :pound_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :fifty_single, "50p" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :fifty_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :twenty_single, "20p" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :twenty_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :ten_single, "10p" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :ten_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :five_single, "5p" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :five_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :two_single, "2p" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :two_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <div class="row">
+       <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :one_single, "1p" %></font><br></div>
+       <div class="col-md-2"><%= builder.text_field :one_single, :style => "width:74px; text-align:right" %></div>
+     </div>
+     
+     <% if cashfloat.cheat.present? %>
+     <div class="row">
+      <div class="col-md-2"><p><font color=#D3D3D3>Total</p></font></div>
+      <div class="col-md-2" :style="text:align-right"> <p><font color=#D3D3D3><%= number_to_currency(cashfloat.float_actual, :locale => :en) %></p></font></div>
+     </div>
+     <% end %>
+     
+  </fieldset>
+  <% end %>
+<% end %>
+ <% end %>
+ <br>
+ <div class="row">
+ <div class="col-md-3">
+   <%= f.submit "Check Till", class: "btn btn-primary" %>
+   <% end %>
+ </div>
+ 
+ <div class="col-md-2">
+ <% if @dailybank.cashfloats.where(:period => "Evening",:dailybank_id => @dailybank.id).first.float_actual.present? %>
+ 
+ <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+  
+   <%= f.hidden_field :status, :value => "Enter Expenses" %>
+   <%= f.hidden_field :till_cash, :value => @dailybank.cashfloats.where(:period => "Evening",:dailybank_id => @dailybank.id).first.float_actual %>
+  
+   <%= f.fields_for :cashfloats do |builder| %>
+     
+     <fieldset>
+    <%= builder.hidden_field :completed, :value => "Completed" %>
+       </fieldset>
+  
+         <% end %>
+ <%= f.submit "Till Cash Done", class: "btn btn-primary btn-success" %>
+  <% end %>
+    <% end %>
+ 
+   </div>
+</div>
+ 

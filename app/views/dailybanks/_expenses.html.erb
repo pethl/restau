@@ -1,0 +1,80 @@
+
+  <% if @dailybank.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
+
+      <ul>
+      <% @dailybank.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+   
+  <h6><small>1. Enter expenses one by one, complete ALL fields.<br>
+  2. Unique reference numbers are generated on save - write this number on your paper recipt.<br>
+  3. Use EXPENSES DONE to continue when finished.<br><br>
+  
+  * If no expenses for this day, click button to continue. *</small></h6>
+ <br>
+  <div class="row">
+      
+  <% if @dailybank.expenses.any? %>    
+    <div class="col-md-8"> 
+      <font color=#D3D3D3>Existing Expenses</font>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Ref</th>
+            <th>What</th>
+            <th>Where</th>
+            <th style="text-align:right">Price</th>
+            <th style="text-align:center"></th>
+        </tr>
+        </thead>
+         <tbody>
+         <% @dailybank.expenses.each do |expense| %>
+        <tr>
+            <td><small> <%= expense.ref %></td>
+            <td><small> <%= expense.what %></td>
+            <td><small> <%= expense.where %></td>
+            <td  style="text-align:right"><small> <%= number_to_currency(expense.price, :locale => :en) %></td>
+            <td style="text-align:center"><small> <%= link_to 'Remove', [expense.dailybank, expense], :confirm => 'Really expense kid?', :method => :delete %></td>
+        </tr> 
+         <% end %>
+        <tr>
+        <td colspan="3" style="text-align:right"><b>Total</b></td>
+        <td style="text-align:right"><b><%= number_to_currency(@dailybank.expenses.sum(:price), :locale => :en)  %></b></td>
+        <td></td>
+        </tr>
+        </tbody>
+      </table>
+       <hr>
+     <% else %>   
+     
+	   <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+         <%= f.hidden_field :status, :value => "Enter Cards" %>
+	       <%= f.hidden_field :expenses_total, :value => 0 %>
+         <%= f.submit "No expenses today", class: "btn btn-primary btn-success" %>
+	    <% end %>
+       
+    <% end %>
+    <br>
+    <font color=#D3D3D3>Add New Expense - ALL FIELDS MANDATORY</font>
+      <%= render 'expenses/form' %>
+      
+  <div class="col-md-2">
+  <br>
+    <% unless @dailybank.expenses.count== 0 %>
+       <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+           <%= f.hidden_field :status, :value => "Enter Cards" %>
+   	       <%= f.hidden_field :expenses_total, :value => @dailybank.expenses.sum(:price) %>
+   	       <%= f.submit "Expenses Done", class: "btn btn-primary btn-success" %>
+   	   <% end %>
+    <% end %>
+  
+      </div>
+    </div>
+        </div>
+
+ 

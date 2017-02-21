@@ -1,0 +1,69 @@
+<%= form_for(@dailybank) do |f| %>
+  <% if @dailybank.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
+
+      <ul>
+      <% @dailybank.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+   
+  <h6><small>1.Enter card machine totals and use CHECK CARDS button to validate entries.<br>
+  2. Click CARDS DONE to continue.
+  </small></h6>
+     
+<br>
+    <div class="row">
+      <div class="col-md-2"><font color=#D3D3D3><%= f.label :till_cash, "Till Cash" %></font><br></div>
+      <div class="col-md-2"><%= f.text_field :till_cash, :disabled=>true, :style => "width:74px; text-align:right" %></div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-2"><font color=#D3D3D3><%= f.label :till_float, "Till Float" %></font><br></div>
+      <div class="col-md-2"><%= f.text_field :till_float, :disabled=>true, :style => "width:74px; text-align:right" %></div>
+      
+      <div class="col-md-3"><b><font color=#D3D3D3>Total Banking</font></b><hr></div>
+      <div class="col-md-2"><p class="text-right"><%= number_to_currency((@dailybank.till_cash - @dailybank.till_float), :locale => :en) %></p><hr></div>
+   </div>
+   
+   <div class="row"> 
+      <div class="col-md-2"><font color=#D3D3D3><%= f.label :card_1, "Card 1" %></font></div>
+      <div class="col-md-2"><%= f.text_field :card_1, :style => "width:74px; text-align:right" %></div> 
+    </div>
+   
+   <div class="row">  
+      <div class="col-md-2"><font color=#D3D3D3><%= f.label :card_2, "Card 2" %></font><br></div>
+      <div class="col-md-2"><%= f.text_field :card_2, :style => "width:74px; text-align:right" %></div> 
+      
+      <div class="col-md-3"><b><font color=#D3D3D3>Total Cards</font></b><hr></div>
+      <div class="col-md-2"><p class="text-right"><%= number_to_currency(@dailybank.card_payments, :locale => :en) %></p><hr></div>
+  </div>
+  
+  <div class="row">
+  <div class="col-md-3 col-md-offset-4"><b><font color=#D3D3D3>TotalExpenses</font></b><hr></div>
+    <div class="col-md-2"><p class="text-right"><%= number_to_currency(@dailybank.expenses_total, :locale => :en) %></p><hr></div>
+    </div>
+  
+  <div class="row">
+  <div class="col-md-2">
+    <%= f.submit "Check Cards", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+  <% if @dailybank.card_payments.present? %>
+   <div class="col-md-3 col-md-offset-2">
+   <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+     <%= f.hidden_field :status, :value => "Enter Till Totals" %>
+      <%= f.hidden_field :card_1 %>
+       <%= f.hidden_field :card_2 %>
+
+    <%= f.submit "Cards Done", class: "btn btn-primary btn-success" %>
+    <% end %>
+  <% end %>
+   
+    
+  </div>
+</div>
+ 

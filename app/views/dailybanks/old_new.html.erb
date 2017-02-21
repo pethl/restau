@@ -1,0 +1,68 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-8">
+<h3>Enter End of Day</h3>
+
+<%= form_for(@dailybank) do |f| %>
+  <% if @dailybank.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dailybank.errors.count, "error") %> prohibited this dailybank from being saved:</h2>
+
+      <ul>
+      <% @dailybank.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <h6>Date: <%= f.date_select :effective_date %></h6>
+  <%= f.hidden_field :status, :value => "Created" %>
+  <%= f.hidden_field :user_id, :value => current_user.id%>
+  
+
+  <div class="col-md-3">
+    <font color=#D3D3D3><%= f.label :till_float %>:</font><br>
+    <font color=#D3D3D3><%= f.label :till_cash %>:</font><br>
+    <font color=#D3D3D3><%= f.label :card_1 %>: </font><br>
+    <font color=#D3D3D3><%= f.label :card_2 %>: </font><br>
+    <font color=#D3D3D3><%= f.label :expenses %>: </font><br>
+    <br>    <br>    <br>
+    <font color=#D3D3D3><%= f.label :wet_takings %>:</font><br>
+    <font color=#D3D3D3><%= f.label :dry_takings %>:</font><br>
+    <font color=#D3D3D3><%= f.label :merch_takings, "Misc Takings" %>: </font><br>
+    <br>    <br>
+    <font color=#D3D3D3><%= f.label :vouchers_sold %>:</font><br>
+    <font color=#D3D3D3><%= f.label :vouchers_used %>:</font><br>
+    <font color=#D3D3D3><%= f.label :deposit_sold, "Deposits Sold" %>: </font><br>
+    <font color=#D3D3D3><%= f.label :deposit_used, "Deposits Used" %>: </font>
+    <br><br><br>
+     <font color=#D3D3D3><%= f.label :user_variance %>: </font>
+       </div>
+       
+  <div class="col-md-4">
+    <%= f.text_field :till_float, :style => "width:74px; text-align:right" %> <br>
+    <%= f.text_field :till_cash, :style => "width:74px; text-align:right" %> <br>
+    <%= f.text_field :card_payments, :style => "width:74px; text-align:right" %> <br>
+    <%= f.text_field :card_payments, :style => "width:74px; text-align:right" %> <br>
+    <%= f.text_field :expenses, :style => "width:74px; text-align:right" %> <br>
+  <hr>
+    <%= f.text_field :wet_takings, :style => "width:74px; text-align:right" %> <br>
+    <%= f.text_field :dry_takings, :style => "width:74px; text-align:right" %> <br>
+    <%= f.text_field :merch_takings, :style => "width:74px; text-align:right" %>
+   <hr>
+   <%= f.text_field :vouchers_sold, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :vouchers_used, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :deposit_sold, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :deposit_used, :style => "width:74px; text-align:right" %> <br>
+  <hr>
+  <%= f.text_field :user_variance, :style => "width:74px;" %>
+  </div>
+  
+  <%= f.submit "Calculate", class: "btn btn-primary" %>
+   <% end %>
+     <div>
+     <div>
