@@ -1,6 +1,39 @@
-<h1>Editing Expense</h1>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
-<%= render 'form' %>
+<div class="col-md-10">
 
-<%= link_to 'Show', @expense %> |
-<%= link_to 'Back', expenses_path %>
+<h3>Edit Expense</h3>
+<br>
+<%= form_for(@expense) do |f| %>
+ 
+ <h6>End of Night Record: <%= Dailybank.where(:id =>f.object.dailybank_id).first.effective_date.strftime('%A, %d %b %Y') %>
+</h6>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align:center">What</th>
+        <th style="text-align:center">Where</th>
+        <th style="text-align:center">Price</th>
+        </tr>
+    </thead>
+     <tbody>
+    <tr> 
+        <%= f.hidden_field :ref, :style => "width:74px" %>
+         <td> <%= f.text_field :what, :style => "width:200px", :placeholder => "items bought" %></td>
+        <td> <%= f.text_field :where, :style => "width:140px", :placeholder => "store name"  %></td>
+        <td> <%= f.text_field :price, :style => "width:74px; text-align:right", :placeholder => "£0.00"  %></td>
+        </tr> 
+     </tbody>
+  </table>
+  <br>
+<%= f.submit "Save Expense", class: "btn btn-warning btn-xs"  %>
+
+<br><br><br>
+<%= link_to "<< Cancel and Back to Expenses for End of Night", show_many_expenses_path(:id => f.object.id), :style => "color:orange" %>
+<% end %>
+</div>
+
+

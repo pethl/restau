@@ -148,18 +148,9 @@
  
   <% else %>
     <h6><b><font color=#FF3F33>You have a variance of 
-     <%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></b><h6>
-     <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success btn-sm" %> to correct any errors
-     <h5> or </h5>
-     <h6>Enter variance reason and save as Draft for mgmt review.
-    </font><h6>
-  
-  <%= form_for @dailybank, :url => { :action => "submit_comment", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
-      <font=black> <%= f.text_area :variance_comment, rows: "2", placeholder: "Enter variance reason", :style => "text-align: Left", class:"form-control input-sm" %>
-     </font>
-      <%= f.hidden_field :status, :value => "Mgmt Review" %>
-      <%= f.submit "Save as Draft", class: "btn btn-primary btn-sm" %>
-    <% end %>
+     <%= number_to_currency(@dailybank.calculated_variance, :locale => :en) %></b><h6>
+     <%= link_to 'Edit Numbers', edit_dailybank_path(@dailybank), class: "btn btn-success btn-sm" %> to correct any errors or enter variance reason.
+     
   <% end %>
  
   

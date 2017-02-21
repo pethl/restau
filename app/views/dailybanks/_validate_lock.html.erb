@@ -62,7 +62,7 @@
   <font color=#D3D3D3><%= f.label :expenses, "No. of Expenses" %></font><br>
   </div>
   <div class="col-md-2">
- <font color=#D3D3D3><%= @dailybank.expenses.count  %></font> <br>
+ <font color=#D3D3D3><%= @dailybank.expenses.count  %></font><%= link_to "See Expenses", show_many_expenses_path(:id => @dailybank.expenses.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %> <br>
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :expenses, "Expenses Total" %></font><br>
@@ -158,20 +158,23 @@
 
 <br>
 <div class="row">
- <div class="col-md-2"> 
+ <div class="col-md-2">
+   <div class="actions"> 
    <%= f.submit "Re-calculate", class: "btn btn-primary" %>
      <% end %>
+      </div>
   </div>
   
    <div class="col-md-2 col-md-offset-2">
+    <div class="actions"> 
    <% if (@dailybank.calculated_variance.present? && (@dailybank.calculated_variance > -1 && @dailybank.calculated_variance < 1)) ||( @dailybank.calculated_variance.present? && @dailybank.variance_comment.present?) %>
     <div class="col-md-2">
-    <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
-      <%= f.hidden_field :status, :value => "Mgmt Review" %>
+     <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+        <%= f.hidden_field :status, :value => "Mgmt Review" %>
         <%= f.submit "Finish End of Night", class: "btn btn-primary btn-success" %>
-        <% end %>
-     <% end %>
-   </div>
+      <% end %>
+    <% end %>
+ </div>
  </div>
  </div>
  

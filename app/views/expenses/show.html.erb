@@ -1,5 +1,11 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
 
+<div class="col-md-10">
+
+<br><br><br><br>
 <p>
   <strong>Dailybank:</strong>
   <%= @expense.dailybank_id %>
@@ -20,10 +26,6 @@
   <%= @expense.price %>
 </p>
 
-<p>
-  <strong>Price:</strong>
-  <%= @expense.price %>
-</p>
 
 <p>
   <strong>Ref:</strong>
@@ -32,3 +34,4 @@
 
 <%= link_to 'Edit', edit_expense_path(@expense) %> |
 <%= link_to 'Back', expenses_path %>
+</div>

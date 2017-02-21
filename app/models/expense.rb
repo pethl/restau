@@ -2,6 +2,15 @@ class Expense < ActiveRecord::Base
   belongs_to :dailybank
   before_save :populate_ref
   before_save :titleize_where
+  
+  after_save :update_dailybank
+
+    def update_dailybank
+      self.dailybank.update_attribute(:expenses_total, (dailybank.expenses.sum(:price)))
+      if (!self.dailybank.banking.blank? && !self.dailybank.card_payments.blank? && !self.dailybank.expenses_total.blank?)
+        self.dailybank.update_attribute(:actual_cash_total, (self.dailybank.banking+self.dailybank.card_payments+self.dailybank.expenses_total))
+       end
+    end
    
    validates_uniqueness_of :ref
    validates :dailybank_id, presence: true

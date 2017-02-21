@@ -281,6 +281,12 @@ class DailybanksController < ApplicationController
         else
       end 
       
+      #good
+      if (dailybank.expenses.any?)
+         dailybank.update_attribute(:expenses_total, (dailybank.expenses.sum(:price)))
+        else
+      end 
+      
       #test
         if (!dailybank.actual_cash_total.blank? && !dailybank.actual_till_takings.blank?)
           dailybank.update_attribute(:calculated_variance, (dailybank.actual_cash_total-dailybank.actual_till_takings))

@@ -33,6 +33,7 @@ class ExpensesController < ApplicationController
     @expense = Expense.find(params[:id])
      @dailybank = Dailybank.find(@expense.dailybank_id)
      @expenses = Expense.where(:dailybank_id => @dailybank.id) 
+     @expenses = @expenses.sort_by { |hsh| hsh[:ref] } 
      return @expenses
   end
   
@@ -77,12 +78,11 @@ class ExpensesController < ApplicationController
     @dailybank = Dailybank.find(params[:dailybank_id])
     ep= expense_params
     #THIS LINE OF CODE CANNOT BE SCALED UP TO MULTIPLE USERS _ NEEDS REWRITE
-    if Expense.all.count ==0 
-      ep[:ref] = 1001
-    else
-    ep[:ref] = Expense.all.last.ref+1
-  end
-   
+        if Expense.all.count ==0 
+          ep[:ref] = 1001
+        else
+        ep[:ref] = Expense.all.last.ref+1
+       end
     @expense = @dailybank.expenses.create(ep)
     redirect_to edit_dailybank_path(@dailybank)
   end
@@ -91,8 +91,9 @@ class ExpensesController < ApplicationController
   # PATCH/PUT /expenses/1.json
   def update
     respond_to do |format|
+      
       if @expense.update(expense_params)
-        format.html { redirect_to @expense, notice: 'Expense was successfully updated.' }
+        format.html { redirect_to show_many_expenses_path(:id =>@expense.id), notice: 'Expense was successfully updated.' }
         format.json { render :show, status: :ok, location: @expense }
       else
         format.html { render :edit }
