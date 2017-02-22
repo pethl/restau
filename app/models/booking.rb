@@ -41,8 +41,8 @@ class Booking < ActiveRecord::Base
       #   return Error.get_msg("999999107")    
       #  end
       
-      #13) DUP check to ensure booking is not after latest booking *curently 31 may 2017
-        if  (params[:booking_date]).to_date > Date.new(2017,5,31)
+      #13) DUP check to ensure booking is not after latest booking *currently 6 months from end of month
+        if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+6.months)
           return Error.get_msg("999999123")    
         end
         
@@ -169,8 +169,8 @@ class Booking < ActiveRecord::Base
 #      return Error.get_msg("999999120")    
 #    end
     
-    #13) DUP check to ensure booking is not after latest booking *cuurently 29 may 2017
-      if  (params[:booking_date]).to_date > Date.new(2017,5,31)
+    #13) DUP check to ensure booking is not after latest booking *curently 6 months from end of month
+      if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+6.months)
         return Error.get_msg("999999123")    
       end
       
