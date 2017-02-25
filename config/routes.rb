@@ -2,9 +2,7 @@ Rails.application.routes.draw do
   resources :expenses do
       collection { get :show_many }
     end
-    
-  resources :dailystats
- # post "dailybanks/save_draft" => "dailybanks#save_draft", :as => :save_draft
+      resources :dailystats
   resources :dailybanks do
       collection { post :submit_comment };
       collection { post :mgmt_lock };
@@ -88,7 +86,8 @@ Rails.application.routes.draw do
   get '/download_bookings_evening_pdf' => "bookings#download_bookings_evening_pdf"
   get '/mgmt_edit_booking' => 'bookings#mgmt_edit'
   get '/search_bookings' => 'bookings#search_bookings' 
-  get '/cashfloats_validate' => 'cashfloats#validate'   
+  get '/cashfloats_validate' => 'cashfloats#validate'  
+  get '/download_end_of_night_pdf' => "dailybanks#download_end_of_night_pdf" 
   
   get '/hfsk_home' => 'static_pages#hfsk_home'
   get '/hfsk_about' => 'static_pages#hfsk_about'
