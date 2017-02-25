@@ -442,7 +442,8 @@ def self.all_search(search)
      if ([7,8,9,10,11,12].include? number_of_diners)
     
     @existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", booking_datetime.beginning_of_day, booking_datetime.end_of_day).where(:status => "Confirmed")
-    restaurant_id= @existing_bookings.first.restaurant_id
+    #restaurant_id = @existing_bookings.first.restaurant_id
+    restaurant_id = Restaurant.first.id
     @max_diners_at_current_time = Rdetail.get_value(restaurant_id, "max_diners_at_current_time")
     @big_table_max = Rdetail.get_value(restaurant_id, "big_table_count") 
     @large_table_max = Rdetail.get_value(restaurant_id, "large_table_count") 
