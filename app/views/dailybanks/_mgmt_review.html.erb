@@ -156,14 +156,14 @@
 
 <br>
 <div class="row">
- <div class="col-md-2"> 
+ <div class="col-md-2 col-md-offset-2"> 
    <%= f.submit "Re-Calculate", class: "btn btn-sm btn-primary" %>
      <% end %>
   </div>
 
      <% end %>
    
-   <div class="col-md-2 col-md-offset-2">
+   <div class="col-md-2 col-md-offset-4">
     <% if current_user.admin?  || current_user.super_user? %>
       <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
         <%= f.hidden_field :status, :value => "Locked" %>
