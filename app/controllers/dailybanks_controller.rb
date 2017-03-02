@@ -72,7 +72,7 @@ class DailybanksController < ApplicationController
   # GET /dailybanks.json
   def index
    # @dailybanks = Dailybank.where.not(status: "Locked")
-   @dailybanks = Dailybank.where("effective_date >= ?", Date.today.beginning_of_week)
+   @dailybanks = Dailybank.where("effective_date >= ?", Date.today.beginning_of_week.-(7.days))
    @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
   end
 
@@ -225,6 +225,158 @@ class DailybanksController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def download_end_of_night_pdf
+    @dailybank_id = params[:value]
+    @dailybank = Dailybank.where(id: @dailybank_id).first
+    @morning_till = Cashfloat.where(dailybank_id: @dailybank_id, float_type: "Main Till", period: "Morning" ).first
+    @evening_till = Cashfloat.where(dailybank_id: @dailybank_id, float_type: "Main Till", period: "Evening" ).first
+    @expenses = Expense.where(dailybank_id: @dailybank_id)
+   
+    respond_to do |format|
+      format.pdf do
+        pdf = Prawn::Document.new
+        pdf.text "End of Night Report for : " + @dailybank.effective_date.strftime('%d %b, %Y'), size: 14, style: :bold
+        pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n", size: 6
+        pdf.text "\n", size: 8
+        
+        pdf.text "MORNING FLOAT" + "\n", style: :bold, size: 9
+        pdf.text "Complete by: " + @morning_till.completed_by + "     Comments: "+ @morning_till.float_comment + "\n", size: 6
+        table_data = Array.new
+        table_data << ["Target = #{@morning_till.float_target.to_s}", "£50", "£20", "£10", "£5", "£2", "£1", "50p", "20p", "10p", "5p", "2p", "1p"]
+        table_data << ["Total", @morning_till.fifties, @morning_till.twenties, @morning_till.tens, @morning_till.fives, @morning_till.two_pound_single, @morning_till.pound_single, @morning_till.fifty_single, @morning_till.twenty_single, @morning_till.ten_single, @morning_till.five_single, @morning_till.two_single, @morning_till.one_single ]
+        table_data << ["£#{@morning_till.float_actual.to_s}"]
+        
+        pdf.table(table_data, :column_widths => [100,30,30,30,30,30,30,30,30,30,30,30,30],:cell_style => {:padding => 3}) do 
+          self.width = 460
+          self.cell_style = { :inline_format => true, size: 8 } 
+          self.row_colors = ["DDDDDD", "FFFFFF"]
+          self.header = true
+          row(0).font_style = :bold
+          row(2).font_style = :bold
+          columns(0..12).align = :right
+          row(2).border_width = 2
+        end
+        
+        pdf.text "\n", size: 10
+        pdf.text "EVENING TILL" + "\n", style: :bold, size: 9
+        pdf.text "Complete by: " + @evening_till.completed_by + "     Comments: "+ @evening_till.float_comment.to_s + "\n", size: 6
+        table_data = Array.new
+        table_data << ["AM Float = #{@morning_till.float_actual.to_s}", "£50", "£20", "£10", "£5", "£2", "£1", "50p", "20p", "10p", "5p", "2p", "1p"]
+        table_data << ["Total", @evening_till.fifties, @evening_till.twenties, @evening_till.tens, @evening_till.fives, @evening_till.two_pound_single, @evening_till.pound_single, @evening_till.fifty_single, @evening_till.twenty_single, @evening_till.ten_single, @evening_till.five_single, @evening_till.two_single, @evening_till.one_single ]
+        table_data << ["£#{@evening_till.float_actual.to_s}"]
+          
+        pdf.table(table_data, :column_widths => [100,30,30,30,30,30,30,30,30,30,30,30,30],:cell_style => {:padding => 3}) do 
+          self.width = 460
+          self.cell_style = { :inline_format => true, size: 8 } 
+          self.row_colors = ["DDDDDD", "FFFFFF"]
+          self.header = true
+          row(0).font_style = :bold
+          row(2).font_style = :bold
+          columns(0..12).align = :right
+          row(2).border_width = 2
+          end
+        pdf.text "\n", size: 10
+        pdf.text "EXPENSES" + "\n", style: :bold, size: 9
+        table_data = Array.new
+        table_data << ["Total", "Ref", "What", "Where", "Price"]
+        @expenses.each do |expense|
+            table_data << ["  ", expense.ref, expense.what, expense.where, expense.price]
+        end
+        table_data << ["£#{@expenses.sum(:price).to_s}"]
+        
+        pdf.table(table_data, :column_widths => [100, 45,185,80,50], :cell_style => {:padding => 3}) do 
+          self.width = 460
+          self.cell_style = { :inline_format => true, size: 8 } 
+          self.row_colors = ["DDDDDD", "FFFFFF"]
+          self.header = true
+          
+          row(0).font_style = :bold
+          row(-1).font_style = :bold
+          #row().padding = 2
+          columns(0).align = :right
+          columns(1..3).align = :left
+          columns(4).align = :right
+          row(-1).border_width = 2
+             end
+         
+         pdf.text "\n", size: 10
+         pdf.text "CARD MACHINES" + "\n", style: :bold, size: 9
+         table_data = Array.new
+         table_data << ["Total", "Card 1", @dailybank.card_1]
+         table_data << [" ", "Card 2", @dailybank.card_2]
+         table_data << ["£#{@dailybank.card_payments.to_s}"]
+         pdf.table(table_data, :column_widths => [100,80,60],:cell_style => {:padding => 3}) do 
+           self.width = 240
+           self.cell_style = { :inline_format => true, size: 8 } 
+           self.row_colors = ["DDDDDD", "FFFFFF"]
+           self.header = true
+          
+           row(2).font_style = :bold
+           columns(0).width = 100
+           columns(0..2).align = :right
+           columns(1).width = 80
+           columns(2).width = 60
+           row(2).border_width = 2
+          end
+          
+          pdf.text "\n", size: 10
+          pdf.text "TAKINGS                          BANKING", style: :bold, size: 9
+          table_data = Array.new
+          table_data << ["£#{@dailybank.actual_cash_total.to_s}", "£#{@dailybank.banking.to_s}"]
+          pdf.table(table_data, :column_widths => [100,100],:cell_style => {:padding => 3}) do 
+            self.width = 200
+            self.cell_style = { :inline_format => true, size: 8 } 
+            row(0).font_style = :bold
+            columns(0..1).align = :right
+          end
+             
+             pdf.text "\n", size: 10
+             pdf.text "VARIANCE", style: :bold, size: 9
+             table_data = Array.new
+             table_data << ["£#{@dailybank.calculated_variance.to_s}" ]
+             pdf.table(table_data, :column_widths => [100],:cell_style => {:padding => 3}) do 
+               self.width = 100
+               self.cell_style = { :inline_format => true, size: 8 } 
+               row(0).font_style = :bold
+               columns(0).align = :right
+               row(0).border_width = 2
+                end  
+             #  pdf.text "\nComment: " + @dailybank.variance_comment, size: 8 
+          
+         pdf.text "\n", size: 10
+         pdf.text "From Till Z Report\n", size: 9
+         table_data = Array.new
+         table_data << ["Total Sales", "£#{@dailybank.actual_till_takings.to_s}"]
+         table_data << ["Vouchers Sold", "£#{@dailybank.vouchers_sold.to_s}"]
+         table_data << ["Vouchers Used", "£#{@dailybank.vouchers_used.to_s}"]
+         table_data << ["Deposits Sold", "£#{@dailybank.deposit_sold.to_s}"]
+         table_data << ["Deposits Used", "£#{@dailybank.deposit_used.to_s}"]
+         table_data << ["Cash", "£#{@dailybank.total_expected_cash.to_s}"]
+         table_data << ["Card", "£#{@dailybank.total_eft_taken.to_s}"]
+          table_data << [" "]
+         table_data << ["Sales", "£#{@dailybank.till_takings.to_s}"]
+         table_data << ["Wet", "£#{@dailybank.wet_takings.to_s}"]
+         table_data << ["Dry", "£#{@dailybank.dry_takings.to_s}"]
+         table_data << ["Misc", "£#{@dailybank.merch_takings.to_s}"]
+         
+         pdf.table(table_data, :column_widths => [100,100],:cell_style => {:padding => 3}) do 
+           self.width = 200
+           self.cell_style = { :inline_format => true, size: 8 } 
+           row(0).font_style = :bold
+           row(8).font_style = :bold
+           columns(0).align = :left
+           columns(1).align = :right
+           row(7).border_width = 0
+           row(8).border_width = 2
+           row(0).border_width = 2
+            end
+         
+              
+     send_data pdf.render, filename: 'end_of_night.pdf', type: 'application/pdf', :disposition => 'inline'
+     end
+   end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -293,6 +445,7 @@ class DailybanksController < ApplicationController
         else
          
         end
+        # THIS NEEDS TO BE REMOVED
         if (!dailybank.calculated_variance.blank? && !dailybank.user_variance.blank?)
           dailybank.update_attribute(:variance_gap, (dailybank.user_variance-dailybank.calculated_variance))
         else

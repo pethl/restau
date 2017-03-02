@@ -11,6 +11,7 @@
   <%= render 'dailybanks/cashfloat_show'%>
 
 <% else %>
+<h4><%= link_to "Print this End of Night report", download_end_of_night_pdf_path(:value => @dailybank.id, :format => 'pdf'), :style => "color:orange" %></h4>
 
   <table class= "table" style="text-align:right">
  <tr>
@@ -34,9 +35,11 @@
     <%= number_to_currency(@dailybank.card_2, :locale => :en) %></td>
    
     <td><b><font color=#D3D3D3>Expenses </b></font>
+    <% if @dailybank.expenses.any? %>
     <br>(<%= @dailybank.expenses.count %>)</td>
-    <td><%= link_to "See Expenses", show_many_expenses_path(:id => @dailybank.expenses.first.id), :class => "btn btn-sm btn-success", :style => "color:black" %>
-    <br><%= number_to_currency(@dailybank.expenses.sum(:price), :locale => :en) %></td>
+    <td>
+    <br><%= number_to_currency(@dailybank.expenses.sum(:price), :locale => :en) %>
+     <% end %></td>
   </tr>
   
 <tr>
@@ -105,31 +108,11 @@
    </tr>
  
   <tr>
-    <td></td>
-    <td></td>
-  
-    <td><b><font color=#FFDC00>Variance Gap </b></font></td>
-    <td>??<%= number_to_currency(@dailybank.variance_gap, :locale => :en) %></td>
-   
+    <td><b><font color=#D3D3D3>Reason</b></font></td>
+    <td colspan="3" style="text-align:left"> <%= @dailybank.variance_comment %></td>   
     <td><b><font color=#FFA500>Variance </b></font></td>
     <td><b><%= number_to_currency(@dailybank.calculated_variance, :locale => :en) %></b></td>
   </tr>  
-  
-    </tr>
-     <% if current_user.admin?  || current_user.super_user? %>
-       <tr>
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
-        </tr>
-  
-       <tr><td colspan="2" ><b><font color=#D3D3D3>User Variance Comments</b></font></td>
-       <td colspan="4"  style="text-align:left">
-   <%= @dailybank.variance_comment %></td></tr>
-       <% end %>
     </table>
  
   
