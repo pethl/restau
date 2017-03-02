@@ -72,7 +72,7 @@ class DailybanksController < ApplicationController
   # GET /dailybanks.json
   def index
    # @dailybanks = Dailybank.where.not(status: "Locked")
-   @dailybanks = Dailybank.where("effective_date >= ?", Date.today.beginning_of_week)
+   @dailybanks = Dailybank.where("effective_date >= ?", Date.today.beginning_of_week.-(7.days))
    @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
   end
 
@@ -342,7 +342,7 @@ class DailybanksController < ApplicationController
                columns(0).align = :right
                row(0).border_width = 2
                 end  
-               pdf.text "\nComment: " + @dailybank.variance_comment, size: 8 
+             #  pdf.text "\nComment: " + @dailybank.variance_comment, size: 8 
           
          pdf.text "\n", size: 10
          pdf.text "From Till Z Report\n", size: 9
@@ -445,6 +445,7 @@ class DailybanksController < ApplicationController
         else
          
         end
+        # THIS NEEDS TO BE REMOVED
         if (!dailybank.calculated_variance.blank? && !dailybank.user_variance.blank?)
           dailybank.update_attribute(:variance_gap, (dailybank.user_variance-dailybank.calculated_variance))
         else

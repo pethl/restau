@@ -5,7 +5,7 @@
 </div>
 
 <div class="col-md-10">
-<h3>End of Night - Current Week Records</h3><br>
+<h3>End of Night - Current Fortnight Records</h3><br>
  <% if current_user.admin?  || current_user.super_user? %>
 <h6><%= link_to 'Search End of Night Records', latest_path, :class => "link", :style => "color:orange" %></h6>
 <% end %>
@@ -16,6 +16,8 @@
       <th>Date</th>
       <th>Status</th>
       <th>User</th>
+      <th style="text-align:center">AM<br>Float</th>
+      <th style="text-align:center">PM<br>Var</th>
       <th style="text-align:right">Takings</th>
       <th style="text-align:right">Expected<br>Takings</th>
       <th style="text-align:right">Variance</th>
@@ -26,7 +28,7 @@
   <tbody>
     <% @dailybanks.each do |dailybank| %>
       <tr>
-      <td><%= dailybank.effective_date.strftime('%a, %d %b %Y') %></td>
+      <td><%= dailybank.effective_date.strftime('%a, %d %b') %></td>
       <td>
         <% if dailybank.status == "Locked" %>
         <font color=#00ff00><b><%= dailybank.status %></b>
@@ -38,24 +40,35 @@
          </td>
         
         <td><%= User.where(id: dailybank.user_id).first.name %></td>
+        
+        <% float = dailybank.cashfloats.where(:period => "Morning") %>
+        <td style="text-align:center"><% if float.any? %>
+          <% if float[0].float_actual == float[0].float_target %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
+            <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i><% end %><% end %>
+          </td>
+        <td style="text-align:center"><% if dailybank.calculated_variance.present? %>
+          <% if dailybank.calculated_variance >= -1 && dailybank.calculated_variance <= 1 %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
+            <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i><% end %><% end %>
+          </td>
+        
         <td style="text-align:right"><%= number_to_currency(dailybank.actual_cash_total, :locale => :en) %></td>
         <td style="text-align:right"><%= number_to_currency(dailybank.actual_till_takings, :locale => :en) %></td>
         <td style="text-align:right"><%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></td>
         
         <% if dailybank.status == "Created" %>
-        <td style="text-align:right"><%= link_to 'Edit Details', edit_dailybank_path(dailybank) %></td>
+        <td style="text-align:right"><%= link_to 'Edit', edit_dailybank_path(dailybank) %></td>
         <% else %>
-        <td style="text-align:right"><%= link_to 'Show Details', dailybank %></td>
+        <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
         <% end %>
         
          <% if current_user.admin?  || current_user.super_user? %>
             <% if dailybank.status == "Locked" %>
               <% elsif dailybank.status == "Draft" %>   
         <td style="text-align:right"><%= link_to 'Mgmt Review', edit_dailybank_path(dailybank) %></td>
-        <td style="text-align:right"><%= link_to 'Destroy', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td style="text-align:right"><%= link_to 'Remove', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% else %>
         <td></td>
-        <td style="text-align:right"><%= link_to 'Destroy', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td style="text-align:right"><%= link_to 'Remove', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <% end %>
       <% end %>
       </tr>

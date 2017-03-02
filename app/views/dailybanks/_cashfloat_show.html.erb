@@ -69,9 +69,10 @@
   </div>
   </div>
   <% end%>
-  
+   <div class="row">
+    <div class="col-md-2 col-md-offset-5">
    <%= f.hidden_field :status, :value => "Count Evening Till" %>
-    <%= f.hidden_field :till_float, :value => @dailybank.cashfloats.first.float_actual %>
+    <%= f.hidden_field :till_float, :value => @dailybank.cashfloats.first.float_target %>
     
    <%= f.fields_for :cashfloats do |builder| %>
      
@@ -83,6 +84,8 @@
  <%= f.submit "Lock Float", class: "btn btn-success" %>
   <% end %>
  
+  </div> 
+ </div>
  </div>
 
  

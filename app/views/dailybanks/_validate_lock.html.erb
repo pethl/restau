@@ -21,7 +21,7 @@
   <font color=#D3D3D3><%= f.label :till_cash %></font><br>
   </div>
   <div class="col-md-2">
-  <%= f.text_field :till_float, :style => "width:74px; text-align:right" %> <br>
+  <%= f.text_field :till_float, :style => "width:74px; text-align:right", readonly: true %> <br>
   <%= f.text_field :till_cash, :style => "width:74px; text-align:right" %> <br>
   </div>
   <div class="col-md-2"> 
@@ -31,8 +31,7 @@
   <%= f.text_field :banking, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
   </div>  
   <div class="col-md-3"> 
-   <%= f.text_field :total_expected_cash, :disabled=>true, :style => "width:74px; text-align:right" %><br>
-   <font color=#D3D3D3>Till Report Cash</font> 
+  
   </div>      
 </div>
 
@@ -52,17 +51,17 @@
   <%= f.text_field :card_payments, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
   </div> 
   <div class="col-md-3"> 
-   <%= f.text_field :total_eft_taken, :disabled=>true, :style => "width:74px; text-align:right" %><br>
-   <font color=#D3D3D3>Till Report Cards</font> 
+   
   </div>        
 </div>  
 
 <div class="row">
   <div class="col-md-2"> 
-  <font color=#D3D3D3><%= f.label :expenses, "No. of Expenses" %></font><br>
+  <font color=#D3D3D3><%= f.label :expenses, "No. of Expenses" %></font>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2"><% if @dailybank.expenses.any? %>
  <font color=#D3D3D3><%= @dailybank.expenses.count  %></font><%= link_to "See Expenses", show_many_expenses_path(:id => @dailybank.expenses.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %> <br>
+ <% end %>
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :expenses, "Expenses Total" %></font><br>
@@ -85,9 +84,9 @@
    <font color=#D3D3D3><%= f.label :merch_takings, "Misc Sales" %></font><br>
    </div>
    <div class="col-md-2">
-   <%= f.text_field :wet_takings, :style => "width:74px; text-align:right" %><br>
-   <%= f.text_field :dry_takings, :style => "width:74px; text-align:right" %><br>
-   <%= f.text_field :merch_takings, :style => "width:74px; text-align:right" %>
+   <%= f.text_field :wet_takings, :style => "width:74px; text-align:right", readonly: true %><br>
+   <%= f.text_field :dry_takings, :style => "width:74px; text-align:right", readonly: true %><br>
+   <%= f.text_field :merch_takings, :style => "width:74px; text-align:right", readonly: true %>
    </div>
    <div class="col-md-2"> 
    <font color=#D3D3D3><%= f.label :till_takings, "Total Sales" %></font><br>
@@ -109,7 +108,7 @@
    <%= f.text_field :deposit_sold, :style => "width:74px; text-align:right" %> <br>
    </div>
    <div class="col-md-2"> 
-   <font color=#D3D3D3><%= f.label :v_d_adjustments, "V/D Adjustment" %></font><br>
+   <font color=#D3D3D3><%= f.label :v_d_adjustments, "D/V Adjustment" %></font><br>
    </div>       
    <div class="col-md-2">
    <%= f.text_field :v_d_adjustments, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
@@ -123,7 +122,13 @@
    <div class="col-md-2">
    <%= f.text_field :deposit_used, :style => "width:74px; text-align:right" %> <br>
    </div>
-   <div class="col-md-3 col-md-offset-4"> 
+   <div class="col-md-2">
+   <font color=#D3D3D3><%= f.label :calculated_variance, "Variance" %> </font> <br>
+   </div>
+   <div class="col-md-2">
+   <%= f.text_field :calculated_variance, :disabled=>true, :style => "width:74px; text-align:right" %>
+   </div>   
+   <div class="col-md-3"> 
     <%= f.text_field :actual_till_takings, :disabled=>true, :style => "width:74px; text-align:right" %><br>
     <b><font color=#FFDC00>Expected Takings</font></b>
    </div>           
@@ -132,14 +137,11 @@
 <br>
 <div class="row">
   <div class="col-md-2 col-md-offset-4"> 
-   <font color=#D3D3D3><%= f.label :calculated_variance, "Variance" %> </font>
+   
    </div>       
-   <div class="col-md-2">
-   <%= f.text_field :calculated_variance, :disabled=>true, :style => "width:74px; text-align:right" %><br>
-   </div>    
+    
    <div class="col-md-4">
-   <%= f.text_field :variance_gap, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
-   <font color=#FFDC00>Variance Gap</font>
+   
    </div>    
 </div>  
  
@@ -158,7 +160,7 @@
 
 <br>
 <div class="row">
- <div class="col-md-2">
+ <div class="col-md-2 col-md-offset-2">
    <div class="actions"> 
    <%= f.submit "Re-calculate", class: "btn btn-primary" %>
      <% end %>

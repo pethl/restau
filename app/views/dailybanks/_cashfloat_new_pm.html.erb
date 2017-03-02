@@ -41,16 +41,13 @@
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :tens, "£10" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :tens, :style => "width:74px; text-align:right" %></div>
-       <div class="col-md-4"><% if cashfloat.cheat.present? %>     
-       <font color=#D3D3D3>Cheat value = <b><%= number_to_currency(cashfloat.cheat, :locale => :en) %></b></font>
-       <% end %></div>
+       <div class="col-md-4"></div>
      </div>
 
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :fives, "£5" %></font><br></div>
        <div class="col-md-2"><%= builder.text_field :fives, :style => "width:74px; text-align:right" %></div>
-       <div class="col-md-4"><% if cashfloat.cheat.present? %>
-         <font color=#D3D3D3>Float-(£50s+£20s+£10s)</font><% end %></div>
+       <div class="col-md-4"></div>
      </div>
      
      <br>  
@@ -108,7 +105,7 @@
  <% end %>
  <br>
  <div class="row">
- <div class="col-md-3">
+ <div class="col-md-3 col-md-offset-2">
    <%= f.submit "Check Till", class: "btn btn-primary" %>
    <% end %>
  </div>
@@ -128,7 +125,7 @@
        </fieldset>
   
          <% end %>
- <%= f.submit "Till Cash Done", class: "btn btn-primary btn-success" %>
+ <%= f.submit "Next >>", class: "btn btn-primary btn-success" %>
   <% end %>
     <% end %>
  

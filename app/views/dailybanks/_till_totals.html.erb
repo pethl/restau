@@ -51,11 +51,14 @@
      </div>
      
     <div class="row">
-      <div class="col-md-2"><b><font color=#D3D3D3>TOTAL Sales</font></b></div>
+      <div class="col-md-2"><b><font color=#D3D3D3>TOTAL Sales<br>(check)</font></b></div>
       <div class="col-md-2" :style="text:align-right">
-      <font color=#D3D3D3><b><%= number_to_currency(@dailybank.till_takings, :locale => :en) %></b></div>
+      <% if @dailybank.till_takings_check==true %>
+      <font color=#D3D3D3><b><%= number_to_currency(@dailybank.till_takings, :locale => :en) %></b>
+      <% end %>
+      </div>
        <div class="col-md-1"></div>
-      <div class="col-md-3"><b><font color=#D3D3D3>V/D Adjustment</font></b></div>
+      <div class="col-md-3"><b><font color=#D3D3D3>Deposit & Voucher Adjustment</font></b></div>
       <div class="col-md-2"><font color=#D3D3D3>
       <b class="text-align:right"><%= number_to_currency(@dailybank.v_d_adjustments, :locale => :en) %></b></div>
     </div>
@@ -72,23 +75,23 @@
       <div class="col-md-8">
       <% if @dailybank.till_takings.present? && @dailybank.reported_till_takings.present? %>
         <% if (@dailybank.till_takings-@dailybank.reported_till_takings!=0) %>
-          <h6><small><font color=#FF8700>TOTAL SALES values must match - please correct your inputs.</small></h6>    <% end %>
+          <h6><small><font color=#FF8700>TOTAL SALES must equal Wet+Dry+Misc - please correct your inputs.</small></h6>    <% end %>
       <% end %>
      </div>     
      </div>
    
  <div class="row">
-  <div class="col-md-2">
+  <div class="col-md-2 col-md-offset-2">
      <%= f.submit "Check Sales", class: "btn btn-primary" %>
    <% end %>
  </div>
 
 <% if (@dailybank.till_takings_check==true) && (!@dailybank.total_eft_taken.blank? && !@dailybank.total_expected_cash.blank? && !@dailybank.v_d_adjustments.blank?) %>
- <div class="col-md-3 col-md-offset-3">
- <%= form_for @dailybank, :url => { :action => "lock_float", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
+ <div class="col-md-3 col-md-offset-4">
+ <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
    <%= f.hidden_field :status, :value => "Validate and Lock" %>
    
-  <%= f.submit "Till Report Done", class: "btn btn-primary btn-success" %>
+  <%= f.submit "Next >>", class: "btn btn-primary btn-success" %>
   <% end %>
   <% end %>
  

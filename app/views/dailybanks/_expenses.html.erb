@@ -69,7 +69,7 @@
        <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
            <%= f.hidden_field :status, :value => "Enter Cards" %>
    	       <%= f.hidden_field :expenses_total, :value => @dailybank.expenses.sum(:price) %>
-   	       <%= f.submit "Expenses Done", class: "btn btn-primary btn-success" %>
+   	       <%= f.submit "Next >>", class: "btn btn-primary btn-success" %>
    	   <% end %>
     <% end %>
   
