@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   get '/history' => 'dailybanks#history'
   get '/history_week' => 'dailybanks#history_week'
   get '/history_month' => 'dailybanks#history_month'
+  get '/tax_quarter' => 'dailybanks#tax_quarter'
   get '/home' => 'static_pages#home'
   get '/help' => 'static_pages#help'
 #  get '/day_picker' => 'static_pages#day_picker'

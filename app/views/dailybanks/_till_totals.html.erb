@@ -52,7 +52,7 @@
      
     <div class="row">
       <div class="col-md-2"><b><font color=#D3D3D3>TOTAL Sales<br>(check)</font></b></div>
-      <div class="col-md-2" :style="text:align-right">
+      <div class="col-md-2">
       <% if @dailybank.till_takings_check==true %>
       <font color=#D3D3D3><b><%= number_to_currency(@dailybank.till_takings, :locale => :en) %></b>
       <% end %>
@@ -64,12 +64,31 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col-md-2"><b><font color=#D3D3D3>Expected Cash</font></b></div>
-      <div class="col-md-2"><%= f.text_field :total_expected_cash, :style => "width:74px; text-align:right", :tabindex =>8 %></div>
+      <div class="col-md-6"><b><u><font color=#D3D3D3>Expected Cash </font></b> (enter zero if no totals)</div>
+      </div>
+    <div class="row">
+      <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 1</font></div>
+      <div class="col-md-2"><%= f.text_field :terminal_1, :style => "width:74px; text-align:right", :tabindex =>8 %></div>
        <div class="col-md-1"></div>
       <div class="col-md-3"><b><font color=#D3D3D3>Total EFT Taken</font></b></div>
-       <div class="col-md-2"><%= f.text_field :total_eft_taken, :style => "width:74px; text-align:right", :tabindex =>8 %></div>
+       <div class="col-md-2"><%= f.text_field :total_eft_taken, :style => "width:74px; text-align:right", :tabindex =>12 %></div>
     </div>
+    <div class="row">
+      <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 2</font></div>
+      <div class="col-md-2"><%= f.text_field :terminal_2, :style => "width:74px; text-align:right", :tabindex =>9 %></div>
+       </div>
+    <div class="row">
+      <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Tablet 2</font></div>
+      <div class="col-md-2"><%= f.text_field :tablet_1, :style => "width:74px; text-align:right", :tabindex =>10 %></div>
+       </div>
+    <div class="row">
+      <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Tablet 2</font></div>
+      <div class="col-md-2"><%= f.text_field :tablet_2, :style => "width:74px; text-align:right", :tabindex =>11 %></div>
+         </div>
+    <div class="row">
+      <div class="col-md-2"><b><font color=#D3D3D3>Total Cash</font></b></div>
+      <div class="col-md-2"><b><%= f.text_field :total_expected_cash, :style => "width:74px; text-align:right", :disabled => true %></b></div>
+         </div>
     <hr>
      <div class="row">
       <div class="col-md-8">

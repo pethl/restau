@@ -1,0 +1,171 @@
+
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+<h4>End of Night Daily History</h4><br>
+
+<ul class="nav nav-tabs">
+  <li role="presentation"><%= link_to "Latest", latest_path %></li>
+  <li role="presentation"><%= link_to "By Days", history_path %></li>
+  <li role="presentation"><%= link_to "By Week", history_week_path %></li>
+  <li role="presentation"><%= link_to "By Month", history_month_path %></li>
+  <li role="presentation" class="active"><%= link_to "Tax Quarter", tax_quarter_path %></li>
+</ul>
+<br>
+<p>This view is designed to show a tax quarter summary report.</p>
+
+<%= form_tag tax_quarter_path, method: :get, :class => "form-inline" do %>
+
+    <h6><small>Search by:
+    
+     <input class="datepicker" data-provide='datepicker' id="search" name=[from] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Start of Tax Quarter" >
+     <input class="datepicker" data-provide='datepicker' id="search" name=[to] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="End of Tax Quarter" >
+    
+  <button type="submit" class="btn btn-primary btn-sm">Search</button>
+<% end %>
+<br><br><br>
+
+<% if @dailybanks == 0 %>
+  
+<% elsif @dailybanks == 1 %>
+  <p>No records found matching date criteria.</p>
+ 
+<% else %>
+<h5>Sales Figures</h5>
+ <table class="table table-condensed">
+ <thead>
+  <tr>  
+   <th style="text-align:left"></th>
+   <th style="text-align:right">Drink</th>
+   <th style="text-align:right">Food</th>
+   <th style="text-align:right">Merchandise</th>
+   <th style="text-align:right">Total</th>
+  </tr>
+  </thead> 
+  <tbody>
+  
+    <% @dailybanks_by_month.each do |month, dailybanks|%>
+       <tr>  
+         <td class="active"><b><%= month %></b></td>
+         <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
+         <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
+         <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
+         <td class="active" style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
+       
+       </tr> 
+   <% end %>  
+   <tr  class="active">
+    <td ><b>TOTALS</b></td>
+    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "wet_takings"), :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "dry_takings"), :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "merch_takings"), :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "till_takings"), :locale => :en) %></td>
+   </tr>  
+  </table>
+ 
+  <br>
+ <h5>Summary By Week</h5>
+  <table class="table table-condensed">
+  <thead>
+   <tr>  
+    <th style="text-align:right"></th>
+    <th style="text-align:left">Date</th>
+    <th style="text-align:right">Takings</b></th>
+    <th style="text-align:right">Card</b></th>
+    <th style="text-align:right">Cash</b></th>
+    <th style="text-align:right">Expense</b></th>
+    <th style="text-align:right">Var</b></th>
+    <th style="text-align:right">Food</b></th>
+    <th style="text-align:right">Drink</b></th>
+    <th style="text-align:right">Merch</b></th>
+    <th style="text-align:right">Ds&Vs</b></th>
+   </tr>
+   </thead> 
+   <tbody>
+  
+   <% @dailybanks_by_week.each do |week, dailybanks|%>
+     <tr>
+     <td colspan="11" class="active" style="text-align:left"><b>Week: <%= week %></b></td>
+     </tr>
+     
+     <% dailybanks.each do |dailybank| %>
+      <tr>  
+       <td ><%= dailybank.effective_date.strftime('%A') %></td>
+       <td ><%= dailybank.effective_date.strftime('%d/%m/%y') %></td>
+       <td style="text-align:right"><%= dailybank.till_takings %></td>
+       <td style="text-align:right"><%= dailybank.card_payments %></td>
+       <td style="text-align:right"><%= dailybank.till_cash %></td>
+       <td style="text-align:right"><%= dailybank.expenses.sum(:price) %></td>
+       <td style="text-align:right"><%= dailybank.calculated_variance %></td>
+       <td style="text-align:right"><%= dailybank.dry_takings %></td>
+       <td style="text-align:right"><%= dailybank.wet_takings %></td>
+       <td style="text-align:right"><%= dailybank.merch_takings %></td>
+       <td style="text-align:right"><%= dailybank.v_d_adjustments %></td>
+      </tr> 
+        <% end %>
+  
+  <tr class="active"> 
+       <td ></td>
+       <td ></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "card_payments"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_cash"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "expenses_total"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "calculated_variance"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "v_d_adjustments"), :locale => :en) %></td></tr> 
+ <tr class="active"> 
+    <td colspan="11"></td>
+    </tr>
+     <% end %> 
+</table>
+
+<br>
+<h5>Summary By Month</h5>
+  <table class="table table-condensed">
+  <thead>
+   <tr>  
+    <th colspan="2" style="text-align:center">Date</th>
+    <th style="text-align:right">Takings</th>
+    <th style="text-align:right">Card</th>
+    <th style="text-align:right">Cash</th>
+    <th style="text-align:right">Expense</th>
+    <th style="text-align:right">Var</th>
+    <th style="text-align:right">Food</th>
+    <th style="text-align:right">Drink</th>
+    <th style="text-align:right">Merch</th>
+    <th style="text-align:right">Ds&Vs</th>
+   </tr>
+   </thead> 
+   <tbody>
+  
+   <% @dailybanks_by_month.each do |month, dailybanks|%>
+     <tr>
+         </tr>
+    <tr class="active"> 
+       <td colspan="2" class="active" style="text-align:center"><b><%= month %></b></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "card_payments"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_cash"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "expenses_total"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "calculated_variance"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "v_d_adjustments"), :locale => :en) %></td>
+       </tr> 
+ <tr> 
+    <td colspan="11"></td>
+    </tr>
+     <% end %> 
+</table>
+
+<% end %>
+</div>
+  
+

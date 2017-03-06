@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213153401) do
+ActiveRecord::Schema.define(version: 20170303155154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,10 @@ ActiveRecord::Schema.define(version: 20170213153401) do
     t.boolean  "till_takings_check"
     t.decimal  "total_expected_cash",   precision: 7, scale: 2
     t.decimal  "total_eft_taken",       precision: 7, scale: 2
+    t.decimal  "terminal_1",            precision: 7, scale: 2
+    t.decimal  "terminal_2",            precision: 7, scale: 2
+    t.decimal  "tablet_1",              precision: 7, scale: 2
+    t.decimal  "tablet_2",              precision: 7, scale: 2
   end
 
   create_table "dailystats", force: :cascade do |t|

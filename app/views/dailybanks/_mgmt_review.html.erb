@@ -35,9 +35,13 @@
   <div class="col-md-2">
   <%= f.text_field :banking, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
   </div>  
-  <div class="col-md-3"> 
+  <div class="col-md-2"> 
    <%= f.text_field :total_expected_cash, :disabled=>true, :style => "width:74px; text-align:right" %><br>
    <font color=#D3D3D3>Till Report Cash</font> 
+  </div>  
+  <div class="col-md-2"style="text-align:right"> 
+   <font color=#ffffff><b><%= @dailybank.banking- @dailybank.total_expected_cash %></font></b><br>
+   <font color=#D3D3D3>Bank/Cash Var</font> 
   </div>      
 </div>
 
@@ -56,10 +60,14 @@
   <div class="col-md-2">
   <%= f.text_field :card_payments, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
   </div> 
-  <div class="col-md-3"> 
+  <div class="col-md-2"> 
    <%= f.text_field :total_eft_taken, :disabled=>true, :style => "width:74px; text-align:right" %><br>
    <font color=#D3D3D3>Till Report Cards</font> 
-  </div>        
+  </div>
+  <div class="col-md-2" style="text-align:right"> 
+   <font color=#ffffff><b><%= @dailybank.card_payments- @dailybank.total_eft_taken %></font></b><br>
+   <font color=#D3D3D3>Card/Card Var</font> 
+  </div>           
 </div>  
 
 <div class="row">
@@ -163,14 +171,18 @@
 
      <% end %>
    
-   <div class="col-md-2 col-md-offset-4">
+   <div class="col-md-2 col-md-offset-2">
     <% if current_user.admin?  || current_user.super_user? %>
       <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
         <%= f.hidden_field :status, :value => "Locked" %>
-        <%= f.submit "Lock & Complete", class: "btn-sm btn-success" %>
+        <%= f.submit "Mgmt Lock", class: "btn-sm btn-success" %>
         <% end %>
      <% end %>
-           </div> 
+  </div>
+  <div class="col-md-4">
+  <h6><%= link_to "Print End of Night report", download_end_of_night_pdf_path(:value => @dailybank.id, :format => 'pdf'), :style => "color:orange" %></h6>
+    
+  </div> 
    </div>
  </div>
 

@@ -56,12 +56,12 @@
 </div>  
 
 <div class="row">
+<% if @dailybank.expenses.any? %>
   <div class="col-md-2"> 
-  <font color=#D3D3D3><%= f.label :expenses, "No. of Expenses" %></font>
-  </div>
-  <div class="col-md-2"><% if @dailybank.expenses.any? %>
- <font color=#D3D3D3><%= @dailybank.expenses.count  %></font><%= link_to "See Expenses", show_many_expenses_path(:id => @dailybank.expenses.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %> <br>
- <% end %>
+  <font color=#D3D3D3><b>No. of Expenses (<%= @dailybank.expenses.count %>)</b></font>
+  </div> 
+  <div class="col-md-2" style="vertical-align: middle"><br>
+ <%= link_to "See Expenses", show_many_expenses_path(:id => @dailybank.expenses.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %> 
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :expenses, "Expenses Total" %></font><br>
@@ -69,6 +69,9 @@
   <div class="col-md-2">
   <%= f.text_field :expenses_total, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
   </div> 
+   <% else %>
+   <div class="col-md-8">
+    <% end %>
   <div class="col-md-3"> 
    <%= f.text_field :actual_cash_total, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
    <b><font color=#FFDC00>Actual Takings</font></b>
@@ -167,16 +170,19 @@
       </div>
   </div>
   
-   <div class="col-md-2 col-md-offset-2">
+   <div class="col-md-2 col-md-offset-1">
     <div class="actions"> 
    <% if (@dailybank.calculated_variance.present? && (@dailybank.calculated_variance > -1 && @dailybank.calculated_variance < 1)) ||( @dailybank.calculated_variance.present? && @dailybank.variance_comment.present?) %>
-    <div class="col-md-2">
+    
      <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
         <%= f.hidden_field :status, :value => "Mgmt Review" %>
         <%= f.submit "Finish End of Night", class: "btn btn-primary btn-success" %>
       <% end %>
     <% end %>
+  </div>
  </div>
- </div>
+ <div class="col-md-3 col-md-offset-1">
+ <h6><%= link_to "Print End of Night report", download_end_of_night_pdf_path(:value => @dailybank.id, :format => 'pdf'), :style => "color:orange" %></h6>
+ </div> 
  </div>
  

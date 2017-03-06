@@ -67,6 +67,27 @@ class DailybanksController < ApplicationController
        end
   end
   
+  def tax_quarter
+    @dailybanks = []
+      #take params from search on tax_quarter view, or if no search, return 0
+      #send to model to apply SEARCH function, which retrieves matching records 
+       if params[:from]
+         @dailybanks = Dailybank.search(params)
+               if @dailybanks.any?
+                 # params= []
+                 @dailybanks_by_month = @dailybanks.group_by { |t| t.effective_date.strftime("%b") }
+                # @dailybanks_by_month
+                 @dailybanks_by_week = @dailybanks.group_by { |t| t.effective_date.strftime("%W") }
+                else
+                 params= []
+                 @dailybanks = 1
+               end
+       else
+         @dailybanks = 0
+         params= []
+       end
+  end
+  
   
   # GET /dailybanks
   # GET /dailybanks.json
@@ -386,7 +407,7 @@ class DailybanksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dailybank_params
-      params.require(:dailybank).permit(:user_id, :effective_date, :till_cash, :till_float, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
+      params.require(:dailybank).permit(:user_id, :effective_date, :till_cash, :till_float, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :terminal_1, :terminal_2, :tablet_1, :tablet_2, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
     end
     
     def run_calc_rules(dailybank)
@@ -430,26 +451,21 @@ class DailybanksController < ApplicationController
       #good
       if (!dailybank.v_d_adjustments.blank? && !dailybank.till_takings.blank?)
          dailybank.update_attribute(:actual_till_takings, (dailybank.till_takings+dailybank.v_d_adjustments))
-        else
-      end 
+        end 
       
       #good
       if (dailybank.expenses.any?)
          dailybank.update_attribute(:expenses_total, (dailybank.expenses.sum(:price)))
-        else
-      end 
+        end 
       
       #test
         if (!dailybank.actual_cash_total.blank? && !dailybank.actual_till_takings.blank?)
           dailybank.update_attribute(:calculated_variance, (dailybank.actual_cash_total-dailybank.actual_till_takings))
-        else
-         
         end
-        # THIS NEEDS TO BE REMOVED
-        if (!dailybank.calculated_variance.blank? && !dailybank.user_variance.blank?)
-          dailybank.update_attribute(:variance_gap, (dailybank.user_variance-dailybank.calculated_variance))
-        else
-          #Rails.logger.debug("in 3rd else: #{dailybank}")
+        
+        #test
+        if (!dailybank.terminal_1.blank? && !dailybank.terminal_2.blank? && !dailybank.tablet_1.blank? && !dailybank.tablet_2.blank?)
+          dailybank.update_attribute(:total_expected_cash, (dailybank.terminal_1+dailybank.terminal_2+dailybank.tablet_1+dailybank.tablet_2))
         end
       end
       
