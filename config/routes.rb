@@ -10,12 +10,14 @@ Rails.application.routes.draw do
       collection { post :lock_event };
       collection { post :create_new_expense_record };
       collection { post :no_expenses_to_add}; 
+       collection { get :mgmt_review};
       resources :expenses
     end
   resources :exemptions
   resources :functions
   resources :cashfloats do
-      collection { post :validate }
+      collection { post :validate };
+      collection { get :show_evening_float }
     end
 
   get 'daily_checks/today'
@@ -64,6 +66,7 @@ Rails.application.routes.draw do
   get '/history' => 'dailybanks#history'
   get '/history_week' => 'dailybanks#history_week'
   get '/history_month' => 'dailybanks#history_month'
+ # get '/mgmt_review/:id' => 'dailybanks#mgmt_review'
   get '/tax_quarter' => 'dailybanks#tax_quarter'
   get '/home' => 'static_pages#home'
   get '/help' => 'static_pages#help'

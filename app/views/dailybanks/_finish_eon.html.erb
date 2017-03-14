@@ -1,0 +1,64 @@
+  <br>
+ <h5>Thank you for completing this End of Night record.</h5>
+  <hr>
+     <p>NEXT STEPS:<br>
+     1) Print End of Night Report, if you haven't already done so.<br>
+     2) Complete banking</p>
+  <hr>   
+     
+  <div class="col-md-8">
+  <h6><%= link_to "Click Here to Print End of Night report", download_end_of_night_pdf_path(:value => @dailybank.id, :format => 'pdf'), :style => "color:orange" %></h6>
+  </div> 
+    <br><br><br>
+    
+  <div class="col-md-8">
+  <p>Banking Details for <b><%= @dailybank.effective_date.strftime('%A, %d %B') %><b><br>
+  
+  <div class="row">
+   
+     <div class="col-md-1">
+      <font color=#D3D3D3>Notes <br><br><br><br><br> 
+     Coins</font>
+     </div>
+   
+    <div class="col-md-2" align="right">
+     <b><font color=#D3D3D3>
+     £50<br> 
+     £20 <br>
+     £10 <br>
+     £5 <br><br>
+     £2 <br>
+     £1 <br>
+     50p <br>
+     20p <br>
+     10p <br>
+     5p <br>
+     2p <br>
+     1p <br><br></b>
+     </div>
+     
+     <div class="col-md-2" align="right">
+      <font color=#D3D3D3 class="text-right"><%= @evening_float.fifties %><br>
+     <%= @evening_float.twenties%><br>
+     <%= @evening_float.tens %><br>
+     <%= @evening_float.fives %><br><br>
+     <%= @evening_float.two_pound_single %><br>
+     <%= @evening_float.pound_single %><br>
+     <%= @evening_float.fifty_single %><br>
+     <%= @evening_float.twenty_single %><br>
+     <%= @evening_float.ten_single %><br>
+     <%= @evening_float.five_single %><br>
+     <%= @evening_float.two_single %><br>
+     <%= @evening_float.one_single %><br><br>
+     <p>Total: <b><%= number_to_currency(@evening_float.float_actual, :locale => :en) %></b></p>
+     </div>
+    
+    <div class="col-md-1" align="right">
+     <p>Cheat:<b><%= number_to_currency(@evening_float.cheat, :locale => :en) %></b></p>
+   </div>
+
+ </div>
+</div>
+
+
+ 

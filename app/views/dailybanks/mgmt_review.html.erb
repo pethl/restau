@@ -1,3 +1,14 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-8">
+<h6><small><b><%= @dailybank.effective_date.strftime('%A, %d %b %Y') %></b></small></h6> 
+
+
+<h3><%= @dailybank.status %></h3> 
+
 <%= form_for(@dailybank) do |f| %>
   <% if @dailybank.errors.any? %>
     <div id="error_explanation">
@@ -18,11 +29,17 @@
      <% else %> 
    
   <h6><small>1. If any changes made or comments added click RE-CALCULATE.<br>
-  2. Click LOCK and COMPLETE to finalise record.</small></h6>
+  2. Click MGMT LOCK to lock record.</small></h6>
 <br>
 <div class="row">
   <div class="col-md-2"> 
-  <font color=#D3D3D3><%= f.label :till_float %></font><br>
+  <font color=#D3D3D3><%= f.label :till_float %></font>
+  <% float = @dailybank.cashfloats.where(:period => "Morning") %>
+ <% if float.any? %>
+    <% if float[0].float_actual == float[0].float_target %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
+      <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i>(<%= float[0].float_actual %>)<% end %><% end %>
+  
+  <br>
   <font color=#D3D3D3><%= f.label :till_cash %></font><br>
   </div>
   <div class="col-md-2">
@@ -31,9 +48,12 @@
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :banking, "Banking Total" %></font><br>
+  <%= link_to "See AM Banking", show_evening_float_cashfloats_path(:id => @dailybank.cashfloats.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %> 
+ 
   </div>       
   <div class="col-md-2">
   <%= f.text_field :banking, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+  
   </div>  
   <div class="col-md-2"> 
    <%= f.text_field :total_expected_cash, :disabled=>true, :style => "width:74px; text-align:right" %><br>
@@ -185,5 +205,6 @@
    </div>
  </div>
 
+ </div>
 
  

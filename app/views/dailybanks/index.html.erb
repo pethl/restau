@@ -31,11 +31,11 @@
       <td><%= dailybank.effective_date.strftime('%a, %d %b') %></td>
       <td>
         <% if dailybank.status == "Locked" %>
-        <font color=#00ff00><b><%= dailybank.status %></b>
-        <% elsif dailybank.status == "Draft" %>
-         <font color=#FF0000><b><%= dailybank.status %></b>
+        <font color=#FF0000><b><%= dailybank.status %></b>
+         <% elsif  dailybank.status == "Mgmt Review" %>
+         <font color=#FFFF00><b><%= dailybank.status %></b>
          <% else %>
-         <b><%= dailybank.status %></b>
+         <b> <font color=#00ff00><%= dailybank.status %></font></b>
          <% end%>
          </td>
         
@@ -55,16 +55,20 @@
         <td style="text-align:right"><%= number_to_currency(dailybank.actual_till_takings, :locale => :en) %></td>
         <td style="text-align:right"><%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></td>
         
-        <% if dailybank.status == "Created" %>
-        <td style="text-align:right"><%= link_to 'Edit', edit_dailybank_path(dailybank) %></td>
-        <% else %>
+        <% if dailybank.status == "Mgmt Review" %>
         <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
+        <% elsif dailybank.status == "Balance Morning Float"%>
+         <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
+         <% elsif dailybank.status == "Locked"%>
+          <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
+        <% else %>
+        <td style="text-align:right"><%= link_to 'Continue', edit_dailybank_path(dailybank) %></td>
         <% end %>
         
          <% if current_user.admin?  || current_user.super_user? %>
             <% if dailybank.status == "Locked" %>
               <% elsif dailybank.status == "Draft" %>   
-        <td style="text-align:right"><%= link_to 'Mgmt Review', edit_dailybank_path(dailybank) %></td>
+        <td style="text-align:right"><%= link_to 'Mgmt Review', mgmt_review_path(dailybank) %></td>
         <td style="text-align:right"><%= link_to 'Remove', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% else %>
         <td></td>

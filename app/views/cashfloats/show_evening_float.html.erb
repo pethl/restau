@@ -1,0 +1,64 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-7">
+<br>
+<h4><b><%= @cashfloat.float_type %> </b> for <b><%= Date.today.strftime("%A") %></b> <%= @cashfloat.period %>, <%= Date.today.strftime("%B %d") %></h4>
+
+    <h6><small>Completed by: </small><%= @cashfloat.completed_by %></h6>
+    <h6><small>Status: </small>
+    <% if @cashfloat.completed == "Completed - OK"%>
+      <font color=#9ACD32><%= @cashfloat.completed %></h6>
+      <% else %>
+       <font color=#F7FE2E><%= @cashfloat.completed %></h6>
+      <% end %>
+     <br>
+  <div class="row">
+   <div class="col-md-1">
+    <font color=#D3D3D3>Notes <br><br><br><br><br> 
+    Coins</font>
+   </div>
+ 
+  <div class="col-md-2" align="right">
+   <b><font color=#D3D3D3>
+   £50<br> 
+   £20 <br>
+   £10 <br>
+   £5 <br><br>
+   £2 <br>
+   £1 <br>
+   50p <br>
+   20p <br>
+   10p <br>
+   5p <br>
+   2p <br>
+   1p <br><br></b>
+   </div>
+   
+   <div class="col-md-2" align="right">
+    <font color=#D3D3D3 class="text-right"><%= @cashfloat.fifties %><br>
+   <%= @cashfloat.twenties%><br>
+   <%= @cashfloat.tens %><br>
+   <%= @cashfloat.fives %><br><br>
+   <%= @cashfloat.two_pound_single %><br>
+   <%= @cashfloat.pound_single %><br>
+   <%= @cashfloat.fifty_single %><br>
+   <%= @cashfloat.twenty_single %><br>
+   <%= @cashfloat.ten_single %><br>
+   <%= @cashfloat.five_single %><br>
+   <%= @cashfloat.two_single %><br>
+   <%= @cashfloat.one_single %><br><br>
+   <p>Total: <b><%= number_to_currency(@cashfloat.float_actual, :locale => :en) %></b></p>
+   </div>
+  
+  <div class="col-md-1" align="right">
+   <p>Cheat:<b><%= number_to_currency(@cashfloat.cheat, :locale => :en) %></b></p>
+ </div>
+ </div>
+      
+<%= link_to '<< Back to  End of Night Record', dailybank_path(@cashfloat.dailybank_id), :style => "color:orange" %>
+
+</div>
+  

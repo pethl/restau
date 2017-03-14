@@ -24,7 +24,13 @@
  </tr>
  
   <tr>
-    <td><b><font color=#D3D3D3>Till Float </b></font><br>
+    <td><b><font color=#D3D3D3>Till Float </b></font>
+    <% float = @dailybank.cashfloats.where(:period => "Morning") %>
+   <% if float.any? %>
+      <% if float[0].float_actual == float[0].float_target %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
+        <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i><% end %><% end %>
+  
+    <br>
     <b><font color=#D3D3D3>Till Cash </b></font></td>
     <td><%= number_to_currency( @morning_float.float_actual, :locale => :en) %><br>
     <%= number_to_currency(@dailybank.till_cash, :locale => :en) %></td>
@@ -115,9 +121,7 @@
   </tr>  
     </table>
  
-  
-    
-  <% if @dailybank.status == "Validate and Lock"%>
+    <% if @dailybank.status == "Validate and Lock"%>
    <% if @dailybank.variance_gap== 0%>
  
    <h6><b><font color=#13E84A>You have a variance of 
@@ -140,7 +144,7 @@
     <% elsif @dailybank.status== "Mgmt Review" %>
      <% if current_user.admin?  || current_user.super_user? %>
      <div class="col-md-1 ">
-     <button type="button" class="btn btn-warning btn-sm"><%= link_to 'Edit Details', edit_dailybank_path(@dailybank) %></button>
+     <button type="button" class="btn btn-warning btn-sm"><%= link_to 'Edit Details',  mgmt_review_dailybanks_path(:id => @dailybank.id) %></button>
      </div>
      <div class="col-md-8 col-md-offset-1" >
      <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>

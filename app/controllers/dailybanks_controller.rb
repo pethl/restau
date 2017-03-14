@@ -1,11 +1,14 @@
 class DailybanksController < ApplicationController
  before_action :logged_in_user, only: [:show, :edit, :history, :history_week, :history_month, :index, :update, :destroy]
- before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :submit_comment, :mgmt_lock, :lock_float, :lock_event, :create_new_expense_record, :no_expenses_to_add]
+ before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :submit_comment, :mgmt_lock, :lock_float, :lock_event, :create_new_expense_record, :no_expenses_to_add, :mgmt_review]
    
  def latest
     @dailybank = Dailybank.last(1).first
  end
-
+ 
+ def mgmt_review
+ end
+ 
   def history
     @dailybanks = []
       #take params from search on History view, or if no search, return 0
@@ -125,6 +128,8 @@ class DailybanksController < ApplicationController
   # GET /dailybanks/1/edit
   def edit
     @morning_float = Cashfloat.where(:dailybank_id => @dailybank.id, :float_type => "Main Till", :period => "Morning").first
+    @evening_float = Cashfloat.where(:dailybank_id => @dailybank.id, :float_type => "Main Till", :period => "Evening").first
+
   end
 
   # POST /dailybanks

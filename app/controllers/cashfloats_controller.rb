@@ -1,7 +1,7 @@
 class CashfloatsController < ApplicationController
   before_action :logged_in_user, only: [:show, :edit, :update, :destroy, :index]
   
-  before_action :set_cashfloat, only: [:show, :edit, :update, :destroy]
+  before_action :set_cashfloat, only: [:show, :edit, :update, :destroy, :show_evening_float]
 
   def validate
   @cashfloat = Cashfloat.find(params[:id]) 
@@ -23,6 +23,15 @@ class CashfloatsController < ApplicationController
       end
     
 end
+
+  def show_evening_float
+    Rails.logger.debug("XXXXXXXXX in show_evening_float: #{params.inspect}")
+    @cashfloat = Cashfloat.find(params[:id])
+     @dailybank = Dailybank.find(@cashfloat.dailybank_id)
+    # @expenses = Expense.where(:dailybank_id => @dailybank.id) 
+    # @expenses = @expenses.sort_by { |hsh| hsh[:ref] } 
+     return @cashfloat
+  end
 
   # GET /cashfloats
   # GET /cashfloats.json

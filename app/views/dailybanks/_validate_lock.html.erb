@@ -10,14 +10,21 @@
       </ul>
     </div>
   <% end %>
-   
+   <h3><%= @dailybank.status %></h3> 
   <h6><small>1. Check all values, if changes are made use RE-CALCULATE button.<br>
   2. If variance more than +/- £1, reason must be given.<br>
   3. Click FINISH END OF NIGHT to submit for mgmt review.</small></h6>
 <br>
 <div class="row">
   <div class="col-md-2"> 
-  <font color=#D3D3D3><%= f.label :till_float %></font><br>
+  <font color=#D3D3D3><%= f.label :till_float %></font>
+  
+  <% float = @dailybank.cashfloats.where(:period => "Morning") %>
+ <% if float.any? %>
+    <% if float[0].float_actual == float[0].float_target %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
+      <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i><% end %><% end %>
+  
+  <br>
   <font color=#D3D3D3><%= f.label :till_cash %></font><br>
   </div>
   <div class="col-md-2">
@@ -30,9 +37,9 @@
   <div class="col-md-2">
   <%= f.text_field :banking, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
   </div>  
-  <div class="col-md-3"> 
-  
-  </div>      
+  <div class="col-md-2" style="vertical-align: middle">
+ <%= link_to "See Banking", show_evening_float_cashfloats_path(:id => @dailybank.cashfloats.second.id), :class => "btn btn-xs btn-success", :style => "color:black" %> 
+  </div>     
 </div>
 
 <div class="row">
@@ -71,6 +78,7 @@
   </div> 
    <% else %>
    <div class="col-md-8">
+   </div>
     <% end %>
   <div class="col-md-3"> 
    <%= f.text_field :actual_cash_total, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
@@ -78,7 +86,7 @@
   </div>       
 </div>   
 
- <br>  <br>   
+ <br> 
 
  <div class="row">
    <div class="col-md-2"> 
