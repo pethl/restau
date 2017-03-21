@@ -60,7 +60,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.banking %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "banking") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "banking") %><b></td>
   </tr>
   
   <tr>
@@ -68,7 +68,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.card_payments %></td>
   <% end %>
-   <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "card_payments") %><b></td>
+   <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "card_payments") %><b></td>
   </tr>
   
   <tr>
@@ -76,7 +76,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.expenses_total %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "expenses_total") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "expenses_total") %><b></td>
   </tr> 
   
   <tr class="success">
@@ -84,7 +84,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.actual_cash_total %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "actual_cash_total") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "actual_cash_total") %><b></td>
   </tr>
   
   <tr>
@@ -92,7 +92,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.till_takings %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "till_takings") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "till_takings") %><b></td>
   </tr>
   
   <tr>
@@ -100,7 +100,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.vouchers_sold %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "vouchers_sold") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "vouchers_sold") %><b></td>
   </tr>
   
   <tr>
@@ -108,7 +108,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.vouchers_used %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "vouchers_used") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "vouchers_used") %><b></td>
   </tr>
   
   <tr>
@@ -116,7 +116,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.deposit_sold %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "deposit_sold") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "deposit_sold") %><b></td>
   </tr>
   
   <tr>
@@ -124,7 +124,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.deposit_used %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "deposit_used") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "deposit_used") %><b></td>
   </tr>
    
   <tr class="success">
@@ -132,7 +132,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.actual_till_takings %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "actual_till_takings") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "actual_till_takings") %><b></td>
   </tr>
   
   <tr>
@@ -140,7 +140,7 @@
   <% @dailybanks.each do |dailybank| %>
   <td style="text-align:right"><%= dailybank.calculated_variance %></td>
   <% end %>
-  <td style="text-align:right"><b><%= get_sum_from_array_field(@dailybanks, "calculated_variance") %><b></td>
+  <td style="text-align:right"><b><%= handle_nil_get_sum_from_array_field(@dailybanks, "calculated_variance") %><b></td>
   </tr>
   
   <tr>

@@ -51,19 +51,19 @@
     <% @dailybanks_by_month.each do |month, dailybanks|%>
        <tr>  
          <td class="active"><b><%= month %></b></td>
-         <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
-         <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
-         <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
-         <td class="active" style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
+         <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
+         <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
+         <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
+         <td class="active" style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
        
        </tr> 
    <% end %>  
    <tr  class="active">
     <td ><b>TOTALS</b></td>
-    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "wet_takings"), :locale => :en) %></td>
-    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "dry_takings"), :locale => :en) %></td>
-    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "merch_takings"), :locale => :en) %></td>
-    <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(@dailybanks, "till_takings"), :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(@dailybanks, "wet_takings"), :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(@dailybanks, "dry_takings"), :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(@dailybanks, "merch_takings"), :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(@dailybanks, "till_takings"), :locale => :en) %></td>
    </tr>  
   </table>
  
@@ -111,15 +111,15 @@
   <tr class="active"> 
        <td ></td>
        <td ></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "card_payments"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_cash"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "expenses_total"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "calculated_variance"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "v_d_adjustments"), :locale => :en) %></td></tr> 
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "card_payments"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "till_cash"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "expenses_total"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "calculated_variance"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "v_d_adjustments"), :locale => :en) %></td></tr> 
  <tr class="active"> 
     <td colspan="11"></td>
     </tr>
@@ -150,15 +150,15 @@
          </tr>
     <tr class="active"> 
        <td colspan="2" class="active" style="text-align:center"><b><%= month %></b></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "card_payments"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "till_cash"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "expenses_total"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "calculated_variance"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
-       <td style="text-align:right"><%= number_to_currency(get_sum_from_array_field(dailybanks, "v_d_adjustments"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "till_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "card_payments"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "till_cash"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "expenses_total"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "calculated_variance"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "v_d_adjustments"), :locale => :en) %></td>
        </tr> 
  <tr> 
     <td colspan="11"></td>
