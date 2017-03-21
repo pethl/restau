@@ -4,7 +4,9 @@ class Cashfloat < ActiveRecord::Base
   after_save do
     if self.period == "Evening"
       dailybank.update_attribute(:till_cash, self.float_actual)
-      dailybank.update_attribute(:banking, (dailybank.till_cash-dailybank.till_float))
+      if (!dailybank.till_float.blank? && !dailybank.till_cash.blank?)
+        dailybank.update_attribute(:banking, (dailybank.till_cash-dailybank.till_float))
+       end
     end
   end
   

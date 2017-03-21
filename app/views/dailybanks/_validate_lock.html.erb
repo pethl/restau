@@ -146,6 +146,34 @@
    </div>           
  </div> 
  
+ <div class="row">
+   <div class="col-md-6"><b><u><font color=#D3D3D3>Expected Cash </b> (enter zero if no totals)</font></div>
+   </div>
+ <div class="row">
+   <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 1</font></div>
+   <div class="col-md-2"><%= f.text_field :terminal_1, :style => "width:74px; text-align:right", :tabindex =>8, :value => (number_with_precision(f.object.terminal_1, :precision => 2)) %></div>
+    <div class="col-md-1"></div>
+   <div class="col-md-3"><b><font color=#D3D3D3>Total EFT Taken</font></b></div>
+    <div class="col-md-2"><%= f.text_field :total_eft_taken, :style => "width:74px; text-align:right", :tabindex =>12, :value => (number_with_precision(f.object.total_eft_taken, :precision => 2)) %></div>
+ </div>
+ <div class="row">
+   <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 2</font></div>
+   <div class="col-md-2"><%= f.text_field :terminal_2, :style => "width:74px; text-align:right", :tabindex =>9, :value => (number_with_precision(f.object.terminal_2, :precision => 2)) %></div>
+    </div>
+ <div class="row">
+   <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Tablet 2</font></div>
+   <div class="col-md-2"><%= f.text_field :tablet_1, :style => "width:74px; text-align:right", :tabindex =>10, :value => (number_with_precision(f.object.tablet_1, :precision => 2)) %></div>
+    </div>
+ <div class="row">
+   <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Tablet 2</font></div>
+   <div class="col-md-2"><%= f.text_field :tablet_2, :style => "width:74px; text-align:right", :tabindex =>11, :value => (number_with_precision(f.object.tablet_2, :precision => 2)) %></div>
+      </div>
+ <div class="row">
+   <div class="col-md-2"><b><font color=#D3D3D3>Total Cash</font></b></div>
+   <div class="col-md-2"><b><%= f.text_field :total_expected_cash, :style => "width:74px; text-align:right", :disabled => true, :value => (number_with_precision(f.object.total_expected_cash, :precision => 2)) %></b></div>
+      </div>
+ 
+ 
 <br>
 <div class="row">
   <div class="col-md-2 col-md-offset-4"> 
@@ -181,7 +209,7 @@
   
    <div class="col-md-2 col-md-offset-1">
     <div class="actions"> 
-   <% if (@dailybank.calculated_variance.present? && (@dailybank.calculated_variance > -1 && @dailybank.calculated_variance < 1)) ||( @dailybank.calculated_variance.present? && @dailybank.variance_comment.present?) %>
+   <% if (@dailybank.calculated_variance.present? && (@dailybank.calculated_variance > -1.01 && @dailybank.calculated_variance < 1.01)) ||( @dailybank.calculated_variance.present? && @dailybank.variance_comment.present?) %>
     
      <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
         <%= f.hidden_field :status, :value => "Mgmt Review" %>
