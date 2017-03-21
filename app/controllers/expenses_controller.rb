@@ -28,13 +28,24 @@ class ExpensesController < ApplicationController
   end
   
   def show_many
-    #STUCK HERE CANNOT MAKE SHOW EXPENSES LINK WORK FROM DAILYBANK SHOW VIEW
-    Rails.logger.debug("XXXXXXXXX in show_many: #{params.inspect}")
+   # Rails.logger.debug("XXXXXXXXX in show_many: #{params.inspect}")
     @expense = Expense.find(params[:id])
      @dailybank = Dailybank.find(@expense.dailybank_id)
      @expenses = Expense.where(:dailybank_id => @dailybank.id) 
      @expenses = @expenses.sort_by { |hsh| hsh[:ref] } 
      return @expenses
+  end
+  
+  def add_new
+    Rails.logger.debug("\nXXXXXXXXX in add_new: #{params.inspect}")
+     @dailybank = Dailybank.find(params[:id])
+     
+     Rails.logger.debug("\nXXXXXXXXX in @dailybank: #{@dailybank.inspect}")
+     ref = Expense.all.last.ref+1.to_i
+     @expense = Expense.create(:dailybank_id => @dailybank.id, :ref => ref, :what => "what", :where => "where", :price => 0)
+     
+    Rails.logger.debug("\nXXXXXXXXX in @expense: #{@expense.inspect}")
+     redirect_to edit_expense_path(id: @expense.id)
   end
   
   def search

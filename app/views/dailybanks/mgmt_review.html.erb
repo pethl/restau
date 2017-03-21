@@ -98,6 +98,8 @@
   <div class="col-md-2">
  <% if @dailybank.expenses.any? %>
   <font color=#D3D3D3><%= @dailybank.expenses.count  %></font><%= link_to "See Expenses", show_many_expenses_path(:id => @dailybank.expenses.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %> <br>
+  <% else %>
+ <%= link_to "Add Expense", add_new_expenses_path(:id => @dailybank.id), :class => "btn btn-xs btn-success", :style => "color:black" %>
   <% end %>
   </div>
   <div class="col-md-2"> 

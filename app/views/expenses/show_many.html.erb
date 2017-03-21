@@ -37,3 +37,4 @@
   </tbody>
 </table>
 <%= link_to '<< Back to  End of Night Record', dailybank_path(@expenses.first.dailybank_id), :style => "color:orange" %>
+ | <%= link_to "Add Expense", add_new_expenses_path(:id => @dailybank.id), :class => "btn btn-xs btn-success", :style => "color:black" %>

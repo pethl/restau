@@ -79,6 +79,8 @@
   </div> 
    <% else %>
    <div class="col-md-8">
+   <%= link_to "Add Expense", add_new_expenses_path(:id => @dailybank.id), :class => "btn btn-xs btn-success", :style => "color:black" %>
+   
    </div>
     <% end %>
   <div class="col-md-3"> 

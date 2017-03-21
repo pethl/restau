@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :expenses do
-      collection { get :show_many }
+      collection { get :show_many };
+      collection { get :add_new }
     end
       resources :dailystats
   resources :dailybanks do
