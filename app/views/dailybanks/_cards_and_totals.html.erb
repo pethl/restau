@@ -19,12 +19,12 @@
    
    <div class="row"> 
       <div class="col-md-2"><font color=#D3D3D3><%= f.label :card_1, "Card 1" %></font></div>
-      <div class="col-md-2"><%= f.text_field :card_1, :style => "width:74px; text-align:right" %></div> 
+      <div class="col-md-2"><%= f.text_field :card_1, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_1, :precision => 2)) %></div> 
     </div>
    
    <div class="row">  
       <div class="col-md-2"><font color=#D3D3D3><%= f.label :card_2, "Card 2" %></font><br></div>
-      <div class="col-md-2"><%= f.text_field :card_2, :style => "width:74px; text-align:right" %></div> 
+      <div class="col-md-2"><%= f.text_field :card_2, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_2, :precision => 2)) %></div> 
       
       <div class="col-md-2"><b><font color=#D3D3D3>Total Cards</font></b><hr></div>
       <div class="col-md-2"><p class="text-right"><%= number_to_currency(@dailybank.card_payments, :locale => :en) %></p><hr></div>

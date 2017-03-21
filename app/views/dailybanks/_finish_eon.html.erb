@@ -38,18 +38,19 @@
      </div>
      
      <div class="col-md-2" align="right">
-      <font color=#D3D3D3 class="text-right"><%= @evening_float.fifties %><br>
-     <%= @evening_float.twenties%><br>
-     <%= @evening_float.tens %><br>
-     <%= @evening_float.fives %><br><br>
-     <%= @evening_float.two_pound_single %><br>
-     <%= @evening_float.pound_single %><br>
-     <%= @evening_float.fifty_single %><br>
-     <%= @evening_float.twenty_single %><br>
-     <%= @evening_float.ten_single %><br>
-     <%= @evening_float.five_single %><br>
-     <%= @evening_float.two_single %><br>
-     <%= @evening_float.one_single %><br><br>
+      <font color=#D3D3D3 class="text-right">
+      <%= sprintf "%.2f", @evening_float.fifties %><br>
+     <%= sprintf "%.2f", @evening_float.twenties%><br>
+     <%= sprintf "%.2f", @evening_float.tens %><br>
+     <%= sprintf "%.2f", @evening_float.fives %><br><br>
+     <%= sprintf "%.2f", @evening_float.two_pound_single %><br>
+     <%= sprintf "%.2f", @evening_float.pound_single %><br>
+     <%= sprintf "%.2f", @evening_float.fifty_single %><br>
+     <%= sprintf "%.2f", @evening_float.twenty_single %><br>
+     <%= sprintf "%.2f", @evening_float.ten_single %><br>
+     <%= sprintf "%.2f", @evening_float.five_single %><br>
+     <%= sprintf "%.2f", @evening_float.two_single %><br>
+     <%= sprintf "%.2f", @evening_float.one_single %><br><br>
      <p>Total: <b><%= number_to_currency(@evening_float.float_actual, :locale => :en) %></b></p>
      </div>
     

@@ -1,6 +1,13 @@
 class Cashfloat < ActiveRecord::Base
   belongs_to :dailybank
   
+  after_save do
+    if self.period == "Evening"
+      dailybank.update_attribute(:till_cash, self.float_actual)
+      dailybank.update_attribute(:banking, (dailybank.till_cash-dailybank.till_float))
+    end
+  end
+  
   validates :float_type, presence: true 
   validates :period, presence: true 
   validates :completed_by, presence: true 

@@ -99,6 +99,11 @@ class DailybanksController < ApplicationController
    @dailybanks = Dailybank.where("effective_date >= ?", Date.today.beginning_of_week.-(7.days))
    @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
   end
+  
+  def index_full
+   @dailybanks = Dailybank.all
+   @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
+  end
 
   # GET /dailybanks/1
   # GET /dailybanks/1.json
@@ -270,8 +275,8 @@ class DailybanksController < ApplicationController
         pdf.text "Complete by: " + @morning_till.completed_by + "     Comments: "+ @morning_till.float_comment + "\n", size: 6
         table_data = Array.new
         table_data << ["Target = #{@morning_till.float_target.to_s}", "£50", "£20", "£10", "£5", "£2", "£1", "50p", "20p", "10p", "5p", "2p", "1p"]
-        table_data << ["Total", @morning_till.fifties, @morning_till.twenties, @morning_till.tens, @morning_till.fives, @morning_till.two_pound_single, @morning_till.pound_single, @morning_till.fifty_single, @morning_till.twenty_single, @morning_till.ten_single, @morning_till.five_single, @morning_till.two_single, @morning_till.one_single ]
-        table_data << ["£#{@morning_till.float_actual.to_s}"]
+        table_data << ["Total", @morning_till.fifties, @morning_till.twenties, @morning_till.tens, @morning_till.fives, @morning_till.two_pound_single, @morning_till.pound_single, (sprintf "%.2f", @morning_till.fifty_single), (sprintf "%.2f", @morning_till.twenty_single), (sprintf "%.2f", @morning_till.ten_single), (sprintf "%.2f", @morning_till.five_single), (sprintf "%.2f", @morning_till.two_single), (sprintf "%.2f", @morning_till.one_single) ]
+        table_data << ["£#{(sprintf "%.2f", @morning_till.float_actual.to_s)}"]
         
         pdf.table(table_data, :column_widths => [100,30,30,30,30,30,30,30,30,30,30,30,30],:cell_style => {:padding => 3}) do 
           self.width = 460
@@ -289,8 +294,8 @@ class DailybanksController < ApplicationController
         pdf.text "Complete by: " + @evening_till.completed_by + "     Comments: "+ @evening_till.float_comment.to_s + "\n", size: 6
         table_data = Array.new
         table_data << ["AM Float = #{@morning_till.float_actual.to_s}", "£50", "£20", "£10", "£5", "£2", "£1", "50p", "20p", "10p", "5p", "2p", "1p"]
-        table_data << ["Total", @evening_till.fifties, @evening_till.twenties, @evening_till.tens, @evening_till.fives, @evening_till.two_pound_single, @evening_till.pound_single, @evening_till.fifty_single, @evening_till.twenty_single, @evening_till.ten_single, @evening_till.five_single, @evening_till.two_single, @evening_till.one_single ]
-        table_data << ["£#{@evening_till.float_actual.to_s}"]
+        table_data << ["Total", @evening_till.fifties, @evening_till.twenties, @evening_till.tens, @evening_till.fives, @evening_till.two_pound_single, @evening_till.pound_single, (sprintf "%.2f", @evening_till.fifty_single), (sprintf "%.2f", @evening_till.twenty_single), (sprintf "%.2f", @evening_till.ten_single), (sprintf "%.2f", @evening_till.five_single), (sprintf "%.2f", @evening_till.two_single), (sprintf "%.2f", @evening_till.one_single) ]
+        table_data << ["£#{(sprintf "%.2f", @evening_till.float_actual.to_s)}"]
           
         pdf.table(table_data, :column_widths => [100,30,30,30,30,30,30,30,30,30,30,30,30],:cell_style => {:padding => 3}) do 
           self.width = 460
@@ -307,9 +312,9 @@ class DailybanksController < ApplicationController
         table_data = Array.new
         table_data << ["Total", "Ref", "What", "Where", "Price"]
         @expenses.each do |expense|
-            table_data << ["  ", expense.ref, expense.what, expense.where, expense.price]
+            table_data << ["  ", expense.ref, expense.what, expense.where, (sprintf "%.2f", expense.price)]
         end
-        table_data << ["£#{@expenses.sum(:price).to_s}"]
+        table_data << ["£#{(sprintf "%.2f", @expenses.sum(:price).to_s)}"]
         
         pdf.table(table_data, :column_widths => [100, 45,185,80,50], :cell_style => {:padding => 3}) do 
           self.width = 460
@@ -329,9 +334,9 @@ class DailybanksController < ApplicationController
          pdf.text "\n", size: 10
          pdf.text "CARD MACHINES" + "\n", style: :bold, size: 9
          table_data = Array.new
-         table_data << ["Total", "Card 1", @dailybank.card_1]
-         table_data << [" ", "Card 2", @dailybank.card_2]
-         table_data << ["£#{@dailybank.card_payments.to_s}"]
+         table_data << ["Total", "Card 1", (sprintf "%.2f", @dailybank.card_1)]
+         table_data << [" ", "Card 2", (sprintf "%.2f", @dailybank.card_2)]
+         table_data << ["£#{(sprintf "%.2f", @dailybank.card_payments.to_s)}"]
          pdf.table(table_data, :column_widths => [100,80,60],:cell_style => {:padding => 3}) do 
            self.width = 240
            self.cell_style = { :inline_format => true, size: 8 } 
@@ -349,7 +354,7 @@ class DailybanksController < ApplicationController
           pdf.text "\n", size: 10
           pdf.text "TAKINGS                          BANKING", style: :bold, size: 9
           table_data = Array.new
-          table_data << ["£#{@dailybank.actual_cash_total.to_s}", "£#{@dailybank.banking.to_s}"]
+          table_data << ["£#{(sprintf "%.2f", @dailybank.actual_cash_total.to_s)}", "£#{(sprintf "%.2f", @dailybank.banking.to_s)}"]
           pdf.table(table_data, :column_widths => [100,100],:cell_style => {:padding => 3}) do 
             self.width = 200
             self.cell_style = { :inline_format => true, size: 8 } 
@@ -360,7 +365,7 @@ class DailybanksController < ApplicationController
              pdf.text "\n", size: 10
              pdf.text "VARIANCE", style: :bold, size: 9
              table_data = Array.new
-             table_data << ["£#{@dailybank.calculated_variance.to_s}" ]
+             table_data << ["£#{(sprintf "%.2f", @dailybank.calculated_variance.to_s)}" ]
              pdf.table(table_data, :column_widths => [100],:cell_style => {:padding => 3}) do 
                self.width = 100
                self.cell_style = { :inline_format => true, size: 8 } 
@@ -373,18 +378,18 @@ class DailybanksController < ApplicationController
          pdf.text "\n", size: 10
          pdf.text "From Till Z Report\n", size: 9
          table_data = Array.new
-         table_data << ["Total Sales", "£#{@dailybank.actual_till_takings.to_s}"]
-         table_data << ["Vouchers Sold", "£#{@dailybank.vouchers_sold.to_s}"]
-         table_data << ["Vouchers Used", "£#{@dailybank.vouchers_used.to_s}"]
-         table_data << ["Deposits Sold", "£#{@dailybank.deposit_sold.to_s}"]
-         table_data << ["Deposits Used", "£#{@dailybank.deposit_used.to_s}"]
-         table_data << ["Cash", "£#{@dailybank.total_expected_cash.to_s}"]
-         table_data << ["Card", "£#{@dailybank.total_eft_taken.to_s}"]
+         table_data << ["Total Sales", "£#{(sprintf "%.2f", @dailybank.actual_till_takings.to_s)}"]
+         table_data << ["Vouchers Sold", "£#{(sprintf "%.2f", @dailybank.vouchers_sold.to_s)}"]
+         table_data << ["Vouchers Used", "£#{(sprintf "%.2f", @dailybank.vouchers_used.to_s)}"]
+         table_data << ["Deposits Sold", "£#{(sprintf "%.2f", @dailybank.deposit_sold.to_s)}"]
+         table_data << ["Deposits Used", "£#{(sprintf "%.2f", @dailybank.deposit_used.to_s)}"]
+         table_data << ["Cash", "£#{(sprintf "%.2f", @dailybank.total_expected_cash.to_s)}"]
+         table_data << ["Card", "£#{(sprintf "%.2f", @dailybank.total_eft_taken.to_s)}"]
           table_data << [" "]
-         table_data << ["Sales", "£#{@dailybank.till_takings.to_s}"]
-         table_data << ["Wet", "£#{@dailybank.wet_takings.to_s}"]
-         table_data << ["Dry", "£#{@dailybank.dry_takings.to_s}"]
-         table_data << ["Misc", "£#{@dailybank.merch_takings.to_s}"]
+         table_data << ["Sales", "£#{(sprintf "%.2f", @dailybank.till_takings.to_s)}"]
+         table_data << ["Wet", "£#{(sprintf "%.2f", @dailybank.wet_takings.to_s)}"]
+         table_data << ["Dry", "£#{(sprintf "%.2f", @dailybank.dry_takings.to_s)}"]
+         table_data << ["Misc", "£#{(sprintf "%.2f", @dailybank.merch_takings.to_s)}"]
          
          pdf.table(table_data, :column_widths => [100,100],:cell_style => {:padding => 3}) do 
            self.width = 200
@@ -492,4 +497,5 @@ class DailybanksController < ApplicationController
           return false
         end
       end
+      
 end

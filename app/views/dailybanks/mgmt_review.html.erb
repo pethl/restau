@@ -43,24 +43,25 @@
   <font color=#D3D3D3><%= f.label :till_cash %></font><br>
   </div>
   <div class="col-md-2">
-  <%= f.text_field :till_float, :style => "width:74px; text-align:right" %> <br>
-  <%= f.text_field :till_cash, :style => "width:74px; text-align:right" %> <br>
+  <%= f.text_field :till_float, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.till_float, :precision => 2)) %> <br>
+  <%= f.text_field :till_cash, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.till_cash, :precision => 2)) %> <br>
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :banking, "Banking Total" %></font><br>
-  <%= link_to "See AM Banking", show_evening_float_cashfloats_path(:id => @dailybank.cashfloats.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %> 
+  <%= link_to "See AM Float", show_float_cashfloats_path(:id => @dailybank.cashfloats.first.id), :class => "btn btn-xs btn-success", :style => "color:black" %><br> 
+  <%= link_to "See PM Banking", show_float_cashfloats_path(:id => @dailybank.cashfloats.second.id), :class => "btn btn-xs btn-success", :style => "color:black" %> 
  
   </div>       
   <div class="col-md-2">
-  <%= f.text_field :banking, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+  <%= f.text_field :banking, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.banking, :precision => 2)) %> <br>
   
   </div>  
   <div class="col-md-2"> 
-   <%= f.text_field :total_expected_cash, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+   <%= f.text_field :total_expected_cash, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.total_expected_cash, :precision => 2)) %><br>
    <font color=#D3D3D3>Till Report Cash</font> 
   </div>  
   <div class="col-md-2"style="text-align:right"> 
-   <font color=#ffffff><b><%= @dailybank.banking- @dailybank.total_expected_cash %></font></b><br>
+   <font color=#ffffff><b><%= sprintf "%.2f", (@dailybank.banking- @dailybank.total_expected_cash) %></font></b><br>
    <font color=#D3D3D3>Bank/Cash Var</font> 
   </div>      
 </div>
@@ -71,21 +72,21 @@
   <font color=#D3D3D3><%= f.label :card_2 %></font><br>
   </div>
   <div class="col-md-2">
-  <%= f.text_field :card_1, :style => "width:74px; text-align:right" %> <br>
-  <%= f.text_field :card_2, :style => "width:74px; text-align:right" %> <br>
+  <%= f.text_field :card_1, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_1, :precision => 2)) %> <br>
+  <%= f.text_field :card_2, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_2, :precision => 2)) %> <br>
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :banking, "Cards Total" %></font><br>
   </div>       
   <div class="col-md-2">
-  <%= f.text_field :card_payments, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+  <%= f.text_field :card_payments, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_payments, :precision => 2)) %> <br>
   </div> 
   <div class="col-md-2"> 
-   <%= f.text_field :total_eft_taken, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+   <%= f.text_field :total_eft_taken, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.total_eft_taken, :precision => 2)) %><br>
    <font color=#D3D3D3>Till Report Cards</font> 
   </div>
   <div class="col-md-2" style="text-align:right"> 
-   <font color=#ffffff><b><%= @dailybank.card_payments- @dailybank.total_eft_taken %></font></b><br>
+   <font color=#ffffff><b><%= sprintf "%.2f", (@dailybank.card_payments- @dailybank.total_eft_taken) %></font></b><br>
    <font color=#D3D3D3>Card/Card Var</font> 
   </div>           
 </div>  
@@ -103,11 +104,11 @@
   <font color=#D3D3D3><%= f.label :expenses, "Expenses Total" %></font><br>
   </div>       
   <div class="col-md-2">
-  <%= f.text_field :expenses_total, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+  <%= f.text_field :expenses_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.expenses_total, :precision => 2))  %> <br>
   
   </div> 
   <div class="col-md-3"> 
-   <%= f.text_field :actual_cash_total, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :actual_cash_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.actual_cash_total, :precision => 2))  %> <br>
    <b><font color=#FFDC00>Actual Takings</font></b>
   </div>       
 </div>   
@@ -121,9 +122,9 @@
    <font color=#D3D3D3><%= f.label :merch_takings, "Misc Sales" %></font><br>
    </div>
    <div class="col-md-2">
-   <%= f.text_field :wet_takings, :style => "width:74px; text-align:right" %><br>
-   <%= f.text_field :dry_takings, :style => "width:74px; text-align:right" %><br>
-   <%= f.text_field :merch_takings, :style => "width:74px; text-align:right" %>
+   <%= f.text_field :wet_takings, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.wet_takings, :precision => 2))  %><br>
+   <%= f.text_field :dry_takings, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.dry_takings, :precision => 2))  %><br>
+   <%= f.text_field :merch_takings, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.merch_takings, :precision => 2))  %>
    </div>
    <div class="col-md-2"> 
    <font color=#D3D3D3><%= f.label :till_takings, "Total Sales" %></font><br>
@@ -140,15 +141,15 @@
    <font color=#D3D3D3><%= f.label :deposit_sold, "D's Sold" %></font><br>
    </div>
    <div class="col-md-2">
-   <%= f.text_field :vouchers_sold, :style => "width:74px; text-align:right" %> <br>
-   <%= f.text_field :vouchers_used, :style => "width:74px; text-align:right" %> <br>
-   <%= f.text_field :deposit_sold, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :vouchers_sold, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.vouchers_sold, :precision => 2))  %> <br>
+   <%= f.text_field :vouchers_used, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.vouchers_used, :precision => 2))  %> <br>
+   <%= f.text_field :deposit_sold, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.deposit_sold, :precision => 2))  %> <br>
    </div>
    <div class="col-md-2"> 
    <font color=#D3D3D3><%= f.label :v_d_adjustments, "D/V Adjustment" %></font><br>
    </div>       
    <div class="col-md-2">
-   <%= f.text_field :v_d_adjustments, :disabled=>true, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :v_d_adjustments, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.v_d_adjustments, :precision => 2))  %> <br>
    </div>       
  </div> 
  
@@ -157,17 +158,17 @@
    <font color=#D3D3D3><%= f.label :deposit_used, "D's Used"%></font>
    </div>
    <div class="col-md-2">
-   <%= f.text_field :deposit_used, :style => "width:74px; text-align:right" %> <br>
+   <%= f.text_field :deposit_used, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.deposit_used, :precision => 2))  %> <br>
    </div>
    <div class="col-md-2"> 
     <font color=#FFDC00><%= f.label :calculated_variance, "Variance" %> </font>
     </div>       
     <div class="col-md-2">
-    <%= f.text_field :calculated_variance, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+    <%= f.text_field :calculated_variance, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.calculated_variance, :precision => 2)) %><br>
     </div>    
      
    <div class="col-md-3"> 
-    <%= f.text_field :actual_till_takings, :disabled=>true, :style => "width:74px; text-align:right" %><br>
+    <%= f.text_field :actual_till_takings, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.actual_till_takings, :precision => 2)) %><br>
     <b><font color=#FFDC00>Expected Takings</font></b>
    </div>           
  </div> 

@@ -16,34 +16,34 @@
 <br>
     <div class="row">
       <div class="col-md-2"><font color=#D3D3D3><%= f.label :wet_takings, "Dry Sales" %></font></div>
-      <div class="col-md-2"><%= f.text_field :dry_takings, :style => "width:74px; text-align:right", :tabindex =>1 %></div>
+      <div class="col-md-2"><%= f.text_field :dry_takings, :style => "width:74px; text-align:right", :tabindex =>1, :value => (number_with_precision(f.object.dry_takings, :precision => 2)) %></div>
       <div class="col-md-1"></div>
       <div class="col-md-3"><font color=#D3D3D3><%= f.label :vouchers_sold, "Vouchers Sold" %></font></div>
-      <div class="col-md-2"><%= f.text_field :vouchers_sold, :style => "width:74px; text-align:right", :tabindex =>4 %></div>
+      <div class="col-md-2"><%= f.text_field :vouchers_sold, :style => "width:74px; text-align:right", :tabindex =>4, :value => (number_with_precision(f.object.vouchers_sold, :precision => 2)) %></div>
     </div>
     
     <div class="row">
       <div class="col-md-2"><font color=#D3D3D3><%= f.label :wet_takings, "Wet Sales" %></font></div>
-      <div class="col-md-2"><%= f.text_field :wet_takings, :style => "width:74px; text-align:right", :tabindex =>2 %></div>
+      <div class="col-md-2"><%= f.text_field :wet_takings, :style => "width:74px; text-align:right", :tabindex =>2, :value => (number_with_precision(f.object.wet_takings, :precision => 2)) %></div>
       <div class="col-md-1"></div>
       <div class="col-md-3"><font color=#D3D3D3><%= f.label :vouchers_used, "Vouchers Used" %></font><br></div>
-      <div class="col-md-2"><%= f.text_field :vouchers_used, :style => "width:74px; text-align:right", :tabindex =>5 %></div>   
+      <div class="col-md-2"><%= f.text_field :vouchers_used, :style => "width:74px; text-align:right", :tabindex =>5, :value => (number_with_precision(f.object.vouchers_used, :precision => 2)) %></div>   
     </div>
     
     <div class="row">
     <div class="col-md-2"><font color=#D3D3D3><%= f.label :merch_takings, "Misc Sales" %></font><br></div>
-    <div class="col-md-2"><%= f.text_field :merch_takings, :style => "width:74px; text-align:right", :tabindex =>3 %></div>
+    <div class="col-md-2"><%= f.text_field :merch_takings, :style => "width:74px; text-align:right", :tabindex =>3, :value => (number_with_precision(f.object.merch_takings, :precision => 2)) %></div>
     <div class="col-md-1"></div>
     <div class="col-md-3"><font color=#D3D3D3><%= f.label :deposit_sold, "Deposits Sold" %></font><br></div>
-    <div class="col-md-2"><%= f.text_field :deposit_sold, :style => "width:74px; text-align:right", :tabindex =>6 %></div>
+    <div class="col-md-2"><%= f.text_field :deposit_sold, :style => "width:74px; text-align:right", :tabindex =>6, :value => (number_with_precision(f.object.deposit_sold, :precision => 2)) %></div>
     </div>
     
     <div class="row">
     <div class="col-md-2"><font color=#D3D3D3><%= f.label :reported_till_takings, "TOTAL Sales" %></font><br></div>
-    <div class="col-md-2"><b><%= f.text_field :reported_till_takings, :style => "width:74px; text-align:right", :tabindex =>3 %></b></div>
+    <div class="col-md-2"><b><%= f.text_field :reported_till_takings, :style => "width:74px; text-align:right", :tabindex =>3, :value => (number_with_precision(f.object.reported_till_takings, :precision => 2)) %></b></div>
     <div class="col-md-1"></div>
       <div class="col-md-3"><font color=#D3D3D3><%= f.label :deposit_used, "Deposits Used" %></font><br></div>
-      <div class="col-md-2"><%= f.text_field :deposit_used, :style => "width:74px; text-align:right", :tabindex =>7 %></div>   
+      <div class="col-md-2"><%= f.text_field :deposit_used, :style => "width:74px; text-align:right", :tabindex =>7, :value => (number_with_precision(f.object.deposit_used, :precision => 2)) %></div>   
     </div>
     
      <div class="row">
@@ -68,26 +68,26 @@
       </div>
     <div class="row">
       <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 1</font></div>
-      <div class="col-md-2"><%= f.text_field :terminal_1, :style => "width:74px; text-align:right", :tabindex =>8 %></div>
+      <div class="col-md-2"><%= f.text_field :terminal_1, :style => "width:74px; text-align:right", :tabindex =>8, :value => (number_with_precision(f.object.terminal_1, :precision => 2)) %></div>
        <div class="col-md-1"></div>
       <div class="col-md-3"><b><font color=#D3D3D3>Total EFT Taken</font></b></div>
-       <div class="col-md-2"><%= f.text_field :total_eft_taken, :style => "width:74px; text-align:right", :tabindex =>12 %></div>
+       <div class="col-md-2"><%= f.text_field :total_eft_taken, :style => "width:74px; text-align:right", :tabindex =>12, :value => (number_with_precision(f.object.total_eft_taken, :precision => 2)) %></div>
     </div>
     <div class="row">
       <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 2</font></div>
-      <div class="col-md-2"><%= f.text_field :terminal_2, :style => "width:74px; text-align:right", :tabindex =>9 %></div>
+      <div class="col-md-2"><%= f.text_field :terminal_2, :style => "width:74px; text-align:right", :tabindex =>9, :value => (number_with_precision(f.object.terminal_2, :precision => 2)) %></div>
        </div>
     <div class="row">
       <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Tablet 2</font></div>
-      <div class="col-md-2"><%= f.text_field :tablet_1, :style => "width:74px; text-align:right", :tabindex =>10 %></div>
+      <div class="col-md-2"><%= f.text_field :tablet_1, :style => "width:74px; text-align:right", :tabindex =>10, :value => (number_with_precision(f.object.tablet_1, :precision => 2)) %></div>
        </div>
     <div class="row">
       <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Tablet 2</font></div>
-      <div class="col-md-2"><%= f.text_field :tablet_2, :style => "width:74px; text-align:right", :tabindex =>11 %></div>
+      <div class="col-md-2"><%= f.text_field :tablet_2, :style => "width:74px; text-align:right", :tabindex =>11, :value => (number_with_precision(f.object.tablet_2, :precision => 2)) %></div>
          </div>
     <div class="row">
       <div class="col-md-2"><b><font color=#D3D3D3>Total Cash</font></b></div>
-      <div class="col-md-2"><b><%= f.text_field :total_expected_cash, :style => "width:74px; text-align:right", :disabled => true %></b></div>
+      <div class="col-md-2"><b><%= f.text_field :total_expected_cash, :style => "width:74px; text-align:right", :disabled => true, :value => (number_with_precision(f.object.total_expected_cash, :precision => 2)) %></b></div>
          </div>
     <hr>
      <div class="row">

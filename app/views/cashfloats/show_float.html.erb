@@ -29,36 +29,51 @@
    £5 <br><br>
    £2 <br>
    £1 <br>
-   50p <br>
-   20p <br>
-   10p <br>
-   5p <br>
-   2p <br>
-   1p <br><br></b>
+   50p<br>
+   20p<br>
+   10p<br>
+   5p<br>
+   2p<br>
+   1p<br><br></b>
    </div>
    
    <div class="col-md-2" align="right">
-    <font color=#D3D3D3 class="text-right"><%= @cashfloat.fifties %><br>
-   <%= @cashfloat.twenties%><br>
-   <%= @cashfloat.tens %><br>
-   <%= @cashfloat.fives %><br><br>
-   <%= @cashfloat.two_pound_single %><br>
-   <%= @cashfloat.pound_single %><br>
-   <%= @cashfloat.fifty_single %><br>
-   <%= @cashfloat.twenty_single %><br>
-   <%= @cashfloat.ten_single %><br>
-   <%= @cashfloat.five_single %><br>
-   <%= @cashfloat.two_single %><br>
-   <%= @cashfloat.one_single %><br><br>
+    <font color=#D3D3D3 class="text-right">
+   <%= sprintf "%.2f", @cashfloat.fifties %><br>
+   <%= sprintf "%.2f", @cashfloat.twenties%><br>
+   <%= sprintf "%.2f", @cashfloat.tens %><br>
+   <%= sprintf "%.2f", @cashfloat.fives %><br><br>
+   <%= sprintf "%.2f", @cashfloat.two_pound_single %><br>
+   <%= sprintf "%.2f", @cashfloat.pound_single %><br>
+   <%= sprintf "%.2f", @cashfloat.fifty_single %><br>
+   <%= sprintf "%.2f", @cashfloat.twenty_single %><br>
+   <%= sprintf "%.2f", @cashfloat.ten_single %><br>
+   <%= sprintf "%.2f", @cashfloat.five_single %><br>
+   <%= sprintf "%.2f", @cashfloat.two_single %><br>
+   <%= sprintf "%.2f", @cashfloat.one_single %><br><br>
    <p>Total: <b><%= number_to_currency(@cashfloat.float_actual, :locale => :en) %></b></p>
+  
    </div>
   
+   <% unless @cashfloat.period == "Morning" %>
   <div class="col-md-1" align="right">
    <p>Cheat:<b><%= number_to_currency(@cashfloat.cheat, :locale => :en) %></b></p>
  </div>
+ <% end %>
  </div>
-      
-<%= link_to '<< Back to  End of Night Record', dailybank_path(@cashfloat.dailybank_id), :style => "color:orange" %>
+ </div>
+ 
+ <div class="row">
+  <div class="col-md-8" align="left">
+ <% unless @cashfloat.period == "Evening" %>
+  <p><b>Override: </b><%=  @cashfloat.override %><br>
+     <b>Reason: </b><%= @cashfloat.float_comment %></p>
 
+<% end %> 
+      
+<%= link_to 'Edit', edit_cashfloat_path(@cashfloat), :style => "color:yellow" %> | 
+<%= link_to '<< Back to  End of Night Record', dailybank_path(@cashfloat.dailybank_id), :style => "color:orange" %>
+</div>
+</div>
 </div>
   

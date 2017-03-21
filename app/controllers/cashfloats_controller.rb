@@ -24,8 +24,8 @@ class CashfloatsController < ApplicationController
     
 end
 
-  def show_evening_float
-    Rails.logger.debug("XXXXXXXXX in show_evening_float: #{params.inspect}")
+  def show_float
+   # Rails.logger.debug("XXXXXXXXX in show_evening_float: #{params.inspect}")
     @cashfloat = Cashfloat.find(params[:id])
      @dailybank = Dailybank.find(@cashfloat.dailybank_id)
     # @expenses = Expense.where(:dailybank_id => @dailybank.id) 
@@ -104,7 +104,7 @@ end
     respond_to do |format|
       if @cashfloat.update(cashfloat_params)
         @cashfloat = Cashfloat.count_cash(@cashfloat)
-        format.html { redirect_to edit_cashfloat_path(@cashfloat) }
+        format.html { redirect_to show_float_cashfloats_path(:id =>@cashfloat) }
         format.json { render :show, status: :ok, location: @cashfloat }
       else
         format.html { render :edit }

@@ -15,7 +15,8 @@ class Dailybank < ActiveRecord::Base
    
    validates :effective_date, presence: true
    validates :status, presence: true
-   validates :user_id, presence: true   
+   validates :user_id, presence: true 
+   validates_uniqueness_of :effective_date, message: '- ! A RECORD FOR THIS DATE ALREADY EXISTS !'  
 #   validates_presence_of :till_float, :greater_than_or_equal_to => 0, message: 'cannot be blank'
 #   validates_presence_of :till_cash, :greater_than_or_equal_to => 0, message: 'cannot be blank'
 #   validates_presence_of :card_payments, :greater_than_or_equal_to => 0, message: 'cannot be blank'

@@ -54,42 +54,42 @@
      <div class="row">
        <div class="col-md-1"><font color=#D3D3D3>Coins</font></div>
        <div class="col-md-1"><font color=#D3D3D3><%= builder.label :two_pound_single, "£2" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :two_pound_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :two_pound_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.two_pound_single, :precision => 2)) %></div>
      </div>
      
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :pound_single, "£1" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :pound_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :pound_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.pound_single, :precision => 2)) %></div>
      </div>
      
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :fifty_single, "50p" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :fifty_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :fifty_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.fifty_single, :precision => 2)) %></div>
      </div>
      
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :twenty_single, "20p" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :twenty_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :twenty_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.twenty_single, :precision => 2)) %></div>
      </div>
      
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :ten_single, "10p" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :ten_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :ten_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.ten_single, :precision => 2)) %></div>
      </div>
      
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :five_single, "5p" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :five_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :five_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.five_single, :precision => 2)) %></div>
      </div>
      
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :two_single, "2p" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :two_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :two_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.two_single, :precision => 2)) %></div>
      </div>
      
      <div class="row">
        <div class="col-md-1 col-md-offset-1"><font color=#D3D3D3><%= builder.label :one_single, "1p" %></font><br></div>
-       <div class="col-md-2"><%= builder.text_field :one_single, :style => "width:74px; text-align:right" %></div>
+       <div class="col-md-2"><%= builder.text_field :one_single, :style => "width:74px; text-align:right", :value => (number_with_precision(builder.object.one_single, :precision => 2)) %></div>
      </div>
      
      <% if cashfloat.cheat.present? %>

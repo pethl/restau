@@ -3,11 +3,13 @@
 <%= render 'layouts/sidebar' %>
 </div>
 
-<div class="col-md-7">
+<div class="col-md-8">
 
-<h2>Daily Checks</h2>
+<h3>Edit Banking Record</h3>
+<h4><b><%= @cashfloat.float_type %> </b> for <b><%= Date.today.strftime("%A") %></b> <%= @cashfloat.period %>, <%= Date.today.strftime("%B %d") %></h4>
 
-<%= bootstrap_form_for(@cashfloat, layout: :inline, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
+
+<%= form_for(@cashfloat) do |f| %>
 
   <% if @cashfloat.errors.any? %>
     <div id="error_explanation">
@@ -19,64 +21,79 @@
       <% end %>
       </ul>
     </div>
-  <% end %>
+  <% end %>f
 
-<h4><%= f.object.float_type %> float check for <%= Date.today.strftime("%A") %> <%= f.object.period %>, <%= Date.today.strftime("%b %d") %></h4>
-</h4> <h5>Float Target : <%= f.object.float_target %><h5>
 
-    <%= f.hidden_field :float_type %>
-    <%= f.hidden_field :period %>
-    <%= f.select(:completed_by, User.uniq.pluck(:name), include_blank: "Select user", class:"form-control input-sm", label: "Completed By: " ) %>  
-    <%= f.password_field :user_code, class:"form-control input-sm", label: "User Code: ", value: f.object.user_code %>
- 
-     <br><br>
+    <div class="row">
+    <div class="col-md-1">
+      <font color=#D3D3D3>Notes</font>
+     </div>
      
-   <table class="table table-condensed">
-   <tr><td  rowspan="4" style="width: 15%" class="text-center"> <h5>Notes</h5></td> 
-   <td style="width: 15%" class="text-center">£50</td>   <td style="width: 20%"><%= f.number_field :fifties, skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td style="width: 15%"></td><td style="width: 20%"></td><td class="text-right">£<%= f.object.fifties*50 %></td></tr>
-   <tr><td class="text-center">£20</td>   <td><%= f.number_field :twenties,  skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td></td><td></td><td class="text-right">£<%= f.object.twenties*20 %></td></tr>
-   <tr><td class="text-center">£10</td>   <td><%= f.number_field :tens, skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td></td><td></td><td class="text-right">£<%= f.object.tens*10 %></td></tr>
-   <tr><td class="text-center">£5</td>   <td><%= f.number_field :fives,  skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td></td><td></td><td class="text-right">£<%= f.object.fives*5 %></td></tr>
-   </table>
- 
-
-    <table class="table table-condensed">
-    <tr><td  rowspan="11" style="width: 15%" class="text-center"> <h5>Coins</h5></td> 
-    <td style="width: 15%" class="text-center">£2 bags</td>   <td style="width: 20%"><%= f.number_field :two_pound_bag, label: "£2 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">£2 singles</td> <td style="width: 20%"><%= f.number_field :two_pound_single, label: "£2", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td class="text-right">£<%= number_with_precision((f.object.two_pound_bag*20+f.object.two_pound_single*2), :precision => 0) %> </td></tr>
-    <td style="width: 15%" class="text-center">£1 bags</td>   <td style="width: 20%"><%= f.number_field :pound_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">£1 singles</td> <td style="width: 20%"><%= f.number_field :pound_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td class="text-right">£<%= f.object.pound_bag*20+f.object.pound_single %> </td></tr>
-    <tr><td style="width: 15%" class="text-center">50p bags</td>   <td style="width: 20%"><%= f.number_field :fifty_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">50p singles</td> <td><%= f.number_field :fifty_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td class="text-right">£<%= number_with_precision((f.object.fifty_bag*10+f.object.fifty_single*0.5), :precision => 2) %> </td></tr>
-    <tr><td style="width: 15%" class="text-center">20p bags</td>   <td style="width: 20%"><%= f.number_field :twenty_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">20p singles</td> <td><%= f.number_field :twenty_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td class="text-right">£<%= number_with_precision((f.object.twenty_bag*10+f.object.twenty_single*0.2), :precision => 2) %> </td></tr>
-    <tr><td style="width: 15%" class="text-center">10p bags</td>   <td style="width: 20%"><%= f.number_field :ten_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">10p singles</td> <td><%= f.number_field :ten_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td class="text-right">£<%= number_with_precision((f.object.ten_bag*5+f.object.ten_single*0.1), :precision => 2) %> </td></tr>
-    <tr><td style="width: 15%" class="text-center">5p bags</td>   <td style="width: 20%"><%= f.number_field :five_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">5p singles</td> <td><%= f.number_field :five_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td class="text-right">£<%= number_with_precision((f.object.five_bag*5+f.object.five_single*0.05), :precision => 2) %> </td></tr>
-    <tr><td style="width: 15%" class="text-center">2p bags</td>   <td style="width: 20%"><%= f.number_field :two_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">2p singles</td> <td><%= f.number_field :two_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px" %></td><td class="text-right">£<%= number_with_precision((f.object.two_bag+f.object.two_single*0.02), :precision => 2) %> </td></tr>
-    <tr><td style="width: 15%" class="text-center">1p bags</td>   <td style="width: 20%"><%= f.number_field :one_bag, label: "£1 bag", skip_label: true,class:"form-control input-sm", :style => "width: 80px" %></td>
-    <td style="width: 15%" class="text-center">1p singles</td> <td><%= f.number_field :one_single, label: "£1", skip_label: true, class:"form-control input-sm", :style => "width: 80px"   %></td><td class="text-right">£<%= number_with_precision((f.object.one_bag+f.object.one_single*0.01), :precision => 2) %> </td></tr>
-     <tr><td>Target Float:</td><td><h5>£<%= number_with_precision(f.object.float_target, :precision => 2) %></td><td>Gap:</td><td><h5>£<%= number_with_precision(f.object.float_gap, :precision=> 2) %></td><td class="text-right"><h5>£<%= number_with_precision(f.object.float_actual, :precision => 2) %></td></tr>
+     <div class="col-md-1">
+       <font color=#D3D3D3><%= f.label :fifties, "£50" %></font><br>
+       <font color=#D3D3D3><%= f.label :twenties, "£20" %></font><br>
+       <font color=#D3D3D3><%= f.label :tens, "£10" %></font><br>
+       <font color=#D3D3D3><%= f.label :fives, " £5 " %></font><br>
+    </div> 
      
-     <tr>
-     <td colspan=2>
-     <div class="actions">
-        <%= f.submit "Count Cash", class: "btn btn-primary" %>
-      <% end %>
-     </td>
-     
-     <td colspan=3><%= form_tag validate_cashfloats_path, multipart: true, :class => "form-inline" do %> 
-      <%= hidden_field_tag(:id, @cashfloat.id)  %>
-       <%= submit_tag "Complete Float Check", class: "btn btn-success" %></td></tr>
-       <tr><td colspan=2></td><td colspan=3> <p>Comment:</p> <%= text_area_tag :float_comment, nil, :size =>"34x4", :style=>"color:black"%> <% end %>
-       <td></tr>
-     </table>
-
-  <div class="col-sm-offset-2 col-sm-10">
-       </div></div>
-
-</div>
+    <div class="col-md-3">
+    <%= f.text_field :fifties, :style => "width:74px; text-align:right" %><br>
+    <%= f.text_field :twenties, :style => "width:74px; text-align:right" %><br>
+    <%= f.text_field :tens, :style => "width:74px; text-align:right" %><br>
+    <%= f.text_field :fives, :style => "width:74px; text-align:right" %><br>
     </div>
+    
+    <div class="col-md-3">
+     <h6><small> Target: <b><%= number_to_currency(Rdetail.get_value(1, "till_float_main"), :locale => :en) %></small></h6></b>
+   </div>
+   </div> 
+     
+  <br>   
+    <div class="row"> 
+    <div class="col-md-1">
+      <font color=#D3D3D3>Coins</font>
+     </div>
+     
+      <div class="col-md-1">
+        <font color=#D3D3D3><%= f.label :two_pound_single, " £2 " %></font><br>
+        <font color=#D3D3D3><%= f.label :pound_single, " £1 " %></font><br>
+        <font color=#D3D3D3><%= f.label :fifty_single, " 50p" %></font><br>
+        <font color=#D3D3D3><%= f.label :twenty_single, " 20p" %></font><br> 
+        <font color=#D3D3D3><%= f.label :ten_single, " 10p" %></font><br>
+        <font color=#D3D3D3><%= f.label :five_single, " 5p " %></font><br>
+        <font color=#D3D3D3><%= f.label :two_single, " 2p " %></font><br> 
+        <font color=#D3D3D3><%= f.label :one_single, " 1p " %></font>
+       </div>
+       
+       <div class="col-md-2">
+       <%= f.text_field :two_pound_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.two_pound_single, :precision => 2)) %><br>
+       <%= f.text_field :pound_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.pound_single, :precision => 2)) %><br>
+       <%= f.text_field :fifty_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.fifty_single, :precision => 2)) %><br>
+       <%= f.text_field :twenty_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.twenty_single, :precision => 2)) %><br>
+       <%= f.text_field :ten_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.ten_single, :precision => 2)) %><br>
+       <%= f.text_field :five_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.five_single, :precision => 2)) %><br>
+       <%= f.text_field :two_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.two_single, :precision => 2)) %><br>
+       <%= f.text_field :one_single, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.one_single, :precision => 2)) %>
+       </div>
+       
+        <div class="col-md-3">
+         <h6><small> <br><br><br><br>
+         <font color=#D3D3D3>Float Override</font>
+         <%= f.check_box :override, :style => "width:74px; text-align:right" %><br><br>
+          <font color=#D3D3D3>Override Reason</font>
+          <font color=#000000>
+          <%= f.text_area :float_comment, :cols => 26, :rows => 4 %></font>
+         </div>
+    </div>
+    <br>
+       
+</fieldset>
+     <div class="row"> 
+     <div class="col-md-3 col-md-offset-2">
+
+<%= f.submit "Save Changes", class: "btn btn-primary" %>
+ <% end %>
+    </div>    </div>
+
+
 

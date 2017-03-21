@@ -1,0 +1,95 @@
+
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+<h3>End of Night - Current Fortnight Records</h3><br>
+ <% if current_user.admin?  || current_user.super_user? %>
+<h6><%= link_to 'Search End of Night Records', latest_path, :class => "link", :style => "color:orange" %></h6>
+<% end %>
+
+<ul class="nav nav-tabs">
+  <li role="presentation"><%= link_to "Latest", latest_path %></li>
+  <li role="presentation"><%= link_to "By Days", history_path %></li>
+  <li role="presentation"><%= link_to "By Week", history_week_path %></li>
+  <li role="presentation"><%= link_to "By Month", history_month_path %></li>
+  <li role="presentation"><%= link_to "Tax Quarter", tax_quarter_path %></li>
+  <li role="presentation" class="active"><%= link_to "All Records", index_full_path %></li>
+</ul>
+<br>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Status</th>
+      <th>User</th>
+      <th style="text-align:center">AM<br>Float</th>
+      <th style="text-align:center">PM<br>Var</th>
+      <th style="text-align:right">Takings</th>
+      <th style="text-align:right">Expected<br>Takings</th>
+      <th style="text-align:right">Variance</th>
+      <th style="text-align:right" colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dailybanks.each do |dailybank| %>
+      <tr>
+      <td><%= dailybank.effective_date.strftime('%a, %d %b') %></td>
+      <td>
+        <% if dailybank.status == "Locked" %>
+        <font color=#FF0000><b><%= dailybank.status %></b>
+         <% elsif  dailybank.status == "Mgmt Review" %>
+         <font color=#FFFF00><b><%= dailybank.status %></b>
+         <% else %>
+         <b> <font color=#00ff00><%= dailybank.status %></font></b>
+         <% end%>
+         </td>
+        
+        <td><%= User.where(id: dailybank.user_id).first.name %></td>
+        
+        <% float = dailybank.cashfloats.where(:period => "Morning") %>
+        <td style="text-align:center"><% if float.any? %>
+          <% if float[0].float_actual == float[0].float_target %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
+            <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i><% end %><% end %>
+          </td>
+        <td style="text-align:center"><% if dailybank.calculated_variance.present? %>
+          <% if dailybank.calculated_variance >= -1 && dailybank.calculated_variance <= 1 %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
+            <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i><% end %><% end %>
+          </td>
+        
+        <td style="text-align:right"><%= number_to_currency(dailybank.actual_cash_total, :locale => :en) %></td>
+        <td style="text-align:right"><%= number_to_currency(dailybank.actual_till_takings, :locale => :en) %></td>
+        <td style="text-align:right"><%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></td>
+        
+        <% if dailybank.status == "Mgmt Review" %>
+        <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
+        <% elsif dailybank.status == "Balance Morning Float"%>
+         <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
+         <% elsif dailybank.status == "Locked"%>
+          <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
+        <% else %>
+        <td style="text-align:right"><%= link_to 'Continue', edit_dailybank_path(dailybank) %></td>
+        <% end %>
+        
+         <% if current_user.admin?  || current_user.super_user? %>
+            <% if dailybank.status == "Locked" %>
+              <% elsif dailybank.status == "Draft" %>   
+        <td style="text-align:right"><%= link_to 'Mgmt Review', mgmt_review_path(dailybank) %></td>
+        <td style="text-align:right"><%= link_to 'Remove', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+        <td></td>
+        <td style="text-align:right"><%= link_to 'Remove', dailybank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+      <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Start', new_dailybank_path, class:"btn btn-success btn-sm" %> 
+

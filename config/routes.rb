@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :functions
   resources :cashfloats do
       collection { post :validate };
-      collection { get :show_evening_float }
+      collection { get :show_float }
     end
 
   get 'daily_checks/today'
@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   root 'static_pages#hfsk_home'
  
  # get '/show_many/:id' => 'expenses#show_many'
+  get '/index_full' => 'dailybanks#index_full'
   get '/latest' => 'dailybanks#latest'
   get '/history' => 'dailybanks#history'
   get '/history_week' => 'dailybanks#history_week'
