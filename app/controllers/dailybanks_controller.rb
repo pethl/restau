@@ -115,7 +115,6 @@ class DailybanksController < ApplicationController
   # GET /dailybanks/1.json
   def show
     @morning_float = Cashfloat.where(:dailybank_id => @dailybank.id, :float_type => "Main Till", :period => "Morning").first
-  
   end
 
   # GET /dailybanks/new
@@ -140,8 +139,7 @@ class DailybanksController < ApplicationController
   def edit
     @morning_float = Cashfloat.where(:dailybank_id => @dailybank.id, :float_type => "Main Till", :period => "Morning").first
     @evening_float = Cashfloat.where(:dailybank_id => @dailybank.id, :float_type => "Main Till", :period => "Evening").first
-
-  end
+ end
 
   # POST /dailybanks
   # POST /dailybanks.json

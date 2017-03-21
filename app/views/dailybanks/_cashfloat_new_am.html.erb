@@ -11,7 +11,7 @@
     </div>
   <% end %>
    
- <h6>Date: <%= f.date_select :effective_date %></h6>
+ <h6>Date: <font color=#000000><%= f.date_select :effective_date, :start_year => 2016s %></font></h6>
   <%= f.hidden_field :user_id, :value => current_user.id%>
   <%= f.hidden_field :status, :value => "Balance Morning Float" %>
     <%= f.fields_for :cashfloats do |builder| %>
