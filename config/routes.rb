@@ -64,6 +64,7 @@ Rails.application.routes.draw do
  
  # get '/show_many/:id' => 'expenses#show_many'
   get '/index_full' => 'dailybanks#index_full'
+  get '/index_ongoing' => 'dailybanks#index_ongoing'
   get '/latest' => 'dailybanks#latest'
   get '/history' => 'dailybanks#history'
   get '/history_week' => 'dailybanks#history_week'

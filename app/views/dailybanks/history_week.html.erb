@@ -5,7 +5,7 @@
 </div>
 
 <div class="col-md-10">
-<h4>End of Night Weekly History</h4><br>
+<h4>End of Night - Weekly History</h4><br>
 
 <ul class="nav nav-tabs">
 <li role="presentation"><%= link_to "Latest", latest_path %></li>
@@ -14,7 +14,7 @@
 <li role="presentation"><%= link_to "By Month", history_month_path %></li>
 <li role="presentation"><%= link_to "Tax Quarter", tax_quarter_path %></li>
 <li role="presentation"><%= link_to "All Records", index_full_path %></li>
-
+<li role="presentation"><%= link_to "All On-going", index_ongoing_path %></li>
 </ul>
 <br>
 <%= form_tag history_week_path, method: :get, :class => "form-inline" do %>

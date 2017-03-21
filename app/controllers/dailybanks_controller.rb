@@ -105,6 +105,12 @@ class DailybanksController < ApplicationController
    @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
   end
 
+  def index_ongoing
+   @dailybanks = Dailybank.where.not(status: "Locked")
+   @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
+  end
+
+
   # GET /dailybanks/1
   # GET /dailybanks/1.json
   def show
