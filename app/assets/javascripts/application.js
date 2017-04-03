@@ -22,4 +22,5 @@
 //= require bootstrap/popover
 //= require chartkick.js
 //= require turbolinks
+//= require bootstrap	
 //= require_tree .
