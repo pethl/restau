@@ -19,8 +19,17 @@
    <%= render 'dailybanks/validate_lock' %>  
         
  <% when "Mgmt Review" %>
-   <%= render 'dailybanks/finish_eon' %>  
+   <%= render 'dailybanks/finish_eon' %>
    
+ <% when "Mgmt re-calc" %> 
+  <%= render 'dailybanks/validate_lock' %>      
+   
+ <% when "Locked" %>
+ <h6> This record has been Locked - if this was in error, click here to Unlock.
+   
+   </h6>
+     
+      
  <% else  %>
   <h6> Unknown status please contact IT depart with ref: DB_<%= @dailybank.id %>.</h6>
       

@@ -37,14 +37,12 @@ class ExpensesController < ApplicationController
   end
   
   def add_new
-    Rails.logger.debug("\nXXXXXXXXX in add_new: #{params.inspect}")
+   # Rails.logger.debug("\nXXXXXXXXX in add_new: #{params.inspect}")
      @dailybank = Dailybank.find(params[:id])
-     
-     Rails.logger.debug("\nXXXXXXXXX in @dailybank: #{@dailybank.inspect}")
+   #Rails.logger.debug("\nXXXXXXXXX in @dailybank: #{@dailybank.inspect}")
      ref = Expense.all.last.ref+1.to_i
      @expense = Expense.create(:dailybank_id => @dailybank.id, :ref => ref, :what => "what", :where => "where", :price => 0)
-     
-    Rails.logger.debug("\nXXXXXXXXX in @expense: #{@expense.inspect}")
+    #Rails.logger.debug("\nXXXXXXXXX in @expense: #{@expense.inspect}")
      redirect_to edit_expense_path(id: @expense.id)
   end
   
@@ -116,10 +114,30 @@ class ExpensesController < ApplicationController
   # DELETE /expenses/1
   # DELETE /expenses/1.json
   def destroy
-    @dailybank = Dailybank.find(params[:dailybank_id])
-     @expense = @dailybank.expenses.find(params[:id])
-     @expense.destroy
-      redirect_to edit_dailybank_path(@dailybank)
+   
+    if params.has_key?(:dailybank_id)
+      @dailybank = Dailybank.find(params[:dailybank_id])
+      #count = @dailybank.expenses.count
+      @expense = @dailybank.expenses.find(params[:id])
+      @expense.destroy
+       redirect_to edit_dailybank_path(@dailybank)
+    else
+      @expense = Expense.find(params[:id])
+      @@dailybank = Dailybank.where(:id => @expense.dailybank_id)
+      Rails.logger.debug("\nXXXXXXXXX in else: #{ @@dailybank.inspect}")
+      @expense.destroy
+      count = Expense.where(:dailybank_id => @expense.dailybank_id).count
+      if count > 0
+        remaining_expense_id = Expense.where(:dailybank_id => @expense.dailybank_id).first.id
+       redirect_to show_many_expenses_path(:id => remaining_expense_id), notice: 'Expense was successfully destroyed' 
+     else
+       if @@dailybank[0].status == "Validate and Lock"
+         redirect_to edit_dailybank_path(:id => @@dailybank[0].id), notice: 'Expense was successfully destroyed' 
+       elsif (@@dailybank[0].status == "Mgmt Review") || (@@dailybank[0].status == "Mgmt re-calc")
+         redirect_to mgmt_review_dailybank_path(:id => @@dailybank[0].id), notice: 'Expense was successfully destroyed' 
+       end
+     end
+    end  
   end
 
   private

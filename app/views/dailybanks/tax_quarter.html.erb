@@ -23,8 +23,8 @@
 
     <h6><small>Search by:
     
-     <input class="datepicker" data-provide='datepicker' id="search" name=[from] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=yyyy-mm-dd data-date-today-highlight=true class="form-control input-sm" placeholder="Start of Tax Quarter" >
-     <input class="datepicker" data-provide='datepicker' id="search" name=[to] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=yyyy-mm-dd data-date-today-highlight=true class="form-control input-sm" placeholder="End of Tax Quarter" >
+     <input class="datepicker" data-provide='datepicker' id="search" name=[from] type="text" data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=yyyy-mm-dd data-date-today-highlight=true class="form-control input-sm" placeholder="Start of Tax Quarter" >
+     <input class="datepicker" data-provide='datepicker' id="search" name=[to] type="text" data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=yyyy-mm-dd data-date-today-highlight=true class="form-control input-sm" placeholder="End of Tax Quarter" >
     
   <button type="submit" class="btn btn-primary btn-sm">Search</button>
 <% end %>
@@ -41,6 +41,7 @@
  <thead>
   <tr>  
    <th style="text-align:left"></th>
+   <th style="text-align:center">Work Days</th>
    <th style="text-align:right">Drink</th>
    <th style="text-align:right">Food</th>
    <th style="text-align:right">Merchandise</th>
@@ -52,6 +53,7 @@
     <% @dailybanks_by_month.each do |month, dailybanks|%>
        <tr>  
          <td class="active"><b><%= month %></b></td>
+         <td class="active" style="text-align:center"><b>(<%= dailybanks.count %>)</b></td>
          <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "wet_takings"), :locale => :en) %></td>
          <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "dry_takings"), :locale => :en) %></td>
          <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(dailybanks, "merch_takings"), :locale => :en) %></td>
@@ -60,7 +62,7 @@
        </tr> 
    <% end %>  
    <tr  class="active">
-    <td ><b>TOTALS</b></td>
+    <td colspan="2"><b>TOTALS</b></td>
     <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(@dailybanks, "wet_takings"), :locale => :en) %></td>
     <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(@dailybanks, "dry_takings"), :locale => :en) %></td>
     <td style="text-align:right"><%= number_to_currency(handle_nil_get_sum_from_array_field(@dailybanks, "merch_takings"), :locale => :en) %></td>

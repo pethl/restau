@@ -11,7 +11,7 @@
     </div>
   <% end %>
    
- <h6>Date: <font color=#000000><%= f.date_select :effective_date, :start_year => 2016s %></font></h6>
+ <p class="lead">Date: <%= f.date_select :effective_date, :start_year => 2016 %></p>
   <%= f.hidden_field :user_id, :value => current_user.id%>
   <%= f.hidden_field :status, :value => "Balance Morning Float" %>
     <%= f.fields_for :cashfloats do |builder| %>
@@ -21,7 +21,6 @@
       <%= builder.hidden_field :period, :value => "Morning" %>
       <%= builder.hidden_field :completed_by, :value => current_user.name %>
       <%= builder.hidden_field :float_target, :value => Rdetail.get_value(1, "till_float_main")%>
-    <br>
     
     <div class="row">
     <div class="col-md-1">

@@ -29,7 +29,7 @@
      <% else %> 
    
   <h6><small>1. If any changes made or comments added click RE-CALCULATE.<br>
-  2. Click MGMT LOCK to lock record.</small></h6>
+  2. To LOCK record, use the button to return to summary view where LOCK is available.</small></h6>
 <br>
 <div class="row">
   <div class="col-md-2"> 
@@ -37,7 +37,8 @@
   <% float = @dailybank.cashfloats.where(:period => "Morning") %>
  <% if float.any? %>
     <% if float[0].float_actual == float[0].float_target %><font color=#00ff00> <i class='glyphicon glyphicon-ok aria-hidden="true"'></font></i>
-      <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i>(<%= float[0].float_actual %>)<% end %><% end %>
+      <% else %> <font color=#ff0000> <i class='glyphicon glyphicon-remove'></i>(<%= float[0].float_actual %>)<% end %>
+      <% end %>
   
   <br>
   <font color=#D3D3D3><%= f.label :till_cash %></font><br>
@@ -217,26 +218,24 @@
 <br>
 <div class="row">
  <div class="col-md-2 col-md-offset-2"> 
+  <%= f.hidden_field :status, :value => "Mgmt re-calc" %>
    <%= f.submit "Re-Calculate", class: "btn btn-sm btn-primary" %>
      <% end %>
   </div>
+  <% end %>
 
-     <% end %>
    
-   <div class="col-md-2 col-md-offset-2">
-    <% if current_user.admin?  || current_user.super_user? %>
-      <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
-        <%= f.hidden_field :status, :value => "Locked" %>
-        <%= f.submit "Mgmt Lock", class: "btn-sm btn-success" %>
-        <% end %>
-     <% end %>
-  </div>
+    <div class="col-md-2 col-md-offset-1"> 
+    <%= link_to '<< Go Back to Summary and Lock', dailybank_path(@dailybank), class: "btn btn-success btn-sm" %> .
+     </div>
+       </div>
+ 
+   <div class="row"> 
   <div class="col-md-4">
   <h6><%= link_to "Print End of Night report", download_end_of_night_pdf_path(:value => @dailybank.id, :format => 'pdf'), :style => "color:orange" %></h6>
   </div> 
-   </div>
  </div>
 
- </div>
+
 
  

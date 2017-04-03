@@ -32,7 +32,7 @@
       <td>
         <% if dailybank.status == "Locked" %>
         <font color=#FF0000><b><%= dailybank.status %></b>
-         <% elsif  dailybank.status == "Mgmt Review" %>
+         <% elsif  ((dailybank.status == "Mgmt Review") || (dailybank.status == "Mgmt re-calc")) %>
          <font color=#FFFF00><b><%= dailybank.status %></b>
          <% else %>
          <b> <font color=#00ff00><%= dailybank.status %></font></b>

@@ -1,6 +1,6 @@
 class DailybanksController < ApplicationController
  before_action :logged_in_user, only: [:show, :edit, :history, :history_week, :history_month, :index, :update, :destroy]
- before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :submit_comment, :mgmt_lock, :lock_float, :lock_event, :create_new_expense_record, :no_expenses_to_add, :mgmt_review]
+ before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :submit_comment, :mgmt_lock, :lock_float, :lock_event, :create_new_expense_record, :no_expenses_to_add, :mgmt_review, :put_to_mgmt_review, :mgmt_recalculate]
    
  def latest
     @dailybank = Dailybank.last(1).first
@@ -119,13 +119,8 @@ class DailybanksController < ApplicationController
 
   # GET /dailybanks/new
   def new
-    if !does_record_exist_for_today?
        @dailybank = Dailybank.new(:status => "Balance Morning Float")
        1.times { @dailybank.cashfloats.build }
-  #  @dailybank = Dailybank.new(:status => "Start", :cashfloats_attributes => [{ :float_type => "Main Till", :period => "Morning", :completed_by => current_user.name, :float_target =>Rdetail.get_value(1, "till_float_main") }])
-    else
-      redirect_to dailybanks_url, notice: 'End of Night already entered for this business day.'
-    end
    end
    
    # GET /dailybanks/new
@@ -161,7 +156,6 @@ class DailybanksController < ApplicationController
 
   # This function is used to save the comment if it is not blank
   def submit_comment
-   #  Rails.logger.debug("XXXXXXXXX in update: #{dailybank_params[:variance_comment].inspect}")
    if dailybank_params[:variance_comment].length == 0
      redirect_to @dailybank, :flash => { :error => "Please enter a comment to explain your variance."}
    else
@@ -180,14 +174,10 @@ class DailybanksController < ApplicationController
   
   #This function is used for mgmt_review_re_calculate
   def mgmt_lock
-    dailybank_params[:status] = "Locked"
-    if @dailybank.update(dailybank_params)
+    @dailybank.update_attribute(:status, "Locked")
       redirect_to @dailybank, notice: "Thank you for reviewing End of Night. This record is now locked"
-    else  
-      redirect_to @dailybank, :flash => { :error => "An error has occurred, please contact IT Support."}
-    end
   end
-
+  
   # PATCH/PUT /dailybanks/1
   # PATCH/PUT /dailybanks/1.json
   def update
@@ -195,8 +185,12 @@ class DailybanksController < ApplicationController
        if @dailybank.update(dailybank_params)
         run_calc_rules(@dailybank)
         Cashfloat.count_cash(Cashfloat.where(:dailybank_id => @dailybank.id, :period =>"Evening").first)
+        if dailybank_params[:status]=="Mgmt re-calc"
+           format.html { redirect_to mgmt_review_dailybank_path(@dailybank)}
+         else
         format.html { redirect_to edit_dailybank_path(@dailybank)}
         format.json { render :show, status: :ok, location: @dailybank }
+      end
    else
         format.html { render :edit }
         format.json { render json: @dailybank.errors, status: :unprocessable_entity }
@@ -235,21 +229,11 @@ class DailybanksController < ApplicationController
       end
     end
   end
-  
-  # PATCH/PUT /dailybanks/1
-  # PATCH/PUT /dailybanks/1.json
- # def no_expenses_to_add
-#    respond_to do |format|
-#       if @dailybank.update(dailybank_params)
-#         run_calc_rules(@dailybank)
-#         format.html { redirect_to edit_dailybank_path(@dailybank)}
-#        format.json { render :show, status: :ok, location: @dailybank }
-#   else
-#        format.html { render :edit }
-#        format.json { render json: @dailybank.errors, status: :unprocessable_entity }
-#      end
-#    end
-#  end
+
+  def put_to_mgmt_review
+    @dailybank.update_attribute(:status, "Mgmt Review")
+     redirect_to edit_dailybank_path(@dailybank)
+  end
 
   # DELETE /dailybanks/1
   # DELETE /dailybanks/1.json
@@ -482,24 +466,5 @@ class DailybanksController < ApplicationController
           dailybank.update_attribute(:total_expected_cash, (dailybank.terminal_1+dailybank.terminal_2+dailybank.tablet_1+dailybank.tablet_2))
         end
       end
-      
-       
-       #check if there is already a daily bank record for effective date of today - where today is
-       def does_record_exist_for_today?
-         if Time.now < "05:00:10"
-          # start_time = DateTime.yesterday.beginning_of_day.change({ hour: 05, min: 01 })
-          # end_time = Time.now.beginning_of_day.change({ hour: 05, min: 00 })
-          today_date = Date.yesterday
-         else 
-        #  start_time = Time.now.beginning_of_day.change({ hour: 05, min: 01 })
-        #  end_time = DateTime.tomorrow.beginning_of_day.change({ hour: 05, min: 00 })
-        today_date = Date.today
-         end
-        if Dailybank.where('DATE(effective_date) = ?', today_date).count >0
-          return true
-        else
-          return false
-        end
-      end
-      
+         
 end

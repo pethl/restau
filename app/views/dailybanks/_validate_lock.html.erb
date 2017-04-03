@@ -204,22 +204,22 @@
 <div class="row">
  <div class="col-md-2 col-md-offset-2">
    <div class="actions"> 
-   <%= f.submit "Re-calculate", class: "btn btn-primary" %>
-     <% end %>
-      </div>
+      <%= f.submit "Re-calculate", class: "btn btn-primary" %>
+      <% end %>
+    </div>
   </div>
   
    <div class="col-md-2 col-md-offset-1">
     <div class="actions"> 
    <% if (@dailybank.calculated_variance.present? && (@dailybank.calculated_variance > -1.01 && @dailybank.calculated_variance < 1.01)) ||( @dailybank.calculated_variance.present? && @dailybank.variance_comment.present?) %>
-    
-     <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
-        <%= f.hidden_field :status, :value => "Mgmt Review" %>
-        <%= f.submit "Finish End of Night", class: "btn btn-primary btn-success" %>
+   <%= form_tag put_to_mgmt_review_dailybank_path, method: :post do %>
+         <%= submit_tag 'Finish End of Night', class: "btn btn-success" %>
+       <% end %>
       <% end %>
-    <% end %>
+
   </div>
  </div>
+ 
  <div class="col-md-3 col-md-offset-1">
  <h6><%= link_to "Print End of Night report", download_end_of_night_pdf_path(:value => @dailybank.id, :format => 'pdf'), :style => "color:orange" %></h6>
  </div> 

@@ -141,10 +141,10 @@
   <% end %>
  
   
-    <% elsif @dailybank.status== "Mgmt Review" %>
+    <% elsif (@dailybank.status== "Mgmt Review") || @dailybank.status== "Mgmt re-calc" %>
      <% if current_user.admin?  || current_user.super_user? %>
      <div class="col-md-1 ">
-     <button type="button" class="btn btn-warning btn-sm"><%= link_to 'Edit Details',  mgmt_review_dailybanks_path(:id => @dailybank.id) %></button>
+     <button type="button" class="btn btn-warning btn-sm"><%= link_to 'Edit Details',  mgmt_review_dailybank_path(:id => @dailybank.id) %></button>
      </div>
      <div class="col-md-8 col-md-offset-1" >
      <%= form_for @dailybank, :url => { :action => "mgmt_lock", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>

@@ -60,8 +60,10 @@
         
         <td style="text-align:right"><%= number_to_currency(dailybank.actual_cash_total, :locale => :en) %></td>
         <td style="text-align:right"><%= number_to_currency(dailybank.actual_till_takings, :locale => :en) %></td>
-        <td style="text-align:right"><%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></td>
-        
+        <td style="text-align:right"> <% if dailybank.calculated_variance.present? %>
+                  <% if dailybank.calculated_variance >= -1 && dailybank.calculated_variance <= 1 %><font color=#00ff00>  <%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></font></i>
+                    <% else %> <font color=#ff0000><b> <%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></b><% end %><% end %>
+                    </td>
         <% if dailybank.status == "Mgmt Review" %>
         <td style="text-align:right"><%= link_to 'Show', dailybank %></td>
         <% elsif dailybank.status == "Balance Morning Float"%>

@@ -3,17 +3,22 @@ Rails.application.routes.draw do
       collection { get :show_many };
       collection { get :add_new }
     end
-      resources :dailystats
+  resources :dailystats
   resources :dailybanks do
-      collection { post :submit_comment };
-      collection { post :mgmt_lock };
-      collection { post :lock_float };
-      collection { post :lock_event };
-      collection { post :create_new_expense_record };
-      collection { post :no_expenses_to_add}; 
-       collection { get :mgmt_review};
-      resources :expenses
+    member do
+       post 'submit_comment';
+       post 'mgmt_lock';
+       post 'lock_float';
+       post 'lock_event';
+       post 'create_new_expense_record';
+       post 'put_to_mgmt_review';
+       post 'no_expenses_to_add';
+       post 'mgmt_recalculate'; 
+       get 'mgmt_review';
     end
+     resources :expenses
+  end
+ 
   resources :exemptions
   resources :functions
   resources :cashfloats do
