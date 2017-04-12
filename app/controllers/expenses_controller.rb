@@ -1,4 +1,5 @@
 class ExpensesController < ApplicationController
+  before_action :logged_in_user, only: [:show, :edit, :update, :destroy, :index]
   before_action :set_expense, only: [:show, :edit, :update, :destroy]
 
   # GET /expenses

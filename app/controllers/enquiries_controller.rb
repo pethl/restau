@@ -1,4 +1,5 @@
 class EnquiriesController < ApplicationController
+  before_action :logged_in_user, only: [:destroy, :index]
   before_action :set_enquiry, only: [:show, :edit, :update, :destroy]
 
   # GET /enquiries

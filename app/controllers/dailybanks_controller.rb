@@ -1,5 +1,5 @@
 class DailybanksController < ApplicationController
- before_action :logged_in_user, only: [:show, :edit, :history, :history_week, :history_month, :index, :update, :destroy]
+ before_action :logged_in_user, only: [:show, :edit, :latest, :tax_quarter, :index_full, :index_ongoing, :history, :history_week, :history_month, :index, :update, :destroy]
  before_action :set_dailybank, only: [:show, :edit, :update, :destroy, :submit_comment, :mgmt_lock, :lock_float, :lock_event, :create_new_expense_record, :no_expenses_to_add, :mgmt_review, :put_to_mgmt_review, :mgmt_recalculate]
    
  def latest
