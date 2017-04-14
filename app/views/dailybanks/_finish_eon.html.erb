@@ -55,7 +55,10 @@
      </div>
     
     <div class="col-md-1" align="right">
-     <p>Cheat:<b><%= number_to_currency(@evening_float.cheat, :locale => :en) %></b></p>
+     <p><b>Cheat:</b>
+     <font color=#daa520><%= number_to_currency(@evening_float.cheat, :locale => :en) %></font></p>
+     <p>Banking:<b>
+     <font color=#daa520><%= number_to_currency(@dailybank.banking, :locale => :en) %></font></b></p>
    </div>
 
  </div>
