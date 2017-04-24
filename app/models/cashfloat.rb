@@ -87,9 +87,9 @@ class Cashfloat < ActiveRecord::Base
       #do not run if any values missing, allow the above validations to take care of this first
       if ((fifties.present?) && (twenties.present?) && (tens.present?) && (fives.present?) && (two_pound_single.present?) && (pound_single.present?) && (fifty_single.present?) && (twenty_single.present?) && (ten_single.present?) && (five_single.present?) && (two_single.present?) && (one_single.present?))
         total = (fifties+twenties+tens+fives+two_pound_single+pound_single+fifty_single+twenty_single+ten_single+five_single+two_single+one_single)
-        gap = float_target - total
-        if float_target - total != 0
-          errors.add(:float_target, "not balanced, gap of £#{gap}, recount or use override with comment to continue.")
+        gap = total - float_target
+        if total- float_target != 0
+          errors.add(:float_target, "not balanced. Float count is £#{total} and target is £#{float_target}, gap of £#{gap}, recount or use override with comment to continue.")
         end
       end
     end
