@@ -21,6 +21,7 @@
   <thead>
     <tr>
       <th>Date</th>
+       <th>LP-Issue?</th>
       <th>Status</th>
       <th>User</th>
       <th style="text-align:center">AM<br>Float</th>
@@ -36,6 +37,7 @@
     <% @dailybanks.each do |dailybank| %>
       <tr>
       <td><%= dailybank.effective_date.strftime('%a, %d %b') %></td>
+        <td><% if dailybank.cashfloats.count== 3 %>Y <% else %> <% end %></td>
       <td>
         <% if dailybank.status == "Locked" %>
         <font color=#FF0000><b><%= dailybank.status %></b>

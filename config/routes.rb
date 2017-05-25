@@ -100,6 +100,7 @@ Rails.application.routes.draw do
   get '/search_bookings' => 'bookings#search_bookings' 
   get '/cashfloats_validate' => 'cashfloats#validate'  
   get '/download_end_of_night_pdf' => "dailybanks#download_end_of_night_pdf" 
+  get '/download_dailybank_tax_accounting_pdf' => "dailybanks#download_dailybank_tax_accounting_pdf" 
   
   get '/hfsk_home' => 'static_pages#hfsk_home'
   get '/hfsk_about' => 'static_pages#hfsk_about'

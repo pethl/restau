@@ -49,89 +49,89 @@
   <tr>
   <td><b>Banking</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "banking") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:banking] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "banking") %></b></td>
+   <td style="text-align:right"><b> <%=  number_to_currency(@dailybanks.map { |h| h[:banking] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Total Card</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "card_payments") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:card_payments] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "card_payments") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:card_payments] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Expenses</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "expenses_total") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:expenses_total] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "expenses_total") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:expenses_total] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr class="success">
   <td><b>Takings</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "actual_cash_total") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:actual_cash_total] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "actual_cash_total") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:actual_cash_total] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Total Sales</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "till_takings") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:till_takings] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "till_takings") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:till_takings] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Vouchers Sold</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "vouchers_sold") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:vouchers_sold] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "vouchers_sold") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:vouchers_sold] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Vouchers Used</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "vouchers_used") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:vouchers_used] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "vouchers_used") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:vouchers_used] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Deposits Sold</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "deposit_sold") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:deposit_sold] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "deposit_sold") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:deposit_sold] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Deposits Used</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "deposit_used") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:deposit_used] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "deposit_used") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:deposit_used] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr class="success">
   <td><b>Expected Takings</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "actual_till_takings") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:actual_till_takings] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "actual_till_takings") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:actual_till_takings] }.sum, :locale => :en) %></b></td>
   </tr>
   
   <tr>
   <td><b>Variance</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>
-   <td  style="text-align:right"><%= handle_nil_get_sum_from_array_field(dailybanks, "calculated_variance") %></td></td>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:calculated_variance] }.sum %></td></td>
    <% end %>
-   <td style="text-align:right"><b> <%= handle_nil_get_sum_from_array_field(@dailybanks, "calculated_variance") %></b></td>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:calculated_variance] }.sum, :locale => :en) %></b></td>
   </tr>
   
   </table>

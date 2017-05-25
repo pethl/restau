@@ -36,6 +36,7 @@
     <% @dailybanks.each do |dailybank| %>
       <tr>
       <td><%= dailybank.effective_date.strftime('%a, %d %b') %></td>
+    
       <td>
         <% if dailybank.status == "Locked" %>
         <font color=#FF0000><b><%= dailybank.status %></b>
