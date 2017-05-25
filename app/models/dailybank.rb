@@ -52,12 +52,9 @@ class Dailybank < ActiveRecord::Base
      def self.search_month(search)
       search_day = search[:month].to_date
      if !search_day.blank? 
-       if Time.now.month == search_day.month
-       @dailybanks = Dailybank.where("effective_date BETWEEN ? AND ?", search_day.beginning_of_month, Date.yesterday).sort_by { |hsh| hsh[:effective_date] }
-     else
        @dailybanks = Dailybank.where("effective_date BETWEEN ? AND ?", search_day.beginning_of_month, search_day.end_of_month).sort_by { |hsh| hsh[:effective_date] }
      end  
-         end
       end 
       
+   
 end

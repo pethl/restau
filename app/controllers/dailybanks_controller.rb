@@ -389,13 +389,11 @@ class DailybanksController < ApplicationController
            row(7).border_width = 0
            row(8).border_width = 2
            row(0).border_width = 2
-            end
-         
+            end 
      send_data pdf.render, filename: 'end_of_night.pdf', type: 'application/pdf', :disposition => 'inline'
      end
    end
  end
- 
   
   def download_dailybank_tax_accounting_pdf
    @start_date = params[:value]
@@ -404,7 +402,6 @@ class DailybanksController < ApplicationController
    @dailybanks = Dailybank.where("effective_date BETWEEN ? AND ?", @start_date.to_date.beginning_of_day, @end_date.to_date.end_of_day).sort_by { |hsh| hsh[:effective_date] }
    @dailybanks_by_month = @dailybanks.group_by { |t| t.effective_date.strftime("%b") }
    
-  # Rails.logger.debug("download_dailybank_tax_accounting_pdf_path: #{@start_date.inspect}")
    respond_to do |format|
     format.pdf do
       pdf = Prawn::Document.new
@@ -418,10 +415,13 @@ class DailybanksController < ApplicationController
         table_data = Array.new
         table_data << ["Date","Cash", "Cards", "Expenses", "Wet", "Dry", "Merch", "D & V\nAdjustment"]
         dailybanks.each do |dailybank|
+          if ["Locked", "Mgmt Review", "Mgmt re-calc"].include? dailybank.status
+            #reject record is status doesn't suggest values will be completed as would cause error
             table_data << [dailybank.effective_date.strftime('%d %b'), "£#{(sprintf "%.2f", dailybank.banking.to_s)}", "£#{(sprintf "%.2f", dailybank.card_payments.to_s)}", "£#{(sprintf "%.2f", dailybank.expenses_total.to_s)}", "£#{(sprintf "%.2f", dailybank.wet_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.dry_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.merch_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.v_d_adjustments.to_s)}"]
+           else
+          end
         end
-        table_data <<["Totals:", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.sum.to_s)}"]
-      
+        table_data <<["Totals:", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
         table_data <<["","Cash", "Cards", "Expenses", "Wet", "Dry", "Merch", "D & V\nAdjustment"]
         
         pdf.table(table_data) do 

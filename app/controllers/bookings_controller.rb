@@ -241,9 +241,13 @@ class BookingsController < ApplicationController
              pdf.text "\n", size: 10
              
              table_data = Array.new
-             table_data << ["Time", "Name", "Diners", "Table Number", "Notes"]
+             table_data << ["Time", "Name", "Diners", "Child Seat","Table Number", "Notes"]
              @bookings_confirmed.each do |booking|
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " "]
+                if booking.child_friendly == TRUE
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", " "]
+               else
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " ", " "]
+               end
              end
              pdf.table(table_data) do 
                self.width = 500
@@ -253,7 +257,7 @@ class BookingsController < ApplicationController
                
                row(0).font_style = :bold
                
-               columns(0).width = 50
+               columns(0).width = 40
                columns(0).align = :center
                columns(1).font_style = :bold
                columns(1).width = 160
@@ -261,6 +265,10 @@ class BookingsController < ApplicationController
                columns(2).align = :center
                columns(3).width = 50
                columns(3).align = :center
+               columns(4).width = 50
+               columns(4).align = :center
+               columns(5).width = 160
+               columns(5).align = :center
                
              end
              
@@ -270,6 +278,7 @@ class BookingsController < ApplicationController
              table_data = Array.new
              table_data << ["When Cancelled?","Time", "Name"]
              @bookings_cancelled.each do |booking|
+              
                  table_data << [booking.cancelled_at.strftime('%H:%M, %d %b'), booking.booking_date_time.strftime('%H:%M'), booking.name]
              end
              pdf.table(table_data) do 
@@ -305,9 +314,13 @@ class BookingsController < ApplicationController
                   pdf.text "\n", size: 10
              
                   table_data = Array.new
-                  table_data << ["Time", "Name", "Diners", "Table Number", "Notes"]
+                  table_data << ["Time", "Name", "Diners", "Child Seat", "Table Number", "Notes"]
                   @bookings_confirmed.each do |booking|
-                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " "]
+                    if booking.child_friendly == TRUE
+                     table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", " "]
+                   else
+                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "", " ", " "]
+                    end
                   end
                   pdf.table(table_data) do 
                     self.width = 500
@@ -317,14 +330,16 @@ class BookingsController < ApplicationController
                
                     row(0).font_style = :bold
                
-                    columns(0).width = 50
+                    columns(0).width = 40
                     columns(0).align = :center
                     columns(1).font_style = :bold
                     columns(1).width = 160
                     columns(2).width = 40 
                     columns(2).align = :center
-                    columns(3).width = 50
+                    columns(3).width = 40
                     columns(3).align = :center
+                    columns(4).width = 50
+                    columns(4).align = :center
                
                   end
              
