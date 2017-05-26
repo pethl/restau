@@ -29,8 +29,8 @@ class Dailybank < ActiveRecord::Base
       
       
     def self.search(search)
-    search_from = search[:from]
-    search_to = search[:to]
+    search_from = search[:from].to_date
+    search_to = search[:to].to_date
    if !search_from.blank? && !search_to.blank?
      if search_from < search_to
        where("effective_date BETWEEN ? AND ?", search_from, search_to).sort_by { |hsh| hsh[:effective_date] }
