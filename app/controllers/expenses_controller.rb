@@ -12,15 +12,22 @@ class ExpensesController < ApplicationController
        if params[:from]
          @dailybanks = Dailybank.search(params)
                if @dailybanks.any?
-              #  Rails.logger.debug("@dailybanks_in_search in show_many: #{@dailybanks.inspect}")
+                 #AT THIS STAGE DAILYBANK RECORDS ARE SORTED IN DATE ORDER
+                 #CHANGED THIS CODE AS DATE ORDERING WAS NOT WORKING
+             
               #   @dailybank_ids = @dailybanks.map { |x| x[:id] }
-                 # params= []
+              # params= []
                #  @expenses = Expense.where(:dailybank_id => @dailybank_ids) 
-                  @expenses = Expense.where(:dailybank_id => @dailybanks)
-                  
-                   
-                 @expenses_by_dailybank = @expenses.group_by { |t| t.dailybank_id }
-                 return  @expenses_by_dailybank
+              #  @expenses = Expense.where(:dailybank_id => @dailybanks)
+              # @dailybanks.each do |dailybank|
+                 #    dailybank[:expenses] =  Expense.where(:dailybank_id => @dailybank_ids) 
+                     #  Rails.logger.debug("dailybanks_in_search: AFTER: #{dailybank.inspect}")
+                  # end
+               #  @expenses_by_dailybank = @expenses.group_by { |t| t.dailybank_id }
+               #THIS IS BAD CODE AS JUST REPLACING NAMED VARIABLE WITH OTHER NOT MATCHING VALUE
+               #BUT DOING FOR QUICK WORK AROUND SO DONT HAVE TO CHANGE TOO MUCH OF THE INDEX VIEW CODE ALSO
+                @expenses_by_dailybank = @dailybanks
+                return @expenses_by_dailybank
                 else
                  params= []
                  @expenses = 1
@@ -143,8 +150,6 @@ class ExpensesController < ApplicationController
   
   def download_expenses_report_pdf
     @expenses_by_dailybank = params[:value]
-  #  @expenses_by_dailybank.reverse
-    Rails.logger.debug("expenses_by_dailybank: #{@expenses_by_dailybank.inspect}")
    
     respond_to do |format|
      format.pdf do
@@ -159,10 +164,9 @@ class ExpensesController < ApplicationController
        pdf.table(table_data_header) do 
           self.width = 340 
           self.cell_style = { :inline_format => true, size: 8 } 
-          self.row_colors = ["DDDDDD", "FFFFFF"]
-          self.header = true
-     
+         
           row(0).font_style = :bold
+          row(0).background_color = "DDDDDD"
           columns(0).width = 40
           columns(1).width = 160
           columns(2).width = 90
@@ -171,28 +175,23 @@ class ExpensesController < ApplicationController
           column(3).align = :right
         end
       
-      @expenses_by_dailybank.each do |dailybank, expenses|
-        pdf.text "\n"
-       pdf.text Dailybank.where(:id => dailybank).first.effective_date.strftime('%a, %d %b %Y') ,size: 8, style: :bold 
+      @expenses_by_dailybank.each do |dailybank_id|
+        dailybank = Dailybank.where(:id => dailybank_id)
+        if dailybank.first.expenses.count > 0
+      
+      pdf.text "\n"
+      pdf.text dailybank.first.effective_date.strftime('%a, %d %b %Y') ,size: 8, style: :bold 
          
        table_data = Array.new
-     #  table_data_header << ["Ref", "What", "Where", "Price"]
-         
-        expenses.each do |expense|
-          expense_record = Expense.find(expense)
-        table_data << [expense_record.ref.to_s, expense_record.what, expense_record.where, "£#{(sprintf "%.2f", expense_record.price.to_s)}"]
+         dailybank.first.expenses.each do |expense|
+        table_data << [expense.ref.to_s, expense.what, expense.where, "£#{(sprintf "%.2f", expense.price.to_s)}"]
           end
-         
-        # table_data <<["Totals:", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
-        # table_data <<["","Cash", "Cards", "Expenses", "Wet", "Dry", "Merch", "D & V\nAdjustment"]
-        
+               
         pdf.table(table_data) do 
            self.width = 340 
            self.cell_style = { :inline_format => true, size: 8 } 
-           self.row_colors = ["DDDDDD", "FFFFFF"]
-           self.header = true
+        #   self.header = true
       
-         #  row(0).font_style = :bold
            columns(0).width = 40
            columns(1).width = 160
            columns(2).width = 90
@@ -200,6 +199,7 @@ class ExpensesController < ApplicationController
            columns(0..2).align = :left
            column(3).align = :right
          end
+          end
           end
            pdf.text "\n", size: 12
       
