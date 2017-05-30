@@ -27,8 +27,16 @@
   <% else %>
   <h4><%= link_to "Print Expenses Report", download_expenses_report_pdf_path(:value => @expenses_by_dailybank, :format => 'pdf'), :style => "color:orange" %>
   </h4>
-
+  
+  <h6> Date Range: 
+  <%= Dailybank.where(:id => @expenses_by_dailybank.first).first.effective_date.strftime('%a, %d %b %Y')%>
+   - 
+    <%= Dailybank.where(:id => @expenses_by_dailybank.last).first.effective_date.strftime('%a, %d %b %Y')%>
+  <br>  <br>
+  Expenses Total for this date range: <%= number_to_currency(Expense.where(dailybank_id: @expenses_by_dailybank).sum(:price), :locale => :en) %></h6>
+  <hr>
   <% @expenses_by_dailybank.each do |dailybank| %>
+    <% if dailybank.expenses.count > 0%>
     
 <table class= "table table-condensed">
   <thead>
@@ -57,7 +65,7 @@
         <td><%= link_to 'Destroy', expense, method: :delete, data: { confirm: 'Are you sure?' } %></td>
          <% end %>
       </tr>
-    <% end %>
+    <% end %>    <% end %>
   </tbody>
 </table>
 <% end %>

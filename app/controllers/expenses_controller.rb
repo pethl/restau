@@ -158,6 +158,10 @@ class ExpensesController < ApplicationController
        pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n", size: 6
        pdf.text "\n", size: 8
      
+       pdf.text "Date range: " + Dailybank.where(:id => @expenses_by_dailybank.first).first.effective_date.strftime('%a, %d %b %Y') + " - " + Dailybank.where(:id => @expenses_by_dailybank.last).first.effective_date.strftime('%a, %d %b %Y'), size: 8
+      pdf.text "Expenses total for this date range:" + "  "+"£#{(sprintf "%.2f", Expense.where(dailybank_id: @expenses_by_dailybank).sum(:price))}", size: 8
+       pdf.text "\n"
+     
        table_data_header = Array.new
        table_data_header << ["Ref", "What", "Where", "Price"]
        
