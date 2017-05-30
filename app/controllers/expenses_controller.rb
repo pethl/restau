@@ -12,9 +12,13 @@ class ExpensesController < ApplicationController
        if params[:from]
          @dailybanks = Dailybank.search(params)
                if @dailybanks.any?
-                 @dailybank_ids = @dailybanks.map { |x| x[:id] }
+              #  Rails.logger.debug("@dailybanks_in_search in show_many: #{@dailybanks.inspect}")
+              #   @dailybank_ids = @dailybanks.map { |x| x[:id] }
                  # params= []
-                 @expenses = Expense.where(:dailybank_id => @dailybank_ids) 
+               #  @expenses = Expense.where(:dailybank_id => @dailybank_ids) 
+                  @expenses = Expense.where(:dailybank_id => @dailybanks)
+                  
+                   
                  @expenses_by_dailybank = @expenses.group_by { |t| t.dailybank_id }
                  return  @expenses_by_dailybank
                 else
@@ -29,7 +33,6 @@ class ExpensesController < ApplicationController
   end
   
   def show_many
-   # Rails.logger.debug("XXXXXXXXX in show_many: #{params.inspect}")
     @expense = Expense.find(params[:id])
      @dailybank = Dailybank.find(@expense.dailybank_id)
      @expenses = Expense.where(:dailybank_id => @dailybank.id) 
@@ -38,12 +41,9 @@ class ExpensesController < ApplicationController
   end
   
   def add_new
-   # Rails.logger.debug("\nXXXXXXXXX in add_new: #{params.inspect}")
      @dailybank = Dailybank.find(params[:id])
-   #Rails.logger.debug("\nXXXXXXXXX in @dailybank: #{@dailybank.inspect}")
      ref = Expense.all.last.ref+1.to_i
      @expense = Expense.create(:dailybank_id => @dailybank.id, :ref => ref, :what => "what", :where => "where", :price => 0)
-    #Rails.logger.debug("\nXXXXXXXXX in @expense: #{@expense.inspect}")
      redirect_to edit_expense_path(id: @expense.id)
   end
   
@@ -140,6 +140,76 @@ class ExpensesController < ApplicationController
      end
     end  
   end
+  
+  def download_expenses_report_pdf
+    @expenses_by_dailybank = params[:value]
+  #  @expenses_by_dailybank.reverse
+    Rails.logger.debug("expenses_by_dailybank: #{@expenses_by_dailybank.inspect}")
+   
+    respond_to do |format|
+     format.pdf do
+       pdf = Prawn::Document.new
+       pdf.text "Expenses Report ", size: 14, style: :bold
+       pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n", size: 6
+       pdf.text "\n", size: 8
+     
+       table_data_header = Array.new
+       table_data_header << ["Ref", "What", "Where", "Price"]
+       
+       pdf.table(table_data_header) do 
+          self.width = 340 
+          self.cell_style = { :inline_format => true, size: 8 } 
+          self.row_colors = ["DDDDDD", "FFFFFF"]
+          self.header = true
+     
+          row(0).font_style = :bold
+          columns(0).width = 40
+          columns(1).width = 160
+          columns(2).width = 90
+          columns(3).width = 50
+          columns(0..2).align = :left
+          column(3).align = :right
+        end
+      
+      @expenses_by_dailybank.each do |dailybank, expenses|
+        pdf.text "\n"
+       pdf.text Dailybank.where(:id => dailybank).first.effective_date.strftime('%a, %d %b %Y') ,size: 8, style: :bold 
+         
+       table_data = Array.new
+     #  table_data_header << ["Ref", "What", "Where", "Price"]
+         
+        expenses.each do |expense|
+          expense_record = Expense.find(expense)
+        table_data << [expense_record.ref.to_s, expense_record.what, expense_record.where, "£#{(sprintf "%.2f", expense_record.price.to_s)}"]
+          end
+         
+        # table_data <<["Totals:", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
+        # table_data <<["","Cash", "Cards", "Expenses", "Wet", "Dry", "Merch", "D & V\nAdjustment"]
+        
+        pdf.table(table_data) do 
+           self.width = 340 
+           self.cell_style = { :inline_format => true, size: 8 } 
+           self.row_colors = ["DDDDDD", "FFFFFF"]
+           self.header = true
+      
+         #  row(0).font_style = :bold
+           columns(0).width = 40
+           columns(1).width = 160
+           columns(2).width = 90
+           columns(3).width = 50
+           columns(0..2).align = :left
+           column(3).align = :right
+         end
+          end
+           pdf.text "\n", size: 12
+      
+        send_data pdf.render, filename: 'expenses_report.pdf', type: 'application/pdf', :disposition => 'inline'
+     end
+   
+   end
+    
+  end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
