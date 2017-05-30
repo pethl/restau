@@ -22,14 +22,13 @@
   <% elsif @expenses_by_dailybank == 1 %>
   <p>No records found matching date criteria.</p>
  
+  <% elsif  @expenses_by_dailybank == [] %>
+  
   <% else %>
-  
-  
+  <h4><%= link_to "Print Expenses Report", download_expenses_report_pdf_path(:value => @expenses_by_dailybank, :format => 'pdf'), :style => "color:orange" %>
+  </h4>
+
   <% @expenses_by_dailybank.each do |dailybank, expenses| %>
- 
-    <h4><%= link_to "Print Expenses Report", download_expenses_report_pdf_path(:value => @expenses_by_dailybank, :format => 'pdf'), :style => "color:orange" %>
-    </h4>
- 
     
 <table class= "table table-condensed">
   <thead>
