@@ -42,7 +42,9 @@ class Booking < ActiveRecord::Base
       #  end
       
       #13) DUP check to ensure booking is not after latest booking *currently 6 months from end of month
-        if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+6.months)
+       # if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+6.months)
+       #CHANGE TO LIMIT XMAS BOOKING ON 3 JUNE 2017
+        if  (params[:booking_date]).to_date > Date.new(2017,10,31)
           return Error.get_msg("999999123")    
         end
         
@@ -170,7 +172,9 @@ class Booking < ActiveRecord::Base
 #    end
     
     #13) DUP check to ensure booking is not after latest booking *curently 6 months from end of month
-      if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+6.months)
+    # if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+6.months)
+    #CHANGE TO LIMIT XMAS BOOKING ON 3 JUNE 2017
+     if  (params[:booking_date]).to_date > Date.new(2017,10,31)
         return Error.get_msg("999999123")    
       end
       
