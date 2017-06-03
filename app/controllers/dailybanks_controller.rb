@@ -204,8 +204,10 @@ class DailybanksController < ApplicationController
   def lock_float
     respond_to do |format|
        if @dailybank.update(dailybank_params)
+         unless @dailybank.cashfloats.count ==2
          @cashfloat = @dailybank.cashfloats.new(float_type: "Main Till", period: "Evening", completed_by: current_user.name, fifties: 0, twenties: 0, tens: 0, fives: 0, two_pound_single: 0, pound_single: 0, fifty_single: 0, twenty_single: 0, ten_single: 0, five_single: 0, two_single: 0, one_single: 0, float_target: Rdetail.get_value(1, "till_float_main"))
          @cashfloat.save
+       end
         format.html { redirect_to edit_dailybank_path(@dailybank)}
         format.json { render :show, status: :ok, location: @dailybank }
    else
