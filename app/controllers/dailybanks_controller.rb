@@ -410,7 +410,33 @@ class DailybanksController < ApplicationController
       pdf.text "Tax Quarter Report : " + @start_date.to_date.strftime('%d %b, %Y') + " - " + @end_date.to_date.strftime('%d %b, %Y'), size: 14, style: :bold
       pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n", size: 6
       pdf.text "\n", size: 8
+      pdf.text "SALES FIGURES" + "\n", size: 10
+        table_data_sales = Array.new
+        table_data_sales << ["Month","Drink", "Food", "Merchandise", "Deposits/Vouchers", "Total"]
+         
+         @dailybanks_by_month.each do |month, dailybanks|
      
+        table_data_sales << [month, "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", ((dailybanks.map { |h| h[:till_takings] }.compact.sum)+(dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)).to_s)}"]      
+      end
+        table_data_sales << ["Total", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", ((@dailybanks.map { |h| h[:till_takings] }.compact.sum)+(@dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)).to_s)}"]      
+        
+        pdf.table(table_data_sales) do 
+          self.width = 340 
+          self.cell_style = { :inline_format => true, size: 8 } 
+          self.row_colors = ["DDDDDD", "FFFFFF"]
+         # self.header = true
+      
+          row(0).font_style = :bold
+          columns(0).width = 40
+        #  columns(0).font_style = :bold
+          columns(1..7).width = 60
+          columns(1..7).align = :right
+          row(-1).font_style = :bold
+        end
+      
+      pdf.text "\n\n", size: 8
+      pdf.text "SUMMARY BY MONTH" + "\n", size: 10
+    
      @dailybanks_by_month.each do |month, dailybanks|
         pdf.text month, size: 12, style: :bold 
         
@@ -442,7 +468,6 @@ class DailybanksController < ApplicationController
          end
           pdf.text "\n", size: 12
      end
-    
        send_data pdf.render, filename: 'tax_quarter.pdf', type: 'application/pdf', :disposition => 'inline'
     end
    end
