@@ -2,11 +2,12 @@
   <div class="col-md-2">
   <%= render 'layouts/sidebar' %>
   </div>
-
 <div class="col-md-10">
+
 <h3>Management Edit Booking</h3>
 
-<%= bootstrap_form_for(@booking, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-6") do |f| %>
+<div class="well well-sm" style="background-color: grey;">
+<%= bootstrap_form_for(@booking, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-7") do |f| %>
 
   <% if @booking.errors.any? %>
     <div id="error_explanation">
@@ -19,36 +20,50 @@
       </ul>
     </div>
   <% end %>
+  
+  <% if f.object.source == "Online" %>
+    <h6><SMALL><font color=#F3CD0D>== Updating these fields will trigger an email to the customer.
+     <b>PLEASE ENSURE</b> YOU HAVE AGREEMENT TO MAKE THIS CHANGE</font></SMALL></h6>
+    <% else %>
+    <h6><SMALL>== This booking was made by MANAGEMENT, changes will not trigger an email to the customer.</SMALL></h6>
+   <% end %>
 
-     <%= f.collection_select :restaurant_id, Restaurant.all, :id, :name %>
     <%= f.datetime_select :booking_date_time, :minute_step => 15 %>
     <%= f.select :number_of_diners, options_for_select(1..21, f.object.number_of_diners ) %>
     <%= f.text_field :name, placeholder: "Customer Name" %>
     <%= f.text_field :phone, placeholder: "Customer Phone (if unknown enter 0000)" %>
     <%= f.text_field :email %>
     
+    
     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
+      <div class="col-sm-offset-2 col-sm-4">
         <div class="checkbox">
-          
-           <%= f.check_box :child_friendly, label: "Child seat required?" %>
-         
-        </div>
+            <%= f.check_box :child_friendly, label: "Child seat required?" %>
+         </div>
       </div>
     </div>
- 
- <% if f.object.source == "Online" %>
-   <h4>
-   Any updates to this booking will be emailed to the customer.<br>
-   PLEASE ENSURE YOU HAVE AGREEMENT TO MAKE THIS CHANGE</h4>
-   <% end %>
- 
-  <div class="col-sm-offset-2 col-sm-10">
-      <div class="actions">
-         <%= f.submit "Update This Booking", class: "btn btn-primary" %>
-      <%= link_to "Return to Search Bookings", search_bookings_path, class: "btn btn-success" %></div>
-  </div>
-<% end %>
 
-<%= link_to 'Show', @booking %> |
-<%= link_to 'Back', bookings_path %>
+    == Updating these fields will <b>not</b> trigger an email to the customer ===========================
+    <%= f.text_area :notes %>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-6">
+      <p><b>DEPOSIT TAKEN:</b></p>
+        <%= f.number_field :deposit_amount, label: "Amount" %>
+        <%= f.text_field :deposit_code, placeholder: "<Obtain code from til>", label: "Code" %>
+        <%= f.select :deposit_pay_method, [['Cash','Cash'],['Credit Card','Credit Card']], label: "Method", :include_blank => true  %>
+      
+        <div class="actions">
+           <%= f.submit "Update This Booking", class: "btn btn-primary" %>
+       </div>
+       </div>
+     <% end %>
+      </div>  
+      <strong><center>
+        <%= link_to 'Back to DAILY BOOKINGS(Today)', bookings_path, style: 'color:#000000;' %> | <%= link_to "Return to SEARCH BOOKINGS", search_bookings_path, style: 'color:#000000;' %>
+    </strong></center>
+    </div>  
+    
+    </div>
+</div>
+    </div>

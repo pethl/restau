@@ -21,7 +21,8 @@
    </h6>
    <br>
    <% if logged_in? %> 
-     <h6><%= link_to "Go back to Calendar", calendar_path %></h6>
+     <h6>MGMT:<br><%= link_to "Go to Calendar", calendar_path %> | 
+     <%= link_to "Go to Daily Bookings", bookings_path %><br><br></h6>
      <% end %>
      
    <h6><i>Made a mistake?</i></h6>

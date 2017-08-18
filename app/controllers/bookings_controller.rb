@@ -178,9 +178,15 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
-        unless @booking.email =="adminhangfirebbq@gmail.com"
+        
+        if (@booking.previous_changes().key?("phone") || @booking.previous_changes().key?("booking_date_time") || @booking.previous_changes().key?("email")  || @booking.previous_changes().key?("name")  || @booking.previous_changes().key?("number_of_diners") || @booking.previous_changes().key?("child_friendly"))
+        aa = @booking.previous_changes() 
+        Rails.logger.debug("in booking update: #{aa.inspect}")
+        
+       # unless @booking.email =="adminhangfirebbq@gmail.com"
         BookingMailer.booking_confirmation_customer(@booking).deliver_now
         # BookingMailer.booking_confirmation_mgmt(@booking).deliver_now
+        
       end
         #Customer.write_contact(@booking)
         format.html { redirect_to @booking }
@@ -244,9 +250,9 @@ class BookingsController < ApplicationController
              table_data << ["Time", "Name", "Diners", "Child Seat","Table Number", "Notes"]
              @bookings_confirmed.each do |booking|
                 if booking.child_friendly == TRUE
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", " "]
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", booking.notes]
                else
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " ", " "]
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " ", booking.notes]
                end
              end
              pdf.table(table_data) do 
@@ -268,7 +274,8 @@ class BookingsController < ApplicationController
                columns(4).width = 50
                columns(4).align = :center
                columns(5).width = 160
-               columns(5).align = :center
+               columns(5).align = :left
+              
                
              end
              
@@ -317,9 +324,9 @@ class BookingsController < ApplicationController
                   table_data << ["Time", "Name", "Diners", "Child Seat", "Table Number", "Notes"]
                   @bookings_confirmed.each do |booking|
                     if booking.child_friendly == TRUE
-                     table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", " "]
+                     table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", booking.notes]
                    else
-                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "", " ", " "]
+                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "", " ", booking.notes]
                     end
                   end
                   pdf.table(table_data) do 
@@ -340,6 +347,7 @@ class BookingsController < ApplicationController
                     columns(3).align = :center
                     columns(4).width = 50
                     columns(4).align = :center
+                     columns(5).align = :left
                
                   end
              
@@ -378,7 +386,7 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
+      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, :notes, :deposit_amount, :deposit_code, :deposit_pay_method, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
     end
     
     # Confirms a logged-in user.
