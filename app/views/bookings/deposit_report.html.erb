@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
+
+  <div class="col-md-10">
+  <br><br><br>
+  <h4><b>Deposit Report</b></h4> 
+  
+  <h6>Table shows future bookings of 8 or more where deposit is required.</h6>
+  
+  
+  <TABLE class="table table-bordered table-condensed ">
+    <thead>
+      <tr>
+      <th>Contact</th>
+       <th><center>Diners</center></th>
+        <th><center>Source</center></th>
+       <th><center>Booking time</center></th>
+      <th style="text-align:right">Deposit<br>Amount(£)</th>
+      <th><center>Deposit<br>Code</center></th>
+       <th><center>Deposit<br>Pay Method</center></th>
+       <th><center>Days Since<br>Booking Made</center></th>
+        <th><center>Days To<br>Booking</center></th>
+       <th>Edit</th>
+       
+    </tr>
+  </thead>
+  <tbody>
+  
+    <% @bookings_by_date.each do |date, bookings| %>
+    <tr>
+      <th colspan="8"><%= date.strftime('%A, %d %B %Y')  %></th>
+    </tr>
+    
+    <% bookings.each do |booking| %>
+      <tr>
+
+        <% if !booking.deposit_amount.nil? %>
+           <td class="success">
+            <b><%= booking.name %></b><br>
+             <small><%= booking.phone %> / <%= booking.email %></small></td>
+       
+           <% elsif (Date.today - booking.created_at.to_date).to_i < 7 %>
+            <td class="warning">
+             <b><%= booking.name %></b><br>
+              <small><%= booking.phone %> / <%= booking.email %></small></td>
+         
+         <% else %>
+         <td class="danger">
+           <b><%= booking.name %></b><br>
+           <small><%= booking.phone %> / <%= booking.email %></small></td>
+         <% end %>
+         
+         <td><center><%= booking.source %></center></td> 
+        <td><center><%= booking.number_of_diners %></center></td>
+        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+        <td style="text-align:right"><%= booking.deposit_amount %> </td>
+        <td><center><%= booking.deposit_code %></center> </td>
+        <td><%= booking.deposit_pay_method %> </td>
+        <td><center><%= (Date.today - booking.created_at.to_date).to_i %></center> </td>
+         
+        <% if ((booking.booking_date_time.to_date- Date.today).to_i<8)&& booking.deposit_amount.nil? %>
+           <td class="danger"><center><%= (booking.booking_date_time.to_date- Date.today).to_i %></center> </td>
+           <% else %>
+           <td><center><%= (booking.booking_date_time.to_date- Date.today).to_i %></center> </td>
+           <% end %>
+        <td><center>
+          
+          <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
+            <input id="booking" name="id" type="hidden" value=<%= booking.id %> >
+  
+            <%= button_tag( :class => "btn btn-success btn-sm") do %>
+               <i class="fa fa-pencil-square-o"></i>
+            <% end %>
+           <% end %>
+          </td>
+        <tr> 
+     <% end %>  
+  <% end %>  
+  </table>
+  
+  </div>
+  </div>

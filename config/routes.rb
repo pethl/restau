@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   get '/download_engine_tandc_pdf' => 'static_pages#download_engine_tandc_pdf'
   get '/download_festive_pdf' => 'static_pages#download_festive_pdf'
   get '/basic_report' => 'bookings#basic_report'
+  get '/deposit_report' => 'bookings#deposit_report'
   get '/calendar' => 'bookings#calendar'
   get '/availability' => 'bookings#availability'
   get '/availability_detail' => 'bookings#availability_detail'
