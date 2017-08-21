@@ -1,0 +1,15 @@
+<html>
+  <body>
+    <p>A booking of 8+ has been made, please contact customer to arrange deposit payment.</p>
+    
+    <p>Name: <b><%= @booking.name %></b><br>
+    Telephone: <b><%= @booking.phone %></b><br>
+    Email: <b><%= @booking.email %></b></p>
+    <br>
+    <p>No. of Diners: <b><%= @booking.number_of_diners %></b> people,<br>
+     at: <b><%= @booking.booking_date_time.strftime('%H:%M') %> on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</b></p>
+   
+   
+     <p>Deposit due by: <b><%= (@booking.booking_date_time+7.days).strftime('%A, %d %B %Y') %></b></p>
+   </body>
+</html>
