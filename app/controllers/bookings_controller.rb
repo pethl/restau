@@ -178,12 +178,12 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
+        unless @booking.email =="adminhangfirebbq@gmail.com"
         
         #ONLY SEND EMAIL TO CUSTOMER IF KEY FIELDS CHANGE, NOT FOR NOTES OR DEPOSIT
         if (@booking.previous_changes().key?("phone") || @booking.previous_changes().key?("booking_date_time") || @booking.previous_changes().key?("email")  || @booking.previous_changes().key?("name")  || @booking.previous_changes().key?("number_of_diners") || @booking.previous_changes().key?("child_friendly"))
           #aa = @booking.previous_changes() 
           #Rails.logger.debug("in booking update: #{aa.inspect}")
-          # unless @booking.email =="adminhangfirebbq@gmail.com"
           if (@booking.number_of_diners >7 && @booking.booking_date_time> Date.new(2017,10,31))
               BookingMailer.booking_confirmation_with_deposit_customer(@booking).deliver_now
             else
@@ -195,6 +195,7 @@ class BookingsController < ApplicationController
         #SEND DEPOSIT RECOVERY EMAIL TO STAFF WHEN BOOKING OF 8+ IS MADE
         if @booking.number_of_diners >7 && @booking.booking_date_time> Date.new(2017,10,31) && @booking.deposit_amount.nil?
           BookingMailer.booking_deposit_mgmt(@booking).deliver_now  
+        end
       end
         #Customer.write_contact(@booking)
         format.html { redirect_to @booking }

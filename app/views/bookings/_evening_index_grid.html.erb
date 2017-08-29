@@ -55,7 +55,8 @@
  
   <tbody>
   <tr>
-  <td style=white-space:nowrap;><small><%= link_to booking.name, edit_booking_path(booking.id) %></small>
+  <td style=white-space:nowrap;><small><%= link_to booking.name, mgmt_edit_booking_path(:method => "get", id: booking.id) %></small>
+   
   <% if booking.child_friendly == true %>
     <i class="fa fa-child fa-fw"></i>
     <% else %>
