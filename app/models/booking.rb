@@ -336,9 +336,19 @@ def self.all_search(search)
     if number_of_diners >= 7
       if ([0,3,4,5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.pop
+        hash_of_times.delete(["17:30"])
+        hash_of_times.delete(["18:00"])
+        hash_of_times.delete(["18:30"])
+        hash_of_times.delete(["19:00"])
+        hash_of_times.delete(["20:00"])
       end
       if ([5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.delete(["14:00"])
+        hash_of_times.delete(["17:30"])
+        hash_of_times.delete(["18:00"])
+        hash_of_times.delete(["18:30"])
+        hash_of_times.delete(["19:00"])
+        hash_of_times.delete(["20:00"])
       end   
       #new conditions to rid array of times if current clashing large groups
       if  (([5,6].include? (booking_datetime.to_date.wday))&&(@lunch_total_over_six_count>=2))
