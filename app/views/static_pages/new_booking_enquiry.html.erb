@@ -42,8 +42,9 @@
       <td>Date</td>
       <% start_date_tomorrow = Date.tomorrow.strftime('%d-%m-%Y')%>
        <% last_booking_day = Date.new(2017,10,31).strftime('%d-%m-%Y') %>
+       <% end_date_6_months_away = ((Date.today.end_of_month)+5.months).strftime('%d-%m-%Y')%>
       <td>
-      <input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]"  type="text"  data-date-format=D,dd-M-yyyy data-date-start-date=[<%= start_date_tomorrow %>] data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-dates-disabled=["24-12-2016","25-12-2016"] data-date-end-date=[<%= last_booking_day %>] data-date-autoclose=[true]  data-date-today-highlight=true data-date-orientation="bottom" >   
+      <input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]"  type="text"  data-date-format=D,dd-M-yyyy data-date-start-date=[<%= start_date_tomorrow %>] data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-dates-disabled=["24-12-2017","25-12-2017","26-12-2017","27-12-2017","28-12-2017","29-12-2017","30-12-2017","31-12-2017","01-01-2018","02-01-2018"] data-date-end-date=[<%= end_date_6_months_away %>] data-date-autoclose=[true]  data-date-today-highlight=true data-date-orientation="bottom" >   
        </td>
       <td></td>
       </tr>
