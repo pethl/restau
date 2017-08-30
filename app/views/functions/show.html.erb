@@ -3,49 +3,26 @@
 <%= render 'layouts/sidebar' %>
 </div>
 
-<div class="col-md-10">
+<div class="col-md-6">
+<br><br>
+<h4> Function Room Booking</h4>
 
-<h3> Function Room Enquiry</h3>
-
- 
- 
-  <% if logged_in? %> 
-<p>
-<%= @function.status %>, received:  <%= @function.created_at %>
-</p>
-<table class="table">
-<tr>
-<th><h4><center><%= @function.customer_name %></th>
-<th><h4><center>Phone: <%= @function.phone %></th>
-<th><h4><center>Email: <%= @function.email %></h4></th>
-</tr>
-<tr><td colspan= "3"></td>
-</tr>
-<tr>
-<td>Date: <%= @function.event_date %></td>
-<td>Start: <%= @function.event_start_time %></td>
-<td>Finish: <%= @function.event_end_time %></td>
-</tr>
-<tr><td colspan= "3"></td>
-</tr>
-<tr>
-<td>Estimated Party Size: <%= @function.est_party_size %></td>
-<td>Type: <%= @function.event_type %></td>
-<td>Menu Choice: <%= @function.menu_choice %></td>
-</tr>
-<tr><td colspan= "3"></td>
-</tr>
-<tr>
-<td>Deposit Amount: <%= @function.deposit_amount %></td>
-<td>Paid?: <%= @function.deposit_paid %></td>
-<td>Ts & Cs Signed?: <%= @function.t_and_c_signed %></td>
-</tr>
-<tr><td colspan= "3"></td>
-</tr>
-<tr><td colspan= "3">Comments: <%= @function.message %></td>
-</tr>
+<table class="table table_condensed">
+<tr><td>Name:</td><td><b><%= @function.customer_name %></b></td></tr>
+<tr><td>Phone:</td><td><%= @function.phone %></td></tr>
+<tr><td>Email:</td><td><%= @function.email %></td></tr>
+<tr><td>Date:</td><td><%= @function.event_date.strftime('%a, %d %b %Y') %></td></tr>
+<tr><td>Start time:</td><td><%= @function.event_start_time.strftime('%H:%M')  %></td></tr>
+<tr><td>End time:</td><td><%= @function.event_end_time.strftime('%H:%M')  %></td></tr>
+<tr><td>Party Size:</td><td><%= @function.party_size  %></td></tr>
+<tr><td colspan= "2"></td></tr>
+<tr><td>Deposit Amount:</td><td><%= @function.deposit_amount  %></td></tr>
+<tr><td>Deposit Code:</td><td><%= @function.deposit_paid  %></td></tr>
+<tr><td>Ts & Cs Signed?:</td><td><%= @function.t_and_c_signed  %></td></tr>
+<tr><td>Menu Confirmed?:</td><td><%= @function.menu_choice  %></td></tr>
+<tr><td colspan= "2"></td></tr>
+<tr><td>Notes:</td><td><%= @function.message  %></td></tr>
 </table>
 
-<%= link_to 'Edit this enquiry', edit_function_path(@function), :style => "color:white" %> |
-<%= link_to 'See all function room enquiries', functions_path, :style => "color:white" %>
-<% end %>
+<%= link_to 'Edit this function booking', edit_function_path(@function), :style => "color:white" %> |
+<%= link_to 'See all function bookings', functions_path, :style => "color:white" %>

@@ -21,6 +21,7 @@
      <input id="search" name="search" type="hidden" value=<%= date %> >
      <small><%= submit_tag date.day %></small>
      <% end %>
+    
    <% if @bookings_by_date[date] %>
      
      <% if @date.month != date.month %>
@@ -79,5 +80,8 @@
              <% end %>
       
    <% end %>
+   <% if Function.where(event_date: date).count > 0 %>    
+     <h6><small><font color=#800080><b>Function:<%= Function.where(event_date: date).first.party_size %></font></b></small></h6><% end %>
  <% end %>
+ 
 </div>

@@ -4,17 +4,17 @@
 </div>
 
 <div class="col-md-10">
-
-<h2>Function Room Enquiries</h2>
+<br><br>
+<h4>Function Room Bookings</h4>
 
 <table class="table">
   <thead>
     <tr>
-     
-      <th>Status</th>
       <th>Date</th>
       <th>Name</th>
-      <th>Party Size</th>
+      <th style="text-align:right">Party Size</th>
+      <th style="text-align:right">Deposit Amount</th>
+      <th>Deposit Code</th>
       <th colspan="1"></th>
     </tr>
   </thead>
@@ -22,14 +22,14 @@
   <tbody>
     <% @functions.each do |function| %>
       <tr>
-      
-        <td><%= function.status %></td>
-        <td><%= function.event_date %></td>
+        <td><%= function.event_date.strftime('%a, %d %b %Y')  %></td>
          <td><%= function.customer_name %></td>
-        <td><%= function.est_party_size %></td>
+        <td style="text-align:right"><%= function.party_size %></td>
+        <td style="text-align:right"><%= function.deposit_amount %></td>
+        <td><%= function.deposit_paid %></td>
         <td><%= link_to 'Show', function %> : 
         <%= link_to 'Edit', edit_function_path(function) %> : 
-        <%= link_to 'Destroy', function, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%= link_to 'Delete', function, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
       
     <% end %>
@@ -38,4 +38,4 @@
 
 <br>
 
-<h6><%= link_to 'Create a Function', new_function_path, style: 'color:#FFFFFF;' %></h6>
+<p><%= link_to 'Book a New Function', new_function_path, style: 'color:#FFFFFF;' %></p>

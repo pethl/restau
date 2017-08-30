@@ -27,6 +27,7 @@
 <!-- Instructions: If no bookings handle. -->  
 
   <% if @bookings == 0 %>
+ 
       <br>
     <h5>No bookings for this date</h5>
   <% else %>
@@ -43,6 +44,13 @@
 <!-- Instructions: If day is Fri or Sat. -->  
  
   <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+  
+  <% if Function.where(event_date: @bookings.first.booking_date_time) %>
+  <table class="table-bordered table-condensed">
+  <tr><td><h6><b>!! Function Booking !!</b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
+  </table>
+  <br>
+  <% end %>
 
   <%= render 'bookings/morning_index_grid' %>
   
