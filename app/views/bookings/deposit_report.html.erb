@@ -7,35 +7,35 @@
   <br><br><br>
   <h4><b>Deposit Report</b></h4> 
   
-  <h6>Table shows future bookings of 8 or more where deposit is required.</h6>
+  <h6><small>Table shows future bookings of 8 or more where deposit is required.</small></h6>
   
   
   <TABLE class="table table-bordered table-condensed ">
-    <thead>
-      <tr>
+  <thead>
+    <tr>
+      <th colspan="1"></th>
       <th>Contact</th>
-       <th><center>Diners</center></th>
-        <th><center>Source</center></th>
-       <th><center>Booking time</center></th>
-      <th style="text-align:right">Deposit<br>Amount(£)</th>
+      <th><center>Source</center></th>
+      <th><center>Diners</center></th>
+      <th><center>Booking time</center></th>
+      <th><center>Deposit<br>Amount(£)</center></th>
       <th><center>Deposit<br>Code</center></th>
-       <th><center>Deposit<br>Pay Method</center></th>
-       <th><center>Days Since<br>Booking Made</center></th>
-        <th><center>Days To<br>Booking</center></th>
-       <th>Edit</th>
-       
+      <th><center>Deposit<br>Pay Method</center></th>
+      <th><center>Days Since<br>Booking Made</center></th>
+      <th><center>Days To<br>Booking</center></th>
+      <th>Edit</th>
     </tr>
   </thead>
   <tbody>
   
     <% @bookings_by_date.each do |date, bookings| %>
     <tr>
-      <th colspan="8"><%= date.strftime('%A, %d %B %Y')  %></th>
+      <th colspan="11"><h5><%= date.strftime('%A, %d %B %Y')  %></h5></th>
     </tr>
     
     <% bookings.each do |booking| %>
       <tr>
-
+      <td colspan="1"></td>
         <% if !booking.deposit_amount.nil? %>
            <td class="success">
             <b><%= booking.name %></b><br>
@@ -52,7 +52,8 @@
            <small><%= booking.phone %> / <%= booking.email %></small></td>
          <% end %>
          
-         <td><center><%= booking.source %></center></td> 
+      <td><center><small><%= booking.source == "Management"? ("Mgmt") : (booking.source) %></small></center></td>
+        
         <td><center><%= booking.number_of_diners %></center></td>
         <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
         <td style="text-align:right"><%= booking.deposit_amount %> </td>
