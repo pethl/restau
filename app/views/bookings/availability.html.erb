@@ -20,7 +20,7 @@
   
  <%= calendar @date do |date| %>
    <small><b><%= date.day %></b></small><br>
-    <% last_booking_day = ((Date.today.end_of_month)+6.months) %>
+    <% last_booking_day = ((Date.today.end_of_month)+5.months) %>
     <% xmas_close_start = Date.new(2017,12,24) %>
     <% xmas_close_end = Date.new(2018,1,2) %>
      <% full_1 = Date.new(2016,12,3) %>
