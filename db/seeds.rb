@@ -31,3 +31,4 @@ Error.create(ref: '999999120', msg: 'Bookings of 5 or more in December cannot be
 Error.create(ref: '999999121', msg: 'The latest booking time for Friday and Saturday lunch groups 7+ is 1.30pm, please try booking at an earlier time.', desc: 'Fri/Sat Lunch - Larger groups need to come before 2pm to allow time to feed them.')
 Error.create(ref: '999999122', msg: 'The latest booking time for Sunday lunch groups 7+ is 2.30pm, please try booking at an earlier time.', desc: 'Sun Lunch - Larger groups need to come before 3pm to allow time to feed them.')
 Error.create(ref: '999999123', msg: 'We are currently not taking bookings for this date.', desc: 'When customer tries to book at a date in the future not currently released.')
+Error.create(ref: '999999124', msg: 'We are sorry but from Jan 2018, the largest group we can accommodate is 10.', desc: 'From Jan 2018 no longer taking tables of 12. Temp error should not be needed once we can remove the 12 from the list.')

@@ -2,14 +2,6 @@
 <h6><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h6>
 <br>
 
-<% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
-<table class="table-bordered table-condensed">
-<tr><td><h6><b>!! Function Booking !!</b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
-</table>
-<br>
-<% end %>
-
-
 <TABLE class="table table-bordered table-condensed ">
   <thead>
     <tr>

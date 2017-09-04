@@ -41,7 +41,7 @@
             <b><%= booking.name %></b><br>
              <small><%= booking.phone %> / <%= booking.email %></small></td>
        
-           <% elsif (Date.today - booking.created_at.to_date).to_i < 7 %>
+           <% elsif (Date.today - booking.created_at.to_date).to_i < 14 %>
             <td class="warning">
              <b><%= booking.name %></b><br>
               <small><%= booking.phone %> / <%= booking.email %></small></td>

@@ -10,6 +10,6 @@
      at: <b><%= @booking.booking_date_time.strftime('%H:%M') %> on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</b></p>
    
    
-     <p>Deposit due by: <b><%= (@booking.booking_date_time+7.days).strftime('%A, %d %B %Y') %></b></p>
+     <p>Deposit due by: <b><%= (@booking.booking_date_time+14.days).strftime('%A, %d %B %Y') %></b></p>
    </body>
 </html>

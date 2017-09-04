@@ -35,7 +35,15 @@
 <!-- Instructions: If day is Wed or Thurs. -->  
   
   <% if [3,4].include? @bookings.first.booking_date_time.wday %>
+    
     <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+    
+    <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
+    <table class="table-bordered table-condensed">
+    <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
+    </table>
+    <br>
+    <% end %>
 
     <%= render 'bookings/evening_index_grid' %>
  
@@ -47,7 +55,7 @@
   
   <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
   <table class="table-bordered table-condensed">
-  <tr><td><h6><b>!! Function Booking !!</b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
+  <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
   </table>
   <br>
   <% end %>
@@ -60,9 +68,16 @@
   
 <!-- Instructions: If day is Sun. -->  
  
-  <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
 
+  <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3
   
+  <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
+  <table class="table-bordered table-condensed">
+  <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
+  </table>
+  <br>
+  <% end %>
+  <br>
   <%= render 'bookings/sun_evening_index_grid' %>
 
   <% end %>
