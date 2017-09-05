@@ -136,11 +136,19 @@ namespace :restau do
           customer = Customer.all.count
           confirmed = Booking.where(status: "Confirmed").count
           cancelled = Booking.where(status: "Cancelled").count
+          cashfloats = Cashfloat.count
+          dailybanks = Dailybank.count
+          dailystats = Dailystat.count
+          expenses = Expense.count
           
           puts "Customer: #{customer}"
           puts "Confirmed: #{confirmed}"
           puts "Cancelled: #{cancelled}"
-          puts "Total: #{cancelled+customer+confirmed}"
+          puts "Cashfloats: #{cashfloats}"
+          puts "Dailybanks: #{dailybanks}"
+          puts "Dailystats: #{dailystats}"
+          puts "Expenses: #{expenses}"
+          puts "Total: #{cancelled+customer+confirmed+cashfloats+dailybanks+dailystats+expenses}"
           UserMailer.send_table_stats.deliver_now
               
           puts "_____Table stats have been sent"
