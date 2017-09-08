@@ -68,7 +68,7 @@ class Booking < ActiveRecord::Base
       end
       
       #15) check to ensure no tables of 11+ after Jan 3 
-        if (params[:number_of_diners])>= "11" && (params[:booking_date]).to_date > Date.new(2018,01,01)
+        if (params[:number_of_diners].to_i)>= 11 && (params[:booking_date]).to_date > Date.new(2018,01,01)
          return Error.get_msg("999999124") 
         end 
       
@@ -192,7 +192,7 @@ class Booking < ActiveRecord::Base
       end
       
       #15) check to ensure no tables of 11+ after Jan 3 
-        if (params[:number_of_diners])>= "11" && (params[:booking_date]).to_date > Date.new(2018,01,01)
+        if (params[:number_of_diners].to_i)>= 11 && (params[:booking_date]).to_date > Date.new(2018,01,01)
          return Error.get_msg("999999124") 
         end 
   
