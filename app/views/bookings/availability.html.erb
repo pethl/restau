@@ -21,11 +21,12 @@
  <%= calendar @date do |date| %>
    <small><b><%= date.day %></b></small><br>
     <% last_booking_day = ((Date.today.end_of_month)+5.months) %>
-    <% xmas_close_start = Date.new(2017,12,24) %>
-    <% xmas_close_end = Date.new(2018,1,2) %>
-     <% full_1 = Date.new(2016,12,3) %>
-      <% full_2 = Date.new(2016,12,10) %>
-       <% full_3 = Date.new(2016,12,17) %>
+    <% xmas_close_start = Date.new(2017,12,23) %>
+     <% xmas_close_end = Date.new(2018,1,4) %>
+      <% full_1 = Date.new(2016,12,3) %>
+       <% full_2 = Date.new(2016,12,10) %>
+        <% full_3 = Date.new(2016,12,17) %>
+         <% exemption_days = Exemption.all.pluck(:exempt_day) %>
    
    <% if date < DateTime.now %>
      
@@ -34,12 +35,15 @@
       <% elsif ([1,2].include? date.wday)  %>
                <br><small><font color=#000000>Closed</font></small>
               
-       <% elsif date > last_booking_day  %> 
+      <% elsif date > last_booking_day  %> 
               <small><i>Not yet taking bookings</i></small>
     
           <% elsif (date > xmas_close_start) && (date < xmas_close_end)  %>     
                  <br><small><font color=#000000>Closed</font></small>
          
+                 <% elsif (exemption_days.include? date)  %> 
+                        <br><small><font color=#000000>*Closed</font></small>
+              
               <% elsif (date.month == 12) && ([5,6].include? date.wday) %>
                <% if @bookings_by_date.key?(date) %>
                  <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > 39 %>
