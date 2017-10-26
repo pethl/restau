@@ -1,29 +1,49 @@
- <%= render 'layouts/external_header' %>
+<%= render 'layouts/external_header' %>
 
 <%= render 'static_pages/side_welcome_open_hours'%>
  
 <!-- Instructions: This is holiday season message -->  
  <div class="col-md-7">
- <h3><%= image_tag "holly-icon.png", :class => "holly_big_img" %>
-	 <font color=#9ACD32>'Tis the season to be jolly!</font></h3>
+ <h4><%= image_tag "holly-icon.png", :class => "holly_big_img" %>
+	 <font color=#9ACD32>Happy Holidays!</font></h4>
 	 
- <h5>We are filling up fast for December so please <%= link_to "click here", availability_path, :class => "link", :style => "color:orange" %> to check table availability before attempting to book.
-</h5>
-<br>
+ <h6>We are now taking bookings for the festive season. 
+     <b><%= link_to "CLICK HERE", static_pages_new_booking_enquiry_path, :class => "link", :style => "color:orange" %></b> to book a table or email us on <b>hangfirebarry@gmail.com</b>.</h6> 
+	 
+<h6> <b>Main Restaurant</b>
+<ul>
+ <li>For parties of 8 or more, a non-refundable deposit of £10 per person is required within 14 days to secure your booking.</li>
+ <li>The largest table in the main restaurant is 12 people.</li>
+ <li>Dependant on other bookings, we will usually need your table back after 2 hours.</li>
+</ul></h6>
 
-<!-- Instructions: This will be the list of rules re bookings. -->  
- <h6>Some things to be aware of regards festive season bookings:<br><br>
- <ol>
-	 <p><b>For parties of 7 or more: </b></p>
- 	<li>You will be required to order from our festive menu, see below.</li>
- 	<li>A non-refundable deposit of £10 per person is required to secure your booking.</li>
- 	<li>The full amount is due no later than two weeks before your booking.</li>
- </ol>
- <br>Festive Menu</h6>
- <%= link_to 'Click here to download the festive menu', download_festive_pdf_url, style: 'color:#90EE90;' %>
-   </center></h6>
-	  <%= image_tag "HF_DECEMBER_MENU.jpg", :class => "festive_menu_img" %> <br>
-  
+<h6><b>Private Dining in The Engine Room</b><br>
+ <ul>
+ <li>For parties of between 14-20 we have our Engine Room.</li> 
+ <li>The Engine Room runs a 3 course menu for £25 per head and is available throughout December. </li>
+ <li>For further information please email <b>hangfirebarry@gmail.com</b>.</li>
+</ul></h6> 
+
+<h6><b>Christmas and New year opening times are as follows:</b>
+	<ul>Although we are closed on Christmas Eve through to 4th January,
+	we will be hosting our New Years Eve party.
+	If you are interested in tickets, please email <b>hangfirebarry@gmail.com</b> with <b>New Years Eve</b> as the subject of your email.</ul>
+	<ul>
+<li>23rd Dec - Open</li>
+<li>24th Closed</li>
+<li>25th Closed</li>
+<li>26th Closed</li>
+<li>27th Closed</li>
+<li>28th Closed</li>
+<li>29th Closed</li>
+<li>30th Closed</li>
+<li>31st New Years Eve Party</li> 
+<li>1st Closed</li>
+<li>2nd Closed</li>
+<li>3rd Closed</li>
+<li>4th Jan - Open</li>
+</ul>			
+
   </div>
   </div>
     </div>
