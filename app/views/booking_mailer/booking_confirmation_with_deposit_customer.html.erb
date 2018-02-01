@@ -1,8 +1,16 @@
 <html>
   <body>
     <p>Hi <%= @booking.name %>,</p>
-    <p>This email confirms your reservation at Hang Fire Southern Kitchen, Barry for <b><%= @booking.number_of_diners %> people, at  <%= @booking.booking_date_time.strftime('%H:%M') %> on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</b>
-    <p>As your booking is for <%= @booking.number_of_diners %> people, a deposit of £10 per head is payable in the next 14 days to secure this booking. We will be in contact with you via email to arrange this. The deposit is refundable on cancellation up to 7 days prior to your booking date.</p> 
+    <p>This email confirms your reservation at Hang Fire Southern Kitchen, 
+    Barry for <b><%= @booking.number_of_diners %> people, 
+    at  <%= @booking.booking_date_time.strftime('%H:%M') %> on 
+    <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</b>
+    
+    <p>As your booking is for <%= @booking.number_of_diners %> people, 
+    a deposit of £10 per head is required within 1 week of making your reservation. 
+    We will be in contact with you via email to arrange this. 
+    The deposit is refundable on cancellation up to 7 days prior to your booking date.</p> 
+    
     <p>Please use this link to <b>view or cancel</b> your booking: <%= link_to "view or cancel your booking", booking_url(@booking) %>.<br>
 If you would like to <b>amend</b> your booking, please contact us at hangfirebarry@gmail.com.</p>
     <p><b>Just a few small points for you to be aware of...</b><br>
