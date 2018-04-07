@@ -1,12 +1,14 @@
+<div class="hfsk-booking-background"> 
+
 <%= render 'layouts/external_header' %>
    
-<%= render 'static_pages/side_welcome_open_hours'%>
 
 <!-- Instructions: This is the confirmed booking show section. -->  
-
-  <div class="col-md-5">
-   
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 ">
+  <center>
   <% if (@booking.status == "Confirmed") && (@booking.source == "Online") %>
+  <br><br>
   <table>
   <tr>
   <td style="width: 5%"></td>
@@ -26,11 +28,13 @@
    <br>
    <% if logged_in? %> 
      <h6>MGMT:<br><%= link_to "Go to Calendar", calendar_path %> | 
-     <%= link_to "Go to Daily Bookings", bookings_path %><br><br></h6>
+     <%= link_to "Go to Daily Bookings", bookings_path %>  |  
+     <%= link_to "Go to Home", home_path %> | 
+     <br><br></h6>
      <% end %>
      
-   <h6><i>Made a mistake?</i></h6>
-   <b><%= link_to "Click Here", edit_booking_path(@booking.id)%> to cancel your booking.</b>
+   <h6><i>Made a mistake?</i><br><br>
+   <b><%= link_to "Click Here", edit_booking_path(@booking.id)%> to cancel your booking.</b></h6>
    <br>  <br>
   </td><td style="width: 5%"></td>
   </tr>
@@ -58,8 +62,11 @@
    
     <br>
     <% if logged_in? %> 
-      <h6><%= link_to "Go back to Calendar", calendar_path %></h6>
-      <% end %>
+      <h6>MGMT:<br><%= link_to "Go to Calendar", calendar_path %> | 
+      <%= link_to "Go to Daily Bookings", bookings_path %>  |  
+      <%= link_to "Go to Home", home_path %> | 
+      <br><br></h6>
+     <% end %>
      
     <br>
      <h6><i>Made a mistake?</i></h6>
@@ -76,7 +83,7 @@
 <!-- Instructions: This is the cancelled booking show section. -->  
   
   <% elsif (@booking.status == "Cancelled") && (@booking.source == "Online") %>
-  
+   <div class="col-md-4 col-md-offset-4 ">
   <table class="table">
   <tr>
   <td style="width: 5%"></td>
@@ -88,13 +95,17 @@
        Why not book again?<h4>  <%= link_to "Book a Table", static_pages_new_booking_enquiry_path %></h5</td>
        </h6>
        <% if logged_in? %> 
-      <h6><%= link_to "Go back to Calendar", calendar_path %></h6>
-      <% end %>
+         <h6>MGMT:<br><%= link_to "Go to Calendar", calendar_path %> | 
+         <%= link_to "Go to Daily Bookings", bookings_path %>  |  
+         <%= link_to "Go to Home", home_path %> | 
+         <br><br></h6>
+        <% end %>
   
   </td>
   <td style="width: 5%"></td>
   </tr>
  <table>
+ </div>
  
  <!-- Instructions: This is the unconfirmed/abandonned booking show section. -->  
  
@@ -118,7 +129,8 @@
  <table>
         
  <% end %>
-  
-  </div></div>
+  <center>
+  <br><br><br><br><br><br>
+ </div></div></div>
   
   

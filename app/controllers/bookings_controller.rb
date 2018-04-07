@@ -224,8 +224,8 @@ class BookingsController < ApplicationController
   end
   
   def deposit_report
-    @bookings = Booking.where("booking_date_time > ?", Date.new(2017,10,31)).where(:status => "Confirmed").where("number_of_diners > ?", 7)
-     @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+    @bookings = Booking.where("booking_date_time > ?", Date.today).where(:status => "Confirmed").where("number_of_diners > ?", 7)
+    @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date} 
     #@bookings = @bookings.reverse
   end

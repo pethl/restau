@@ -1,11 +1,10 @@
+<div class="hfsk-booking-background"> 
 <%= render 'layouts/external_header' %>
-   
-<%= render 'static_pages/side_welcome_open_hours'%>
 
    <!-- Instructions: This is the booking collect contact information section. -->  
-
-  <div class="col-md-5">
-   <h3><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h3><br>
+<div class="row">
+ <div class="col-md-6 col-md-offset-3 ">
+   <h5><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h5><br>
 
    <% if @booking.status == "Held" %>
 
@@ -32,7 +31,7 @@
           </div>
       <% end %>
 
- <div>Please enter details to confirm your booking.</div>
+ <div><h6>Please enter details to confirm your booking.</h6></div>
   <div class="input-group margin-bottom-sm">
     <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
     <%= builder.text_field :name, :style => "width: 250px;", :placeholder => "full name please!"  %>
@@ -46,7 +45,7 @@
    <%= builder.text_field :email, :style => "width: 250px; text-color: #ffffff", :placeholder => "email address"  %>
   </div>
   <br>
-  <div>Do you need a child seat?</div>
+  <div><h6>Do you need a high chair?</h6></div>
 
     <div class="input-group margin-bottom-sm">
       <span class="input-group-addon"><i class="fa fa-child fa-fw"></i></span>
@@ -78,6 +77,7 @@
      <!-- Instructions: This is the booking confirmation section. -->  
     
        <% elsif  @booking.status == "Confirmed" %>
+
     
        <table class="table">
        <tr>
@@ -86,26 +86,25 @@
    
        <h5>Hello 
          <%= @booking.name%>,</h5>
-         <h6>You have a booking for  <%= @booking.number_of_diners %> people, at 
-         <%= @booking.booking_date_time.strftime('%H:%M') %><br>
+         <h6>You have a booking for  <%= @booking.number_of_diners %> people,<br> at 
+         <%= @booking.booking_date_time.strftime('%H:%M') %>
          on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.<br>
           
          
        <br><br>
          
-       <h6><i>Made a mistake?</i></h6>
-       To cancel your booking please enter the <br>
+       <h6><i>Made a mistake?</i><br><br>
+       To cancel your booking, please enter the 
        <font color=#9ACD32>phone number</font>
        <b> OR </b>
-        <font color=#9ACD32>email address</font> given at time of booking to validate your identify, then click button:<br><br>
+        <font color=#9ACD32>email address</font> given at time of booking to validate your identify, then click button:<br><br></h6>
         <%= render 'layouts/messages' %>
            <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
            <%= hidden_field_tag(:booking, @booking.id) %>
-           <%= text_field_tag 'validation_text', nil, placeholder: 'phone or email...', class:"form-control input"%>
-           <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
+           <%= text_field_tag 'validation_text', nil, placeholder: 'phone or email...', class:"form-control input-lg"%>
+           <br> <hr>
+           <%= submit_tag "CANCEL MY BOOKING", name: nil, class: "btn btn-warning btn-lg", data: { confirm: "Are you sure you want to cancel this booking?" } %>   
           <% end%>  
-             </div></div></div>
- 
       
       <% elsif  @booking.status == "Cancelled" %>
         
@@ -117,20 +116,21 @@
            <h6>Hello <%= @booking.name%>, <br><br>
            <b>Booking Cancelled:</b><br><br>
            We have sent you an email to confirm your booking was cancelled on <strong><%= @booking.cancelled_at.strftime('%A, %d %B %Y at %H:%M') %></strong>.<br>
-           <br> <br>
+           <br> <br> <br>
            Why not book again?<h4>  <%= link_to "Book a Table", static_pages_new_booking_enquiry_path %></h5</td>
            </h6>
            <% if logged_in? %> 
              <h6><%= link_to "Go back to Bookings", bookings_path %></h6>
              <% end %>
-             </div>
-           </div>
+           
       <% end %>
 
       </td>
       <td style="width: 5%"></td>
       </tr>
      <table>
+     </div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+       </div>
 
 
 
