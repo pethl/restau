@@ -114,6 +114,14 @@ Rails.application.routes.draw do
   get '/hfsk_menu' => 'static_pages#hfsk_menu'
   get '/hfsk_holiday_season' => 'static_pages#hfsk_holiday_season'
   
+  #new pages
+  get '/hfsk_home_new' => 'static_pages#hfsk_home_new'
+  get '/new_booking_enquiry_new' => 'static_pages#new_booking_enquiry_new'
+  get '/hfsk_location_new' => 'static_pages#hfsk_location_new'
+  get '/hfsk_menu_new' => 'static_pages#hfsk_menu_new'
+  get '/hfsk_what_we_do' => 'static_pages#hfsk_what_we_do'
+  get '/hfsk_get_in_touch_new' => 'static_pages#hfsk_get_in_touch_new'
+ 
   get "static_pages/home"
   get "static_pages/help"
   get "static_pages/day_picker"
@@ -132,6 +140,10 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_menu"
   get "static_pages/hfsk_holiday_season"
   get "sessions/new"
+  
+
+  get "static_pages/new_booking_enquiry_new"
+  
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
