@@ -1,32 +1,51 @@
-<%= render 'layouts/external_header' %>
-   
-<%= render 'static_pages/side_welcome_open_hours'%>
-   
-<!-- Instructions: This is the menu section. -->  
-<h6><center>
-All our food is bought fresh, prices may vary to reflect changing market costs.
-</h6>
+<div class="hfsk-menu-background">
 
+<%= render 'layouts/external_header' %>
+<div class="row">
+ <div class="col-md-10 col-md-offset-1  "> 
+
+<br><br>
+<div class="row">
+  <div class="col-md-3">
+  
+  <!-- Instructions: This is the menu section. -->  
+  
+   <h4>DINNER MENU</h4>
+   <h6 style="line-height:28px;">Served Weds / Sat  5pm - 9pm
+   <br>and Sunday  12 - 3pm
+   </h6>
+   <h6><%= link_to '> Click to download PDF', download_evening_pdf_url, style: 'color:#FFD801;' %>
+   </h6>
+   <br>
+   
+   <h4>LUNCH MENU</h4>
+   <h6 style="line-height:28px;">Served Fri / Sat  12pm - 2pm
+   </h6>
+   <h6><%= link_to '> Click to download PDF', download_lunch_pdf_url, style: 'color:#FFD801;' %>
+   </h6>
+    <br>
+    <%= link_to "BOOK A TABLE", static_pages_new_booking_enquiry_new_path, :class => "button_book_table_orange", :style=>'color:#000000;'  %>
+  <br><br>
+   <h6 style="line-height:20px;"><small>Please note: These menus are a guide only. We cook everything fresh daily and source the majority of our 
+produce is from independant suppliers. Therefore availability and price may be subject to change as our menu 
+reflects current market values.</small></h6>
+ </div>
+ 
+<!-- Instructions: This is the menu section. -->  
    <div class="col-md-4">
-   <h5><center><b> Friday & Saturday Lunch Menu</h5>
-     <h6><center> <i class="fa fa-file-pdf-o"></i>
-      <%= link_to 'Download lunch menu', download_lunch_pdf_url, style: 'color:#90EE90;' %>
-        </center></h6>
       <%= image_tag "HF_LUNCH_SAMPLE_0118a.jpg", :class => "menu_img" %><br>
        <%= image_tag "HF_LUNCH_SAMPLE_0118b.jpg", :class => "menu_img" %><br>
         <%= image_tag "HF_LUNCH_SAMPLE_0118c.jpg", :class => "menu_img" %><br>
      </div>
 
      <div class="col-md-4">
-      <h5><center><b> Sunday Lunch & Dinner Menu</h5>
-      <h6><center> <i class="fa fa-file-pdf-o"></i>
-       <%= link_to 'Download dinner menu', download_evening_pdf_url, style: 'color:#90EE90;' %>
-         </center></h6>
         <%= image_tag "HF_SAMPLE_MENU_EVENING_0118a.jpg", :class => "menu_img" %> <br>
          <%= image_tag "HF_SAMPLE_MENU_EVENING_0118b.jpg", :class => "menu_img" %> <br>     
          <%= image_tag "HF_SAMPLE_MENU_EVENING_0118c.jpg", :class => "menu_img" %> <br>
           <%= image_tag "HF_SAMPLE_MENU_EVENING_0118d.jpg", :class => "menu_img" %> <br>     
           <%= image_tag "HF_SAMPLE_MENU_EVENING_0118e.jpg", :class => "menu_img" %> <br>
+       </div>
+       </div>
        </div>
 
 

@@ -1,5 +1,6 @@
 
 <table class="table">
+    <%= render 'layouts/messages' %>
 <tr><td>
     <%= form_for(@message, url: messages_create_url) do |f| %>
     
@@ -8,7 +9,7 @@
       <h6>You have <%= pluralize(@message.errors.count, "error") %>:</h6>
       <ul>
       <% @message.errors.full_messages.each do |msg| %>
-        <li><p><%= msg %></p></li>
+        <li><p><h6><%= msg %></p></li>
       <% end %>
       </ul>
     </div>
@@ -16,15 +17,17 @@
   
   <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
  
-  <tr><td style="width: 5%"></td><td style="width: 25%"></td><td style="width: 65%"></td><td style="width: 5%"></td></tr>
- <tr><td></td><td>Name</td><td><%= f.text_field :name, :style => "width: 220px;", :placeholder => " full name"  %></td><td></td></tr>
- <tr><td></td><td>Phone</td><td><%= f.text_field :phone, :style => "width: 220px;", :placeholder => " (optional, but it really helps)"  %></td><td></td></tr>
- <tr><td></td><td>Email</td><td> <%= f.text_field :email, :style => "width: 220px;", :placeholder => " please enter your correct email"  %></td><td></td></tr>
- <tr><td></td><td>Subject</td><td><%= f.select :subject, options_for_select([["select subject", ""], "Amend My Booking", "Accessibility Query", "Dietary Query", "Press Query", "General Question"]), {}, class:"form-control input-sm" %></td><td></td></tr>
- <tr><td></td><td>Message</td><td><%= f.text_field :message, :style => "width: 220px; height: 40px"  %></td><td></td></tr>
+  <tr><td style="width: 3%"></td><td style="width: 34%"></td><td style="width: 60%"></td><td style="width: 3%"></td></tr>
+ <tr><td></td><td><h6>*Name</td><td><%= f.text_field :name, :style => "width: 220px;", :placeholder => " full name"  %></td><td></td></tr>
+ <tr><td></td><td><h6> Phone</td><td><%= f.text_field :phone, :style => "width: 220px;", :placeholder => " (optional, but it really helps!)"  %></td><td></td></tr>
+ <tr><td></td><td><h6>*Email</td><td> <%= f.text_field :email, :style => "width: 220px;", :placeholder => " your email address"  %></td><td></td></tr>
+ <tr><td></td><td><h6>*Email Confirmation</td><td> <%= f.text_field :email_confirmation, :style => "width: 220px;", :placeholder => " re-enter your email address"  %></td><td></td></tr>
+ <tr><td></td><td><h6>*Subject</td><td><%= f.select :subject, options_for_select([["select subject", ""], "Table booking enquiry", "Private Dining Room enquiry", "Dietary/Menu enquiry", "Contact Restaurant"]), {}, class:"form-control input-sm" %></td><td></td></tr>
+ <tr><td></td><td><h6>*Message</td><td> <font color=#000000><%= f.text_area :message, :style => "width: 220px; height: 80px"  %></font></td><td></td></tr>
+
  <tr><td></td><td></td><td>
      <div class="actions">
-      <%= f.submit "Send Message", class: "btn btn-success btn-sm" %>
+      <%= f.submit "SEND", class: "btn button_book_table_blue btn-sm" %>
      </div>
   <% end %>
   </td><td></td></tr>

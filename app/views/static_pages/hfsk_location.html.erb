@@ -1,40 +1,54 @@
+<div class="hfsk-location-background">
+
 <%= render 'layouts/external_header' %>
+<div class="row">
+ <div class="col-md-10 col-md-offset-1  "> 
 
-<%= render 'static_pages/side_welcome_open_hours'%>
+<div class="row">
+  <div class="col-md-4">
+  
+   <h5>OPENING HOURS</h5>
+   <br>
 
+   <!-- Instructions: This is the opening hours section. -->  
+
+   <h5>Weds / Thurs - 5pm -11pm
+   <br>[last food orders 9pm]
+   </h5>
+   <br>
+   <h5>Fri / Sat Lunch - 12pm -3pm
+   <br>[last food orders 2pm]
+   </h5>
+    <br>
+   <h5>Fri / Sat Dinner - 5pm -11pm
+   <br>[last food orders 9pm]
+   </h5>
+    <br>
+   <h5>Sun Lunch - 12pm - 5pm
+   <br>[last food orders 3pm]
+   </h5> 
+   <br>
+   <h5>Mon / Tues - Closed
+   </h5>
+    <br>
+    <%= link_to "BOOK A TABLE", static_pages_new_booking_enquiry_path, :class => "btn button_book_table_orange", :style=>'color:#000000;'  %>
+     
+ </div>
  
 <!-- Instructions: This is the location section. -->  
 
-  <div class="col-md-5">
-  <h6>The Pumphouse, Hood Road, Barry, CF62 5BE.</h6>
-  <p>10 minute walk from main Barry train station. 
-  <br>Limited free parking is available on-site.
+  <div class="col-md-8">
+  <h6>HANG FIRE SOUTHERN KITCHEN</h6>
+  <h6>The Pumphouse, Hood Road, Barry, CF62 5BE</h6>
   <br>
-  <b><%= link_to "* * Book a Table * *", static_pages_new_booking_enquiry_path, :class => "link", :style => "color:orange" %>
-</b></p>
-  <style>
-        #map {
-          width: 388px;
-          height: 220px;
-        }
-      </style>
-      <script>
-            function initialize() {
-              var mapCanvas = document.getElementById('map');
-              var mapOptions = {
-                center: new google.maps.LatLng(51.399660, -3.278211),
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-              }
-              var map = new google.maps.Map(mapCanvas, mapOptions)
-            }
-   
-            google.maps.event.addDomListener(window, 'page:load', initialize);
-          </script>
-  <div id="map"></div>
+       <%= image_tag "HF_DIRECTIONS_MAP.png", :class => "map_img" %> <br> 
+ 
   <br>
-  <%= image_tag "pumphouse.jpg", :class => "photo_img3" %>
-  </div>
+  <h6><small>We're situated in a lovingly restored, Grade II 1883, Pumphouse in the historic heart of 
+  <br>Barry Docks with on site parking and just 10 minute walk from Barry's main train station.</small>
+ </h6><br><br><br><br><br>
+ 
+  </div> </div> </div>
 
    
  
