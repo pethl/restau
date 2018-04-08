@@ -441,19 +441,19 @@ class DailybanksController < ApplicationController
         pdf.text month, size: 12, style: :bold 
         
         table_data = Array.new
-        table_data << ["Date","Cash", "Cards", "Expenses", "Wet", "Dry", "Merch", "D & V\nAdjustment"]
+        table_data << ["Date","Cash", "Cards", "Expenses", "Var", "Dry", "Wet", "Merch", "D & V\nAdjustment"]
         dailybanks.each do |dailybank|
           if ["Locked", "Mgmt Review", "Mgmt re-calc"].include? dailybank.status
             #reject record is status doesn't suggest values will be completed as would cause error
-            table_data << [dailybank.effective_date.strftime('%d %b'), "£#{(sprintf "%.2f", dailybank.banking.to_s)}", "£#{(sprintf "%.2f", dailybank.card_payments.to_s)}", "£#{(sprintf "%.2f", dailybank.expenses_total.to_s)}", "£#{(sprintf "%.2f", dailybank.wet_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.dry_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.merch_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.v_d_adjustments.to_s)}"]
+            table_data << [dailybank.effective_date.strftime('%d %b'), "£#{(sprintf "%.2f", dailybank.banking.to_s)}", "£#{(sprintf "%.2f", dailybank.card_payments.to_s)}", "£#{(sprintf "%.2f", dailybank.expenses_total.to_s)}", "£#{(sprintf "%.2f", dailybank.calculated_variance.to_s)}", "£#{(sprintf "%.2f", dailybank.dry_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.wet_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.merch_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.v_d_adjustments.to_s)}"]
            else
           end
         end
-        table_data <<["Totals:", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
-        table_data <<["","Cash", "Cards", "Expenses", "Wet", "Dry", "Merch", "D & V\nAdjustment"]
+        table_data <<["Totals:", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:calculated_variance] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
+        table_data <<["","Cash", "Cards", "Expenses", "Var", "Dry", "Wet", "Merch", "D & V\nAdjustment"]
         
         pdf.table(table_data) do 
-          self.width = 460 
+          self.width = 480 
           self.cell_style = { :inline_format => true, size: 8 } 
           self.row_colors = ["DDDDDD", "FFFFFF"]
           self.header = true
@@ -461,8 +461,8 @@ class DailybanksController < ApplicationController
           row(0).font_style = :bold
           columns(0).width = 40
         #  columns(0).font_style = :bold
-          columns(1..7).width = 60
-          columns(1..7).align = :right
+          columns(1..8).width = 55
+          columns(1..8).align = :right
           row(-1).font_style = :bold
           row(-2).font_style = :bold
          end
