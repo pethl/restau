@@ -185,18 +185,26 @@ class BookingsController < ApplicationController
           #aa = @booking.previous_changes() 
           #Rails.logger.debug("in booking update: #{aa.inspect}")
           if (@booking.number_of_diners >7 && @booking.booking_date_time> Date.new(2017,10,31))
-              BookingMailer.booking_confirmation_with_deposit_customer(@booking).deliver_now
-            else
+            BookingMailer.booking_confirmation_with_deposit_customer(@booking).deliver_now
+                #new change for Binki to set sent flag
+                unless @booking.deposit_email_sent =="Sent"
+                    @booking.update(deposit_email_sent: "Sent")
+                end
+          else
               BookingMailer.booking_confirmation_customer(@booking).deliver_now
               # BookingMailer.booking_confirmation_mgmt(@booking).deliver_now
           end
         end
+        end
         
         #SEND DEPOSIT RECOVERY EMAIL TO STAFF WHEN BOOKING OF 8+ IS MADE
+    #Change added for Binki - stop deposit emails to staff after inital
+     unless @booking.deposit_email_sent =="Sent"
         if @booking.number_of_diners >7 && @booking.booking_date_time> Date.new(2017,10,31) && @booking.deposit_amount.nil?
           BookingMailer.booking_deposit_mgmt(@booking).deliver_now  
         end
-      end
+     end
+     
         #Customer.write_contact(@booking)
         format.html { redirect_to @booking }
         format.json { render :show, status: :ok, location: @booking }
@@ -402,7 +410,7 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, :notes, :deposit_amount, :deposit_code, :deposit_pay_method, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
+      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, :notes, :deposit_amount, :deposit_code, :deposit_pay_method, :deposit_email_sent, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
     end
     
     # Confirms a logged-in user.

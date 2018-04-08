@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817142231) do
+ActiveRecord::Schema.define(version: 20180408114139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20170817142231) do
     t.decimal  "deposit_amount",     precision: 7, scale: 2
     t.string   "deposit_code"
     t.string   "deposit_pay_method"
+    t.string   "deposit_email_sent"
   end
 
   create_table "cashfloats", force: :cascade do |t|
