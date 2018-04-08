@@ -4,8 +4,8 @@
   background-image: image-url('HF_Home_BKND.png');
  	  background-color: #000000;
       background-repeat: repeat;
-      background-position: left top;
-      background-size: 100% auto;
+      background-position:center;
+      background-size:contain;
       margin-right: 0px;
 }
 .hfsk-booking-background {
@@ -14,7 +14,7 @@
   background-image: image-url('HF_Book_BKND.png');
  	  background-color: #000000;
       background-repeat: repeat;
-      background-position: left top;
+      background-position: center;
       background-size: 100% auto;
       margin-right: 0px;
 }
@@ -24,7 +24,7 @@
   background-image: image-url('HF_DIRECTIONS_BKND.png');
  	  background-color: #000000;
       background-repeat: repeat;
-      background-position: left top;
+      background-position: center;
       background-size: 100% auto;
       margin-right: 0px;
 }
@@ -34,7 +34,7 @@
   background-image: image-url('HF_Menu_BKND.png');
  	  background-color: #000000;
       background-repeat: repeat;
-      background-position: left top;
+      background-position: center;
       background-size: 100% auto;
       margin-right: 0px;
 }
@@ -44,7 +44,7 @@
   background-image: image-url('HF_CONTACT_BKND.png');
  	  background-color: #000000;
       background-repeat: repeat;
-      background-position: left top;
+      background-position: center;
       background-size: 100% auto;
       margin-right: 0px;
 }
@@ -55,7 +55,7 @@
   background-image: image-url('HF_What-we-do_BKND.png');
  	  background-color: #000000;
       background-repeat: repeat;
-      background-position: left top;
+      background-position: center;
       background-size: 100% auto;
       margin-right: 0px;
 }
@@ -94,6 +94,8 @@
 .navbar-custom {
     color: #FFFFFF;
     background-color: #0;
+	background:transparent;
+	border-width: 0px;
 }
 .button_book_table_white {
     background-color: #FFFFFF;
@@ -184,6 +186,11 @@ a href {
   max-width: 98%;
   max-height: 20em;
   width: auto !important;
+  border:4px solid #0;
+}
+.photo_what_we_do {
+  max-width: 100%;
+  max-height: auto;
   border:4px solid #0;
 }
 .photo_main_logo {
