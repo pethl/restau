@@ -229,7 +229,7 @@ class Booking < ActiveRecord::Base
     @existing_diners_number = @existing_bookings.pluck(:number_of_diners)
       
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
-    @max_diners_at_same_start_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
+    @max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
       
       # TOTAL DINERS COUNT FOR CURRENT TIME
       @diners_at_same_start_time = 0
