@@ -229,7 +229,7 @@ class Booking < ActiveRecord::Base
     @existing_diners_number = @existing_bookings.pluck(:number_of_diners)
       
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
-      @max_diners_at_same_start_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
+    @max_diners_at_same_start_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
       
       # TOTAL DINERS COUNT FOR CURRENT TIME
       @diners_at_same_start_time = 0
@@ -240,7 +240,7 @@ class Booking < ActiveRecord::Base
             end
      # Rails.logger.debug("BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
       
-    if ((@diners_at_same_start_time+@diners) < (@max_diners_at_same_start_time+1))
+    if ((@diners_at_same_start_time+@diners) < (@max_diners_at_current_time+1))
    
     case @diners
     when 9,10,11,12
@@ -311,7 +311,7 @@ def self.all_search(search)
   # THIS FUNCTION FINDS AVAILABLE SPACES PER DAY FOR THE SPECIFIED NUMBER OF DINERS ELSE RETURNS ERROR
   def self.get_available_space(booking_datetime, number_of_diners)
     @existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", booking_datetime.beginning_of_day, booking_datetime.end_of_day).where(:status => "Confirmed")
-    @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
+    @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time")    
     @lunch_existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", booking_datetime.beginning_of_day, booking_datetime.change({ hour: 16, min: 55 })).where(:status => "Confirmed")
     @eve_existing_bookings = Booking.where("booking_date_time BETWEEN ? AND ?", booking_datetime.change({ hour: 17, min: 00 }), booking_datetime.end_of_day).where(:status => "Confirmed")
     
