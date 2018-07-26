@@ -159,7 +159,6 @@ namespace :restau do
         task :daily_generate_stats_delete_past_bookings => :environment do
           puts "\n"
            puts "----------------------DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:START-------------------------"
-     
            puts "_____Daily job (part A) to generate simple stats from a given day's bookings."
            
            @date = get_action_date_for_stats_and_purge
@@ -176,18 +175,48 @@ namespace :restau do
            puts "_____Avg Days Prior to Booking: #{number_with_precision(avg_days_between_booking_made_and_taken(@day_confirmed), :precision => 1)} days"
           end
          write_stats
-         puts "_____Daily job (part A) table stats have been generated"
-    
+           puts "_____Daily job (part A) table stats have been generated"
            puts "_____"
            puts "_____Daily job (part B) to delete the records for the action date."
            puts "_____Records to be deleted: #{(@day_confirmed.count)+(@day_cancelled.count)}"
           Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).destroy_all
            puts "_____Daily job (part B) complete - records deleted."
-           
-           
            puts "----------------------DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:END-------------------------"
            puts "\n"
          end   
       
+         task purge_blank_stats: :environment do
+           puts "\n"
+            puts "----------------------PURGE_BLANK_STATS:START-------------------------"
+            log = ActiveSupport::Logger.new('log/purge_blank_stats.log')
+                start_time = Time.now
+                log.info "-----------Started at #{start_time}---------------------"
+     
+            puts "Purge blank stats records."
+            dailystats_count = Dailystat.all.count
+            blank_dailystats_count = Dailystat.where(diners_fed: [nil]).count
+            puts "Total stats records - count: #{dailystats_count}" 
+            puts "Blank records to be purged - count: #{blank_dailystats_count}" 
+                log.info "Blank records to be purged = #{blank_dailystats_count}"
+         
+            Dailystat.where(diners_fed: [nil]).destroy_all
+            after_dailystats_count = Dailystat.all.count
+            result = dailystats_count-after_dailystats_count
+            check_count= result - blank_dailystats_count
+            puts "Check count - should be zero: #{check_count}" 
+                log.info "Check count = #{check_count}"
+            puts "Blank stats records have been purged"
+     
+            end_time = Time.now
+                duration = (start_time - end_time) / 1.minute
+                log.info "Task lasted #{duration} minutes."
+                log.info "-----------Finished at #{end_time}---------------------"
+                log.info "\n"  
+                log.close
+              puts "Task Duration: #{duration
+              }" 
+             puts "----------------------PURGE_BLANK_STATS:END-------------------------"
+            puts "\n"
+          end
 
 end

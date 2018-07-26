@@ -128,9 +128,7 @@ task :purge_held_bookings => :environment do
    task :write_stats_and_purge => :environment do
      puts "\n"
       puts "----------------------DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:START-------------------------"
-
       puts "_____Daily job (part A) to generate simple stats from a given day's bookings."
-      
       @date = get_action_date_for_stats_and_purge
       puts "_____Date: #{@date}"
       
@@ -145,16 +143,32 @@ task :purge_held_bookings => :environment do
       puts "_____Avg Days Prior to Booking: #{number_with_precision(avg_days_between_booking_made_and_taken(@day_confirmed), :precision => 1)} days"
      end
     write_stats
-    puts "_____Daily job (part A) table stats have been generated"
-
+      puts "_____Daily job (part A) table stats have been generated"
       puts "_____"
       puts "_____Daily job (part B) to delete the records for the action date."
       puts "_____Records to be deleted: #{(@day_confirmed.count)+(@day_cancelled.count)}"
      Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).destroy_all
-      puts "_____Daily job (part B) complete - records deleted."
-      
-      
+      puts "_____Daily job (part B) complete -  #{(@day_confirmed.count)+(@day_cancelled.count)} records deleted."
       puts "----------------------DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:END-------------------------"
       puts "\n"
    end
+   
+   task purge_blank_stats: :environment do
+     puts "\n"
+      puts "----------------------PURGE_BLANK_STATS:START-------------------------"
+      puts "Purge blank stats records."
+      dailystats_count = Dailystat.all.count
+      blank_dailystats_count = Dailystat.where(diners_fed: [nil]).count
+      puts "Total stats records - count: #{dailystats_count}" 
+      puts "Blank records to be purged - count: #{blank_dailystats_count}" 
+     
+      Dailystat.where(diners_fed: [nil]).destroy_all
+      after_dailystats_count = Dailystat.all.count
+      result = dailystats_count-after_dailystats_count
+      check_count= result - blank_dailystats_count
+      puts "Check count - should be zero: #{check_count}" 
+      puts "Blank stats records have been purged"
+      puts "----------------------PURGE_BLANK_STATS:END-------------------------"
+      puts "\n"
+    end
  
