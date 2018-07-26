@@ -53,9 +53,12 @@
  
   <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
   
-  <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
+ <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
   <table class="table-bordered table-condensed">
-  <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
+  <% functions = Function.where(event_date: @bookings.first.booking_date_time) %> 
+   <% functions.each do |function|%>
+    <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= function.customer_name %></td><td><h6><%= function.when_is_event %></td><td>Size: <%= function.party_size %><td><%= link_to "See Details >>", function_path(function) %></td></tr>
+   <% end %>
   </table>
   <br>
   <% end %>
