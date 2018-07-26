@@ -32,7 +32,7 @@ class BookingMailer < ActionMailer::Base
   def booking_cancellation_mgmt(booking)
     @booking = Booking.find(booking)
      if @booking
-      mail(to: 'hangfirebarry@gmail.com', subject: "Hang Fire Booking Cancellation for: #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: 'hangfirebarry@gmail.com', subject: "HFSK Cancellation: Party of #{@booking.number_of_diners}, for #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
   
