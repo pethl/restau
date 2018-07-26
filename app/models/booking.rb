@@ -229,7 +229,20 @@ class Booking < ActiveRecord::Base
     @existing_diners_number = @existing_bookings.pluck(:number_of_diners)
       
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
-    @max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
+ #   @max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
+
+    if ([3,4].include? (@booking[:booking_date_time].to_date.wday))
+      if @booking[:booking_date_time].hour== 17
+      @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners") 
+      Rails.logger.debug("237_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+      Rails.logger.debug("238_BOOKING_L : #{@booking[:booking_date_time]}")
+    else
+      @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
+      Rails.logger.debug("241_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+      Rails.logger.debug("242_BOOKING_L : #{@booking[:booking_date_time]}")
+    end
+    end
+    
       
       # TOTAL DINERS COUNT FOR CURRENT TIME
       @diners_at_same_start_time = 0
@@ -238,9 +251,12 @@ class Booking < ActiveRecord::Base
       @diners_at_same_start_time = @bookings_at_same_start_time.to_a.sum do |booking_at_same_start_time|
               booking_at_same_start_time.number_of_diners
             end
-     # Rails.logger.debug("BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
       
     if ((@diners_at_same_start_time+@diners) < (@max_diners_at_current_time+1))
+  
+       Rails.logger.debug("244_BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
+       Rails.logger.debug("244_BOOKING_LOGING_MAX_diners_at_same_start_time : #{@max_diners_at_current_time}")
+  
    
     case @diners
     when 9,10,11,12
@@ -407,6 +423,20 @@ def self.all_search(search)
       else
         hash_of_times.each do |time|
           booking = @existing_bookings.first.booking_date_time.change({ hour: time[0][0,2], min: time[0][3,5] })
+       
+          #test code for adding more diners at 5. - 6 wed and thurs
+          if ([3,4].include? (booking_datetime.to_date.wday))
+            if [["17:00"],["17:30"]].include? (time)
+            @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners") 
+           # Rails.logger.debug("418_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+          #  Rails.logger.debug("420_BOOKING_L : #{time.inspect}")
+          else
+            @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
+           # Rails.logger.debug("423_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+          #  Rails.logger.debug("424_BOOKING_L : #{time.inspect}")
+          end
+          end
+         
           if (@max_diners_at_current_time- get_total_diners_for_current_time(booking)) <= 0
             hash_to_delete <<time 
           elsif (@max_diners_at_current_time- get_total_diners_for_current_time(booking)) < number_of_diners
