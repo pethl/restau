@@ -5,7 +5,7 @@ class ExemptionsController < ApplicationController
   # GET /exemptions
   # GET /exemptions.json
   def index
-    @exemptions = Exemption.all
+    @exemptions = Exemption.where("exempt_day > ?", Date.today)
   end
 
   # GET /exemptions/1
