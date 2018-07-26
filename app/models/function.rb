@@ -13,7 +13,7 @@ class Function < ActiveRecord::Base
   MENU_TYPES = ["NO", "YES"]
   STATUS_TYPES = ["Customer Enquiry", "Enquiry in discussion", "Confirmed"]
   EVENT_TYPES = ["Social Party", "Business Event", "Formal Dinner", "Cocktail Party", "Drinks Reception"]
-   WHEN_TYPES = ["Lunch", "Afternoon", "Evening"]
+   WHEN_TYPES = ["Lunch", "Afternoon", "Evening", "Not yet known"]
   
    default_scope { order('event_date ASC') }
 end
