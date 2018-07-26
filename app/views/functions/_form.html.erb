@@ -15,11 +15,12 @@
     <%= f.text_field :customer_name %>
     <%= f.phone_field :phone %>
     <%= f.email_field :email %>
+    <%= f.select(:when_is_event, Function::WHEN_TYPES, :label => "When is event?", :include_blank => true) %>
     <%= f.date_select :event_date %>
     <%= f.select :party_size, options_for_select(10..40, f.object.party_size ), :label => "Party size" %>
     <%= f.text_area :message, :label => "Notes" %>
-    <%= f.time_select :event_start_time, :label => "Start time", :minute_step => 30, start_hour: 18, end_hour: 23, prompt: {hour: 'hour', minute: 'min'} %>
-    <%= f.time_select :event_end_time,:minute_step => 30, start_hour: 18, end_hour: 23, prompt: {hour: 'hour', minute: 'min'} %>
+    <%= f.time_select :event_start_time, :label => "Start time", :minute_step => 30, start_hour: 12, end_hour: 23, prompt: {hour: 'hour', minute: 'min'} %>
+    <%= f.time_select :event_end_time,:minute_step => 30, start_hour: 12, end_hour: 23, prompt: {hour: 'hour', minute: 'min'} %>
     <%= f.number_field :deposit_amount, placeholder: "£" %>
     <%= f.text_field :deposit_paid, :label => "Deposit Code"%>
     <%= f.select(:t_and_c_signed, Function::TANDC_TYPES, :label => "Ts & Cs signed?") %>

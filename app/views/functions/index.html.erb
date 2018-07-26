@@ -6,11 +6,15 @@
 <div class="col-md-10">
 <br><br>
 <h4>Function Room Bookings</h4>
-
+<div class="col-md-4">
+<button type="button" class="btn btn-warning btn-sm"><%= link_to "Book a New Function", new_function_path %></button>
+</div>
+<br><br>
 <table class="table">
   <thead>
     <tr>
       <th>Date</th>
+      <th>When</th>
       <th>Name</th>
       <th style="text-align:right">Party Size</th>
       <th style="text-align:right">Deposit Amount</th>
@@ -23,7 +27,8 @@
     <% @functions.each do |function| %>
       <tr>
         <td><%= function.event_date.strftime('%a, %d %b %Y')  %></td>
-         <td><%= function.customer_name %></td>
+        <td><%= function.when_is_event  %></td>
+        <td><%= function.customer_name %></td>
         <td style="text-align:right"><%= function.party_size %></td>
         <td style="text-align:right"><%= function.deposit_amount %></td>
         <td><%= function.deposit_paid %></td>
@@ -35,7 +40,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<p><%= link_to 'Book a New Function', new_function_path, style: 'color:#FFFFFF;' %></p>

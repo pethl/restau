@@ -71,6 +71,6 @@ class FunctionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def function_params
-      params.require(:function).permit(:status, :event_date, :est_party_size, :party_size, :customer_name, :phone, :email, :message, :event_type, :est_time, :event_start_time, :event_end_time, :deposit_amount, :deposit_paid, :t_and_c_signed, :menu_choice)
+      params.require(:function).permit(:status, :event_date, :when_is_event, :est_party_size, :party_size, :customer_name, :phone, :email, :message, :event_type, :est_time, :event_start_time, :event_end_time, :deposit_amount, :deposit_paid, :t_and_c_signed, :menu_choice)
     end
 end

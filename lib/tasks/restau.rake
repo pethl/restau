@@ -205,7 +205,7 @@ namespace :restau do
             check_count= result - blank_dailystats_count
             puts "Check count - should be zero: #{check_count}" 
                 log.info "Check count = #{check_count}"
-            puts "Blank stats records have been purged"
+            puts "#{result} blank stats records have been purged"
      
             end_time = Time.now
                 duration = (start_time - end_time) / 1.minute

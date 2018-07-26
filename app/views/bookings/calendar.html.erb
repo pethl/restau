@@ -80,8 +80,14 @@
              <% end %>
       
    <% end %>
-   <% if Function.where(event_date: date).count > 0 %>    
-     <h6><small><font color=#800080><b>Function:<%= Function.where(event_date: date).first.party_size %></font></b></small></h6><% end %>
+   <% if Function.where(event_date: date).count > 0 %>  
+     <% functions = Function.where(event_date: date) %> 
+       <h6><small><font color=#800080><b>Functions:</b><br>
+     <% functions.each do |function|%>
+    <%= function.when_is_event %> (<%= function.party_size %>)<br>
+    <% end %>
+     </font></small></h6>
+ <% end %>
  <% end %>
  
 </div>
