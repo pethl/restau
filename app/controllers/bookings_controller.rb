@@ -238,6 +238,13 @@ class BookingsController < ApplicationController
     #@bookings = @bookings.reverse
   end
   
+  def confirmation_report
+    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.at_beginning_of_week, Date.today.at_end_of_week).where(:status => "Confirmed").where("number_of_diners > ?", 4)
+    @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+    @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date} 
+    #@bookings = @bookings.reverse
+  end
+  
   def calendar
   #  @dailystatslatest = Dailystat.last.action_date NOT YET IMPLEMENTED NEEDS WORK
     @date = params[:date] ? Date.parse(params[:date]) : Date.today

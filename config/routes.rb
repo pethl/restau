@@ -90,6 +90,7 @@ Rails.application.routes.draw do
   get '/download_festive_pdf' => 'static_pages#download_festive_pdf'
   get '/basic_report' => 'bookings#basic_report'
   get '/deposit_report' => 'bookings#deposit_report'
+  get '/confirmation_report' => 'bookings#confirmation_report'
   get '/calendar' => 'bookings#calendar'
   get '/availability' => 'bookings#availability'
   get '/availability_detail' => 'bookings#availability_detail'
@@ -140,7 +141,6 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_menu"
   get "static_pages/hfsk_holiday_season"
   get "sessions/new"
-  
 
   get "static_pages/new_booking_enquiry_new"
   

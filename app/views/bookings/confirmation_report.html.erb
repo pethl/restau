@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
+
+  <div class="col-md-9">
+  <br><br><br>
+  <h4><b>Confirmation Report</b></h4> 
+  
+  <h6><small>Table shows bookings for this week, 5 or more diners.</small></h6>
+  
+  <TABLE class="table table-bordered table-condensed ">
+  <thead>
+    <tr>
+      <th colspan="1"></th>
+      <th>Contact</th>
+      <th>Details</th>
+      <th><center>Email Sent</th>
+      <th><center>Response Received</th>
+      <th><center>Source</center></th>
+      <th><center>Diners</center></th>
+      <th><center>Booking time</center></th>
+      <th><center>Deposit<br>Amount(£)</center></th>
+      <th><center>Days To<br>Booking</center></th>
+      <th><center>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <% @bookings_by_date.each do |date, bookings| %>
+    <tr>
+      <th colspan="11" bgcolor="#383838"><h5><%= date.strftime('%A, %d %B %Y')  %></h5></th>
+    </tr>
+    
+    <% bookings.each do |booking| %>
+      <tr>
+      <td colspan="1"></td>
+      
+       <td><b><%= booking.name %></b><br></td>
+       <td><small><%= booking.phone %> <br> <%= booking.email %></small></td>
+       <td><center>oo</td>
+       <td><center>oo</td>
+       <td><center><small><%= booking.source == "Management"? ("Mgmt") : (booking.source) %></small></center></td>
+       <td><center><%= booking.number_of_diners %></center></td>
+        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+        <td><center><small><%= booking.deposit_amount %><br><%= booking.deposit_pay_method %></small></td>
+         
+        <% if ((booking.booking_date_time.to_date- Date.today).to_i<8)&& booking.deposit_amount.nil? %>
+           <td class="danger"><center><%= (booking.booking_date_time.to_date- Date.today).to_i %></center> </td>
+           <% else %>
+           <td><center><%= (booking.booking_date_time.to_date- Date.today).to_i %></center> </td>
+           <% end %>
+        <td><center>
+          
+          <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
+            <input id="booking" name="id" type="hidden" value=<%= booking.id %> >
+  
+            <%= button_tag( :class => "btn btn-success btn-sm") do %>
+               <i class="fa fa-pencil-square-o"></i>
+            <% end %>
+           <% end %>
+          </td>
+        <tr> 
+     <% end %>  
+  <% end %>  
+  </table>
+  
+  </div>
+  </div>

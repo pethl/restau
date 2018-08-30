@@ -7,8 +7,8 @@
     <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</b>
     
     <p>As your booking is for <%= @booking.number_of_diners %> people, 
-    a deposit of £10 per head is required within 1 week of making your reservation. 
-    We will be in contact with you via email to arrange this. 
+    a deposit of £10 per head is required.  
+    We will be in contact with you to arrange this. 
     The deposit is refundable on cancellation up to 7 days prior to your booking date.</p> 
     
     <p>Please use this link to <b>view or cancel</b> your booking: <%= link_to "view or cancel your booking", booking_url(@booking) %>.<br>
