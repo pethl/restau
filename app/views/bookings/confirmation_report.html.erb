@@ -12,16 +12,20 @@
   <TABLE class="table table-bordered table-condensed ">
   <thead>
     <tr>
+    <th colspan="1"></th>
+      <th colspan="3"><center></th>
+      <th colspan="2"><center>Confirmations</th>
+      <th colspan="6"></th>
+    </tr>
+    <tr>
       <th colspan="1"></th>
-      <th>Contact</th>
-      <th>Details</th>
-      <th><center>Email Sent</th>
-      <th><center>Response Received</th>
+      <th colspan="3">Contact</th>
+     
+      <th><center>Sent</center></th> 
+      <th><center>Received</center></th> 
       <th><center>Source</center></th>
       <th><center>Diners</center></th>
-      <th><center>Booking time</center></th>
-      <th><center>Deposit<br>Amount(£)</center></th>
-      <th><center>Days To<br>Booking</center></th>
+      <th><center>Time</center></th>
       <th><center>Edit</th>
     </tr>
   </thead>
@@ -36,26 +40,20 @@
       <tr>
       <td colspan="1"></td>
       
-       <td><b><%= booking.name %></b><br></td>
-       <td><small><%= booking.phone %> <br> <%= booking.email %></small></td>
-       <td><center>oo</td>
-       <td><center>oo</td>
-       <td><center><small><%= booking.source == "Management"? ("Mgmt") : (booking.source) %></small></center></td>
-       <td><center><%= booking.number_of_diners %></center></td>
-        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
-        <td><center><small><%= booking.deposit_amount %><br><%= booking.deposit_pay_method %></small></td>
-         
-        <% if ((booking.booking_date_time.to_date- Date.today).to_i<8)&& booking.deposit_amount.nil? %>
-           <td class="danger"><center><%= (booking.booking_date_time.to_date- Date.today).to_i %></center> </td>
-           <% else %>
-           <td><center><%= (booking.booking_date_time.to_date- Date.today).to_i %></center> </td>
-           <% end %>
-        <td><center>
+       <td><b><%= booking.name %></b></td>
+       <td><small><%= booking.phone %></b></td>
+       <td><small><%= booking.email %></b></td>
+       <td width="8%"><small><center><%= booking.confirmation_sent? ? 'Sent' : ''  %></td>
+       <td width="8%"><small><center><%= booking.confirmation_received? ? 'Yes' : 'No'  %></td>
+       <td width="8%"><center><small><%= booking.source == "Management"? ("Mgmt") : (booking.source) %></small></center></td>
+       <td width="8%"><center><%= booking.number_of_diners %></center></td>
+       <td width="8%"><small><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+       <td><center>
           
           <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
             <input id="booking" name="id" type="hidden" value=<%= booking.id %> >
   
-            <%= button_tag( :class => "btn btn-success btn-sm") do %>
+            <%= button_tag( :class => "btn btn-success btn-xs") do %>
                <i class="fa fa-pencil-square-o"></i>
             <% end %>
            <% end %>

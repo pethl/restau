@@ -278,34 +278,32 @@ class BookingsController < ApplicationController
              pdf.text "\n", size: 10
              
              table_data = Array.new
-             table_data << ["Time", "Name", "Diners", "Child Seat","Table Number", "Notes"]
+             table_data << ["Time", "Name", "Diners", "Confirmed?","Child Seat","Table", "Notes"]
              @bookings_confirmed.each do |booking|
-                if booking.child_friendly == TRUE
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", booking.notes]
-               else
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, " ", " ", booking.notes]
-               end
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : 'No', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
              end
              pdf.table(table_data) do 
-               self.width = 500
+               self.width = 530
                self.cell_style = { :inline_format => true, size: 10 } 
                self.row_colors = ["DDDDDD", "FFFFFF"]
                self.header = true
                
                row(0).font_style = :bold
                
-               columns(0).width = 40
+               columns(0).width = 36
                columns(0).align = :center
                columns(1).font_style = :bold
-               columns(1).width = 160
+               columns(1).width = 155
                columns(2).width = 40 
                columns(2).align = :center
-               columns(3).width = 50
+               columns(3).width = 70 
                columns(3).align = :center
-               columns(4).width = 50
+               columns(4).width = 44
                columns(4).align = :center
-               columns(5).width = 160
-               columns(5).align = :left
+               columns(5).width = 35
+               columns(5).align = :center
+               columns(6).width = 150
+               columns(6).align = :left
               
                
              end
@@ -352,33 +350,32 @@ class BookingsController < ApplicationController
                   pdf.text "\n", size: 10
              
                   table_data = Array.new
-                  table_data << ["Time", "Name", "Diners", "Child Seat", "Table Number", "Notes"]
+                  table_data << ["Time", "Name", "Diners", "Confirmed?","Child Seat","Table", "Notes"]
                   @bookings_confirmed.each do |booking|
-                    if booking.child_friendly == TRUE
-                     table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "YES", " ", booking.notes]
-                   else
-                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, "", " ", booking.notes]
+                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : 'No', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
                     end
-                  end
                   pdf.table(table_data) do 
-                    self.width = 500
+                    self.width = 530
                     self.cell_style = { :inline_format => true, size: 10 } 
                     self.row_colors = ["DDDDDD", "FFFFFF"]
                     self.header = true
                
                     row(0).font_style = :bold
                
-                    columns(0).width = 40
+                    columns(0).width = 36
                     columns(0).align = :center
                     columns(1).font_style = :bold
-                    columns(1).width = 160
+                    columns(1).width = 155
                     columns(2).width = 40 
                     columns(2).align = :center
-                    columns(3).width = 40
+                    columns(3).width = 70 
                     columns(3).align = :center
-                    columns(4).width = 50
+                    columns(4).width = 44
                     columns(4).align = :center
-                     columns(5).align = :left
+                    columns(5).width = 35
+                    columns(5).align = :center
+                    columns(6).width = 150
+                    columns(6).align = :left
                
                   end
              
@@ -417,7 +414,7 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, :notes, :deposit_amount, :deposit_code, :deposit_pay_method, :deposit_email_sent, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
+      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, :notes, :confirmation_sent, :confirmation_received, :deposit_amount, :deposit_code, :deposit_pay_method, :deposit_email_sent, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
     end
     
     # Confirms a logged-in user.

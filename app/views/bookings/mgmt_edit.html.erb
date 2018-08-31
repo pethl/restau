@@ -36,14 +36,24 @@
     
     
     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-4">
+      <div class="col-sm-offset-2 col-sm-6">
         <div class="checkbox">
-            <%= f.check_box :child_friendly, label: "Child seat required?" %>
+             <h5><%= f.check_box :child_friendly, label: "Child seat required?" %>
          </div>
       </div>
     </div>
 
     == Updating these fields will <b>not</b> trigger an email to the customer ===========================
+    <br>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-6">
+        <div class="checkbox">
+           <h5> <%= f.check_box :confirmation_sent, label: "Confirmation Email Sent?" %>
+          <h5> <%= f.check_box :confirmation_received, label: "Confirmation Email Received?" %>
+         </div>
+    </div>
+     </div>
+   
     <%= f.text_area :notes %>
     
     <div class="form-group">
