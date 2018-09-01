@@ -33,7 +33,7 @@
   
     <% @bookings_by_date.each do |date, bookings| %>
     <tr>
-      <th colspan="11" bgcolor="#383838"><h5><%= date.strftime('%A, %d %B %Y')  %></h5></th>
+      <th colspan="10" bgcolor="#383838"><h6><font color="#D3D3D3"><%= date.strftime('%A, %d %B %Y')  %></h5></th>
     </tr>
     
     <% bookings.each do |booking| %>
