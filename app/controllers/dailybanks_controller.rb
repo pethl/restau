@@ -399,61 +399,66 @@ class DailybanksController < ApplicationController
   
   def download_dailybank_tax_accounting_pdf
    @start_date = params[:value]
-  # @start_datetime = @start_date.to_datetime
    @end_date = (@start_date.to_date+3.months)-1.day
    @dailybanks = Dailybank.where("effective_date BETWEEN ? AND ?", @start_date.to_date.beginning_of_day, @end_date.to_date.end_of_day).sort_by { |hsh| hsh[:effective_date] }
    @dailybanks_by_month = @dailybanks.group_by { |t| t.effective_date.strftime("%b") }
+   @dailybanks_by_week = @dailybanks.group_by { |t| t.effective_date.strftime("%U") }
    
    respond_to do |format|
     format.pdf do
+      #DOCUMENT SETUP_START
       pdf = Prawn::Document.new
       pdf.text "Tax Quarter Report : " + @start_date.to_date.strftime('%d %b, %Y') + " - " + @end_date.to_date.strftime('%d %b, %Y'), size: 14, style: :bold
       pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n", size: 6
       pdf.text "\n", size: 8
-      pdf.text "SALES FIGURES" + "\n", size: 10
+      #DOCUMENT SETUP_END
+      
+      #SALES_SUMMARY_START
+      pdf.text "SUMMARY SALES FIGURES" + "\n", size: 10
         table_data_sales = Array.new
-        table_data_sales << ["Month","Drink", "Food", "Merchandise", "Deposits/Vouchers", "Total"]
+        table_data_sales << ["Month","Food", "Drink", "Merchandise", "Deposits/\nVouchers", "Total"]
          
-         @dailybanks_by_month.each do |month, dailybanks|
-     
-        table_data_sales << [month, "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", ((dailybanks.map { |h| h[:till_takings] }.compact.sum)+(dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)).to_s)}"]      
+        @dailybanks_by_month.each do |month, dailybanks|
+          table_data_sales << [month, "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", ((dailybanks.map { |h| h[:till_takings] }.compact.sum)+(dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)).to_s)}"]      
       end
-        table_data_sales << ["Total", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", ((@dailybanks.map { |h| h[:till_takings] }.compact.sum)+(@dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)).to_s)}"]      
+        table_data_sales << ["Total", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", @dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", ((@dailybanks.map { |h| h[:till_takings] }.compact.sum)+(@dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)).to_s)}"]      
         
         pdf.table(table_data_sales) do 
           self.width = 340 
           self.cell_style = { :inline_format => true, size: 8 } 
           self.row_colors = ["DDDDDD", "FFFFFF"]
-         # self.header = true
-      
+        
           row(0).font_style = :bold
           columns(0).width = 40
-        #  columns(0).font_style = :bold
           columns(1..7).width = 60
           columns(1..7).align = :right
           row(-1).font_style = :bold
         end
+      #SALES_SUMMARY_END
       
+      #WEEKLY_SUMMARY_START
       pdf.text "\n\n", size: 8
-      pdf.text "SUMMARY BY MONTH" + "\n", size: 10
+      pdf.text "SUMMARY BY WEEK" + "\n", size: 10
     
-     @dailybanks_by_month.each do |month, dailybanks|
-        pdf.text month, size: 12, style: :bold 
+      @dailybanks_by_week.each do |week, dailybanks|
+      pdf.text "\n\n", size: 6  
+      pdf.text "Week Number " + week, size: 10, style: :bold 
         
         table_data = Array.new
-        table_data << ["Date","Cash", "Cards", "Expenses", "Var", "Dry", "Wet", "Merch", "D & V\nAdjustment"]
+        table_data << ["Date", "Takings", "Cash", "Cards", "Expenses", "Var", "Food", "Drink", "Merch", "D & V\nAdjustment"]
         dailybanks.each do |dailybank|
           if ["Locked", "Mgmt Review", "Mgmt re-calc"].include? dailybank.status
             #reject record is status doesn't suggest values will be completed as would cause error
-            table_data << [dailybank.effective_date.strftime('%d %b'), "£#{(sprintf "%.2f", dailybank.banking.to_s)}", "£#{(sprintf "%.2f", dailybank.card_payments.to_s)}", "£#{(sprintf "%.2f", dailybank.expenses_total.to_s)}", "£#{(sprintf "%.2f", dailybank.calculated_variance.to_s)}", "£#{(sprintf "%.2f", dailybank.dry_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.wet_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.merch_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.v_d_adjustments.to_s)}"]
+            takings = (dailybank.banking+dailybank.card_payments+dailybank.expenses.sum(:price)-dailybank.calculated_variance)
+            table_data << [dailybank.effective_date.strftime('%d %b'), "£#{(sprintf "%.2f", takings.to_s)}", "£#{(sprintf "%.2f", dailybank.banking.to_s)}", "£#{(sprintf "%.2f", dailybank.card_payments.to_s)}", "£#{(sprintf "%.2f", dailybank.expenses_total.to_s)}", "£#{(sprintf "%.2f", dailybank.calculated_variance.to_s)}", "£#{(sprintf "%.2f", dailybank.dry_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.wet_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.merch_takings.to_s)}", "£#{(sprintf "%.2f", dailybank.v_d_adjustments.to_s)}"]
            else
           end
         end
-        table_data <<["Totals:", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:calculated_variance] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
-        table_data <<["","Cash", "Cards", "Expenses", "Var", "Dry", "Wet", "Merch", "D & V\nAdjustment"]
+        takings_total = ((dailybanks.map { |h| h[:banking] }.compact.sum)+(dailybanks.map { |h| h[:card_payments] }.compact.sum)+(dailybanks.map { |h| h[:expenses_total] }.compact.sum)-(dailybanks.map { |h| h[:calculated_variance] }.compact.sum))
+        table_data <<[week+" Total","£#{(sprintf "%.2f", takings_total.to_s)}" , "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:calculated_variance] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
         
         pdf.table(table_data) do 
-          self.width = 480 
+          self.width = 535 
           self.cell_style = { :inline_format => true, size: 8 } 
           self.row_colors = ["DDDDDD", "FFFFFF"]
           self.header = true
@@ -461,13 +466,42 @@ class DailybanksController < ApplicationController
           row(0).font_style = :bold
           columns(0).width = 40
         #  columns(0).font_style = :bold
-          columns(1..8).width = 55
-          columns(1..8).align = :right
+          columns(1..9).width = 55
+          columns(1..9).align = :right
           row(-1).font_style = :bold
-          row(-2).font_style = :bold
+          #row(-2).font_style = :bold
          end
+         end
+         #WEEKLY_SUMMARY_END
+ 
+         #MONTHLY_SUMMARY_START
+         pdf.text "\n\n", size: 8
+         pdf.text "SUMMARY BY MONTH" + "\n", size: 10
+    
+         @dailybanks_by_month.each do |month, dailybanks|
+         pdf.text "\n", size: 8
+           table_data = Array.new
+           table_data << [month, "Takings", "Cash", "Cards", "Expenses", "Var", "Food", "Drink", "Merch", "D & V\nAdjustment"]
+           takings_total = ((dailybanks.map { |h| h[:banking] }.compact.sum)+(dailybanks.map { |h| h[:card_payments] }.compact.sum)+(dailybanks.map { |h| h[:expenses_total] }.compact.sum)-(dailybanks.map { |h| h[:calculated_variance] }.compact.sum))
+           table_data <<["","£#{(sprintf "%.2f", takings_total.to_s)}" , "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:calculated_variance] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
+        
+           pdf.table(table_data) do 
+             self.width = 535 
+             self.cell_style = { :inline_format => true, size: 8 } 
+             self.row_colors = ["DDDDDD", "FFFFFF"]
+             self.header = true
+      
+             row(0).font_style = :bold
+             columns(0).width = 40
+             columns(1..9).width = 55
+             columns(1..9).align = :right
+             row(-1).font_style = :bold
+            end
+            end
+            #MONTHLY_SUMMARY_END
           pdf.text "\n", size: 12
-     end
+          
+     
        send_data pdf.render, filename: 'tax_quarter.pdf', type: 'application/pdf', :disposition => 'inline'
     end
    end

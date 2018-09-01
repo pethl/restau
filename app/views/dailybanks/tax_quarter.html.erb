@@ -42,8 +42,8 @@
   <tr>  
    <th style="text-align:left"></th>
    <th style="text-align:center">Work Days</th>
-   <th style="text-align:right">Drink</th>
    <th style="text-align:right">Food</th>
+   <th style="text-align:right">Drink</th>
    <th style="text-align:right">Merchandise</th>
    <th style="text-align:right">Deposits/Vouchers</th>
    <th style="text-align:right">Total</th>
@@ -55,8 +55,8 @@
        <tr>  
          <td class="active"><b><%= month %></b></td>
          <td class="active" style="text-align:center"><b>(<%= dailybanks.count %>)</b></td>
-         <td style="text-align:right"><%= number_to_currency(dailybanks.map { |h| h[:wet_takings] }.compact.sum, :locale => :en)  %></td>
          <td style="text-align:right"><%= number_to_currency(dailybanks.map { |h| h[:dry_takings] }.compact.sum, :locale => :en) %></td>
+         <td style="text-align:right"><%= number_to_currency(dailybanks.map { |h| h[:wet_takings] }.compact.sum, :locale => :en)  %></td>
          <td style="text-align:right"><%= number_to_currency(dailybanks.map { |h| h[:merch_takings] }.compact.sum, :locale => :en) %></td>
          <td style="text-align:right"><%= number_to_currency(dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum, :locale => :en) %></td>
          <td class="active" style="text-align:right"><%= number_to_currency(((dailybanks.map { |h| h[:till_takings] }.compact.sum)+(dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)), :locale => :en) %></td>
@@ -65,8 +65,8 @@
    <% end %>  
    <tr  class="active">
     <td colspan="2"><b>TOTALS</b></td>
-    <td style="text-align:right"><%= number_to_currency(@dailybanks.map { |h| h[:wet_takings] }.compact.sum, :locale => :en) %></td>
     <td style="text-align:right"><%= number_to_currency(@dailybanks.map { |h| h[:dry_takings] }.compact.sum, :locale => :en) %></td>
+    <td style="text-align:right"><%= number_to_currency(@dailybanks.map { |h| h[:wet_takings] }.compact.sum, :locale => :en) %></td>
     <td style="text-align:right"><%= number_to_currency(@dailybanks.map { |h| h[:merch_takings] }.compact.sum, :locale => :en) %></td>
     <td style="text-align:right"><%= number_to_currency(@dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum, :locale => :en) %></td>
     <td class="active" style="text-align:right"><%= number_to_currency(((@dailybanks.map { |h| h[:till_takings] }.compact.sum)+(@dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)), :locale => :en) %></td>
