@@ -1,0 +1,126 @@
+<div class="hfsk-location-background">
+
+<%= render 'layouts/external_header' %>
+<div class="row">
+ <div class="col-md-10 col-md-offset-1  "> 
+
+<div class="row">
+  <div class="col-md-4">
+  
+   <h6>OPENING HOURS</h6>
+   <br>
+
+   <!-- Instructions: This is the opening hours section. -->  
+
+   <h6>Weds / Thurs - 5pm -11pm
+   <br>[last food orders 9pm]
+   </h6>
+   <br>
+   <h6>Fri / Sat Lunch - 12pm -3pm
+   <br>[last food orders 2pm]
+   </h6>
+    <br>
+   <h6>Fri / Sat Dinner - 5pm -11pm
+   <br>[last food orders 9pm]
+   </h6>
+    <br>
+   <h6>Sun Lunch - 12pm - 5pm
+   <br>[last food orders 3pm]
+   </h6> 
+   <br>
+   <h6>Mon / Tues - Closed
+   </h6>
+    <br>
+    <%= link_to "BOOK A TABLE", static_pages_new_booking_enquiry_path, :class => "btn button_book_table_orange", :style=>'color:#000000;'  %>
+     <br>
+ </div>
+ 
+<!-- Instructions: This is the intro section. -->  
+
+  <div class="col-md-8">
+  <h5>PAY YOUR DEPOSIT</h5>
+  <br>
+  <h6>Thanks for booking your table at Hang Fire.<br><br> 
+  You can now pay your deposit securely via credit card on this page<br> 
+  by following this process:</h6>
+  <h4>
+  <ol>
+    <li>Search for your booking securely.</li>
+    <li>Review details and confirm deposit amount.</li>
+    <li>Pay your deposit using Stripe secure card payment.</li>
+    <li>Receive your payment confirmation detials and email.</li>
+  </ol>
+   </h4>
+    </h6>
+ 
+
+
+  
+   <!-- Instructions: This is the processing section. -->  
+   <% if @bookings==0 || !@bookings.any? %>
+ 
+  <!-- Instructions: This is the search section. -->     
+     <h6>1) Search for your booking securely:</h6>
+     <%= form_tag hfsk_pay_deposit_path, method: :get, :class => "form-inline" do %>
+
+         <h6>Search by:<br>
+         <%= hidden_field(:booking, :name, :placeholder => "Name", :class=>"form-control input-sm") %>
+         <%= hidden_field(:booking, :booking_date_time, :placeholder => "DateTime", :class=>"form-control input-sm") %>
+ 
+         <%= text_field(:booking, :phone, :placeholder => "Phone", :class=>"form-control input-sm") %>
+         or
+         <%= text_field(:booking, :email, :placeholder => "Email", :class=>"form-control input-sm") %>
+    
+       <br><br>
+       <button type="submit" class="btn btn-primary btn-sm">Search for Booking</button>
+     <% end %>
+     <br><br><br><br>
+     
+     <% else %>
+     <!-- Instructions: This is the review section. -->  
+     <br>
+     <h6>2) Review details and confirm deposit amount:</h6>
+    
+     <TABLE class="table table-bordered table-condensed ">
+       <thead>
+         <tr>
+           <th colspan="1"></th>
+           <th><center><small>Date & Time</center></th>
+           <th><small>Status</th>
+           <th><small>Customer</th>
+           <th><center><small>Diners</center></th>
+           <th><center><small>Deposit Amount</center></th>
+            <th><small>Date Booked</th>
+           </tr>
+         </thead>
+         <tbody>
+     
+        <% @bookings.each do |booking| %>
+             
+         <tr>
+         <td>[Button Here]</td>
+         <td> <small><center><%= booking.booking_date_time.strftime('%A') %>, <%= booking.booking_date_time.strftime('%H:%M') %><br>
+         <%= booking.booking_date_time.strftime('%d %b %Y') %></center></td>
+         <td> <small><%= booking.status %></td>
+         <td><strong><%= booking.name %></strong><br>
+         <small><font color=#8c99a6><%= booking.phone %>, 
+         <%= booking.email %></small></td>
+         <td> <small><center><%= booking.number_of_diners %></center></td>
+         <td> <small><center>£<%= booking.number_of_diners*10 %></center></td>
+         <td><small><font color=#8c99a6><%= booking.created_at.strftime('%Y %b %d %H:%M') %></small></td>
+        
+         </tr>
+    <% end %>  
+   
+  </tbody>
+</table>
+    
+ <br>
+     <% end %><br>
+  </div> 
+   </div> 
+    </div>
+
+   
+ 
+ 
