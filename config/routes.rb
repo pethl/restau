@@ -43,7 +43,6 @@ Rails.application.routes.draw do
       collection { post :booking_get_times };
       collection { post :booking_advanced };
       collection { post :mgmt_edit };
-      collection { post :hfsk_pay_deposit2 }
     end  
   resources :tables do
       collection { post :booking_enquiry }
@@ -112,6 +111,7 @@ Rails.application.routes.draw do
   get '/hfsk_booking' => 'static_pages#booking_enquiry'
   get '/hfsk_location' => 'static_pages#hfsk_location'
   get '/hfsk_pay_deposit' => 'static_pages#hfsk_pay_deposit'
+  get '/hfsk_confirm_deposit' => 'static_pages#hfsk_confirm_deposit'
   get '/hfsk_get_in_touch' => 'static_pages#hfsk_get_in_touch'
   get '/hfsk_careers' => 'static_pages#hfsk_careers'
   get '/hfsk_menu' => 'static_pages#hfsk_menu'
@@ -139,6 +139,7 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_about"
   get "static_pages/hfsk_location"
   get "static_pages/hfsk_pay_deposit"
+  get "static_pages/hfsk_confirm_deposit"
   get "static_pages/hfsk_get_in_touch"
   get "static_pages/hfsk_careers"
   get "static_pages/hfsk_menu"
@@ -146,6 +147,15 @@ Rails.application.routes.draw do
   get "sessions/new"
   get "static_pages/new_booking_enquiry_new"
   
+  resources :charges
+  
+ # mount StripeEvent::Engine => '/stripe-events'
+  
+  get  '/pay_deposit/:id', to: 'charges#new',      as: :show_pay
+  post '/pay_deposit/:id', to: 'charges#create',   as: :pay_deposit
+#  get '/paid/:id', to: 'orders#show',   as: :paid  
+#  get  '/show/:id', to: 'orders#show',      as: :show_order
+#  get  '/edit/:id', to: 'orders#edit',      as: :edit_new_order
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

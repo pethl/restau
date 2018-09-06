@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://code.stripe.com'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -38,6 +39,9 @@ gem 'active_attr'
 
 #recomended to make asset pipeline work
 gem 'rails_12factor', group: :production
+
+#for stripe
+gem 'stripe', '~> 1.26.0'
 
 
 group :development do

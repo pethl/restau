@@ -564,4 +564,19 @@ def self.all_search(search)
    end
  end
  
+ def self.deposit_amount(params)
+    @booking = params
+   deposit_due = (@booking.number_of_diners*10)
+   deposit_paid = @booking.deposit_amount
+   
+   if !@booking.deposit_amount.present?
+     return "Deposit Due", deposit_due
+   elsif deposit_due == deposit_paid || deposit_due < deposit_paid
+     return "Paid in Full", 0
+   elsif deposit_due > deposit_paid
+      return "Outstanding Balance", deposit_due-deposit_paid
+   else 
+   end
+ end
+ 
 end

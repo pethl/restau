@@ -1,0 +1,52 @@
+<div class="hfsk-location-background">
+
+<%= render 'layouts/external_header' %>
+<div class="row">
+ <div class="col-md-10 col-md-offset-1  "> 
+ <div class="row">
+   <div class="col-md-4">
+   </div>
+ 
+<!-- Instructions: This is the intro section. -->  
+
+  <div class="col-md-8">
+  <h5>PAY YOUR DEPOSIT</h5>
+  <hr>
+    <h6>
+    You can now pay your deposit securely via credit/debit card, by following these steps:</h6>
+    <h4>
+    <ol>
+      <li>Search for your booking.</li>
+      <li>Review details and confirm deposit amount.</li>
+      <li>Pay your deposit using Stripe secure card payment.</li>
+      <font color="#FFFF00"> <li>Receive your payment confirmation details and email.</li></font>
+    </ol>
+    </h4>
+    </h6>
+    <br>
+   <!-- Instructions: This is the confirmation section. -->  
+  
+     <h4>Thank you.<h4> 
+     <h6>Your payment for £<%= @booking.stripe_amount/100 %> has been successfully processed and 
+     your table is now confirmed:</h6>
+    <div class="row">
+      <div class="col-md-8">
+         <div class="well well-sm">
+           <h6><b> <font color="#D3D3D3">Hang Fire Southern Kitchen, Barry</b><br>
+           <small> <font color="#D3D3D3">Table for <%= @booking.number_of_diners %> people<br> 
+           <font color="#D3D3D3"> At <%= @booking.booking_date_time.strftime('%H:%M') %> on  <%= @booking.booking_date_time.strftime('%A, %d %b %Y') %>
+         </div>  
+      </div>  
+      <div class="col-md-4">
+      </div> 
+    </div>   
+   <h6>Pay another deposit?  <a href="/hfsk_pay_deposit"><i class="fa fa-arrow-circle-o-right" style='color: #ffffff;'></i></a>
+    - / - Make a new booking?  <a href="/new_booking_enquiry"><i class="fa fa-arrow-circle-o-right" style='color: #ffffff;'></i></a>
+  
+   </div>   
+   </div> 
+    </div>
+
+   
+ 
+ 

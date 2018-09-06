@@ -7,14 +7,21 @@ class StaticPagesController < ApplicationController
   def help
   end
   
+  def hfsk_confirm_deposit
+     # Rails.logger.debug("xxxxx_static_pages_CONFIRM_DEPOSIT : #{params["id"]}")
+      Rails.logger.debug("xxxxx_static_pages_CONFIRM_DEPOSIT : #{params.inspect}")
+         @booking = Booking.find(params["id"])
+        
+  end
+  
   def hfsk_pay_deposit
+      
        @bookings =[]
-       Rails.logger.debug("xxxxx_static_pages_PAY_DEPOSIT : #{@bookings.inspect}")
-   
+    
       #take params from search on view, note need all params to make use of search code on booking.rb even though some are hidden, or if no search, 
       #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
        if params[:booking]
-         Rails.logger.debug("xxxxx_static_pages_PAY_DEPOSIT : #{params[:booking]}")
+       #  Rails.logger.debug("xxxxx_static_pages_PAY_DEPOSIT : #{params[:booking]}")
        
          @bookings = Booking.all_search(params[:booking])
                if @bookings.any?

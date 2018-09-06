@@ -239,7 +239,7 @@ class BookingsController < ApplicationController
   end
   
   def confirmation_report
-    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.at_beginning_of_week, Date.today.at_end_of_week).where(:status => "Confirmed").where("number_of_diners > ?", 4)
+    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.at_beginning_of_week, Date.today.at_end_of_week+1).where(:status => "Confirmed").where("number_of_diners > ?", 4)
     @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date} 
     #@bookings = @bookings.reverse
@@ -280,7 +280,7 @@ class BookingsController < ApplicationController
              table_data = Array.new
              table_data << ["Time", "Name", "Diners", "Confirmed?","Child Seat","Table", "Notes"]
              @bookings_confirmed.each do |booking|
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : 'No', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : '', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
              end
              pdf.table(table_data) do 
                self.width = 530
@@ -352,7 +352,7 @@ class BookingsController < ApplicationController
                   table_data = Array.new
                   table_data << ["Time", "Name", "Diners", "Confirmed?","Child Seat","Table", "Notes"]
                   @bookings_confirmed.each do |booking|
-                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : 'No', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
+                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : '', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
                     end
                   pdf.table(table_data) do 
                     self.width = 530
@@ -414,7 +414,7 @@ class BookingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def booking_params
-      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, :notes, :confirmation_sent, :confirmation_received, :deposit_amount, :deposit_code, :deposit_pay_method, :deposit_email_sent, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
+      params.require(:booking).permit(:table_id, :customer_id, :restaurant_id, :source, :booking_date, :booking_time, :booking_date_time, :number_of_diners, :accessible, :child_friendly, :name, :phone, :email, :status, :cancelled_at, :notes, :confirmation_sent, :confirmation_received, :stripe_id, :stripe_amount, :stripe_deposit_paid_date, :deposit_amount, :deposit_code, :deposit_pay_method, :deposit_email_sent, customer_attributes:[:_destroy, :id, :name, :phone, :email, :desc, :accessible, :child_friendly])
     end
     
     # Confirms a logged-in user.

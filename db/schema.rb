@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180831092907) do
+ActiveRecord::Schema.define(version: 20180904221423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20180831092907) do
     t.integer  "number_of_diners"
     t.boolean  "accessible"
     t.boolean  "child_friendly"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "name"
     t.string   "email"
     t.string   "phone"
@@ -44,12 +44,15 @@ ActiveRecord::Schema.define(version: 20180831092907) do
     t.datetime "booking_date_time"
     t.string   "source"
     t.string   "notes"
-    t.decimal  "deposit_amount",        precision: 7, scale: 2
+    t.decimal  "deposit_amount",           precision: 7, scale: 2
     t.string   "deposit_code"
     t.string   "deposit_pay_method"
     t.string   "deposit_email_sent"
     t.boolean  "confirmation_sent"
     t.boolean  "confirmation_received"
+    t.string   "stripe_id"
+    t.integer  "stripe_amount"
+    t.datetime "stripe_deposit_paid_date"
   end
 
   create_table "cashfloats", force: :cascade do |t|

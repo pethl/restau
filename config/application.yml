@@ -1,0 +1,3 @@
+# Add configuration values here, as shown below.
+#
+# PUBLISHABLE_KEY=pk_test_dUk6TyPgdZI64a2JID0LdlkP SECRET_KEY=sk_test_MjCPvqorLLOLhfBWFfoC0Juj rails s
