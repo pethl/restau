@@ -56,5 +56,19 @@ class BookingMailer < ActionMailer::Base
       mail(to: 'hangfirebarry@gmail.com', subject: "Hang Fire Booking 8+ DEPOSIT REQUIRED for: #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
+
+  def booking_deposit_confirmation_customer(booking)
+    @booking = Booking.find(booking.id)
+     if @booking
+      mail(to: @booking[:email], subject: "Hang Fire Deposit Payment Confirmation")
+    end
+  end
   
+  def booking_deposit_error_customer(booking)
+    @booking = Booking.find(booking.id)
+     if @booking
+      mail(to: @booking[:email], subject: "Hang Fire Deposit Payment Error")
+    end
+  end
+    
 end

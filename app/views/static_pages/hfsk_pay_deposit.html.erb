@@ -41,8 +41,34 @@
     <h6>Thanks for booking your table at Hang Fire Southern Kitchen.<br><br> 
     You can now pay your deposit securely via credit/debit card, by following these steps:</h6>
     
+   
+    <% if @error.present? %>
+      <!-- Instructions: This is the error section. -->    
+      <h4>
+      <ol>
+      <li>Search for your booking.</li>
+        <li>Review details and confirm deposit amount.</li>
+        <li>Pay your deposit using Stripe secure card payment.</li>
+        <li>Receive your payment confirmation details and email.</li>
+        or
+        <font color="#FFFF00">  <li>Receive error messages and instructions.</li></font>
+      </ol>
+      </h4>
+      <br><hr>
+      
+      <% if @error %>
+      <h6><small>Stripe System Error: <%= @error %></h6>
+      <% end %>
+      
+      <h6>We're sorry, there has been a problem with your card<br> 
+      and Stripe has not accepted payment at this time.<br>
+      <br><b>
+      Your card has not been charged.
+      <br><br></b>
+      Please contact us by email at contacthangfirebbq@gmail.com to pay your deposit.</h6>
+    
    <!-- Instructions: This is the processing section. -->  
-   <% if @bookings==0 || !@bookings.any? %>
+   <% elsif @bookings==0 || !@bookings.any? %>
  
      <h4>
      <ol>
@@ -71,7 +97,7 @@
      <% end %>
      <br><br><br><br>
      
-     <% elsif @bookings.any? %>
+     <% else @bookings.any? %>
 <!-- Instructions: This is the review and pay section. -->  
      
       <h4>
@@ -147,7 +173,8 @@
   </tbody>
 </table>
 <br>
-     <% end %>
+
+<% end %>
      <br><br><br><br><br>
   </div> 
    </div> 

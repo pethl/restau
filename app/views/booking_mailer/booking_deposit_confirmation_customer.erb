@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <p>Hi <%= @booking.name %>,</p>
+    <p>This email is a confirmation of your deposit payment for £<%= @booking.stripe_amount/100 %>, paid on <%= @booking.stripe_deposit_paid_date %>.</p>
+	<p>Thank you for your payment, your booking at Hang Fire Southern Kitchen, Barry is now confirmed:  <b><%= @booking.number_of_diners %> people, at  <%= @booking.booking_date_time.strftime('%H:%M') %> on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</b>
+    <p>Please use this link to <b>view or cancel</b> your booking: <%= link_to "view or cancel your booking", booking_url(@booking) %>.<br>
+If you would like to <b>amend</b> your booking, please contact us at hangfirebarry@gmail.com.</p>
+    <p><b>Just a few small points for you to be aware of...</b><br>
+- If you’ve booked before 7pm, on busy evenings we will likely need your table back within a 2hr period.<br>
+- Please try to arrive promptly, if you and your full party are more than 20 minutes late, we may need to release your table to other waiting diners.<br>
+- If you are running late, please email us ASAP at hangfirebarry@gmail.com.<br>
+- If you can't find a phone number for us, don't panic, we don't have one. All correspondence via email please.</p>
+<p>Ok, now for the fun part - we’re really looking forward to welcoming you to our new, permanent home.<br>
+See you at the Pump House and arrive hungry and thirsty!</p>
+     <p><b><i>The Hang Fire Southern Kitchen Team</i></b></p>
+  </body>
+</html>

@@ -57,8 +57,12 @@
         <td><center><%= booking.number_of_diners %></center></td>
         <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
         <td style="text-align:right"><%= booking.deposit_amount %> </td>
-        <td><center><%= booking.deposit_code %></center> </td>
-        <td><%= booking.deposit_pay_method %> </td>
+        <% if booking.deposit_pay_method =='Stripe' && booking.deposit_code.blank? %>
+          <td class="warning"><center><%= booking.deposit_code %></center> </td>
+          <% else %>
+           <td><center><%= booking.deposit_code %></center> </td>
+           <% end %>
+        <td><%= booking.deposit_pay_method %><%= booking.deposit_pay_method== "Stripe" ? "\n(£"+(booking.stripe_amount/100).to_s+")" : "" %> </td>
         <td><center><%= (Date.today - booking.created_at.to_date).to_i %></center> </td>
          
         <% if ((booking.booking_date_time.to_date- Date.today).to_i<8)&& booking.deposit_amount.nil? %>

@@ -23,14 +23,14 @@ class ChargesController < ApplicationController
                 :stripe_id => charge.id,
                 :deposit_amount => booking.deposit_amount.present? ? (booking.deposit_amount+(Booking.deposit_amount(booking).second).to_i) : (Booking.deposit_amount(booking).second).to_i 
               )
-               
+              BookingMailer.booking_deposit_confirmation_customer(booking).deliver_now
               redirect_to hfsk_confirm_deposit_path(id: booking.id)
              
             rescue Stripe::CardError => e
-              # The card has been declined or
-              # some other error has occurred
-              @error = e
-            #  render :new
+              # The card has been declined or some other error has occurred
+              BookingMailer.booking_deposit_error_customer(booking).deliver_now
+              redirect_to hfsk_pay_deposit_path(id: booking.id, error: e)
+            #render :new
             end    
       end      
 end
