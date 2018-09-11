@@ -195,13 +195,15 @@ task :purge_held_bookings => :environment do
                    puts "Email Sent for : #{booking.id}: #{booking.email}}"
                    booking.update_attribute(:confirmation_sent, TRUE)
                  rescue StandardError => e
-                   booking.update_attribute(:confirmation_sent, TRUE)
+                   booking.update_attribute(:confirmation_sent, FALSE)
                   puts "Problem Sending Email: #{e}}"
                end
           end
         end
        puts "___#{confirmations_count} Customer booking confirmations for seven days, where diners over #{diners_ref} now been sent"
+       puts "----------------------------------------------------------------------------------"
         puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:END-------------------------"
+        puts "----------------------------------------------------------------------------------"
        puts "\n"
      end 
    
