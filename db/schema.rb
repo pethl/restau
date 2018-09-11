@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180904221423) do
+ActiveRecord::Schema.define(version: 20180910145537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -238,21 +238,22 @@ ActiveRecord::Schema.define(version: 20180904221423) do
     t.integer  "min_booking"
     t.integer  "max_booking"
     t.time     "last_booking_time"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.integer  "current_diners_window_start"
     t.integer  "current_diners_window_end"
     t.integer  "big_table_count"
     t.integer  "large_table_count"
     t.integer  "max_current_diners"
     t.integer  "max_diners_at_current_time"
-    t.decimal  "safe_float",                  precision: 6, scale: 2
-    t.decimal  "till_float_main",             precision: 6, scale: 2
-    t.decimal  "till_float_bar",              precision: 6, scale: 2
+    t.decimal  "safe_float",                    precision: 6, scale: 2
+    t.decimal  "till_float_main",               precision: 6, scale: 2
+    t.decimal  "till_float_bar",                precision: 6, scale: 2
     t.integer  "eve_full_diners"
     t.integer  "day_full_diners"
     t.integer  "afternoon_full_diners"
     t.integer  "wed_thurs_eve_max_diners"
+    t.integer  "confirmation_email_diners_max"
   end
 
   create_table "restaurants", force: :cascade do |t|

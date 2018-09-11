@@ -171,4 +171,38 @@ task :purge_held_bookings => :environment do
       puts "----------------------PURGE_BLANK_STATS:END-------------------------"
       puts "\n"
     end
+    
+    task :send_booking_last_confirmation => :environment do
+      puts "\n"
+       puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:START-------------------------"
+
+       puts "_____Send a booking confirmation email to everyone with a booking today+7.day (a week away)."
+       diners_ref = Rdetail.get_value(1,"confirmation_email_diners_max").to_i
+       date = Date.tomorrow+6.days
+       puts "___#{diners_ref}" 
+       puts "___#{date}" 
+   
+      # @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?", diners_ref)
+       @bookings = Booking.where("email = ?", "pethicklisa@gmail.com")
+       confirmations_count = @bookings.count
+       puts "_____Booking records requiring confirmation - count #{confirmations_count}" 
+
+       if confirmations_count > 0
+         @bookings.each.with_index(1) do |booking, index|
+               puts "#{index}/#{confirmations_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners} - #{booking.id} "
+               begin
+                   BookingMailer.booking_last_confirmation_customer(booking).deliver_now
+                   puts "Email Sent for : #{booking.id}: #{booking.email}}"
+                   booking.update_attribute(:confirmation_sent, TRUE)
+                 rescue StandardError => e
+                   booking.update_attribute(:confirmation_sent, TRUE)
+                  puts "Problem Sending Email: #{e}}"
+               end
+          end
+        end
+       puts "___#{confirmations_count} Customer booking confirmations for seven days, where diners over #{diners_ref} now been sent"
+        puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:END-------------------------"
+       puts "\n"
+     end 
+   
  
