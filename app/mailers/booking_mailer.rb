@@ -46,7 +46,7 @@ class BookingMailer < ActionMailer::Base
   def booking_last_confirmation_customer(booking)
     @booking = Booking.find(booking)
      if @booking
-      mail(to: @booking[:email], subject: "RESPONSE REQUIRED: Hang Fire Booking Final Confirmation for: #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: @booking[:email], subject: "Response Required - Confirm your reservation at Hang Fire Southern Kitchen")
     end
   end
   
