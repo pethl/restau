@@ -229,17 +229,16 @@ namespace :restau do
              puts "___#{diners_ref}" 
              puts "___#{date}" 
    
-            # @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?", diners_ref)
-             @bookings = Booking.where("email = ?", "pethicklisa@gmail.com")
+             @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?", diners_ref)
              confirmations_count = @bookings.count
              puts "_____Booking records requiring confirmation - count #{confirmations_count}" 
 
              if confirmations_count > 0
                @bookings.each.with_index(1) do |booking, index|
                  puts "#{index}/#{confirmations_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners} - #{booking.id} "
-                 if booking.confirmation_sent==TRUE
-                   puts "Email not set - flag already TRUE"
-                else   
+                 if booking.confirmation_sent==TRUE || booking.confirmation_received == TRUE
+                   puts "Email not sent - flag already TRUE"
+                 else   
                    begin
                      BookingMailer.booking_last_confirmation_customer(booking).deliver_now
                      puts "Email Sent for : #{booking.id}: #{booking.email}}"
@@ -248,13 +247,13 @@ namespace :restau do
                      booking.update_attribute(:confirmation_sent, FALSE)
                     puts "Problem Sending Email: #{e}}"
                    end
-                end
+                 end
                 end
               end
              puts "___#{confirmations_count} Customer booking confirmations for seven days, where diners over #{diners_ref} now been sent"
              puts "----------------------------------------------------------------------------------"
-              puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:END-------------------------"
-              puts "----------------------------------------------------------------------------------"
+             puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:END-------------------------"
+             puts "----------------------------------------------------------------------------------"
              puts "\n"
            end 
 
