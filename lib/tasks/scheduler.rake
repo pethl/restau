@@ -190,14 +190,18 @@ task :purge_held_bookings => :environment do
        if confirmations_count > 0
          @bookings.each.with_index(1) do |booking, index|
                puts "#{index}/#{confirmations_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners} - #{booking.id} "
-               begin
+               if booking.confirmation_sent==FALSE
+                 puts "Email not set - flag already TRUE"
+              else   
+                 begin
                    BookingMailer.booking_last_confirmation_customer(booking).deliver_now
                    puts "Email Sent for : #{booking.id}: #{booking.email}}"
                    booking.update_attribute(:confirmation_sent, TRUE)
                  rescue StandardError => e
                    booking.update_attribute(:confirmation_sent, FALSE)
                   puts "Problem Sending Email: #{e}}"
-               end
+                 end
+              end
           end
         end
        puts "___#{confirmations_count} Customer booking confirmations for seven days, where diners over #{diners_ref} now been sent"

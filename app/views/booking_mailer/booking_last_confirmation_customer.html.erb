@@ -3,12 +3,12 @@
     <p>Hello <%= @booking.name %>,</p>
     <p>Just a quick courtesy email to confirm your reservation for this week. Your reservation on our system is as follows:</p>
     
-    <p>No. of Diners: <b><%= @booking.number_of_diners %> people,</b><br>
+    <p>No. of Diners: <b><%= @booking.number_of_diners %> people</b><br>
     Time: <b><%= @booking.booking_date_time.strftime('%H:%M') %></b><br>
     Date: <b><%= @booking.booking_date_time.strftime('%A, %d %B %Y') %></b></p>
      
-    <p>We would be grafeful if you could reply to this message to confirm all details are correct. <br>
-    If need to need to cancel, amend or change you reservation, you can do so by replying to this email.</p> 
+    <p><b>We would be grafeful if you could reply to this message to confirm all details are correct.</b><br>
+    If you need to cancel, amend or change your reservation, you can do so by replying to this email.</p> 
     <p>We look forward to seeing you soon.</p>
     <p>Many thanks,</p>
      <p><b><i>The Hang Fire Southern Kitchen Team</i></b></p>
