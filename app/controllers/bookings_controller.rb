@@ -239,7 +239,16 @@ class BookingsController < ApplicationController
   end
   
   def confirmation_report
-    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.at_beginning_of_week, Date.today.at_end_of_week+1).where(:status => "Confirmed").where("number_of_diners > ?", 4)
+    diners =  (Rdetail.get_value(1,"confirmation_email_diners_max").to_i)
+    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.at_beginning_of_week, Date.today.at_end_of_week+1).where(:status => "Confirmed").where("number_of_diners > ?", diners)
+    @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+    @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date} 
+    #@bookings = @bookings.reverse
+  end
+  
+  def confirmation_report_month
+    diners =  (Rdetail.get_value(1,"confirmation_email_diners_max").to_i)
+    @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.at_beginning_of_week, Date.today.at_end_of_week+31).where(:status => "Confirmed").where("number_of_diners > ?", diners)
     @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date} 
     #@bookings = @bookings.reverse

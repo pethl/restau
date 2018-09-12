@@ -8,12 +8,12 @@
   <h4><b>Confirmation Report</b></h4> 
   
   <ul class="nav nav-tabs">
-    <li role="presentation" class="active"><%= link_to "This Week", confirmation_report_path %></li>
-    <li role="presentation"><%= link_to "Next Month", confirmation_report_month_path %></li>
+    <li role="presentation"><%= link_to "This Week", confirmation_report_path %></li>
+    <li role="presentation" class="active"><%= link_to "Next Month", confirmation_report_month_path %></li>
   </ul>
   <br>
   
-  <h6><small>Table shows bookings for this week, tables of <%= (Rdetail.get_value(1,"confirmation_email_diners_max").to_i)+1 %> or more diners.</small></h6>
+  <h6><small>Table shows bookings for the next 30 days, tables of <%= (Rdetail.get_value(1,"confirmation_email_diners_max").to_i)+1 %> or more diners.</small></h6>
   
   <TABLE class="table table-bordered table-condensed ">
   <thead>

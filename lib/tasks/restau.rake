@@ -7,27 +7,27 @@ namespace :restau do
   task purge_held_bookings: :environment do
     puts "\n"
      puts "----------------------PURGE_HELD_BOOKINGS:START-------------------------"
-     log = ActiveSupport::Logger.new('log/purge_held_bookings.log')
-         start_time = Time.now
-         log.info "-----------Started at #{start_time}---------------------"
+#    log = ActiveSupport::Logger.new('log/purge_held_bookings.log')
+#         start_time = Time.now
+#        log.info "-----------Started at #{start_time}---------------------"
      
      puts "Purge held bookings created yesterday."
      bookings_count = Booking.where("created_at < ? AND status = ?",Date.yesterday.end_of_day, "Held").count
      puts "Records to be purged - count: #{bookings_count}" 
-         log.info "Records to be purged = #{bookings_count}"
+#         log.info "Records to be purged = #{bookings_count}"
          
      Booking.where("created_at < ? AND status = ?", Date.yesterday.end_of_day, "Held").destroy_all
      check_count = Booking.where("created_at < ? AND status = ?",Date.yesterday.end_of_day, "Held").count
      puts "Check count - should be zero: #{check_count}" 
-         log.info "Records to be purged = #{check_count}"
+#         log.info "Records to be purged = #{check_count}"
      puts "Held bookings created yesterday have been purged"
      
-     end_time = Time.now
-         duration = (start_time - end_time) / 1.minute
-         log.info "Task lasted #{duration} minutes."
-         log.info "-----------Finished at #{end_time}---------------------"
-         log.info "\n"  
-         log.close
+#    end_time = Time.now
+#       duration = (start_time - end_time) / 1.minute
+#      log.info "Task lasted #{duration} minutes."
+#     log.info "-----------Finished at #{end_time}---------------------"
+#    log.info "\n"  
+#   log.close
       puts "----------------------PURGE_HELD_BOOOKINGS:END-------------------------"
      puts "\n"
    end
