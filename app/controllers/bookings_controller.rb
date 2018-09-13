@@ -232,10 +232,10 @@ class BookingsController < ApplicationController
   end
   
   def deposit_report
-    @bookings = Booking.where("booking_date_time > ?", Date.today).where(:status => "Confirmed").where("number_of_diners > ?", 7)
+    @deposit_table_size =  (Rdetail.get_value(1,"deposit_max").to_i)
+    @bookings = Booking.where("booking_date_time > ?", Date.today).where(:status => "Confirmed").where("number_of_diners > ?", @deposit_table_size)
     @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
     @bookings_by_date = @bookings.group_by {|i| i.booking_date_time.to_date} 
-    #@bookings = @bookings.reverse
   end
   
   def confirmation_report

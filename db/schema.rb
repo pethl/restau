@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180910145537) do
+ActiveRecord::Schema.define(version: 20180913072204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -254,6 +254,7 @@ ActiveRecord::Schema.define(version: 20180910145537) do
     t.integer  "afternoon_full_diners"
     t.integer  "wed_thurs_eve_max_diners"
     t.integer  "confirmation_email_diners_max"
+    t.integer  "deposit_max"
   end
 
   create_table "restaurants", force: :cascade do |t|

@@ -36,7 +36,7 @@
 <!-- Instructions: This is the intro section. -->  
 
   <div class="col-md-8">
-  <h5>PAY YOUR DEPOSIT</h5>
+  <h5>PAY YOUR DEPOSIT - for tables of <%= @deposit_table_size+1 or more %></h5>
   <br>
     <h6>Thanks for booking your table at Hang Fire Southern Kitchen.<br><br> 
     You can now pay your deposit securely via credit/debit card, by following these steps:</h6>
@@ -128,7 +128,7 @@
          <% @bookings.each do |booking| %>
     <% if booking.status == "Cancelled" %>
       <tr class="danger">
-         <% elsif Booking.deposit_amount(booking).first == "Paid in Full" %>
+         <% elsif ["Paid in Full", "No Deposit Required"].include? Booking.deposit_amount(booking).first  %>
       <tr class="success">
          <% else %>
       <tr class="default">

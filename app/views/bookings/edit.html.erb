@@ -4,9 +4,10 @@
    <!-- Instructions: This is the booking collect contact information section. -->  
 <div class="row">
  <div class="col-md-6 col-md-offset-3 ">
-   <h5><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h5><br>
+   
 
    <% if @booking.status == "Held" %>
+     <h5><i class="fa fa-check-square-o fa-fw"></i> BOOK A TABLE</h5><br>
 
      <table class="table">
      <tr>
@@ -77,7 +78,7 @@
      <!-- Instructions: This is the booking confirmation section. -->  
     
        <% elsif  @booking.status == "Confirmed" %>
-
+<h5><i class="fa fa-check-square-o fa-fw"></i> YOUR BOOKING</h5><br>
     
        <table class="table">
        <tr>
@@ -107,7 +108,7 @@
           <% end%>  
       
       <% elsif  @booking.status == "Cancelled" %>
-        
+        <h5><i class="fa fa-stop-circle-o fa-fw"></i> CANCELLED BOOKING </h5><br>
       <table class="table">
       <tr>
       <td style="width: 5%"></td>

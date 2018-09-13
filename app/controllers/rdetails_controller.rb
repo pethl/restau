@@ -71,6 +71,6 @@ class RdetailsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rdetail_params
-      params.require(:rdetail).permit(:restaurant_id, :confirmation_email_diners_max, :wed_thurs_eve_max_diners, :booking_duration, :min_booking, :max_booking, :max_diners_at_current_time, :last_booking_time, :max_current_diners, :current_diners_window_start, :current_diners_window_end, :big_table_count, :large_table_count, :safe_float, :till_float_main, :till_float_bar, :afternoon_full_diners, :day_full_diners, :eve_full_diners)
+      params.require(:rdetail).permit(:restaurant_id, :deposit_max, :confirmation_email_diners_max, :wed_thurs_eve_max_diners, :booking_duration, :min_booking, :max_booking, :max_diners_at_current_time, :last_booking_time, :max_current_diners, :current_diners_window_start, :current_diners_window_end, :big_table_count, :large_table_count, :safe_float, :till_float_main, :till_float_bar, :afternoon_full_diners, :day_full_diners, :eve_full_diners)
     end
 end

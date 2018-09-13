@@ -565,11 +565,14 @@ def self.all_search(search)
  end
  
  def self.deposit_amount(params)
-    @booking = params
+   @deposit_table_size =  (Rdetail.get_value(1,"deposit_max").to_i)
+   @booking = params
    deposit_due = (@booking.number_of_diners*10)
    deposit_paid = @booking.deposit_amount
    
-   if !@booking.deposit_amount.present?
+   if @booking.number_of_diners <= @deposit_table_size
+      return "No Deposit Required", 0
+   elsif !@booking.deposit_amount.present?
      return "Deposit Due", deposit_due
    elsif deposit_due == deposit_paid || deposit_due < deposit_paid
      return "Paid in Full", 0

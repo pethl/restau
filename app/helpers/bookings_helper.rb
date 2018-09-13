@@ -241,10 +241,10 @@ module BookingsHelper
   end
   
     # THIS FUNCTION RETURNS ALL BOOKINGS OF 7 OR OVER AS DELIMITED CHAR STRING, i.e. 7-9-10-8
-    def get_bookings_over_seven(one_day_of_bookings)
+    def get_bookings_over_four(one_day_of_bookings)
       @bookings = one_day_of_bookings
       return_string = "-"
-      find_values = [7,8,9,10,11,12]
+      find_values = [5,6,7,8,9,10,11,12]
       
       @bookings.each do |booking|
         if find_values.include?(booking.number_of_diners)
@@ -256,10 +256,10 @@ module BookingsHelper
     
     # THeSe  TWO FUNCTION RETURNS ALL BOOKINGS OF 7 OR OVER AS DELIMITED CHAR STRING, i.e. 7-9-10-8
     # FOR SPECIFIED SESSION
-    def get_lunch_bookings_over_seven(one_day_of_bookings)
+    def get_lunch_bookings_over_four(one_day_of_bookings)
       @bookings = one_day_of_bookings
       return_string = "-"
-      find_values = [7,8,9,10,11,12]
+      find_values = [5,6,7,8,9,10,11,12]
      time_compare = @bookings.first.booking_date_time.change({ hour: 16, min: 55 })
       
       @bookings.each do |booking|
@@ -272,10 +272,10 @@ module BookingsHelper
        return return_string
     end
     
-    def get_eve_bookings_over_seven(one_day_of_bookings)
+    def get_eve_bookings_over_four(one_day_of_bookings)
       @bookings = one_day_of_bookings
       return_string = "-"
-      find_values = [7,8,9,10,11,12]
+      find_values = [5,6,7,8,9,10,11,12]
      time_compare = @bookings.first.booking_date_time.change({ hour: 16, min: 56 })
        
       @bookings.each do |booking|
@@ -289,6 +289,7 @@ module BookingsHelper
     end
     
     # THIS FUNCTION RETURNS ALL BOOKINGS OF 7 OR OVER AS an array
+    #not currently used it seems - check git before changing
     def get_bookings_over_seven_array(one_day_of_bookings)
       @bookings = one_day_of_bookings
       return_string = []
