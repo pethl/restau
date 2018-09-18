@@ -77,5 +77,12 @@ class BookingMailer < ActionMailer::Base
       mail(to: @booking[:email], subject: "Hang Fire Deposit Payment Error")
     end
   end
+  
+  def booking_outstanding_deposit_email_customer(booking)
+    @booking = Booking.find(booking.id)
+     if @booking
+      mail(to: @booking[:email], subject: "Hang Fire Deposit - New Online Payment Option")
+    end
+  end
     
 end

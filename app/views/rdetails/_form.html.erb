@@ -17,7 +17,8 @@
     <%= f.number_field :max_booking %>
     <%= f.time_select :last_booking_time %>
     <%= f.number_field :max_diners_at_current_time, :label => "Maximum Number of Diners Seated at Same Time"  %>
-     <%= f.number_field :wed_thurs_eve_max_diners, :label => "Wed/Thurs Evening Full Diners Marker" %>
+     <%= f.number_field :wed_thurs_eve_max_diners, :label => "Wed/Thurs Eve Max Diners Seated at Same Time" %>
+     <%= f.number_field :max_fri_lunch_diners, :label => "Fri Lunch Max Diners Seated at Same Time" %>
     <%= f.number_field :max_current_diners, :label => "Maximum Number of Concurrent Diners"  %>
     <%= f.number_field :current_diners_window_start, :label => "Number of minutes, before booking, included in Current Diners calc" %>
     <%= f.number_field :current_diners_window_end, :label => "Number of minutes, after booking, included in Current Diners calc" %>

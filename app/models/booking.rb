@@ -185,7 +185,7 @@ class Booking < ActiveRecord::Base
         return Error.get_msg("999999123")    
       end
       
-      #start of jan 12 work to remove large table duplicates
+      #14) start of jan 12 work to remove large table duplicates
       check_for_big_tables = Booking.check_for_big_tables_params(params)
       unless check_for_big_tables.blank?
           return Error.get_msg("999999108")  
@@ -229,7 +229,7 @@ class Booking < ActiveRecord::Base
     @existing_diners_number = @existing_bookings.pluck(:number_of_diners)
       
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
- #   @max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
+    #@max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
 
     if ([3,4].include? (@booking[:booking_date_time].to_date.wday))
       if @booking[:booking_date_time].hour== 17
@@ -424,25 +424,44 @@ def self.all_search(search)
         hash_of_times.each do |time|
           booking = @existing_bookings.first.booking_date_time.change({ hour: time[0][0,2], min: time[0][3,5] })
        
-          #test code for adding more diners at 5. - 6 wed and thurs
+          # code for adding more diners at 5 and 5.30 on wed and thurs, uses new param on rdetails
           if ([3,4].include? (booking_datetime.to_date.wday))
-            if [["17:00"],["17:30"]].include? (time)
-            @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners") 
-           # Rails.logger.debug("418_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
-          #  Rails.logger.debug("420_BOOKING_L : #{time.inspect}")
-          else
-            @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
-           # Rails.logger.debug("423_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
-          #  Rails.logger.debug("424_BOOKING_L : #{time.inspect}")
+            if [["17:00"]].include? (time)
+             @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners") 
+        # Rails.logger.debug("1700_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        # Rails.logger.debug("432_BOOKING_L : #{time.inspect}")
+            elsif [["17:30"]].include? (time)
+             @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners")-2 
+        # Rails.logger.debug("1730_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        # Rails.logger.debug("436_BOOKING_L : #{time.inspect}")
+            else
+             @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
+        # Rails.logger.debug("423_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        # Rails.logger.debug("424_BOOKING_L : #{time.inspect}")
+            end
           end
+         
+          # code for adding more diners at friday lunch time, uses new param on rdetails
+          if ([5].include? (booking_datetime.to_date.wday))
+            if [["12:00"],["12:30"],["13:00"],["13:30"]].include? (time)
+             @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
+        # Rails.logger.debug("1700_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        # Rails.logger.debug("432_BOOKING_L : #{time.inspect}")
+            else
+             @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
+        # Rails.logger.debug("423_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        # Rails.logger.debug("424_BOOKING_L : #{time.inspect}")
+            end
           end
+         
+         
          
           if (@max_diners_at_current_time- get_total_diners_for_current_time(booking)) <= 0
             hash_to_delete <<time 
           elsif (@max_diners_at_current_time- get_total_diners_for_current_time(booking)) < number_of_diners
-           hash_to_delete <<time
+            hash_to_delete <<time
           else
-          #there must be space to accomodate the party so leave this time intact 
+        #there must be space to accomodate the party so leave this time intact 
           end  
         end
         

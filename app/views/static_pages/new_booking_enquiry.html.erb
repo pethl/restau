@@ -97,6 +97,8 @@
 
   <%= calendar @date do |date| %>
        <small><small><b><%= date.day %></b></small></small><br>
+       
+<!-- Instructions: This is the special dates section. -->        
         <% last_booking_day = ((Date.today.end_of_month)+5.months) %>
         <% xmas_close_start = Date.new(2017,12,23) %>
          <% xmas_close_end = Date.new(2018,1,4) %>
@@ -109,6 +111,7 @@
      
          <% elsif @date.month != date.month  %>
      
+<!-- Instructions: This is the closed dates section. --> 
           <% elsif ([1,2].include? date.wday)  %>
                    <br><small><font color=#000000>Closed</font></small>
               
@@ -121,6 +124,7 @@
                      <% elsif (exemption_days.include? date)  %> 
                             <br><small><font color=#000000>*Closed</font></small>
               
+<!-- Instructions: This is the special december section. --> 
                   <% elsif (date.month == 12) && ([5,6].include? date.wday) %>
                    <% if @bookings_by_date.key?(date) %>
                      <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > 39 %>
@@ -176,11 +180,11 @@
                                 <small><font color=#000000>Closed</font></small>   
                                   <% end %> 
                    
-                  
+<!-- Instructions: This is the normal dates section. -->                   
              <% elsif [3,4].include? date.wday %>
              <% if @bookings_by_date.key?(date) %>
                <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
-                   <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @eve_full_diners+8 %>
+                   <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @eve_full_diners %>
                      <br><small><font color=#ff0000>Full</font></small>
                    <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
                      <br><small><font color=#FFA500>Filling up</font></small>
@@ -193,8 +197,8 @@
 
             <% elsif [5,6].include? date.wday %>
              <% if @bookings_by_date.key?(date) %>
-              <% @day_full_diners = Rdetail.get_value(1, "day_full_diners") %>
-              <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
+               <% @day_full_diners = Rdetail.get_value(1, "day_full_diners") %>
+               <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
                <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > @day_full_diners %>
                      <small>Lunch:</small><small> <font color=#ff0000>Full</font></small><br>
                <% elsif get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > (@day_full_diners/2) %> 
@@ -252,11 +256,3 @@
 </div>
 </div>
 </div>
-
-
-
-
- 
- 
-   
-   

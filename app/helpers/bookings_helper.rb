@@ -359,5 +359,7 @@ def bookings_from_dailystat(action_date)  #NOT YET IMPLEMENTED NEEDS WORK
   Rails.logger.debug("XXXXXXXXX in action_date: #{action_date}")
   Dailystat.where(:action_date ==action_date).first.confirmed_bookings  
 end
+
+
   
 end

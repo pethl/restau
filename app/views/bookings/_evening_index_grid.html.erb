@@ -1,6 +1,6 @@
  <TABLE class="table table-bordered table-condensed table-hover">
  <tr>
- <th ></th>
+ <th >Evening Headcount: <%= get_sum_from_array_for_field_evening(@bookings) %></th>
  <th colspan="4" style="text-align:center">17pm</th>
  <th colspan="4" style="text-align:center">18pm</th>
  <th colspan="4" style="text-align:center">19pm</th>
@@ -41,11 +41,24 @@
   <% hash_of_times.each do |time| %>
  
     <% booking = @bookings.first.booking_date_time.change({ hour: time.first, min: time.second })%>
-    <% if get_total_diners_for_current_time(booking) >= max_diners_at_current_time(@bookings.first[:restaurant_id]) %>
-      <td colspan="2" class="danger" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
-    <% else %>
+     
+     <% if get_total_diners_for_current_time(booking) < Rdetail.get_value(1,"max_diners_at_current_time") %>
       <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
-   <% end %>
+     
+     <% elsif ([3,4].include? (booking.wday)) && (booking.hour ==17)&& (booking.min ==0) && get_total_diners_for_current_time(booking) >= Rdetail.get_value(1,"wed_thurs_eve_max_diners") %>
+       <td colspan="2" class="danger" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
+     <% elsif ([3,4].include? (booking.wday)) && (booking.hour ==17)&& (booking.min ==0) && get_total_diners_for_current_time(booking) <= Rdetail.get_value(1,"wed_thurs_eve_max_diners") %>
+       <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
+    
+     <% elsif ([3,4].include? (booking.wday)) && (booking.hour ==17)&& (booking.min ==30) && get_total_diners_for_current_time(booking) >= (Rdetail.get_value(1,"wed_thurs_eve_max_diners")-2) %>
+         <td colspan="2" class="danger" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
+     <% elsif ([3,4].include? (booking.wday)) && (booking.hour ==17)&& (booking.min ==30) && get_total_diners_for_current_time(booking) <= (Rdetail.get_value(1,"wed_thurs_eve_max_diners")-2) %>
+         <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
+    
+      <% else %>
+       <td colspan="2" class="danger" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
+      <% end %>
+  
   <% end %>
   </tr>
 

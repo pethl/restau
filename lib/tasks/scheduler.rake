@@ -173,42 +173,108 @@ desc "This task is called by the Heroku scheduler add-on"
       puts "\n"
     end
     
-    task :send_booking_last_confirmation => :environment do
-      puts "\n"
-       puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:START-------------------------"
+  task :send_booking_last_confirmation => :environment do
+    puts "\n"
+     puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:START-------------------------"
 
-       puts "_____Send a booking confirmation email to everyone with a booking today+7.day (a week away)."
-       diners_ref = Rdetail.get_value(1,"confirmation_email_diners_max").to_i
-       date = Date.tomorrow+6.days
-       puts "___#{diners_ref}" 
-       puts "___#{date}" 
-   
-       @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?", diners_ref)
-       confirmations_count = @bookings.count
-       puts "_____Booking records requiring confirmation - count #{confirmations_count}" 
+     puts "_____Send a booking confirmation email to everyone with a booking today+7.day (a week away)."
+     diners_ref = Rdetail.get_value(1,"confirmation_email_diners_max").to_i
+     date = Date.tomorrow+6.days
+     puts "___#{diners_ref}" 
+     puts "___#{date}" 
+ 
+     @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_day, date.end_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?", diners_ref)
+     confirmations_count = @bookings.count
+     puts "_____Booking records requiring confirmation - count #{confirmations_count}" 
 
-       if confirmations_count > 0
-         @bookings.each.with_index(1) do |booking, index|
-               puts "#{index}/#{confirmations_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners} - #{booking.id} "
-               if booking.confirmation_sent==TRUE || booking.confirmation_received == TRUE
-                 puts "Email not sent - flag already TRUE"
-               else   
-                 begin
-                   BookingMailer.booking_last_confirmation_customer(booking).deliver_now
-                   puts "Email Sent for : #{booking.id}: #{booking.email}}"
-                   booking.update_attribute(:confirmation_sent, TRUE)
-                 rescue StandardError => e
-                   booking.update_attribute(:confirmation_sent, FALSE)
-                  puts "Problem Sending Email: #{e}}"
-                 end
+     if confirmations_count > 0
+       @bookings.each.with_index(1) do |booking, index|
+             puts "#{index}/#{confirmations_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners} - #{booking.id} "
+             if booking.confirmation_sent==TRUE || booking.confirmation_received == TRUE
+               puts "Email not sent - flag already TRUE"
+             else   
+               begin
+                 BookingMailer.booking_last_confirmation_customer(booking).deliver_now
+                 puts "Email Sent for : #{booking.id}: #{booking.email}}"
+                 booking.update_attribute(:confirmation_sent, TRUE)
+               rescue StandardError => e
+                 booking.update_attribute(:confirmation_sent, FALSE)
+                puts "Problem Sending Email: #{e}}"
                end
+             end
+        end
+      end
+     puts "___#{confirmations_count} Customer booking confirmations for seven days, where diners over #{diners_ref} now been sent"
+     puts "----------------------------------------------------------------------------------"
+     puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:END-------------------------"
+     puts "----------------------------------------------------------------------------------"
+     puts "\n"
+   end 
+
+   task :send_outstanding_deposit_email => :environment do
+     puts "\n"
+      puts "----------------------SEND_OUTSTANDING_DEPOSIT_EMAIL:START-------------------------"
+      puts "----------------------------------------------------------------------------------"
+      puts "_____Send a email to anyone with a future (7 days from now onwards) booking with outstanding deposit."
+      puts "----------------------------------------------------------------------------------"
+   
+      date = Date.tomorrow+6.day
+
+      @bookings = Booking.where("booking_date_time > ?", date.beginning_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?",7).where("deposit_amount IS NULL").where("email != ?", "hangfirebarry@gmail.com")
+      deposit_emails_count = @bookings.count
+      puts "_____Booking records requiring deposit email - count #{deposit_emails_count}" 
+
+      if deposit_emails_count > 0
+      @bookings.each.with_index(1) do |booking, index|
+              puts "#{index}/#{deposit_emails_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners}"
+              begin
+                BookingMailer.booking_outstanding_deposit_email_customer(booking).deliver_now
+                puts "Email Sent for : #{booking.id}: #{booking.email}}"
+                booking.update_attribute(:notes, ("#{booking.notes} -Online pay-deposit email sent #{Date.today}- "))
+              rescue StandardError => e
+                puts "Problem Sending Email: #{e}}"
+              end
           end
         end
-       puts "___#{confirmations_count} Customer booking confirmations for seven days, where diners over #{diners_ref} now been sent"
-       puts "----------------------------------------------------------------------------------"
-       puts "----------------------SEND_BOOKING_LAST_CONFIRMATION:END-------------------------"
-       puts "----------------------------------------------------------------------------------"
+        puts "----------------------------------------------------------------------------------"
+        puts "_____#{deposit_emails_count} Customer outstanding deposit for future bookings have been sent"
+        puts "----------------------------------------------------------------------------------"
+       puts "----------------------SEND_OUTSTANDING_DEPOSIT_EMAIL:END-------------------------"
+      puts "\n"
+    end
+    
+    task :daily_generate_stats_delete_past_bookings => :environment do
+      puts "\n"
+       puts "----------------------DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:START-------------------------"
+       puts "_____Daily job (part A) to generate simple stats from a given day's bookings."
+     
+       @date = get_action_date_for_stats_and_purge
+       puts "_____Date: #{@date}"
+     
+       @day_confirmed = get_confirmed_bookings_by_date(@date)
+       @day_cancelled = get_cancelled_bookings_by_date(@date)
+       puts "_____Cancelled Bookings: #{@day_cancelled.count}"
+       puts "_____Confirmed Bookings: #{@day_confirmed.count}"
+       @deleted_count =(@day_confirmed.count)+(@day_cancelled.count)
+     
+      if @day_confirmed.count > 0
+       puts "_____Diners Fed: #{get_sum_from_array_for_field(@day_confirmed)}"
+       puts "_____Avg HeadCount Per Booking: #{number_with_precision(@day_confirmed.average(:number_of_diners), :precision => 2)} diners"
+       puts "_____Avg Days Prior to Booking: #{number_with_precision(avg_days_between_booking_made_and_taken(@day_confirmed), :precision => 1)} days"
+      end
+     write_stats
+       puts "_____Daily job (part A) table stats have been generated"
+       puts "_____"
+       puts "_____Daily job (part B) to delete the records for the action date."
+       puts "_____Records to be deleted: #{@deleted_count}"
+      Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).destroy_all
+       puts "_____Daily job (part B) complete - records deleted."
+       puts "-------------------------------------------------------------------------------------------"
+       puts "-----Date: #{@date}-----DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:END------Deleted: #{@deleted_count}-----"
+       puts "-------------------------------------------------------------------------------------------"
        puts "\n"
-     end 
+     end   
+     
+
    
  
