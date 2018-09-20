@@ -16,7 +16,7 @@
   <% end %>
   </div>
   <div class="col-md-4">
-  <button type="button" class="btn btn-warning btn-sm"><%= link_to "Management: Create Booking", new_booking_path %></button>
+   <button type="button" class="btn btn-warning btn-sm"><%= link_to "Management: Create Booking", new_booking_path %></button>
   </div>
   <br>
 
@@ -27,71 +27,64 @@
 <!-- Instructions: If no bookings handle. -->  
 
   <% if @bookings == 0 %>
- 
       <br>
     <h5>No bookings for this date</h5>
   <% else %>
 
+<!-- Instructions: What Date? -->  
+
+    <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+
+<!-- Instructions: If Function(s) - show function(s). -->  
+
+<% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
+  <table class="table table-bordered table-condensed">
+  <% functions = Function.where(event_date: @bookings.first.booking_date_time) %> 
+   <% functions.each do |function|%>
+    <tr>
+     <td><b>Function Room: </b></td>
+     <td><%= function.customer_name %></td>
+     <td><%= function.when_is_event %></td>
+     <td><small> Party Size:</small> <%= function.party_size %></td>
+     <td><small> <%= link_to "See Details >>", function_path(function) %></small></td>
+    </tr>
+   <% end %>
+  </table>
+<% end %>
+<br>
+
 <!-- Instructions: If day is Wed or Thurs. -->  
   
   <% if [3,4].include? @bookings.first.booking_date_time.wday %>
-    
-    <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
-    
-    <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
-    <table class="table-bordered table-condensed">
-    <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
-    </table>
-    <br>
-    <% end %>
-
     <%= render 'bookings/evening_index_grid' %>
  
+<!-- Instructions: If day is Fri or Sat. -->  
+
   <% elsif [5,6].include? @bookings.first.booking_date_time.wday %>
   
-<!-- Instructions: If day is Fri or Sat. -->  
- 
-  <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+   <%= render 'bookings/morning_index_grid' %>
   
- <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
-  <table class="table-bordered table-condensed">
-  <% functions = Function.where(event_date: @bookings.first.booking_date_time) %> 
-   <% functions.each do |function|%>
-    <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= function.customer_name %></td><td><h6><%= function.when_is_event %></td><td>Size: <%= function.party_size %><td><%= link_to "See Details >>", function_path(function) %></td></tr>
-   <% end %>
-  </table>
-  <br>
-  <% end %>
+   <%= render 'bookings/evening_index_grid' %>
 
-  <%= render 'bookings/morning_index_grid' %>
-  
-  <%= render 'bookings/evening_index_grid' %>
-
-  <% else %>
-  
 <!-- Instructions: If day is Sun. -->  
- 
 
-  <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3
-  
-  <% if Function.where(event_date: @bookings.first.booking_date_time).any? %>
-  <table class="table-bordered table-condensed">
-  <tr><td><h6><b>* Function Room Booking: </b></td><td><h6><%= Function.where(event_date: @bookings.first.booking_date_time).first.customer_name %></td><td>Size: <%= Function.where(event_date: @bookings.first.booking_date_time).first.party_size %><td><%= link_to "See Details >>", function_path(Function.where(event_date: @bookings.first.booking_date_time).first) %></td></tr>
-  </table>
-  <br>
-  <% end %>
-  <br>
-  <%= render 'bookings/sun_evening_index_grid' %>
+    <% else %>
+
+   <%= render 'bookings/sun_evening_index_grid' %>
 
   <% end %>
   
+
 <!-- Instructions: Bookings simple details list. -->  
-<h4><%= link_to "Print this day's bookings", download_bookings_pdf_path(:value => @bookings.first.booking_date_time.to_date, :format => 'pdf'), :style => "color:orange" %>
- or <%= link_to "Print this evening's bookings", download_bookings_evening_pdf_path(:value => @bookings.first.booking_date_time.to_date, :format => 'pdf'), :style => "color:orange" %></h4>
+<h4>
+  <%= link_to "Print this day's bookings", download_bookings_pdf_path(:value => @bookings.first.booking_date_time.to_date, :format => 'pdf'), :style => "color:orange" %>
+ or <%= link_to "Print this evening's bookings", download_bookings_evening_pdf_path(:value => @bookings.first.booking_date_time.to_date, :format => 'pdf'), :style => "color:orange" %>
+</h4>
 
   <%= render 'bookings/simple_index' %>
 
 <% end %>
-<br>
-</div></div>
+ <br>
+</div>
+</div>
  

@@ -88,6 +88,7 @@ group :test do
   gem "launchy", "~> 2.4.2"
   gem "selenium-webdriver", "~>2.43.0"
 end
+
 gem 'newrelic_rpm'
 gem 'thin'
 gem 'prawn'

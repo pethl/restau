@@ -80,7 +80,7 @@
       </div>
       
       <div class="col-md-4" align="right">
-      <h5><font color="#66ff66">
+      <h6><font color="#66ff66">
    
           <% if @date.month == DateTime.now.month && @date.year == DateTime.now.year %>
             <% else %>
@@ -90,7 +90,7 @@
            <%= @date.strftime("%B %Y") %>  
            <%= link_to image_tag("right-arrow-gr.png", size: "20x20"), date: @date.next_month %>
        
-          </h5>
+          </h6>
       </div>
     
     <div id="bookings">
@@ -127,17 +127,19 @@
 <!-- Instructions: This is the special december section. --> 
                   <% elsif (date.month == 12) && ([5,6].include? date.wday) %>
                    <% if @bookings_by_date.key?(date) %>
-                     <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > 39 %>
+                     <% @day_full_diners = Rdetail.get_value(1, "day_full_diners") %>
+                     <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
+                     <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > @day_full_diners %>
                            <small>Lunch:</small><small> <font color=#ff0000>Full</font></small>
-                     <% elsif get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > 19 %> 
+                     <% elsif get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > (@day_full_diners/2) %> 
                            <small>Lunch:</small><small> <font color=#FFA500>Filling up</font></small>
                      <% else %>
                            <small>Lunch:</small><small><font color=#33CC33>Availability</font></small>
                      <% end %>
 
-                     <% if get_sum_from_array_for_field_evening(@bookings_by_date[date]) > 89 %>
+                     <% if get_sum_from_array_for_field_evening(@bookings_by_date[date]) > @eve_full_diners %>
                        <small>Eve: </small><small><font color=#ff0000> Full  </font> </small>
-                       <% elsif get_sum_from_array_for_field_evening(@bookings_by_date[date]) > 44 %> 
+                       <% elsif get_sum_from_array_for_field_evening(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
                        <small>Eve: </small><small><font color=#FFA500>Filling up</font></small>
                        <% else %>
                        <small>Eve: </small><small><font color=#33CC33>Availability</font></small>
@@ -148,9 +150,10 @@
             
                      <% elsif (date.month == 12) && ([3,4].include? date.wday) %>     
                           <% if @bookings_by_date.key?(date) %>
-                             <% if get_sum_from_array_for_field(@bookings_by_date[date]) > 89 %>
+                            <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
+                                <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @eve_full_diners %>
                                   <br><small><font color=#ff0000>Full</font></small>
-                                 <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (44) %> 
+                                 <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
                                    <br><small><font color=#FFA500>Filling up</font></small>
                                  <% else %>
                                    <br><small><font color=#33CC33>Availability</font></small>
@@ -161,11 +164,12 @@
                   
                          <% elsif (date.month == 12) && (date.wday == 0) %>
                          <% if @bookings_by_date.key?(date) %>
-                             <% if get_sum_from_array_for_field(@bookings_by_date[date]) > 79 %>
+                           <% @afternoon_full_diners = Rdetail.get_value(1, "afternoon_full_diners") %> 
+                             <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @afternoon_full_diners %>
                                 <small>Lunch:</small><small><font color=#ff0000>Full</font></small>
                                  <br><small>Eve: </small>
                                  <small><font color=#000000>Closed</font></small>   
-                               <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > 39 %> 
+                               <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@afternoon_full_diners/2) %> 
                                 <small>Lunch:</small><small><font color=#FFA500>Filling up </font></small>
                                 <br><small>Eve: </small>
                                 <small><font color=#000000>Closed</font></small>   
