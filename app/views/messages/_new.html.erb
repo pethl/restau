@@ -22,7 +22,7 @@
  <tr><td></td><td><h6> Phone</td><td><%= f.text_field :phone, :style => "width: 220px;", :placeholder => " (optional, but it really helps!)"  %></td><td></td></tr>
  <tr><td></td><td><h6>*Email</td><td> <%= f.text_field :email, :style => "width: 220px;", :placeholder => " your email address"  %></td><td></td></tr>
  <tr><td></td><td><h6>*Email Confirmation</td><td> <%= f.text_field :email_confirmation, :style => "width: 220px;", :placeholder => " re-enter your email address"  %></td><td></td></tr>
- <tr><td></td><td><h6>*Subject</td><td><%= f.select :subject, options_for_select([["select subject", ""], "Table booking enquiry", "Private Dining Room enquiry", "Dietary/Menu enquiry", "Contact Restaurant"]), {}, class:"form-control input-sm" %></td><td></td></tr>
+ <tr><td></td><td><h6>*Subject</td><td><%= f.select :subject, options_for_select([["select subject", ""], "Table booking enquiry", "Dietary/Menu enquiry", "Contact Restaurant"]), {}, class:"form-control input-sm" %></td><td></td></tr>
  <tr><td></td><td><h6>*Message</td><td> <font color=#000000><%= f.text_area :message, :style => "width: 220px; height: 80px"  %></font></td><td></td></tr>
 
  <tr><td></td><td></td><td>

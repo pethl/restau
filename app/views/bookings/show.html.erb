@@ -21,8 +21,8 @@
    <%= @booking.booking_date_time.strftime('%A %d %B %Y') %>.<br><br>
    <font color=#FFA500>If you don't receive the email, please check your email junk folder.</font>
    <br> <br>
-    <% if (@booking.number_of_diners > 7 &&  @booking.booking_date_time > Date.new(2017,10,31))%>
-     <small> As your booking is for <%= @booking.number_of_diners %> people, a deposit of £10 per head is payable in the next 14 days. We will be in contact with you via email to arrange this. The deposit is refundable on cancellation up to 7 days prior to your booking date.
+    <% if (@booking.number_of_diners > 6 &&  @booking.booking_date_time > Date.new(2017,10,31))%>
+     <small> As your booking is for <%= @booking.number_of_diners %> people, a deposit of £10 per head is payable. We will be in contact with you via email to arrange this. The deposit is refundable on cancellation up to 7 days prior to your booking date.
       </small>  <% end %>
    </h6>
    <br>

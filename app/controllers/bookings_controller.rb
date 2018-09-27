@@ -183,7 +183,7 @@ class BookingsController < ApplicationController
         if (@booking.previous_changes().key?("phone") || @booking.previous_changes().key?("booking_date_time") || @booking.previous_changes().key?("email")  || @booking.previous_changes().key?("name")  || @booking.previous_changes().key?("number_of_diners") || @booking.previous_changes().key?("child_friendly"))
           #aa = @booking.previous_changes() 
           #Rails.logger.debug("in booking update: #{aa.inspect}")
-          if (@booking.number_of_diners >7 && @booking.booking_date_time> Date.new(2017,10,31))
+          if (@booking.number_of_diners >6 && @booking.booking_date_time> Date.new(2019,01,01))
             BookingMailer.booking_confirmation_with_deposit_customer(@booking).deliver_now
                 #new change for Binki to set sent flag
                 unless @booking.deposit_email_sent =="Sent"

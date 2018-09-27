@@ -270,7 +270,7 @@ namespace :restau do
      
       date = Date.tomorrow+6.day
  
-      @bookings = Booking.where("booking_date_time > ?", date.beginning_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?",7).where("deposit_amount IS NULL").where("email != ?", "hangfirebarry@gmail.com")
+      @bookings = Booking.where("booking_date_time > ?", date.beginning_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?",6).where("deposit_amount IS NULL").where("email != ?", "hangfirebarry@gmail.com")
       deposit_emails_count = @bookings.count
       puts "_____Booking records requiring deposit email - count #{deposit_emails_count}" 
 
