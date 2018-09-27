@@ -10,9 +10,8 @@ class BookingsController < ApplicationController
   
   def search_bookings
      @bookings = []
-    
-    #take params from search on Index view, or if no search, 
-    #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
+  #take params from search on Index view, or if no search, 
+  #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
      if params[:booking]
        @bookings = Booking.all_search(params[:booking])
              if @bookings.any?
@@ -33,7 +32,7 @@ class BookingsController < ApplicationController
   def booking_get_times
     #Check_Entry does basic validations and ensures if large booking that not too many existing bookings exist
     check_entry = Booking.check_entry_params(params[:booking])
-   # Rails.logger.debug("xxxxx_what is returned check_entry : #{check_entry.inspect}")
+    #Rails.logger.debug("xxxxx_what is returned check_entry : #{check_entry.inspect}")
     
     if check_entry.blank? || check_entry == true
       hashhere = Booking.get_available_space((params[:booking][:booking_date].to_datetime), (params[:booking][:number_of_diners].to_i))

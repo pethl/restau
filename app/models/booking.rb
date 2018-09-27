@@ -173,9 +173,9 @@ class Booking < ActiveRecord::Base
         end 
 
   #12) check to ensure booking is not in December
-#    if ([12].include? (params[:booking_date]).to_date.month)
-#      return Error.get_msg("999999120")    
-#    end
+  #    if ([12].include? (params[:booking_date]).to_date.month)
+  #      return Error.get_msg("999999120")    
+  #    end
     
     #13) DUP check to ensure booking is not after latest booking *curently 6 months from end of month
     #CHANGE TO ALLOW XMAS BOOKINGS AND 2018 ROLLING 6 MONTHS
@@ -229,18 +229,22 @@ class Booking < ActiveRecord::Base
     @existing_diners_number = @existing_bookings.pluck(:number_of_diners)
       
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
-    #@max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
+    @max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
+    Rails.logger.debug("232_new_BOOKING_LOGING_MAX_diners_at_same_start_time : #{@max_diners_at_current_time}")
 
-    if ([3,4].include? (@booking[:booking_date_time].to_date.wday))
-      if @booking[:booking_date_time].hour== 17
-      @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners") 
-      Rails.logger.debug("237_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
-      Rails.logger.debug("238_BOOKING_L : #{@booking[:booking_date_time]}")
-    else
-      @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
-      Rails.logger.debug("241_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
-      Rails.logger.debug("242_BOOKING_L : #{@booking[:booking_date_time]}")
-    end
+
+    if ([3,4].include? (@booking[:booking_date_time].to_date.wday)) &&  @booking[:booking_date_time].hour== 17 &&  @booking[:booking_date_time].min== 0
+        @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners") 
+        Rails.logger.debug("237_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        Rails.logger.debug("238_BOOKING_L : #{@booking[:booking_date_time]}")
+      elsif ([3,4].include? (@booking[:booking_date_time].to_date.wday)) &&  @booking[:booking_date_time].hour== 17 &&  @booking[:booking_date_time].min== 30
+         @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners")-2
+      elsif ([5].include? (@booking[:booking_date_time].to_date.wday))&&  ([12,13].include? @booking[:booking_date_time].hour)
+         @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
+      else     
+        @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
+        Rails.logger.debug("241_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        Rails.logger.debug("242_BOOKING_L : #{@booking[:booking_date_time]}")   
     end
     
       
@@ -254,10 +258,9 @@ class Booking < ActiveRecord::Base
       
     if ((@diners_at_same_start_time+@diners) < (@max_diners_at_current_time+1))
   
-       Rails.logger.debug("244_BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
-       Rails.logger.debug("244_BOOKING_LOGING_MAX_diners_at_same_start_time : #{@max_diners_at_current_time}")
+       Rails.logger.debug("257_BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
+       Rails.logger.debug("258_BOOKING_LOGING_MAX_diners_at_same_start_time : #{@max_diners_at_current_time}")
   
-   
     case @diners
     when 9,10,11,12
           @booking = Booking.new(@booking)
@@ -359,6 +362,7 @@ def self.all_search(search)
     hash_of_times = Booking.get_times_hash(booking_datetime.to_datetime.wday)
     hash_to_delete = Array.new
     
+    # LARGE TABLES ARE ONLY ALLOWED TO BOOK AT CERTAIN TIMES
     if number_of_diners >= 7
       if ([0,3,4,5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.pop
@@ -445,18 +449,17 @@ def self.all_search(search)
           if ([5].include? (booking_datetime.to_date.wday))
             if [["12:00"],["12:30"],["13:00"],["13:30"]].include? (time)
              @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
-        # Rails.logger.debug("1700_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        # Rails.logger.debug("454_BOOKING_LOGING_max_diners_at_current_time : #{@max_diners_at_current_time}")
         # Rails.logger.debug("432_BOOKING_L : #{time.inspect}")
             else
-             @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
-        # Rails.logger.debug("423_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+             @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
+        # Rails.logger.debug("456_BOOKING_LOGING_max_diners_at_current_time : #{@max_diners_at_current_time}")
         # Rails.logger.debug("424_BOOKING_L : #{time.inspect}")
             end
           end
          
-         
-         
-          if (@max_diners_at_current_time- get_total_diners_for_current_time(booking)) <= 0
+             
+        if (@max_diners_at_current_time- get_total_diners_for_current_time(booking)) <= 0
             hash_to_delete <<time 
           elsif (@max_diners_at_current_time- get_total_diners_for_current_time(booking)) < number_of_diners
             hash_to_delete <<time
@@ -545,10 +548,9 @@ def self.all_search(search)
     
     # TOTAL EXISTING TABLES OVER 6, (7-12) IN THE DAY COUNT
     @day_total_over_six_count = (@day_big_tables_count + @day_large_tables_count)
-   @lunch_total_over_six_count = (@lunch_big_tables_count + @lunch_large_tables_count)
-  Rails.logger.debug("in @lunch_total_over_six_count: #{@lunch_total_over_six_count.inspect}")
-   @eve_total_over_six_count = (@eve_big_tables_count + @eve_large_tables_count)
-  #      
+    @lunch_total_over_six_count = (@lunch_big_tables_count + @lunch_large_tables_count)
+    # Rails.logger.debug("in @lunch_total_over_six_count: #{@lunch_total_over_six_count.inspect}")
+    @eve_total_over_six_count = (@eve_big_tables_count + @eve_large_tables_count)
     
     #NEW STATMENT ADDED JAN 2017, can only be 2 tables over 6 in any session, but can only be 2  at 7 or 8 or 1 large and 1 at 7 or 8 , not 2 at over 8
 
