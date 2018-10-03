@@ -91,18 +91,10 @@ class StaticPagesController < ApplicationController
     end
   end
   
-  def download_lunch_pdf
+  def download_menu_pdf
     send_file(
-      "#{Rails.root}/public/HF_LUNCH_SAMPLE_0118.pdf",
-      filename: "HF_LUNCH_SAMPLE_0118.pdf",
-      type: "application/pdf"
-    )
-  end
-  
-  def download_evening_pdf
-    send_file(
-      "#{Rails.root}/public/HF_SAMPLE_MENU_EVENING_0118.pdf",
-      filename: "HF_SAMPLE_MENU_EVENING_0118.pdf",
+      "#{Rails.root}/public/HF_MENU_SAMPLE_1018.pdf",
+      filename: "HF_MENU_SAMPLE_1018.pdf",
       type: "application/pdf"
     )
   end
