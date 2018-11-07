@@ -1,6 +1,8 @@
-source 'https://rubygems.org'
-source 'https://code.stripe.com'
+source 'https://code.stripe.com' do
+  gem 'stripe', '~> 1.26.0'
+end
 
+source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -39,10 +41,6 @@ gem 'active_attr'
 
 #recomended to make asset pipeline work
 gem 'rails_12factor', group: :production
-
-#for stripe
-gem 'stripe', '~> 1.26.0'
-
 
 group :development do
   gem 'guard-minitest', '~> 2.3.2' # https://github.com/guard/guard-minitest
@@ -90,7 +88,7 @@ group :test do
 end
 
 gem 'newrelic_rpm'
-gem 'thin'
+#gem 'thin'
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'

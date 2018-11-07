@@ -50,7 +50,6 @@ class Booking < ActiveRecord::Base
         end
         
       #14) Check to ensure booking date is not on list of exemption dates
-        
       exempt_days_hash = Exemption.where("exempt_day > ?",Date.today)
       if exempt_days_hash.count > 0
         exempt_days_hash.each do |exemption|
@@ -362,23 +361,28 @@ def self.all_search(search)
     hash_of_times = Booking.get_times_hash(booking_datetime.to_datetime.wday)
     hash_to_delete = Array.new
     
-    # LARGE TABLES ARE ONLY ALLOWED TO BOOK AT CERTAIN TIMES
+    # LARGE TABLES ARE ONLY ALLOWED TO BOOK AT CERTAIN TIMES - Changes from Shauna email 7/11/18
     if number_of_diners >= 7
-      if ([0,3,4,5,6].include? (booking_datetime.to_date.wday))
+      if ([3,4,5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.pop
         hash_of_times.delete(["17:30"])
         hash_of_times.delete(["18:00"])
         hash_of_times.delete(["18:30"])
         hash_of_times.delete(["19:00"])
-        hash_of_times.delete(["20:00"])
+        hash_of_times.delete(["19:30"])
       end
       if ([5,6].include? (booking_datetime.to_date.wday))
+        hash_of_times.delete(["13:00"])
+        hash_of_times.delete(["13:30"])
         hash_of_times.delete(["14:00"])
-        hash_of_times.delete(["17:30"])
-        hash_of_times.delete(["18:00"])
-        hash_of_times.delete(["18:30"])
-        hash_of_times.delete(["19:00"])
-        hash_of_times.delete(["20:00"])
+        hash_of_times.delete(["14:30"])
+      end  
+      if ([0].include? (booking_datetime.to_date.wday))
+        hash_of_times.delete(["12:30"])
+        hash_of_times.delete(["13:00"])
+        hash_of_times.delete(["13:30"])
+        hash_of_times.delete(["14:00"])
+        hash_of_times.delete(["14:30"])
       end   
       #new conditions to rid array of times if current clashing large groups
       if  (([5,6].include? (booking_datetime.to_date.wday))&&(@lunch_total_over_six_count>=2))
