@@ -17,4 +17,8 @@ module ApplicationHelper
     Rdetail.where(:restaurant_id => restaurant_id)[0].max_diners_at_current_time
  end
  
+ def deposit_table_size
+   (Rdetail.where(:restaurant_id => 1)[0].deposit_max)+1
+end
+ 
 end

@@ -113,6 +113,7 @@ Rails.application.routes.draw do
   get '/hfsk_booking' => 'static_pages#booking_enquiry'
   get '/hfsk_location' => 'static_pages#hfsk_location'
   get '/hfsk_pay_deposit' => 'static_pages#hfsk_pay_deposit'
+  get '/hfsk_deposit_terms' => 'static_pages#hfsk_deposit_terms'
   get '/hfsk_confirm_deposit' => 'static_pages#hfsk_confirm_deposit'
   get '/hfsk_get_in_touch' => 'static_pages#hfsk_get_in_touch'
   get '/hfsk_careers' => 'static_pages#hfsk_careers'
@@ -141,6 +142,7 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_about"
   get "static_pages/hfsk_location"
   get "static_pages/hfsk_pay_deposit"
+  get "static_pages/hfsk_deposit_terms"
   get "static_pages/hfsk_confirm_deposit"
   get "static_pages/hfsk_get_in_touch"
   get "static_pages/hfsk_careers"

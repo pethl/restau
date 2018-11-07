@@ -5,38 +5,12 @@
  <div class="col-md-10 col-md-offset-1  "> 
  <div class="row">
   <div class="col-md-4">
-   <h6>OPENING HOURS</h6>
-   <br>
-
-   <!-- Instructions: This is the opening hours section. -->  
-
-   <h6>Weds / Thurs - 5pm -11pm
-   <br>[last food orders 9pm]
-   </h6>
-   <br>
-   <h6>Fri / Sat Lunch - 12pm -3pm
-   <br>[last food orders 2pm]
-   </h6>
-    <br>
-   <h6>Fri / Sat Dinner - 5pm -11pm
-   <br>[last food orders 9pm]
-   </h6>
-    <br>
-   <h6>Sun Lunch - 12pm - 5pm
-   <br>[last food orders 3pm]
-   </h6> 
-   <br>
-   <h6>Mon / Tues - Closed
-   </h6>
-    <br>
-    <%= link_to "BOOK A TABLE", static_pages_new_booking_enquiry_path, :class => "btn button_book_table_orange", :style=>'color:#000000;'  %>
-  <br>
  </div>
  
 <!-- Instructions: This is the intro section. -->  
 
   <div class="col-md-8">
-  <h5>PAY YOUR DEPOSIT - for tables of <%= @deposit_table_size+1 or more %></h5>
+  <h5>PAY YOUR DEPOSIT - for tables of <%= Rdetail.deposit_table_size %>or more %></h5>
   <br>
     <h6>Thanks for booking your table at Hang Fire Southern Kitchen.<br><br> 
     You can now pay your deposit securely via credit/debit card, by following these steps:</h6>

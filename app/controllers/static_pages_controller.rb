@@ -7,9 +7,10 @@ class StaticPagesController < ApplicationController
   def help
   end
   
+  def hfsk_deposit_terms
+  end
+  
   def hfsk_pay_deposit
-  #  Rails.logger.debug("xxxxx_static_pages_PAY_DEPOSIT : #{params.inspect}")
-    @deposit_table_size =  (Rdetail.get_value(1,"deposit_max").to_i)
     @error = params["error"]   
        @bookings =[]   
       #take params from search on view, note need all params to make use of search code on booking.rb even though some are hidden, or if no search, 
