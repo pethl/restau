@@ -362,7 +362,7 @@ def self.all_search(search)
     hash_to_delete = Array.new
     
     # LARGE TABLES ARE ONLY ALLOWED TO BOOK AT CERTAIN TIMES - Changes from Shauna email 7/11/18
-    if number_of_diners >= 7
+    if number_of_diners >= 8
       if ([3,4,5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.pop
         hash_of_times.delete(["17:30"])
@@ -382,7 +382,7 @@ def self.all_search(search)
         hash_of_times.delete(["13:00"])
         hash_of_times.delete(["13:30"])
         hash_of_times.delete(["14:00"])
-        hash_of_times.delete(["14:30"])
+        hash_of_times.delete(["15:00"])
       end   
       #new conditions to rid array of times if current clashing large groups
       if  (([5,6].include? (booking_datetime.to_date.wday))&&(@lunch_total_over_six_count>=2))

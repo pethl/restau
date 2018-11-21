@@ -5,17 +5,15 @@
  <div class="col-md-10 col-md-offset-1  "> 
  <div class="row">
   <div class="col-md-4">
- </div>
+  </div>
  
 <!-- Instructions: This is the intro section. -->  
 
   <div class="col-md-8">
-  <h5>PAY YOUR DEPOSIT - for tables of <%= Rdetail.deposit_table_size %>or more %></h5>
+  <h5>PAY YOUR DEPOSIT - <small>for tables of <%= Rdetail.deposit_table_size %> or more </small></h5>
   <br>
-    <h6>Thanks for booking your table at Hang Fire Southern Kitchen.<br><br> 
-    You can now pay your deposit securely via credit/debit card, by following these steps:</h6>
+  <h6>You can now pay your deposit securely via credit/debit card, by following these steps:</h6>
     
-   
     <% if @error.present? %>
       <!-- Instructions: This is the error section. -->    
       <h4>
@@ -46,7 +44,9 @@
  
      <h4>
      <ol>
-      <font color="#FFFF00"> <li>Search for your booking.</li></font>
+      <font color="#FFFF00"> 
+       <li>Please read the deposit terms and conditions carefully.</li>
+       <li>Search for your booking.</li></font>
        <li>Review details and confirm deposit amount.</li>
        <li>Pay your deposit using Stripe secure card payment.</li>
        <li>Receive your payment confirmation details and email.</li>
@@ -55,10 +55,10 @@
      <br>
      
   <!-- Instructions: This is the search section. -->     
-    
+    <div class="well well-sm">
      <%= form_tag hfsk_pay_deposit_path, method: :get, :class => "form-inline" do %>
 
-         <h6>Please enter:<br>
+         <h6>Please enter telephone or email given when booking was made:<br><br>
          <%= hidden_field(:booking, :name, :placeholder => "Name", :class=>"form-control input-sm") %>
          <%= hidden_field(:booking, :booking_date_time, :placeholder => "DateTime", :class=>"form-control input-sm") %>
  
@@ -69,7 +69,19 @@
        <br><br>
        <button type="submit" class="btn btn-primary btn-sm">Search</button>
      <% end %>
-     <br><br><br><br>
+     </div>
+  
+      <hr>
+      <!-- Instructions: This is the search section. -->   
+     <h6>DEPOSIT TERMS and CONDITIONS</h6>
+     <h6><ul>
+       <li>A deposit is required for tables of <%= Rdetail.deposit_table_size %> or more.</li> 
+       <li>The deposit is £10 per person (which includes children).</li>
+       <li>The full amount will be deducted from your bill at the end of your meal.</li>
+       <li>If your numbers change, and you let us know in advance, you won't lose any of your deposit.</li>
+       <li>You will be entitled to a full refund of your deposit anytime up until 3 days (72 hours) before your reservation.</li>   
+    </h6>
+      <br><br><br><br><br>
      
      <% else @bookings.any? %>
 <!-- Instructions: This is the review and pay section. -->  
@@ -138,7 +150,12 @@
          <td><strong><%= booking.name %></strong><br>
          <small><i><%= booking.phone %>, <%= booking.email %></small></td>
          <td><small><center><%= booking.number_of_diners %></center></td>
-         <td><small><center>£<%= number_with_precision((booking.number_of_diners*10), :precision => 2) %></center></td>
+         <% if booking.number_of_diners >= Rdetail.deposit_table_size %>
+           <td><small><center>£<%= number_with_precision((booking.number_of_diners*10), :precision => 2) %></center></td>
+         <% else %>
+           <td><small><center>£0</center></td>
+         <% end %>
+        
          <td><small><center><% if booking.deposit_amount? %>£<%= number_with_precision(booking.deposit_amount, :precision => 2) %></center><% end %></td>
          <td><small><i><%= booking.created_at.strftime('%d %b %Y') %></small></td>
        </tr>

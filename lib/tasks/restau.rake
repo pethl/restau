@@ -265,12 +265,16 @@ namespace :restau do
      puts "\n"
       puts "----------------------SEND_OUTSTANDING_DEPOSIT_EMAIL:START-------------------------"
       puts "----------------------------------------------------------------------------------"
-      puts "_____Send a email to anyone with a future (7 days from now onwards) booking with outstanding deposit."
+      puts "_____Send a email to first 5, booking over 7 from Dec 1 2018, with outstanding deposit."
       puts "----------------------------------------------------------------------------------"
-     
-      date = Date.tomorrow+6.day
+     # change needed after jan to use the new deposit value
+     # date = Date.tomorrow+6.day
+     date = Date.new(2018,12,01)
  
-      @bookings = Booking.where("booking_date_time > ?", date.beginning_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?",6).where("deposit_amount IS NULL").where("email != ?", "hangfirebarry@gmail.com")
+      @bookings = Booking.where("booking_date_time > ?", date.beginning_of_day).where("status = ?", "Confirmed").where("number_of_diners > ?",7).where("deposit_amount IS NULL").where("email != ?", "hangfirebarry@gmail.com")
+      @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+      @bookings = @bookings.first(5)
+      
       deposit_emails_count = @bookings.count
       puts "_____Booking records requiring deposit email - count #{deposit_emails_count}" 
 
@@ -292,5 +296,41 @@ namespace :restau do
        puts "----------------------SEND_OUTSTANDING_DEPOSIT_EMAIL:END-------------------------"
       puts "\n"
     end
+    
+    task :send_lisapethick_outstanding_deposit_email => :environment do
+      puts "\n"
+       puts "----------------------SEND_OUTSTANDING_DEPOSIT_EMAIL:START-------------------------"
+       puts "----------------------------------------------------------------------------------"
+       puts "_____Send a email to first 5, booking over 7 from Dec 1 2018, with outstanding deposit."
+       puts "----------------------------------------------------------------------------------"
+      # change needed after jan to use the new deposit value
+       date = Date.tomorrow
+      #date = Date.new(2018,12,01)
+ 
+       @bookings = Booking.where("booking_date_time > ?", date.beginning_of_day).where("status = ?", "Confirmed").where("phone = ?",'07803293552')
+       @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+       @bookings = @bookings.first(5)
+      
+       deposit_emails_count = @bookings.count
+       puts "_____Booking records requiring deposit email - count #{deposit_emails_count}" 
+
+       if deposit_emails_count > 0
+       @bookings.each.with_index(1) do |booking, index|
+               puts "#{index}/#{deposit_emails_count} - #{booking.booking_date_time.to_time} - #{booking.number_of_diners}"
+               begin
+                 BookingMailer.booking_outstanding_deposit_email_customer(booking).deliver_now
+                 puts "Email Sent for : #{booking.id}: #{booking.email}}"
+                 booking.update_attribute(:notes, ("#{booking.notes} -Online pay-deposit email sent #{Date.today}- "))
+               rescue StandardError => e
+                 puts "Problem Sending Email: #{e}}"
+               end
+           end
+         end
+         puts "----------------------------------------------------------------------------------"
+         puts "_____#{deposit_emails_count} Customer outstanding deposit for future bookings have been sent"
+         puts "----------------------------------------------------------------------------------"
+        puts "----------------------SEND_OUTSTANDING_DEPOSIT_EMAIL:END-------------------------"
+       puts "\n"
+     end    
 
 end
