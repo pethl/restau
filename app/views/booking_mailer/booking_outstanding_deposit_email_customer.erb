@@ -1,12 +1,12 @@
 <html>
   <body>
     <p>Hi <%= @booking.name %>,</p>
-	<p>We now have online deposit payment facilities via our website.</p>
-    <p>You are receiving this email as you have an outstanding deposit of £<%= @booking.number_of_diners*10 %> for your reservation at Hang Fire Southern Kitchen, Barry for <%= @booking.number_of_diners %> people, at  <%= @booking.booking_date_time.strftime('%H:%M') %> on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</p>
-    <p>If you would like to make a credit or debit card payment, please use this link : <%= link_to "pay your deposit", hfsk_pay_deposit_url %>. For security, you will need to enter the email address or  phone number you gave us, to access your booking.</p>
+	<p>We now have <b>online deposit payment</b> facilities via our website.</p>
+    <p>You are receiving this email as you have an outstanding deposit of £<%= @booking.number_of_diners*10 %> for your reservation at Hang Fire Southern Kitchen (Barry), for <%= @booking.number_of_diners %> people, at  <%= @booking.booking_date_time.strftime('%H:%M') %> on <%= @booking.booking_date_time.strftime('%A, %d %B %Y') %>.</p>
+    <p>If you would like to make a credit or debit card payment, please use this link : <%= link_to "pay your deposit", hfsk_pay_deposit_url %>.<br> For your security, you will need to enter the email address or  phone number you gave us, to access your booking.</p>
 	
-    <p>Please use this link to <b>view or cancel</b> your booking: <%= link_to "view or cancel your booking", booking_url(@booking) %>.<br>
-If you need to amend or cancel your booking, please contact us at hangfirebarry@gmail.com.</p>
+    <p>To <b>view</b> or <b>cancel</b> this booking, please use this link: <%= link_to "view or cancel your booking", booking_url(@booking) %>.<br>
+If you need to amend your booking or for any other problems, please contact us at hangfirebarry@gmail.com.</p>
    <p>Regards,</p>
      <p><b><i>Hang Fire Southern Kitchen</i></b></p>
   </body>
