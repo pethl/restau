@@ -46,7 +46,7 @@
  <% hash_of_times.each do |time| %>
 
    <% booking = @bookings.first.booking_date_time.change({ hour: time.first, min: time.second })%>
-   <% if get_total_diners_for_current_time(booking) >= max_diners_at_current_time(@bookings.first[:restaurant_id]) %>
+   <% if get_total_diners_for_current_time(booking) >= Rdetail.get_value(1,"sun_max_diners")  %>
      <td colspan="2" class="danger" ><small><center><%= get_total_diners_for_current_time(booking) %></td>
    <% else %>
      <td colspan="2" class="warning" ><small><center><%= get_total_diners_for_current_time(booking) %></td>

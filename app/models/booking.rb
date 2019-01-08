@@ -110,11 +110,12 @@ class Booking < ActiveRecord::Base
      end  
      
      #6b) check to ensure booking is not at 3.30pm on sun, last booking 3pm
-        if ([0].include? (params[:booking_date]).to_date.wday) &&
-          ([15].include? (params[:booking_time_hour]).to_i) &&
-          ([30].include? (params[:booking_time_min]).to_i)
-         return Error.get_msg("999999105")      
-      end 
+     # AMENDED 08/JAN/2019 - email from Shauna, allow 3.30 bookings on Sunday
+    #    if ([0].include? (params[:booking_date]).to_date.wday) &&
+    #      ([15].include? (params[:booking_time_hour]).to_i) &&
+    #      ([30].include? (params[:booking_time_min]).to_i)
+    #     return Error.get_msg("999999105")      
+    #  end 
       
       #6c) check to ensure booking is not 3pm on sun if group size is 7 or more
          if ([0].include? (params[:booking_date]).to_date.wday) &&
@@ -123,6 +124,14 @@ class Booking < ActiveRecord::Base
            ([7,8,9,10,11,12].include? (params[:number_of_diners]).to_i)
           return Error.get_msg("999999122")      
        end 
+       
+       #6d) check to ensure booking is not 3.30pm on sun if group size is 7 or more
+          if ([0].include? (params[:booking_date]).to_date.wday) &&
+            ([15].include? (params[:booking_time_hour]).to_i) &&
+            ([30].include? (params[:booking_time_min]).to_i)  &&
+            ([7,8,9,10,11,12].include? (params[:number_of_diners]).to_i)
+           return Error.get_msg("999999122")      
+        end  
       
       #7a) check to ensure booking is not between 3pm and 5pm on sat
          if ([6].include? (params[:booking_date]).to_date.wday) &&
@@ -234,16 +243,19 @@ class Booking < ActiveRecord::Base
 
     if ([3,4].include? (@booking[:booking_date_time].to_date.wday)) &&  @booking[:booking_date_time].hour== 17 &&  @booking[:booking_date_time].min== 0
         @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners") 
-        Rails.logger.debug("237_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
-        Rails.logger.debug("238_BOOKING_L : #{@booking[:booking_date_time]}")
+  #   Rails.logger.debug("237_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+  #   Rails.logger.debug("238_BOOKING_L : #{@booking[:booking_date_time]}")
       elsif ([3,4].include? (@booking[:booking_date_time].to_date.wday)) &&  @booking[:booking_date_time].hour== 17 &&  @booking[:booking_date_time].min== 30
          @max_diners_at_current_time = Rdetail.get_value(1, "wed_thurs_eve_max_diners")-2
       elsif ([5].include? (@booking[:booking_date_time].to_date.wday))&&  ([12,13].include? @booking[:booking_date_time].hour)
          @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
+      elsif ([0].include? (@booking[:booking_date_time].to_date.wday))
+          @max_diners_at_current_time = Rdetail.get_value(1, "sun_max_diners") 
+           Rails.logger.debug("246_BOOKING_LOGING_diners_at_same_start_time : #{@booking[:booking_date_time]}")   
       else     
         @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
-        Rails.logger.debug("241_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
-        Rails.logger.debug("242_BOOKING_L : #{@booking[:booking_date_time]}")   
+        Rails.logger.debug("249_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+        Rails.logger.debug("250_BOOKING_L : #{@booking[:booking_date_time]}")   
     end
     
       
@@ -362,7 +374,7 @@ def self.all_search(search)
     hash_to_delete = Array.new
     
     # LARGE TABLES ARE ONLY ALLOWED TO BOOK AT CERTAIN TIMES - Changes from Shauna email 7/11/18
-    if number_of_diners >= 8
+    if number_of_diners >= 7
       if ([3,4,5,6].include? (booking_datetime.to_date.wday))
         hash_of_times.pop
         hash_of_times.delete(["17:30"])
@@ -383,6 +395,7 @@ def self.all_search(search)
         hash_of_times.delete(["13:30"])
         hash_of_times.delete(["14:00"])
         hash_of_times.delete(["15:00"])
+        hash_of_times.delete(["15:30"])
       end   
       #new conditions to rid array of times if current clashing large groups
       if  (([5,6].include? (booking_datetime.to_date.wday))&&(@lunch_total_over_six_count>=2))
@@ -448,17 +461,18 @@ def self.all_search(search)
         # Rails.logger.debug("424_BOOKING_L : #{time.inspect}")
             end
           end
+          
+          #NEW CODE 7/JAN/2019 - allow up to 14 at each time period on sunday
+          if ([0].include? (booking_datetime.to_date.wday))
+           @max_diners_at_current_time = Rdetail.get_value(1, "sun_max_diners") 
+         end
          
           # code for adding more diners at friday lunch time, uses new param on rdetails
           if ([5].include? (booking_datetime.to_date.wday))
             if [["12:00"],["12:30"],["13:00"],["13:30"]].include? (time)
              @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
-        # Rails.logger.debug("454_BOOKING_LOGING_max_diners_at_current_time : #{@max_diners_at_current_time}")
-        # Rails.logger.debug("432_BOOKING_L : #{time.inspect}")
             else
              @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
-        # Rails.logger.debug("456_BOOKING_LOGING_max_diners_at_current_time : #{@max_diners_at_current_time}")
-        # Rails.logger.debug("424_BOOKING_L : #{time.inspect}")
             end
           end
          
@@ -486,7 +500,7 @@ def self.all_search(search)
     case day_of_week
     when 0 #Sunday
       hash_of_times = Hash.new
-      hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["14:30"],["15:00"]]
+      hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["14:30"],["15:00"],["15:30"]]
     when 3 #Wednesday
       hash_of_times = Hash.new
       hash_of_times=[["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"]]  
