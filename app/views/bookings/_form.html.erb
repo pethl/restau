@@ -38,7 +38,7 @@
       <p><b>DEPOSIT TAKEN:</b></p>
         <%= f.number_field :deposit_amount, label: "Amount" %>
         <%= f.text_field :deposit_code, placeholder: "<Obtain code from til>", label: "Code" %>
-        <%= f.select :deposit_pay_method, [['Cash','Cash'],['Credit Card','Credit Card']], label: "Method", :include_blank => true  %>
+        <%= f.select :deposit_pay_method, [['Cash','Cash'],['Credit Card','Credit Card'],['BACS','BACS']], label: "Method", :include_blank => true  %>
     </div>
     </div>
  

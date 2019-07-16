@@ -31,9 +31,19 @@
     <h5>No bookings for this date</h5>
   <% else %>
 
+
 <!-- Instructions: What Date? -->  
 
-    <h3><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></h3>
+<h4>
+<small><small>
+   <%= link_to "< Show -1 day >" , bookings_path({ :search => @bookings.first.booking_date_time-1.day}), style: 'color:#d3d3d3;' %>
+</font></small></small>
+<b><%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %></b>
+  <small><small>
+     <%= link_to "< Show +1 day >" , bookings_path({ :search => @bookings.first.booking_date_time+1.day}), style: 'color:#d3d3d3;' %>
+  </font></small></small>
+</h4>
+
 
 <!-- Instructions: If Function(s) - show function(s). -->  
 

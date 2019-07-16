@@ -67,7 +67,7 @@
       <% else %>
           <%= f.number_field :deposit_amount, label: "Amount"%>
           <%= f.text_field :deposit_code, placeholder: "<Obtain code from til>", label: "Code" %>
-          <%= f.select :deposit_pay_method, [['Cash','Cash'],['Credit Card','Credit Card']], label: "Method", :include_blank => true, readonly: true  %>
+          <%= f.select :deposit_pay_method, [['Cash','Cash'],['Credit Card','Credit Card'],['BACS','BACS']], label: "Method", :include_blank => true, readonly: true  %>
       <% end %>
         <div class="actions">
            <%= f.submit "Update This Booking", class: "btn btn-primary" %>
