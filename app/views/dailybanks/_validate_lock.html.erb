@@ -54,9 +54,11 @@
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :card_payments, "Cards Total" %></font><br>
+  <font color=#FFFF33><i>less gratuity</i></font><br>
   </div>       
   <div class="col-md-2">
   <%= f.text_field :card_payments, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_payments, :precision => 2)) %> <br>
+  <%= f.text_field :gratuity_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_total, :precision => 2)) %> <br>
   </div> 
   <div class="col-md-3"> 
    

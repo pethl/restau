@@ -518,7 +518,7 @@ class DailybanksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dailybank_params
-      params.require(:dailybank).permit(:user_id, :effective_date, :till_cash, :till_float, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :terminal_1, :terminal_2, :tablet_1, :tablet_2, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
+      params.require(:dailybank).permit(:user_id, :effective_date, :till_cash, :till_float, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :terminal_1, :terminal_2, :tablet_1, :tablet_2, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :gratuity_1, :gratuity_2, :gratuity_total, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
     end
     
     def run_calc_rules(dailybank)
@@ -526,10 +526,20 @@ class DailybanksController < ApplicationController
       if (!dailybank.till_float.blank? && !dailybank.till_cash.blank?)
         dailybank.update_attribute(:banking, (dailybank.till_cash-dailybank.till_float))
        end
+     
+       #good
+       if (!dailybank.gratuity_1.blank? && !dailybank.gratuity_2.blank?)
+         dailybank.update_attribute(:gratuity_total, (dailybank.gratuity_1+dailybank.gratuity_2))
+       end
+     
+       #good
+       if (!dailybank.card_1.blank? && !dailybank.card_2.blank?)
+         dailybank.update_attribute(:card_payments, (dailybank.card_1+dailybank.card_2))
+       end
       
       #good
-      if (!dailybank.card_1.blank? && !dailybank.card_2.blank?)
-        dailybank.update_attribute(:card_payments, (dailybank.card_1+dailybank.card_2))
+      if (!dailybank.card_1.blank? && !dailybank.card_2.blank? && !dailybank.gratuity_2.blank? && !dailybank.gratuity_2.blank?)
+        dailybank.update_attribute(:card_payments, ((dailybank.card_1+dailybank.card_2)-(dailybank.gratuity_1+dailybank.gratuity_2)))
       end
       
       #good

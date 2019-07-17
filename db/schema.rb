@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190108184601) do
+ActiveRecord::Schema.define(version: 20190717151135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,6 +140,9 @@ ActiveRecord::Schema.define(version: 20190108184601) do
     t.decimal  "terminal_2",            precision: 7, scale: 2
     t.decimal  "tablet_1",              precision: 7, scale: 2
     t.decimal  "tablet_2",              precision: 7, scale: 2
+    t.decimal  "gratuity_1",            precision: 8, scale: 2
+    t.decimal  "gratuity_2",            precision: 8, scale: 2
+    t.decimal  "gratuity_total",        precision: 8, scale: 2
   end
 
   create_table "dailystats", force: :cascade do |t|

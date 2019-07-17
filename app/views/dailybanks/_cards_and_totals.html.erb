@@ -20,13 +20,28 @@
    <div class="row"> 
       <div class="col-md-2"><font color=#D3D3D3><%= f.label :card_1, "Card 1" %></font></div>
       <div class="col-md-2"><%= f.text_field :card_1, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_1, :precision => 2)) %></div> 
+      <div class="col-md-2"><font color=#D3D3D3><%= f.label :gratuity_1, "Gratuity 1" %></font></div>
+      <div class="col-md-2"><%= f.text_field :gratuity_1, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_1, :precision => 2)) %></div> 
     </div>
-   
+<br>
+<br>
    <div class="row">  
       <div class="col-md-2"><font color=#D3D3D3><%= f.label :card_2, "Card 2" %></font><br></div>
       <div class="col-md-2"><%= f.text_field :card_2, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_2, :precision => 2)) %></div> 
-      
-      <div class="col-md-2"><b><font color=#D3D3D3>Total Cards</font></b><hr></div>
+      <div class="col-md-2"><font color=#D3D3D3><%= f.label :gratuity_2, "Gratuity 2" %></font></div>
+      <div class="col-md-2"><%= f.text_field :gratuity_2, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_2, :precision => 2)) %></div> 
+    </div>
+<br>      
+  <div class="row"> 
+     <div class="col-md-2"><font color=#D3D3D3><i>Card Sub Total</i></font><br></div>
+     <div class="col-md-2"><%= f.text_field :card_1, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_1+f.object.card_2, :precision => 2)) %></div>
+     <div class="col-md-2"><font color=#D3D3D3><i>Gratuity Sub Total</i></font><br></div>
+     <div class="col-md-2"><%= f.text_field :gratuity_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_total, :precision => 2)) %></div>
+     
+      </div>
+ <br><br>
+ <div class="row"> 
+      <div class="col-md-2 col-md-offset-5"><b><font color=#D3D3D3>Total Cards<br><i><font color=#FFFF33>(less gratuity)</i></font></b></div>
       <div class="col-md-2"><p class="text-right"><%= number_to_currency(@dailybank.card_payments, :locale => :en) %></p><hr></div>
   </div>
   

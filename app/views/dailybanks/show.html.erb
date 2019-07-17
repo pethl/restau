@@ -52,8 +52,11 @@
     <td><b><font color=#FFA500>Banking </b></font></td>
     <td><b><%= number_to_currency(@dailybank.banking, :locale => :en) %></b></td>
     
-    <td><b><font color=#FFA500>Total Card </b></font></td>
-    <td><b><%= number_to_currency(@dailybank.card_payments, :locale => :en) %></b></td>
+    <td><b><font color=#FFA500>Total Card </b></font><br>
+     <font color=#FFFF33><i>less gratuity</i></font></td>
+     
+    <td><b><%= number_to_currency(@dailybank.card_payments, :locale => :en) %></b>
+    <font color=#FFFF33><i><%= number_to_currency(@dailybank.gratuity_total, :locale => :en) %></i></font></td>
     
     <td><b><font color=#FFA500>Total<br>Takings </b></font></td>
     <td><h5><%= number_to_currency(@dailybank.actual_cash_total, :locale => :en) %></h5></td>
