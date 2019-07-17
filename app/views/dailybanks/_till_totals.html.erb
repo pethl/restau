@@ -76,6 +76,9 @@
     <div class="row">
       <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 2</font></div>
       <div class="col-md-2"><%= f.text_field :terminal_2, :style => "width:74px; text-align:right", :tabindex =>9, :value => (number_with_precision(f.object.terminal_2, :precision => 2)) %></div>
+         <div class="col-md-1"></div>
+      <div class="col-md-3"><b><font color=#D3D3D3>BACS</font></b></div>
+      <div class="col-md-2"><%= f.text_field :bacs, :style => "width:74px; text-align:right", :tabindex =>12, :value => (number_with_precision(f.object.bacs, :precision => 2)) %></div>
        </div>
     <div class="row">
       <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Tablet 2</font></div>

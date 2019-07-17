@@ -54,16 +54,24 @@
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :card_payments, "Cards Total" %></font><br>
-  <font color=#FFFF33><i>less gratuity</i></font><br>
+  <font color=#FFFF33><i>gratuity</i></font><br>
   </div>       
   <div class="col-md-2">
   <%= f.text_field :card_payments, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_payments, :precision => 2)) %> <br>
   <%= f.text_field :gratuity_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_total, :precision => 2)) %> <br>
   </div> 
-  <div class="col-md-3"> 
-   
-  </div>        
-</div>  
+  </div> 
+ <div class="row">
+    <div class="col-md-2 col-md-offset-4"> 
+       <font color=#D3D3D3><i>BACS</i></font>
+       </div>
+        <div class="col-md-2">
+       <%= f.text_field :bacs, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.bacs, :precision => 2)) %>
+    </div>
+     </div>
+  <div class="row">  
+  <br>    
+  </div>
 
 <div class="row">
 <% if @dailybank.expenses.any? %>
@@ -91,7 +99,7 @@
   </div>       
 </div>   
 
- <br> 
+ <hr>
 
  <div class="row">
    <div class="col-md-2"> 
@@ -150,14 +158,16 @@
    </div>           
  </div> 
  
+ <hr>
+ 
  <div class="row">
    <div class="col-md-6"><b><u><font color=#D3D3D3>Expected Cash </b> (enter zero if no totals)</font></div>
    </div>
  <div class="row">
    <div class="col-md-2" style="text-align:right"><font color=#D3D3D3>Terminal 1</font></div>
    <div class="col-md-2"><%= f.text_field :terminal_1, :style => "width:74px; text-align:right", :tabindex =>8, :value => (number_with_precision(f.object.terminal_1, :precision => 2)) %></div>
-    <div class="col-md-1"></div>
-   <div class="col-md-3"><b><font color=#D3D3D3>Total EFT Taken</font></b></div>
+   
+   <div class="col-md-2"><b><font color=#D3D3D3>Total EFT Taken</font></b></div>
     <div class="col-md-2"><%= f.text_field :total_eft_taken, :style => "width:74px; text-align:right", :tabindex =>12, :value => (number_with_precision(f.object.total_eft_taken, :precision => 2)) %></div>
  </div>
  <div class="row">

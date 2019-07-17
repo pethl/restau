@@ -33,9 +33,7 @@
     </div>
 <br>      
   <div class="row"> 
-     <div class="col-md-2"><font color=#D3D3D3><i>Card Sub Total</i></font><br></div>
-     <div class="col-md-2"><%= f.text_field :card_1, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_1+f.object.card_2, :precision => 2)) %></div>
-     <div class="col-md-2"><font color=#D3D3D3><i>Gratuity Sub Total</i></font><br></div>
+     <div class="col-md-2 col-md-offset-4"><font color=#D3D3D3><i>Gratuity Sub Total</i></font><br></div>
      <div class="col-md-2"><%= f.text_field :gratuity_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_total, :precision => 2)) %></div>
      
       </div>

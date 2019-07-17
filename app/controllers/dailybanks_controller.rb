@@ -324,22 +324,39 @@ class DailybanksController < ApplicationController
          pdf.text "\n", size: 10
          pdf.text "CARD MACHINES" + "\n", style: :bold, size: 9
          table_data = Array.new
-         table_data << ["Total", "Card 1", (sprintf "%.2f", @dailybank.card_1)]
-         table_data << [" ", "Card 2", (sprintf "%.2f", @dailybank.card_2)]
+         table_data << ["Total", "Card 1", (sprintf "%.2f", @dailybank.card_1), "Gratuity 1", (sprintf "%.2f", @dailybank.gratuity_1)]
+         table_data << [" ", "Card 2", (sprintf "%.2f", @dailybank.card_2), "Gratuity 2", (sprintf "%.2f", @dailybank.gratuity_2), "Gratuity Total", (sprintf "%.2f", @dailybank.gratuity_total)]
          table_data << ["£#{(sprintf "%.2f", @dailybank.card_payments.to_s)}"]
          pdf.table(table_data, :column_widths => [100,80,60],:cell_style => {:padding => 3}) do 
-           self.width = 240
+           self.width = 410
            self.cell_style = { :inline_format => true, size: 8 } 
            self.row_colors = ["DDDDDD", "FFFFFF"]
            self.header = true
           
            row(2).font_style = :bold
            columns(0).width = 100
-           columns(0..2).align = :right
-           columns(1).width = 80
-           columns(2).width = 60
+           columns(0..6).align = :right
+           columns(1).width = 50
+           columns(2).width = 50
+           columns(3).width = 50
+           columns(4).width = 50
+           columns(5).width = 60
+           columns(6).width = 50
            row(2).border_width = 2
           end
+          
+          pdf.text "\n", size: 10
+          pdf.text "BACS", style: :bold, size: 9
+          table_data = Array.new
+          table_data << ["£#{(sprintf "%.2f", @dailybank.bacs.to_s)}" ]
+          pdf.table(table_data, :column_widths => [100],:cell_style => {:padding => 3}) do 
+            self.width = 100
+            self.cell_style = { :inline_format => true, size: 8 } 
+            row(0).font_style = :bold
+            columns(0).align = :right
+            row(0).border_width = 2
+             end  
+         
           
           pdf.text "\n", size: 10
           pdf.text "TAKINGS                          BANKING", style: :bold, size: 9
@@ -518,7 +535,7 @@ class DailybanksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dailybank_params
-      params.require(:dailybank).permit(:user_id, :effective_date, :till_cash, :till_float, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :terminal_1, :terminal_2, :tablet_1, :tablet_2, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :gratuity_1, :gratuity_2, :gratuity_total, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
+      params.require(:dailybank).permit(:user_id, :effective_date, :bacs, :till_cash, :till_float, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :terminal_1, :terminal_2, :tablet_1, :tablet_2, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :gratuity_1, :gratuity_2, :gratuity_total, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
     end
     
     def run_calc_rules(dailybank)
@@ -543,8 +560,9 @@ class DailybanksController < ApplicationController
       end
       
       #good
-      if (!dailybank.banking.blank? && !dailybank.card_payments.blank? && !dailybank.expenses_total.blank?)
-        dailybank.update_attribute(:actual_cash_total, (dailybank.banking+dailybank.card_payments+dailybank.expenses_total))
+      # JIM changes
+      if (!dailybank.banking.blank? && !dailybank.card_payments.blank? && !dailybank.expenses_total.blank? && !dailybank.bacs.blank?)
+        dailybank.update_attribute(:actual_cash_total, (dailybank.banking+dailybank.card_payments+dailybank.expenses_total+dailybank.bacs))
       else
        end
       
