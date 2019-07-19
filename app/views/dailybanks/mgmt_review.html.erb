@@ -68,13 +68,21 @@
 </div>
 
 <div class="row">
-  <div class="col-md-2"> 
+  <div class="col-md-1"> 
   <font color=#D3D3D3><%= f.label :card_1 %></font><br>
   <font color=#D3D3D3><%= f.label :card_2 %></font><br>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-1">
   <%= f.text_field :card_1, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_1, :precision => 2)) %> <br>
   <%= f.text_field :card_2, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.card_2, :precision => 2)) %> <br>
+  </div>
+  <div class="col-md-1" style="text-align:right"> 
+  <font color=#D3D3D3><%= f.label :gratuity_1, "Grat 1" %></font><br>
+  <font color=#D3D3D3><%= f.label :gratuity_2, "Grat 2" %></font><br>
+  </div>
+  <div class="col-md-1">
+  <%= f.text_field :gratuity_1, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_1, :precision => 2)) %> <br>
+  <%= f.text_field :gratuity_2, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.gratuity_2, :precision => 2)) %> <br>
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :banking, "Cards Total" %></font><br>
@@ -93,7 +101,7 @@
    <font color=#D3D3D3>Card/Card Var</font> 
   </div>           
 </div>  
-
+<br>
 <div class="row">
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :expenses, "No. of Expenses" %></font><br>
@@ -107,10 +115,11 @@
   </div>
   <div class="col-md-2"> 
   <font color=#D3D3D3><%= f.label :expenses, "Expenses Total" %></font><br>
+   <font color=#D3D3D3><%= f.label :bacs, "BACS" %></font>
   </div>       
   <div class="col-md-2">
   <%= f.text_field :expenses_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.expenses_total, :precision => 2))  %> <br>
-  
+   <%= f.text_field :bacs, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.bacs, :precision => 2)) %>
   </div> 
   <div class="col-md-3"> 
    <%= f.text_field :actual_cash_total, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.actual_cash_total, :precision => 2))  %> <br>
