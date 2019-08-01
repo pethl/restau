@@ -14,10 +14,12 @@
   <li role="presentation"><%= link_to "By Month", history_month_path %></li>
   <li role="presentation" class="active"><%= link_to "Tax Quarter", tax_quarter_path %></li>
   <li role="presentation"><%= link_to "All Records", index_full_path %></li>
-    <li role="presentation"><%= link_to "All On-going", index_ongoing_path %></li>
+  <li role="presentation"><%= link_to "All On-going", index_ongoing_path %></li>
+  <li role="presentation"><%= link_to "Card Tips Monthly", card_tips_report_path %></li>
 </ul>
 <br>
 <p>This view is designed to show a tax quarter summary report.</p>
+<p><b>This report can only be run for dates with completed EoN records.<br> It will error if the chosen date set includes an incomplete end of night record.</b></p>
 
 <%= form_tag tax_quarter_path, method: :get, :class => "form-inline" do %>
 

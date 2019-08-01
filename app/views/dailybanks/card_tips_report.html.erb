@@ -1,0 +1,84 @@
+
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-10">
+<h4>End of Night - Card Tips Report</h4><br>
+
+<ul class="nav nav-tabs">
+<li role="presentation"><%= link_to "Latest", latest_path %></li>
+<li role="presentation"><%= link_to "By Day", history_path %></li>
+<li role="presentation"><%= link_to "By Week", history_week_path %></li>
+<li role="presentation"><%= link_to "By Month", history_month_path %></li>
+<li role="presentation"><%= link_to "Tax Quarter", tax_quarter_path %></li>
+<li role="presentation"><%= link_to "All Records", index_full_path %></li>
+<li role="presentation"><%= link_to "All On-going", index_ongoing_path %></li>
+<li role="presentation" class="active"><%= link_to "Card Tips Monthly", card_tips_report_path %></li>
+</ul>
+<br>
+<%= form_tag card_tips_report_path, method: :get, :class => "form-inline" do %>
+
+    <h6><small>Search by:
+    
+     <input class="datepicker" data-provide='datepicker' id="search" name=[month] type="text" data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true class="form-control input-sm" placeholder="Select any day in month" >
+   
+  <button type="submit" class="btn btn-primary btn-sm">Search</button>
+<% end %>
+<br><br>
+
+<% if @dailybanks == 0 %>
+  
+  <% elsif @dailybanks == 1 %>
+  <p>No records found matching date criteria.</p>
+ 
+  <% else %>
+  
+  <table class="table">
+  
+ <tr class="active">
+  <td style="text-align:right"><h4><%= @dailybanks.first[:effective_date].strftime('%B') %></h4></td>
+   <% @dailybanks_by_week.each do |week, dailybanks| %>
+  <td  style="text-align:right">Week: <%= week %><br>
+  <%= dailybanks.first.effective_date.strftime('%d') %> - 
+  <%= dailybanks.last.effective_date.strftime('%d') %></td>
+   <% end %>
+   <td style="text-align:right"><b>Total</b></td>
+  </tr>
+ 
+  
+  <tr>
+  <td><b>Card Tips<br> Weekly Total</b>
+  <table>
+  <tr>
+  <td><b><br>Card Tips<br>Daily Break Down</b></td></tr>
+  </table>
+  </td>
+  
+  
+   <% @dailybanks_by_week.each do |week, dailybanks| %>
+   <td style="text-align:right"><%= dailybanks.map { |h| h[:gratuity_total] }.compact.sum %><hr>
+  
+   <table class="table">
+    <% dailybanks.each do |dailybank| %>
+      <tr class="active">
+      <td style="text-align:right"><small> <%= dailybank.effective_date.strftime('%a: %e') %></small></td>
+      <td style="text-align:right"> <%= dailybank.gratuity_total %></td>
+      </tr>
+ <% end %>
+   </table>
+  
+   </td>
+   <% end %>
+   <td style="text-align:right"><b> <%=  number_to_currency(@dailybanks.map { |h| h[:gratuity_total] }.compact.sum, :locale => :en) %></b></td>
+  </tr>
+  </table>
+ 
+  <h4><%= link_to "Print Card Tip Report", download_card_tips_report_pdf_path(:value => @dailybanks.first.effective_date.to_date, :format => 'pdf'), :style => "color:orange" %>
+  
+  <% end %>
+  
+ 
+  </div>
+  

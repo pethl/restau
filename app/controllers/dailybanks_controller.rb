@@ -91,6 +91,29 @@ class DailybanksController < ApplicationController
        end
   end
   
+  def card_tips_report
+    @dailybanks = []
+
+      #take params from search on History view, or if no search, return 0
+      #send to model to apply SEARCH function, which retrieves matching records 
+     
+       if params[:month]
+         @dailybanks = Dailybank.search_month(params)
+               if @dailybanks.any?
+                 # params= []
+                 @dailybanks
+                 @dailybanks_by_week = @dailybanks.group_by { |t| t.effective_date.strftime("%W") }
+       
+               else
+                 params= []
+                 @dailybanks = 1
+               end
+       else
+         @dailybanks = 0
+         params= []
+       end
+  end
+  
   
   # GET /dailybanks
   # GET /dailybanks.json
@@ -413,6 +436,50 @@ class DailybanksController < ApplicationController
      end
    end
  end
+  
+ def download_card_tips_report_pdf
+   @start_date = params[:value]
+   @end_date = (@start_date.to_date.end_of_month)
+   @dailybanks = Dailybank.where("effective_date BETWEEN ? AND ?", @start_date.to_date.beginning_of_day, @end_date.to_date.end_of_day).sort_by { |hsh| hsh[:effective_date] }
+   @dailybanks_by_week = @dailybanks.group_by { |t| t.effective_date.strftime("%V") }
+  
+   respond_to do |format|
+    format.pdf do
+      #DOCUMENT SETUP_START
+      pdf = Prawn::Document.new
+      pdf.text "Card Tips Report : " + @start_date.to_date.strftime('%d %b, %Y') + " - " + @end_date.to_date.strftime('%d %b, %Y'), size: 14, style: :bold
+      pdf.text ":: HANG FIRE SOUTHERN KITCHEN :: The Pump House, Hood Road, Barry, CF62 5QN"+"\n", size: 6
+      #DOCUMENT SETUP_END  
+      
+      #WEEKLY_SUMMARY_START
+      @dailybanks_by_week.each do |week, dailybanks|
+      pdf.text "\n", size: 6  
+      pdf.text "Week Number " + week, size: 8, style: :bold 
+        
+        table_data = Array.new
+        table_data << ["Date", "Card Tips"]
+            dailybanks.each do |dailybank|
+              table_data << [dailybank.effective_date.strftime('%e: %a'), dailybank.gratuity_total]
+            end
+        table_data << ["Total", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:gratuity_total] }.compact.sum.to_s)}"]
+           pdf.table(table_data) do 
+             self.width = 100 
+             self.cell_style = { :inline_format => true, size: 6 } 
+              row(0).font_style = :bold
+               row(-1).font_style = :bold
+             columns(0..1).width = 50
+             columns(0).align = :left
+             columns(1).align = :right
+            
+          end
+        end
+         send_data pdf.render, filename: 'card_tips.pdf', type: 'application/pdf', :disposition => 'inline'
+      end
+    end
+  
+ end
+  
+  
   
   def download_dailybank_tax_accounting_pdf
    @start_date = params[:value]

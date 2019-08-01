@@ -1,7 +1,3 @@
-source 'https://code.stripe.com' do
-  gem 'stripe', '~> 1.26.0'
-end
-
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -92,5 +88,19 @@ gem 'newrelic_rpm'
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'
-gem "chartkick"
+gem "chartkick", ">= 3.2.0"
 
+# recommended by github cant see why needed
+#gem "activejob", ">= 4.2.11"
+gem "rack", ">= 1.6.4" #as was unable to upgrade without causing other errors 
+##gem "ffi", ">= 1.9.24"
+##gem "sprockets", ">= 3.7.2"
+##gem "loofah", ">= 2.2.3"
+##gem "nokogiri", ">= 1.8.5"
+#gem "activerecord", ">= 4.2.7.1"
+#gem "activemodel", ">= 4.2.5.1"
+#gem "actionview", ">= 4.2.11.1"
+##gem "rails-html-sanitizer", ">= 1.0.4"
+#gem "actionpack", ">= 4.2.5.2"
+#gem "activesupport", ">= 4.2.2"
+##gem "rubyzip", ">= 1.2.2"
