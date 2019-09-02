@@ -15,6 +15,7 @@
       <th><center>Child Seat?</center></th>
       <th><center>Booking Source</th>
       <th><center>Edit</th>
+      <th><center>Cancel</th>
     </tr>
   </thead>
   <tbody>
@@ -54,6 +55,17 @@
                  <i class="fa fa-pencil-square-o"></i>
               <% end %>
              <% end %>
+            </td>
+            
+            <td><center>
+            <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+            <%= hidden_field_tag(:booking, booking.id) %>
+            <%= button_tag( :class => "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" }) do %>
+               <i class="fa fa-undo"></i>
+            <% end %>
+            
+             
+           <% end%> 
             </td>
       </tr>
     <% end %>  

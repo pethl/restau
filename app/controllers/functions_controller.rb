@@ -5,7 +5,7 @@ class FunctionsController < ApplicationController
   # GET /functions
   # GET /functions.json
   def index
-    @functions = Function.all
+    @functions = Function.all.reverse
   end
 
   # GET /functions/1

@@ -13,18 +13,13 @@
 <table class="table table-condensed">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Position</th>
-      <th>Email</th>
-      <th>Phone</th>
-       <% if current_user.admin?  %>
-      <th>Admin?</th>
-      <% end %>
-      
-      <% if current_user.admin? || current_user.super_user? %>
-     <th>SuperUser?</th>
-     <% end %>
-     <th>Action</th>
+      <th style="width: 20%">Name</th>
+      <th style="width: 20%">Position</th>
+      <th style="width: 20%">Email</th>
+      <th style="width: 10%">Phone</th>
+      <th style="width: 5%">Admin?</th>
+      <th style="width: 5%">SuperUser?</th>
+      <th style="width: 5%" colspan="2"><center>Action</th>
     </tr>
   </thead>
 
@@ -39,20 +34,21 @@
          <% if current_user.admin?  %>
             <% unless user.admin == false %>
               <td><%= user.admin %></td>
-            <% else %> <td></td><% end %><% end %>
+            <% else %> <td>- </td><% end %>
+            <% end %>
             
         <% if current_user.admin? || current_user.super_user? %>
             <% unless user.super_user == false %>
-              <td><%= user.super_user %><td>
-              <% else %> <td></td><% end %>
+              <td><%= user.super_user %></td>
+              <% else %> <td>-</td><% end %>
               <% end %>
             
           <% if current_user.admin?  %>
             <td><%= link_to edit_user_path(user), class: 'btn btn-success btn-xs' do %>
                       <span class="fa fa-pencil-square-o""></span>
-                   <% end %>
-              |
-              
+                   <% end %> </td>
+            
+              <td> 
              <%= link_to user, method: :delete, data: { confirm: 'Are you sure you want to delete this person?' }, class: 'btn btn-danger btn-xs' do %>
               <span class="fa fa-trash""></span>
                <% end %> </td>
@@ -64,7 +60,7 @@
                     <% end %></td>
                     <% else %>
             
-            <td></td>
+           
            
             <% end %>   
              

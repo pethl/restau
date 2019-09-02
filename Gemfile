@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 #recomended by heroku
-ruby '2.2.2'
+ruby '2.3.1'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Using Postgres database
@@ -16,6 +16,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+
+#problems with rake 1/9/19 fix to pin rake version
+gem 'rake', '< 11.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -77,7 +80,7 @@ end
 group :test do
   # for testing from the rspec book
   gem "faker", "~> 1.4.3"
-  gem "capybara", "~> 2.4.3"
+#  gem "capybara", "~> 2.4.3"
   gem "database_cleaner", "~> 1.3.0"
   gem "launchy", "~> 2.4.2"
   gem "selenium-webdriver", "~>2.43.0"
@@ -88,7 +91,7 @@ gem 'newrelic_rpm'
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'
-gem "chartkick", ">= 3.2.0"
+gem "chartkick", "~> 3.2.0"
 
 # recommended by github cant see why needed
 #gem "activejob", ">= 4.2.11"

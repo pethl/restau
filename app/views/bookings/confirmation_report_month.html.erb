@@ -33,13 +33,14 @@
       <th><center>Diners</center></th>
       <th><center>Time</center></th>
       <th><center>Edit</th>
+      <th><center>Cancel</th>
     </tr>
   </thead>
   <tbody>
   
     <% @bookings_by_date.each do |date, bookings| %>
     <tr>
-      <th colspan="10" bgcolor="#383838"><h6><font color="#D3D3D3"><%= date.strftime('%A, %d %B %Y')  %></h5></th>
+      <th colspan="11" bgcolor="#383838"><h6><font color="#D3D3D3"><%= date.strftime('%A, %d %B %Y')  %></h5></th>
     </tr>
     
     <% bookings.each do |booking| %>
@@ -54,15 +55,24 @@
        <td width="8%"><center><small><%= booking.source == "Management"? ("Mgmt") : (booking.source) %></small></center></td>
        <td width="8%"><center><%= booking.number_of_diners %></center></td>
        <td width="8%"><small><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+      
        <td><center>
-          
-          <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
+       <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
             <input id="booking" name="id" type="hidden" value=<%= booking.id %> >
   
             <%= button_tag( :class => "btn btn-success btn-xs") do %>
                <i class="fa fa-pencil-square-o"></i>
             <% end %>
            <% end %>
+          </td>
+          
+          <td><center>
+           <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+           <%= hidden_field_tag(:booking, booking.id) %>
+           <%= button_tag( :class => "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" }) do %>
+             <i class="fa fa-undo"></i>
+          <% end %>
+         <% end%> 
           </td>
         <tr> 
      <% end %>  
