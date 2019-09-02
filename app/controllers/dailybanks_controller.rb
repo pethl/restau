@@ -125,12 +125,12 @@ class DailybanksController < ApplicationController
   
   def index_full
    @dailybanks = Dailybank.all
-   @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
+   @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] }.reverse 
   end
 
   def index_ongoing
    @dailybanks = Dailybank.where.not(status: "Locked")
-   @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] } 
+   @dailybanks = @dailybanks.sort_by { |hsh| hsh[:effective_date] }.reverse 
   end
 
 

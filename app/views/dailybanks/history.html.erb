@@ -15,7 +15,7 @@
   <li role="presentation"><%= link_to "Tax Quarter", tax_quarter_path %></li>
   <li role="presentation"><%= link_to "All Records", index_full_path %></li>
   <li role="presentation"><%= link_to "All On-going", index_ongoing_path %></li>
-  <li role="presentation"><%= link_to "Card Tips Monthly", card_tips_report_path %></li>
+  <li role="presentation"><%= link_to "TRONC Monthly", card_tips_report_path %></li>
 </ul>
 <br>
 <p>This view is designed to show a few days within a single week, i.e. less than a week.</p>
@@ -79,6 +79,14 @@
   <td style="text-align:right"><%= dailybank.expenses_total %></td>
   <% end %>
   <td style="text-align:right"><b><%= number_to_currency(@dailybanks.map { |h| h[:expenses_total] }.compact.sum, :locale => :en) %><b></td>
+  </tr> 
+  
+  <tr>
+  <td><b>TRONC</b></td>
+  <% @dailybanks.each do |dailybank| %>
+  <td style="text-align:right"><%= dailybank.gratuity_total %></td>
+  <% end %>
+  <td style="text-align:right"><b><%= number_to_currency(@dailybanks.map { |h| h[:gratuity_total] }.compact.sum, :locale => :en) %><b></td>
   </tr> 
   
   <tr class="success">

@@ -15,7 +15,7 @@
   <li role="presentation"><%= link_to "Tax Quarter", tax_quarter_path %></li>
   <li role="presentation"><%= link_to "All Records", index_full_path %></li>
   <li role="presentation"><%= link_to "All On-going", index_ongoing_path %></li> 
-  <li role="presentation"><%= link_to "Card Tips Monthly", card_tips_report_path %></li>
+  <li role="presentation"><%= link_to "TRONC Monthly", card_tips_report_path %></li>
 </ul>
 </div>
 <br>
@@ -48,6 +48,11 @@
   <tr>
   <td><b>Expenses</b></td>
   <td style="text-align:right"><%= @dailybank.expenses_total %></td>
+  </tr> 
+  
+  <tr>
+  <td><b>TRONC</b></td>
+  <td style="text-align:right"><%= @dailybank.gratuity_total %></td>
   </tr> 
   
   <tr class="success">
