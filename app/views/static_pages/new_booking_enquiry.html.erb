@@ -24,7 +24,9 @@
     <tr>
     <td></td>
     <td>Date</td>
-    <% start_date_tomorrow = Date.tomorrow.strftime('%d-%m-%Y')%>
+     <% old_start_date_tomorrow = Date.yesterday.strftime('%d-%m-%Y')%>
+    <%  ([3,4].include? Date.today.wday) ? (start_date_tomorrow = Date.today.strftime('%d-%m-%Y')) : (start_date_tomorrow = Date.tomorrow.strftime('%d-%m-%Y'))%>
+   
      <% last_booking_day = Date.new(2018,12,24).strftime('%d-%m-%Y') %>
      <% end_date_6_months_away = ((Date.today.end_of_month)+5.months).strftime('%d-%m-%Y')%>
     <td>
@@ -108,7 +110,7 @@
             <% full_3 = Date.new(2016,12,17) %>
              <% exemption_days = Exemption.all.pluck(:exempt_day) %>
    
-       <% if date < DateTime.now %>
+       <% if date < DateTime.now-1.day %>
      
          <% elsif @date.month != date.month  %>
      

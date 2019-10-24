@@ -21,16 +21,29 @@ class Booking < ActiveRecord::Base
          return Error.get_msg("999999101") 
         end 
       
-       #2a) DUP check to ensure booking is not in the past
+       #2a) DUP check to ensure booking is not in the past  
       if (params[:booking_date]).to_date < Date.today
         return Error.get_msg("999999102") 
       end
       
-      #3) DUP check to ensure booking is not for TODAY 
-        if (params[:booking_date]).to_date == Date.today
-          return Error.get_msg("999999112") 
-        end
+          #3) DUP check to ensure booking is not for TODAY 
+           # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
+        if ([3,4].include? (params[:booking_date]).to_date.wday)
+          
+            if (params[:booking_date]).to_date == Date.today && Time.now<"13:00".to_s
+              return Error.get_msg("999999112") 
+            end
         
+            #3b) New error message - if user is trying to book today but after 2pm
+              if (params[:booking_date]).to_date == Date.today && Time.now>"13:00".to_s
+                return Error.get_msg("999999125") 
+              end  
+          
+           # if not WED or THURS leave code as is and don't allow same day bookings
+          elsif (params[:booking_date]).to_date == Date.today 
+              return Error.get_msg("999999112") 
+            end
+          
       #4) DUP check to ensure booking is not Monday or Tuesday
         if ([1,2].include? (params[:booking_date]).to_date.wday)
           return Error.get_msg("999999103")    
@@ -87,10 +100,23 @@ class Booking < ActiveRecord::Base
         return Error.get_msg("999999102") 
       end
     
-    #3) check to ensure booking is not for TODAY 
-      if (params[:booking_date]).to_date == Date.today
-        return Error.get_msg("999999112") 
-      end
+      #3) DUP check to ensure booking is not for TODAY 
+       # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
+    if ([3,4].include? (params[:booking_date]).to_date.wday)
+      
+        if (params[:booking_date]).to_date == Date.today && Time.now<"13:00".to_s
+          return Error.get_msg("999999112") 
+        end
+    
+        #3b) New error message - if user is trying to book today but after 2pm
+          if (params[:booking_date]).to_date == Date.today && Time.now>"13:00".to_s
+            return Error.get_msg("999999125") 
+          end  
+      
+       # if not WED or THURS leave code as is and don't allow same day bookings
+      elsif (params[:booking_date]).to_date == Date.today 
+          return Error.get_msg("999999112") 
+        end
     
     #4) check to ensure booking is not Monday or Tuesday
       if ([1,2].include? (params[:booking_date]).to_date.wday)

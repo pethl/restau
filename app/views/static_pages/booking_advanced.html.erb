@@ -104,7 +104,7 @@
                     <% full_3 = Date.new(2016,12,17) %>
                      <% exemption_days = Exemption.all.pluck(:exempt_day) %>
    
-               <% if date < DateTime.now %>
+               <% if date < DateTime.now-1.day %>
      
                  <% elsif @date.month != date.month  %>
      
