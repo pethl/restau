@@ -30,12 +30,12 @@ class Booking < ActiveRecord::Base
            # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
         if ([3,4].include? (params[:booking_date]).to_date.wday)
           
-            if (params[:booking_date]).to_date == Date.today && Time.now<"13:00".to_s
+            if (params[:booking_date]).to_date == Date.today && Time.now<"14:00".to_s
               return Error.get_msg("999999112") 
             end
         
             #3b) New error message - if user is trying to book today but after 2pm
-              if (params[:booking_date]).to_date == Date.today && Time.now>"13:00".to_s
+              if (params[:booking_date]).to_date == Date.today && Time.now>"14:00".to_s
                 return Error.get_msg("999999125") 
               end  
           
@@ -104,19 +104,19 @@ class Booking < ActiveRecord::Base
        # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
     if ([3,4].include? (params[:booking_date]).to_date.wday)
       
-        if (params[:booking_date]).to_date == Date.today && Time.now<"13:00".to_s
+        if (params[:booking_date]).to_date == Date.today && Time.now<"14:00".to_s
           return Error.get_msg("999999112") 
         end
     
         #3b) New error message - if user is trying to book today but after 2pm
-          if (params[:booking_date]).to_date == Date.today && Time.now>"13:00".to_s
-            return Error.get_msg("999999125") 
-          end  
+        if (params[:booking_date]).to_date == Date.today && Time.now>"14:00".to_s
+          return Error.get_msg("999999125") 
+        end  
       
        # if not WED or THURS leave code as is and don't allow same day bookings
-      elsif (params[:booking_date]).to_date == Date.today 
+    elsif (params[:booking_date]).to_date == Date.today 
           return Error.get_msg("999999112") 
-        end
+    end
     
     #4) check to ensure booking is not Monday or Tuesday
       if ([1,2].include? (params[:booking_date]).to_date.wday)
@@ -529,16 +529,16 @@ def self.all_search(search)
       hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["14:30"],["15:00"],["15:30"]]
     when 3 #Wednesday
       hash_of_times = Hash.new
-      hash_of_times=[["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"]]  
+      hash_of_times=[["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]  
     when 4 #Thursday
       hash_of_times = Hash.new
-      hash_of_times=[["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"]]  
+      hash_of_times=[["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]  
     when 5 #Friday
       hash_of_times = Hash.new
-      hash_of_times= [["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"]]   
+      hash_of_times= [["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]   
     when 6 #Saturday
       hash_of_times = Hash.new
-      hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"]]
+      hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]
    end
  end
  
