@@ -26,14 +26,10 @@ class Booking < ActiveRecord::Base
         return Error.get_msg("999999102") 
       end
       
-          #3) DUP check to ensure booking is not for TODAY 
-           # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
+      #3) DUP check to ensure booking is not for TODAY 
+      # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
         if ([3,4].include? (params[:booking_date]).to_date.wday)
           
-            if (params[:booking_date]).to_date == Date.today && Time.now<"14:00".to_s
-              return Error.get_msg("999999112") 
-            end
-        
             #3b) New error message - if user is trying to book today but after 2pm
               if (params[:booking_date]).to_date == Date.today && Time.now>"14:00".to_s
                 return Error.get_msg("999999125") 
@@ -104,10 +100,6 @@ class Booking < ActiveRecord::Base
        # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
     if ([3,4].include? (params[:booking_date]).to_date.wday)
       
-        if (params[:booking_date]).to_date == Date.today && Time.now<"14:00".to_s
-          return Error.get_msg("999999112") 
-        end
-    
         #3b) New error message - if user is trying to book today but after 2pm
         if (params[:booking_date]).to_date == Date.today && Time.now>"14:00".to_s
           return Error.get_msg("999999125") 
