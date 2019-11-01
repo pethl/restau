@@ -1,0 +1,83 @@
+
+<h4><center>
+<small>
+   <%= link_to "< Show -1 day >" , day_to_view_bookings_report_path({ :search => @bookings.first.booking_date_time-1.day}), style: 'color:#d3d3d3;' %>
+</font></small>
+<%= @bookings.first.booking_date_time.strftime('%A, %d %B %Y') %>
+<small>
+   <%= link_to "< Show +1 day >" , day_to_view_bookings_report_path({ :search => @bookings.first.booking_date_time+1.day}), style: 'color:#d3d3d3;' %>
+</font></small></h4>
+
+<TABLE class="table table-bordered table-condensed ">
+  <thead>
+    <tr>
+    <th>Edit</th>
+    <th>Cancel</th>
+      <th>Customer</th>
+      <th>Contact</th>
+      <th><center>Booking time</center></th>
+      <th><center>Diners</center></th>
+      <th><center>Child Seat?</center></th>
+      <th><center>Source</center></th>
+      <th><center>Deposit</center></th>
+       <th><center>Confirm</center></th>
+      <th><center>Notes</center></th>
+     
+    </tr>
+  </thead>
+  <tbody>
+     
+            <% @bookings.each do |booking| %>
+             
+      <tr>
+     
+      <td><center>
+           <%= form_tag(mgmt_edit_booking_path, :method => "get", id: "mgmt_edit") do %>
+             <input id="booking" name="id" type="hidden" value=<%= booking.id %> >
+   
+             <%= button_tag( :class => "btn btn-success btn-sm") do %>
+                <i class="fa fa-pencil-square-o"></i>
+             <% end %>
+            <% end %>
+        </td>
+           
+      <td><center>
+           <%= form_tag booking_cancellation_bookings_path, multipart: true, :class => "form-inline" do %> 
+           <%= hidden_field_tag(:booking, booking.id) %>
+           <%= button_tag( :class => "btn btn-danger btn-sm", data: { confirm: "Are you sure you want to cancel this booking?" }) do %>
+              <i class="fa fa-undo"></i>
+           <% end %>
+           <% end%> 
+           </td>
+           
+     
+        <td><strong><%= booking.name %></strong></td>
+        <td><%= booking.phone %> / <%= booking.email %><br>
+        <small><font color=#B0B0B0>When booked: <%= booking.created_at.strftime('%a, %d %b %Y, %H:%M') %></small><br>
+        <small><font color=#B0B0B0>Last updated: <%= booking.updated_at.strftime('%a, %d %b %Y, %H:%M') %></small></td>
+        <td><center><%= booking.booking_date_time.strftime('%H:%M') %></center></td>
+        
+        <td><center><%= booking.number_of_diners %></center></td>
+        <td><center>
+           <% if booking.child_friendly  %>
+              <b><font color=#9ACD32>YES</font></b>
+              <% else %>
+              No
+            <% end %></center></td>
+            
+             <td><center><%=  (booking.source=="Management") ? ("Mgmt") : (booking.source)%></td>
+        
+         <td><center><%= booking.deposit_amount %></center></td>  
+         <td><center><%= booking.confirmation_received==true ? "Yes" : "" %></center></td>     
+         <td><center><%= booking.notes %></center></td>
+    </tr>
+        
+    <% end %>  
+    <tr>
+    <td colspan="3" style="text-align:right">Bookings Count: <b><%= @bookings.count %></b></td>
+    <td style="text-align:right">Diners Count:<b><%= get_sum_from_array_for_field(@bookings) %></b></td>
+    </tr>
+  </tbody>
+</table>
+
+ 

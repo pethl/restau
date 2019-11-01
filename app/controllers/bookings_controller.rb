@@ -253,6 +253,33 @@ class BookingsController < ApplicationController
     #@bookings = @bookings.reverse
   end
   
+  def day_to_view_bookings_report
+   # @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.at_beginning_of_day,  Date.today.at_end_of_day).where(:status => "Confirmed")
+    # @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+    @bookings = []
+    #take params from search on Index view, or if no search, assume todays date
+    #send to model to apply SEARCH function, which retrieves matching records and requests only CONFIRMED records
+     if !params[:search].blank?
+       @bookings = Booking.search(params[:search])
+         if @bookings.any?
+          @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+      
+         else
+           @bookings = 0
+         end
+         params[:search]= []
+     else
+       @bookings = Booking.where("booking_date_time BETWEEN ? AND ?", Date.today.beginning_of_day, Date.today.end_of_day).where(:status => "Confirmed")
+         if @bookings.any?
+            @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+         else
+           @bookings = 0
+         end
+     end
+   
+   else
+  end
+  
   def calendar
   #  @dailystatslatest = Dailystat.last.action_date NOT YET IMPLEMENTED NEEDS WORK
     @date = params[:date] ? Date.parse(params[:date]) : Date.today

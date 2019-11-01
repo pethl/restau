@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
+
+  <div class="col-md-9">
+  <br><br><br>
+  <h4><b>Day to View Bookings Report</b></h4> 
+  
+  <!-- Instructions: The search form. -->  
+
+  <div class="row">
+  <div class="col-md-4">
+
+    <%= form_tag(day_to_view_bookings_report_path, :method => "get", id: "search-form") do %>
+        <input class="datepicker" data-provide='datepicker' id="search" name=[search] type="text" data-date-days-of-week-disabled=[1,2] data-date-week-start=[1]  data-date-autoclose=[true] data-date-format=dd-mm-yyyy data-date-today-highlight=true >   
+        <%= submit_tag "Search" %>
+    <% end %>
+    </div>
+  <br><br><br>
+  
+  <% if  @bookings == 0 %>
+    <h6>No bookings for this date.<h6>
+    <% else %>
+   <%= render 'bookings/full_index' %>
+   <% end %>
+
+  </div>
+  </div>

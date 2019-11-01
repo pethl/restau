@@ -94,6 +94,7 @@ Rails.application.routes.draw do
   get '/deposit_report' => 'bookings#deposit_report'
   get '/confirmation_report' => 'bookings#confirmation_report'
   get '/confirmation_report_month' => 'bookings#confirmation_report_month'
+  get '/day_to_view_bookings_report' => 'bookings#day_to_view_bookings_report'
   get '/calendar' => 'bookings#calendar'
   get '/availability' => 'bookings#availability'
   get '/availability_detail' => 'bookings#availability_detail'
