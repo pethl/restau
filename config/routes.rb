@@ -123,6 +123,7 @@ Rails.application.routes.draw do
   get '/hfsk_careers' => 'static_pages#hfsk_careers'
   get '/hfsk_menu' => 'static_pages#hfsk_menu'
   get '/hfsk_holiday_season' => 'static_pages#hfsk_holiday_season'
+  get '/hfsk_gift_vouchers' => 'static_pages#hfsk_gift_vouchers'
   
   #new pages
   get '/hfsk_home_new' => 'static_pages#hfsk_home_new'

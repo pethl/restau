@@ -78,6 +78,9 @@ class StaticPagesController < ApplicationController
   def hfsk_location
   end
   
+  def hfsk_gift_vouchers
+  end
+  
   def hfsk_careers
   end
   

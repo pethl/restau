@@ -16,21 +16,21 @@ class Booking < ActiveRecord::Base
   
   def self.check_entry_params(params)
     #001) FIRST LINE VALIDATIONS   
-      #1) check to ensure both form fields are filled   
+      #B1) check to ensure both form fields are filled   
         if (params[:number_of_diners])== "0" || (params[:booking_date].blank?)
          return Error.get_msg("999999101") 
         end 
       
-       #2a) DUP check to ensure booking is not in the past  
+       #B2) DUP check to ensure booking is not in the past  
       if (params[:booking_date]).to_date < Date.today
         return Error.get_msg("999999102") 
       end
       
-      #3) DUP check to ensure booking is not for TODAY 
+      #B3) DUP check to ensure booking is not for TODAY 
       # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
         if ([3,4].include? (params[:booking_date]).to_date.wday)
           
-            #3b) New error message - if user is trying to book today but after 2pm
+            #B3b) New error message - if user is trying to book today but after 2pm
               if (params[:booking_date]).to_date == Date.today && Time.now>"14:00".to_s
                 return Error.get_msg("999999125") 
               end  
@@ -40,7 +40,7 @@ class Booking < ActiveRecord::Base
               return Error.get_msg("999999112") 
             end
           
-      #4) DUP check to ensure booking is not Monday or Tuesday
+      #H1) DUP check to ensure booking is not Monday or Tuesday
         if ([1,2].include? (params[:booking_date]).to_date.wday)
           return Error.get_msg("999999103")    
         end
@@ -50,7 +50,7 @@ class Booking < ActiveRecord::Base
       #   return Error.get_msg("999999107")    
       #  end
       
-      #13) DUP check to ensure booking is not after latest booking *currently 6 months from end of month
+      #B4) DUP check to ensure booking is not after latest booking *currently 6 months from end of month
       #CHANGE TO ALLOW XMAS BOOKINGS AND 2018 ROLLING 6 MONTHS
         if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+5.months)
        #CHANGE TO LIMIT XMAS BOOKING ON 3 JUNE 2017
@@ -58,7 +58,7 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999123")    
         end
         
-      #14) Check to ensure booking date is not on list of exemption dates
+      #B5) Check to ensure booking date is not on list of exemption dates
       exempt_days_hash = Exemption.where("exempt_day > ?",Date.today)
       if exempt_days_hash.count > 0
         exempt_days_hash.each do |exemption|
@@ -75,7 +75,7 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999108")  
       end
       
-      #15) check to ensure no tables of 11+ after Jan 3 
+      #B6) check to ensure no tables of 11+ after Jan 3 
         if (params[:number_of_diners].to_i)>= 11 && (params[:booking_date]).to_date > Date.new(2018,01,01)
          return Error.get_msg("999999124") 
         end 
@@ -86,21 +86,21 @@ class Booking < ActiveRecord::Base
   # VALIDATION ROUTINES FOR BOOKING FORM
   def self.validate_params(params)
     
-    #1) check to ensure all form fields are filled   
+    #B1) check to ensure all form fields are filled   
       if (params[:number_of_diners])== "0" || (params[:booking_time_hour])== "hour" || (params[:booking_time_min])=="min" || (params[:booking_date].blank?)
        return Error.get_msg("999999101") 
       end 
  
-    #2a) check to ensure booking is not in the past
+    #B2) check to ensure booking is not in the past
       if (params[:booking_date]).to_date < Date.today
         return Error.get_msg("999999102") 
       end
     
-      #3) DUP check to ensure booking is not for TODAY 
-       # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm)
+    #B3) DUP check to ensure booking is not for TODAY 
+      # CHANGE 24/10/2019 TO ALLOW SAME DAY BOOKINGS UNTIL 2PM (but due to server time have to set to 1pm during clock change)
     if ([3,4].include? (params[:booking_date]).to_date.wday)
       
-        #3b) New error message - if user is trying to book today but after 2pm
+        #B3b) New error message - if user is trying to book today but after 2pm
         if (params[:booking_date]).to_date == Date.today && Time.now>"14:00".to_s
           return Error.get_msg("999999125") 
         end  
@@ -110,24 +110,24 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999112") 
     end
     
-    #4) check to ensure booking is not Monday or Tuesday
+    #H1) check to ensure booking is not MON or TUES
       if ([1,2].include? (params[:booking_date]).to_date.wday)
         return Error.get_msg("999999103")    
       end
       
-    #5) check to ensure booking is within opening hours, w,t
+    #H2a) check to ensure booking is within opening hours, WED , THURS
        if ([3,4].include? (params[:booking_date]).to_date.wday) &&
          ([12,13,14,15,16].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("999999104")      
       end
   
-    #6a) check to ensure booking is within opening hours sunday
+    #H2b) check to ensure booking is within opening hours SUN
        if ([0].include? (params[:booking_date]).to_date.wday) &&
          ([16,17,18,19,20,21,22,23].include? (params[:booking_time_hour]).to_i)
         return Error.get_msg("999999105")      
      end  
      
-     #6b) check to ensure booking is not at 3.30pm on sun, last booking 3pm
+     #6b) check to ensure booking is not at 3.30pm on SUN, last booking 3pm
      # AMENDED 08/JAN/2019 - email from Shauna, allow 3.30 bookings on Sunday
     #    if ([0].include? (params[:booking_date]).to_date.wday) &&
     #      ([15].include? (params[:booking_time_hour]).to_i) &&
@@ -135,7 +135,7 @@ class Booking < ActiveRecord::Base
     #     return Error.get_msg("999999105")      
     #  end 
       
-      #6c) check to ensure booking is not 3pm on sun if group size is 7 or more
+      #S4a) check to ensure booking is not 3pm on SUN if group size is 7 or more
          if ([0].include? (params[:booking_date]).to_date.wday) &&
            ([15].include? (params[:booking_time_hour]).to_i) &&
            ([0].include? (params[:booking_time_min]).to_i)  &&
@@ -143,7 +143,7 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999122")      
        end 
        
-       #6d) check to ensure booking is not 3.30pm on sun if group size is 7 or more
+       #S4b) check to ensure booking is not 3.30pm on SUN if group size is 7 or more
           if ([0].include? (params[:booking_date]).to_date.wday) &&
             ([15].include? (params[:booking_time_hour]).to_i) &&
             ([30].include? (params[:booking_time_min]).to_i)  &&
@@ -151,33 +151,35 @@ class Booking < ActiveRecord::Base
            return Error.get_msg("999999122")      
         end  
       
-      #7a) check to ensure booking is not between 3pm and 5pm on sat
+      #H4) check to ensure booking is not between 3pm and 5pm on SAT
          if ([6].include? (params[:booking_date]).to_date.wday) &&
            ([15,16].include? (params[:booking_time_hour]).to_i)
           return Error.get_msg("999999116")      
        end 
        
+       #REMOVED 1/10/2019, Shauna. Start allowing lunch tables at 2.30 FRI and SAT
        #7b) check to ensure booking is not at 2.30pm on sat
-          if ([6].include? (params[:booking_date]).to_date.wday) &&
-            ([14].include? (params[:booking_time_hour]).to_i) &&
-            ([30].include? (params[:booking_time_min]).to_i)
-           return Error.get_msg("999999116")      
-        end 
+    #      if ([6].include? (params[:booking_date]).to_date.wday) &&
+    #        ([14].include? (params[:booking_time_hour]).to_i) &&
+    #        ([30].include? (params[:booking_time_min]).to_i)
+    #       return Error.get_msg("999999116")      
+    #    end 
         
-      #8a) check to ensure booking is not between 3pm and 5pm on fri 
+      #H3) check to ensure booking is not between 3pm and 5pm on FRI 
         if ([5].include? (params[:booking_date]).to_date.wday) &&
           ([15,16].include? (params[:booking_time_hour]).to_i)
          return Error.get_msg("999999116")      
       end 
       
-      #8b) check to ensure booking is not at 2.30pm on fri
-         if ([5].include? (params[:booking_date]).to_date.wday) &&
-           ([14].include? (params[:booking_time_hour]).to_i) &&
-           ([30].include? (params[:booking_time_min]).to_i)
-          return Error.get_msg("999999116")      
-       end 
+      #REMOVED 1/10/2019, Shauna. Start allowing lunch tables at 2.30 FRI and SAT
+      #8b) check to ensure booking is not at 2.30pm on FRI
+     #    if ([5].include? (params[:booking_date]).to_date.wday) &&
+     #      ([14].include? (params[:booking_time_hour]).to_i) &&
+     #      ([30].include? (params[:booking_time_min]).to_i)
+     #      return Error.get_msg("999999116")      
+     #   end 
    
-     #8c) check to ensure booking is not 2.00pm on f,s if group size is 7 or more
+     #S3) check to ensure booking is not 2.00pm on f,s if group size is 7 or more
         if ([5,6].include? (params[:booking_date]).to_date.wday) &&
           ([14].include? (params[:booking_time_hour]).to_i) &&
           ([0].include? (params[:booking_time_min]).to_i)  &&
@@ -185,12 +187,12 @@ class Booking < ActiveRecord::Base
          return Error.get_msg("999999121")      
       end 
   
-      #8) check to ensure booking is not 9.30pm on any day (NOTE as of 14.apr.2016 this is irrelevant as 9.00 has been removed from clock - leaving here as a safety valve)
+      #H5) check to ensure booking is not 9.30pm on any day (NOTE as of 14.apr.2016 this is irrelevant as 9.00 has been removed from clock - leaving here as a safety valve)
          if ((params[:booking_time_hour])== "21" && (params[:booking_time_min])=="30")
           return Error.get_msg("999999117")      
        end 
         
-       #11) check to ensure booking is not 8.30pm on w,t,f,s if group size is 7 or more
+       #S2) check to ensure booking is not 8.30pm on w,t,f,s if group size is 7 or more
           if ([3,4,5,6].include? (params[:booking_date]).to_date.wday) &&
             ([20].include? (params[:booking_time_hour]).to_i) &&
             ([30].include? (params[:booking_time_min]).to_i)  &&
@@ -198,12 +200,12 @@ class Booking < ActiveRecord::Base
            return Error.get_msg("999999119")      
         end 
 
-  #12) check to ensure booking is not in December
-  #    if ([12].include? (params[:booking_date]).to_date.month)
-  #      return Error.get_msg("999999120")    
-  #    end
+    #12) check to ensure booking is not in December
+    #    if ([12].include? (params[:booking_date]).to_date.month)
+    #      return Error.get_msg("999999120")    
+    #    end
     
-    #13) DUP check to ensure booking is not after latest booking *curently 6 months from end of month
+    #B4) DUP check to ensure booking is not after latest booking *curently 6 months from end of month
     #CHANGE TO ALLOW XMAS BOOKINGS AND 2018 ROLLING 6 MONTHS
      if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+5.months)
     #CHANGE TO LIMIT XMAS BOOKING ON 3 JUNE 2017
@@ -217,7 +219,7 @@ class Booking < ActiveRecord::Base
           return Error.get_msg("999999108")  
       end
       
-      #15) check to ensure no tables of 11+ after Jan 3 
+      #B6) check to ensure no tables of 11+ after Jan 3 
         if (params[:number_of_diners].to_i)>= 11 && (params[:booking_date]).to_date > Date.new(2018,01,01)
          return Error.get_msg("999999124") 
         end 
@@ -527,10 +529,10 @@ def self.all_search(search)
       hash_of_times=[["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]  
     when 5 #Friday
       hash_of_times = Hash.new
-      hash_of_times= [["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]   
+      hash_of_times= [["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["14:30"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]   
     when 6 #Saturday
       hash_of_times = Hash.new
-      hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]
+      hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["14:30"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]
    end
  end
  
