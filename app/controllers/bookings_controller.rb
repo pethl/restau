@@ -34,16 +34,6 @@ class BookingsController < ApplicationController
     check_entry = Booking.check_entry_params(params[:booking])
     #Rails.logger.debug("xxxxx_what is returned check_entry : #{check_entry.inspect}")
     
-#    basic_exemptions = (Booking.check_if_date_matches_exemption(params[:booking][:booking_date].to_datetime))
-#    Rails.logger.debug("xxxxx_what is returned check_if_date_matches_exemption : #{basic_exemptions.inspect}")
-#     #Rails.logger.debug("xxxxx_what do params look like 2 : #{params.inspect}")
-#    if (basic_exemptions == "Lunch") ||(basic_exemptions == "Dinner")
-#      #do nothing as will use value later
-#      #Rails.logger.debug("xxxxx_what do params look like 2 : #{params.inspect}")
-#    elsif basic_exemptions !=true
-#      check_entry = basic_exemptions
-#    end
-    
     if check_entry.blank? || check_entry == true
       hashhere = Booking.get_available_space((params[:booking][:booking_date].to_datetime), (params[:booking][:number_of_diners].to_i))
        

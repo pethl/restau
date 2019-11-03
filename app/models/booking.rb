@@ -259,7 +259,7 @@ class Booking < ActiveRecord::Base
       
     # GET MAX CONCURRENT DINERS FROM SYSTEM PARAMETERS
     @max_diners_at_current_time = Rdetail.get_value(@booking[:restaurant_id], "max_diners_at_current_time") 
-    Rails.logger.debug("232_new_BOOKING_LOGING_MAX_diners_at_same_start_time : #{@max_diners_at_current_time}")
+   # Rails.logger.debug("232_new_BOOKING_LOGING_MAX_diners_at_same_start_time : #{@max_diners_at_current_time}")
 
 
     if ([3,4].include? (@booking[:booking_date_time].to_date.wday)) &&  @booking[:booking_date_time].hour== 17 &&  @booking[:booking_date_time].min== 0
@@ -272,11 +272,11 @@ class Booking < ActiveRecord::Base
          @max_diners_at_current_time = Rdetail.get_value(1, "max_fri_lunch_diners") 
       elsif ([0].include? (@booking[:booking_date_time].to_date.wday))
           @max_diners_at_current_time = Rdetail.get_value(1, "sun_max_diners") 
-           Rails.logger.debug("246_BOOKING_LOGING_diners_at_same_start_time : #{@booking[:booking_date_time]}")   
+        # Rails.logger.debug("246_BOOKING_LOGING_diners_at_same_start_time : #{@booking[:booking_date_time]}")   
       else     
         @max_diners_at_current_time = Rdetail.get_value(1, "max_diners_at_current_time") 
-        Rails.logger.debug("249_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
-        Rails.logger.debug("250_BOOKING_L : #{@booking[:booking_date_time]}")   
+       # Rails.logger.debug("249_BOOKING_LOGING_diners_at_same_start_time : #{@max_diners_at_current_time}")
+       # Rails.logger.debug("250_BOOKING_L : #{@booking[:booking_date_time]}")   
     end
     
       
@@ -289,9 +289,6 @@ class Booking < ActiveRecord::Base
             end
       
     if ((@diners_at_same_start_time+@diners) < (@max_diners_at_current_time+1))
-  
-       Rails.logger.debug("257_BOOKING_LOGING_diners_at_same_start_time : #{@diners_at_same_start_time}")
-       Rails.logger.debug("258_BOOKING_LOGING_MAX_diners_at_same_start_time : #{@max_diners_at_current_time}")
   
     case @diners
     when 9,10,11,12
@@ -395,22 +392,22 @@ def self.all_search(search)
     hash_to_delete = Array.new # this will be used to gather times to be deleted
     
     #B5 Exemptions part 2 - extra code Nov 2019 to enable distinction between whole and half day exemptions
-    booking_datetime
-    exempt_days_hash = Exemption.where("exempt_day >= ?",Date.today).where.not("lunch = ? AND dinner= ?", true , true)
-    if exempt_days_hash.count > 0
-      exempt_days_hash.each do |exemption|
-          if booking_datetime.to_date == exemption.exempt_day.to_date
-             if exemption.lunch == true
-                 hash_to_delete <<["12:00"]
-                 hash_to_delete <<["12:30"]
-                 hash_to_delete <<["13:00"]
-                 hash_to_delete <<["13:30"]
-                 hash_to_delete <<["14:00"]
-                 hash_to_delete <<["14:30"]
-                 hash_to_delete <<["15:00"]
-                 hash_to_delete <<["15:30"]
-                        
-             elsif exemption.dinner == true
+   
+    part_exempt_days_hash = Exemption.where("exempt_day >= ?",Date.today).where.not("lunch = ? AND dinner= ?", true , true)
+   
+    if part_exempt_days_hash.count > 0
+       part_exempt_days_hash.each do |part_exemption|
+          if booking_datetime.to_date == part_exemption.exempt_day.to_date
+             if part_exemption.lunch == true
+                hash_to_delete <<["12:00"]
+                hash_to_delete <<["12:30"]
+                hash_to_delete <<["13:00"]
+                hash_to_delete <<["13:30"]
+                hash_to_delete <<["14:00"]
+                hash_to_delete <<["14:30"]
+                hash_to_delete <<["15:00"]
+                hash_to_delete <<["15:30"]
+             elsif part_exemption.dinner == true
                hash_to_delete <<["17:00"]
                hash_to_delete <<["17:30"]
                hash_to_delete <<["18:00"]
@@ -420,14 +417,12 @@ def self.all_search(search)
                hash_to_delete <<["20:00"]
                hash_to_delete <<["20:30"]
                hash_to_delete <<["21:00"]
-            end    
-          end
-       end
+            end    # end if
+          end # end if
+       end  # end do
      else 
     end  
    
-    
-    
     # LARGE TABLES ARE ONLY ALLOWED TO BOOK AT CERTAIN TIMES - Changes from Shauna email 7/11/18
     if number_of_diners >= 7
       if ([3,4,5,6].include? (booking_datetime.to_date.wday))
@@ -473,7 +468,7 @@ def self.all_search(search)
         hash_of_times.delete(["21:00"])
       end
     end
-     
+      
     if number_of_diners >= 9
       if  (([5,6].include? (booking_datetime.to_date.wday))&&(@lunch_big_tables_count >= @big_table_max))
         hash_of_times.delete(["12:00"])
@@ -482,7 +477,6 @@ def self.all_search(search)
         hash_of_times.delete(["13:30"])
         hash_of_times.delete(["14:00"])
         hash_of_times.delete(["14:30"])
-      
       end
       if  (([5,6].include? (booking_datetime.to_date.wday))&&(@eve_big_tables_count >= @big_table_max))
         hash_of_times.delete(["17:00"])
@@ -498,7 +492,7 @@ def self.all_search(search)
     end
      
       if @existing_bookings.count == 0
-        return hash_of_times
+        return (hash_of_times - hash_to_delete) # this line amended to remove has_to_delete values for exemptions
       else
         hash_of_times.each do |time|
           booking = @existing_bookings.first.booking_date_time.change({ hour: time[0][0,2], min: time[0][3,5] })
@@ -544,7 +538,7 @@ def self.all_search(search)
           end  
         end
         
-      if hash_of_times.empty?
+       if hash_of_times.empty?
          return Error.get_msg("999999118") 
        elsif hash_to_delete.empty?
          return hash_of_times
@@ -654,7 +648,7 @@ def self.all_search(search)
            return Error.get_msg("999999107")  
       end
    else
-     Rails.logger.debug("in @fail over else : #{}")
+     #Rails.logger.debug("in @fail over else : #{}")
      
      return Error.get_msg("999999107") 
    end
@@ -666,8 +660,8 @@ def self.all_search(search)
  def self.deposit_amount(params)
    @deposit_table_size =  (Rdetail.deposit_table_size.to_i)
    @booking = params
-   deposit_due = (@booking.number_of_diners*10)
-   deposit_paid = @booking.deposit_amount
+     deposit_due = (@booking.number_of_diners*10)
+     deposit_paid = @booking.deposit_amount
    
    if @booking.number_of_diners < @deposit_table_size
       return "No Deposit Required", 0
@@ -680,35 +674,4 @@ def self.all_search(search)
    else 
    end
  end
- 
- def self.check_if_date_matches_exemption(booking_date)
-   
-   #B5) Check to ensure booking date is not on list of exemption dates
-   #Part of Full Exemption handled
-   # If day is WED, THURS, SUN or exemption has both lunch and dinner exemptions, then return exemption error, else return trigger to remove times later.
-  
-    
-   exempt_days_hash = Exemption.where("exempt_day >= ?",Date.today)
-   
-   if exempt_days_hash.count > 0
-      exempt_days_hash.each do |exemption|
-        if (booking_date.to_date == exemption.exempt_day.to_date) && ([0,3,4].include? (booking_date.to_date.wday))
-          return exemption.exempt_message
-        
-      elsif (booking_date.to_date == exemption.exempt_day.to_date) && (exemption.lunch==true && exemption.dinner==true)
-          return exemption.exempt_message
-        elsif (booking_date.to_date == exemption.exempt_day.to_date) 
-          if exemption.lunch== true 
-            return "Lunch"
-          elsif exemption.dinner== true
-            return "Dinner"
-          end
-       end
-       
-      end
-      return true
-   end
-   
- end #final end of def
- 
 end
