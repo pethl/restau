@@ -57,7 +57,7 @@ class ExemptionsController < ApplicationController
   def destroy
     @exemption.destroy
     respond_to do |format|
-      format.html { redirect_to exemptions_url, notice: 'Exemption was successfully destroyed.' }
+      format.html { redirect_to exemptions_url, notice: 'Exemption was successfully deleted.' }
       format.json { head :no_content }
     end
   end
@@ -70,6 +70,6 @@ class ExemptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def exemption_params
-      params.require(:exemption).permit(:exempt_day, :exempt_message)
+      params.require(:exemption).permit(:exempt_day, :exempt_message, :lunch, :dinner)
     end
 end

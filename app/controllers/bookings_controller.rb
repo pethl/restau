@@ -1,6 +1,6 @@
 class BookingsController < ApplicationController
   
-  before_action :logged_in_user, only: [:index, :create, :mgmt_edit, :download_bookings_pdf, :all_bookings, :basic_report, :calendar, :search_bookings, :new_booking_enquiry, :deposit_report]
+  before_action :logged_in_user, only: [:index, :create, :mgmt_edit, :download_bookings_pdf, :all_bookings, :basic_report, :calendar, :search_bookings, :new_booking_enquiry, :deposit_report, :confirmation_report, :day_to_view_bookings_report]
   before_action :set_booking, only: [:show, :edit, :update, :destroy, :mgmt_edit]
   
   def all_bookings
@@ -33,6 +33,16 @@ class BookingsController < ApplicationController
     #Check_Entry does basic validations and ensures if large booking that not too many existing bookings exist
     check_entry = Booking.check_entry_params(params[:booking])
     #Rails.logger.debug("xxxxx_what is returned check_entry : #{check_entry.inspect}")
+    
+#    basic_exemptions = (Booking.check_if_date_matches_exemption(params[:booking][:booking_date].to_datetime))
+#    Rails.logger.debug("xxxxx_what is returned check_if_date_matches_exemption : #{basic_exemptions.inspect}")
+#     #Rails.logger.debug("xxxxx_what do params look like 2 : #{params.inspect}")
+#    if (basic_exemptions == "Lunch") ||(basic_exemptions == "Dinner")
+#      #do nothing as will use value later
+#      #Rails.logger.debug("xxxxx_what do params look like 2 : #{params.inspect}")
+#    elsif basic_exemptions !=true
+#      check_entry = basic_exemptions
+#    end
     
     if check_entry.blank? || check_entry == true
       hashhere = Booking.get_available_space((params[:booking][:booking_date].to_datetime), (params[:booking][:number_of_diners].to_i))

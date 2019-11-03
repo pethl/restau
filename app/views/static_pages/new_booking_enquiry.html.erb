@@ -125,7 +125,7 @@
                      <br><small><font color=#000000>Closed</font></small>
          
                      <% elsif (exemption_days.include? date)  %> 
-                            <br><small><font color=#000000>*Closed</font></small>
+                            <small><i><font color=#000000>*Closed or Restricted Bookings</font></small></i>
               
 <!-- Instructions: This is the special december section. --> 
                   <% elsif (date.month == 12) && ([5,6].include? date.wday) %>

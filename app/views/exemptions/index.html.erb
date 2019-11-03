@@ -10,10 +10,18 @@
 
 <table class="table">
   <thead>
+  <tr>
+   <th colspan="2""></th>
+   <th colspan="3"><center>Exemption Applies to </th>
+   <th colspan="3""></th>
+  </tr>
     <tr>
-      <th style="width: 20%">Exempt day</th>
-      <th style="width: 50%">Exempt message</th>
-      <th colspan="3" style="width: 30%"></th>
+      <th style="width: 15%">Exempt day</th>
+      <th style="width: 35%">Exempt message</th>
+      <th style="width: 10%"><center>Lunch</th>
+      <th style="width: 10%"><center>Dinner</th>
+      <th style="width: 10%"><center>All Day</th>
+      <th colspan="3" style="width: 20%"></th>
     </tr>
   </thead>
 
@@ -30,6 +38,9 @@
       <% else %>  
       <td><%= exemption.exempt_day.strftime('%a, %d %b %Y') %></td>
       <td><%= exemption.exempt_message %></td>
+      <td><center><%= exemption.lunch==true ? "X": "" %></td>
+      <td><center><%= exemption.dinner==true ? "X": ""  %></td>
+      <td><center><%= (exemption.dinner==true) && (exemption.lunch==true) ? "Yes": "" %></td>
  
         <td><%= link_to 'Show', exemption %></td>
         <td><%= link_to 'Edit', edit_exemption_path(exemption) %></td>
@@ -40,6 +51,6 @@
   </tbody>
 </table>
 
-<br>
 
-<%= link_to 'Create a new booking exemption day', new_exemption_path, style: 'color:#FFFFFF;' %>
+
+<h5><%= link_to 'Create a new booking exemption day', new_exemption_path, style: 'color:#FFFFFF;' %></h5>

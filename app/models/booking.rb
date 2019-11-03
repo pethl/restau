@@ -59,14 +59,15 @@ class Booking < ActiveRecord::Base
         end
         
       #B5) Check to ensure booking date is not on list of exemption dates
-      exempt_days_hash = Exemption.where("exempt_day > ?",Date.today)
+      # 2 part changes made to handle valentines day exception. If exemption day is part exemption only carry on. Later in the flow handling for part exemptions.
+      exempt_days_hash = Exemption.where("exempt_day >= ? AND lunch= ? AND dinner = ?",Date.today,true,true)
       if exempt_days_hash.count > 0
         exempt_days_hash.each do |exemption|
-          if params[:booking_date].to_date == exemption.exempt_day.to_date
-            return exemption.exempt_message
+            if params[:booking_date].to_date == exemption.exempt_day.to_date
+              return exemption.exempt_message
+            end
          end
-       end
-      else 
+       else 
       end  
     
       #start of jan 12 work to remove large table duplicates
@@ -200,15 +201,15 @@ class Booking < ActiveRecord::Base
            return Error.get_msg("999999119")      
         end 
 
-    #12) check to ensure booking is not in December
-    #    if ([12].include? (params[:booking_date]).to_date.month)
-    #      return Error.get_msg("999999120")    
-    #    end
+      #12) check to ensure booking is not in December
+      #    if ([12].include? (params[:booking_date]).to_date.month)
+      #      return Error.get_msg("999999120")    
+      #    end
     
-    #B4) DUP check to ensure booking is not after latest booking *curently 6 months from end of month
-    #CHANGE TO ALLOW XMAS BOOKINGS AND 2018 ROLLING 6 MONTHS
+     #B4) DUP check to ensure booking is not after latest booking *curently 6 months from end of month
+     #CHANGE TO ALLOW XMAS BOOKINGS AND 2018 ROLLING 6 MONTHS
      if  (params[:booking_date]).to_date > ((Date.today.end_of_month)+5.months)
-    #CHANGE TO LIMIT XMAS BOOKING ON 3 JUNE 2017
+     #CHANGE TO LIMIT XMAS BOOKING ON 3 JUNE 2017
      #if  (params[:booking_date]).to_date > Date.new(2017,10,31)
         return Error.get_msg("999999123")    
       end
@@ -391,7 +392,41 @@ def self.all_search(search)
     @large_table_max = Rdetail.get_value(restaurant_id, "large_table_count") 
    
     hash_of_times = Booking.get_times_hash(booking_datetime.to_datetime.wday)
-    hash_to_delete = Array.new
+    hash_to_delete = Array.new # this will be used to gather times to be deleted
+    
+    #B5 Exemptions part 2 - extra code Nov 2019 to enable distinction between whole and half day exemptions
+    booking_datetime
+    exempt_days_hash = Exemption.where("exempt_day >= ?",Date.today).where.not("lunch = ? AND dinner= ?", true , true)
+    if exempt_days_hash.count > 0
+      exempt_days_hash.each do |exemption|
+          if booking_datetime.to_date == exemption.exempt_day.to_date
+             if exemption.lunch == true
+                 hash_to_delete <<["12:00"]
+                 hash_to_delete <<["12:30"]
+                 hash_to_delete <<["13:00"]
+                 hash_to_delete <<["13:30"]
+                 hash_to_delete <<["14:00"]
+                 hash_to_delete <<["14:30"]
+                 hash_to_delete <<["15:00"]
+                 hash_to_delete <<["15:30"]
+                        
+             elsif exemption.dinner == true
+               hash_to_delete <<["17:00"]
+               hash_to_delete <<["17:30"]
+               hash_to_delete <<["18:00"]
+               hash_to_delete <<["18:30"]
+               hash_to_delete <<["19:00"]
+               hash_to_delete <<["19:30"]
+               hash_to_delete <<["20:00"]
+               hash_to_delete <<["20:30"]
+               hash_to_delete <<["21:00"]
+            end    
+          end
+       end
+     else 
+    end  
+   
+    
     
     # LARGE TABLES ARE ONLY ALLOWED TO BOOK AT CERTAIN TIMES - Changes from Shauna email 7/11/18
     if number_of_diners >= 7
@@ -435,6 +470,7 @@ def self.all_search(search)
         hash_of_times.delete(["19:30"])
         hash_of_times.delete(["20:00"])
         hash_of_times.delete(["20:30"])
+        hash_of_times.delete(["21:00"])
       end
     end
      
@@ -446,6 +482,7 @@ def self.all_search(search)
         hash_of_times.delete(["13:30"])
         hash_of_times.delete(["14:00"])
         hash_of_times.delete(["14:30"])
+      
       end
       if  (([5,6].include? (booking_datetime.to_date.wday))&&(@eve_big_tables_count >= @big_table_max))
         hash_of_times.delete(["17:00"])
@@ -456,6 +493,7 @@ def self.all_search(search)
         hash_of_times.delete(["19:30"])
         hash_of_times.delete(["20:00"])
         hash_of_times.delete(["20:30"])
+        hash_of_times.delete(["21:00"])
       end
     end
      
@@ -534,6 +572,8 @@ def self.all_search(search)
       hash_of_times = Hash.new
       hash_of_times=[["12:00"],["12:30"],["13:00"],["13:30"],["14:00"],["14:30"],["17:00"],["17:30"],["18:00"],["18:30"],["19:00"],["19:30"],["20:00"],["20:30"],["21:00"]]
    end
+   
+   
  end
  
  # TOTAL DINERS COUNT FOR CURRENT TIME (no of diners arriving at this moment+15 mins to start reservation)
@@ -640,5 +680,35 @@ def self.all_search(search)
    else 
    end
  end
+ 
+ def self.check_if_date_matches_exemption(booking_date)
+   
+   #B5) Check to ensure booking date is not on list of exemption dates
+   #Part of Full Exemption handled
+   # If day is WED, THURS, SUN or exemption has both lunch and dinner exemptions, then return exemption error, else return trigger to remove times later.
+  
+    
+   exempt_days_hash = Exemption.where("exempt_day >= ?",Date.today)
+   
+   if exempt_days_hash.count > 0
+      exempt_days_hash.each do |exemption|
+        if (booking_date.to_date == exemption.exempt_day.to_date) && ([0,3,4].include? (booking_date.to_date.wday))
+          return exemption.exempt_message
+        
+      elsif (booking_date.to_date == exemption.exempt_day.to_date) && (exemption.lunch==true && exemption.dinner==true)
+          return exemption.exempt_message
+        elsif (booking_date.to_date == exemption.exempt_day.to_date) 
+          if exemption.lunch== true 
+            return "Lunch"
+          elsif exemption.dinner== true
+            return "Dinner"
+          end
+       end
+       
+      end
+      return true
+   end
+   
+ end #final end of def
  
 end

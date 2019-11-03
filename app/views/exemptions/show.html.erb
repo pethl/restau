@@ -13,7 +13,11 @@
   <strong>Exempt day:</strong>
   <%= @exemption.exempt_day.strftime('%a, %d %b %Y')  %>
 </p>
-
+<p>
+  <strong>Exempt applied to:</strong>
+  <%= @exemption.lunch==true ? "Lunch":"" %>
+   <%= @exemption.dinner==true ? "Dinner" :""%>
+</p>
 <p>
   <strong>Exempt message:</strong>
   <%= @exemption.exempt_message %>

@@ -13,8 +13,18 @@
   <% end %>
 
    
-    <%= f.date_select :exempt_day, start_year: 2017 %>
-    <%= f.text_area :exempt_message %> 
+   <h6> <%= f.date_select :exempt_day, start_year: 2019 %>
+    
+   Apply exemptions to:
+      <div class="col-sm-offset-2 col-sm-10">
+         <%= f.check_box :lunch, label: "Lunch" %>  
+         <%= f.check_box :dinner, label: "Dinner" %> 
+         <br>
+         <i><font color=#f5f2d0>For All Day Exemption tick BOTH boxes.<font></i>
+          <br><br>
+     </div>
+    
+    <%= f.text_area :exempt_message %> </h6>
     <h6><font color=#33CC33>Exemption message will be shown to customers when they try to book on this date,<br> so <b>please</b> check spelling and wording carefully.
     </font></h6>
   
