@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 #recomended by heroku
-ruby '2.3.1'
+ruby '2.3.8'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Using Postgres database
@@ -49,7 +49,7 @@ gem 'rails_12factor', group: :production
 group :development do
   gem 'guard-minitest', '~> 2.3.2' # https://github.com/guard/guard-minitest
   # Colorize minitest output and show failing tests instantly.
-  gem 'minitest-colorize', git: 'https://github.com/ysbaddaden/minitest-colorize'
+  #gem 'minitest-colorize', git: 'https://github.com/ysbaddaden/minitest-colorize'
   gem 'terminal-notifier-guard', '~> 1.6.4' # https://github.com/Springest/terminal-notifier-guard
   gem 'terminal-notifier', '~> 1.6.2' #https://github.com/alloy/terminal-notifier
 end  
