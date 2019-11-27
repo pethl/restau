@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  before_action :logged_in_user, only: [:function_room_enquiry, :hfsk_gift_vouchers]
+  before_action :logged_in_user, only: [:function_room_enquiry]
  
   def home
   end
@@ -97,8 +97,8 @@ class StaticPagesController < ApplicationController
   
   def download_menu_pdf
     send_file(
-      "#{Rails.root}/public/HF_MENU_SAMPLE_0419.pdf",
-      filename: "HF_MENU_SAMPLE_0419.pdf",
+      "#{Rails.root}/public/HF_MENU_SAMPLE_1119.pdf",
+      filename: "HF_MENU_SAMPLE_1119.pdf",
       type: "application/pdf"
     )
   end

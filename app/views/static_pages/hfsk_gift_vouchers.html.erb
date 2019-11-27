@@ -1,68 +1,44 @@
-<div class="what-we-do-background">
-
-<%= render 'layouts/external_header' %>
-<div class="row">
- <div class="col-md-10 col-md-offset-1  "> 
-
-<br>
-<div class="row">
+<div class="hfsk-menu-background">
+  
+ <%= render 'layouts/external_header' %>
+  
+  <div class="row">
+   <div class="col-md-10 col-md-offset-1  "> 
     
-<!-- Instructions: This is the intro  section. -->  
-   <div class="col-md-6">
-   <h4><font color="#FFD801">WHAT WE DO</font></h4>
-   <h6 style="line-height:24px;">Buy a Gift Voucher   </h6>
+   <div class="row">
+    
+  <!-- Instructions: This is the header section. -->  
+   <div class="col-md-10">
+   <h4><font color="#FFD801">GIFT VOUCHERS</font></h4>
    <br>
-   
+   <br>
+   <%= image_tag "HFSK-Box.jpg", :class => "photo_img" %> <br>
+   <br>
+   <br>
+   <h6>Vouchers can be used at Hang Fire Southern Kitchen for food, drink and merchandise. 
+   Vouchers are valid for 1 year from date of purchase and can be delivered via 1st Class Royal Mail, email or SMS.
+   <br> <br>
+   By clicking 'BUY NOW' you will be transferred to the Hang Fire voucher service to complete your purchase. 
+   </h6>
+   <br>
+   <br>
+     <%= link_to "BUY NOW", "https://vouchers.giftvouchersolutions.com/vouchersales/Choose.aspx?c=HANGF", :target => "_blank", :class => "button_book_table_orange", :style=>'color:#000000;' %>
+    
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
      
        
-       <!-- Instructions: This is the paypal section. -->   
-        
-       <body>
-         <script
-           src="https://www.paypal.com/sdk/js?client-id=Adu2MXHC_c_qaeFtwWaMoE1c5el6vWPs3ytBxbPAhGv3vKXx6SvdMMt0TgsjvKrdA7Z85ERb4ChwEfRf&currency=GBP&disable-card=jcb,discover,elo,hiper">
-         </script>
-         
-         <div id="paypal-button-container"></div>
-
-          
-           <script>
-             paypal.Buttons({
-               createOrder: function(data, actions) {
-                 // Set up the transaction
-                 return actions.order.create({
-                   purchase_units: [{
-                     amount: {
-                       currency_code: "GBP",
-                       value: '10.25'
-                     }
-                   }]
-                 });
-               },
-               onApprove: function(data, actions) {
-                     // Capture the funds from the transaction
-                     return actions.order.capture().then(function(details) {
-                       // Show a success message to your buyer
-                       alert('Thanks ' + details.payer.name.given_name + 'your payment is now complete.');
-                       // Call your server to save the transaction
-                       return fetch('/paypal-transaction-complete', {
-                                method: 'post',
-                                headers: {
-                                  'content-type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                  orderID: data.orderID
-                                })
-                          });
-                     });
-                   }
-             }).render('#paypal-button-container');
-           </script>
-       </body>
-          
-       
-        
    </div>
-      </div>
-         </div>
+  </div>
+</div>
+</div>
+</div>
 
  

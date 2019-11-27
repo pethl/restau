@@ -313,9 +313,9 @@ class BookingsController < ApplicationController
              pdf.text "\n", size: 10
              
              table_data = Array.new
-             table_data << ["Time", "Name", "Diners", "Confirmed?","Child Seat","Table", "Notes"]
+             table_data << ["Time", "Name", "Diners", "Con-firmed?","Child Seat","Deposit","Table", "Notes"]
              @bookings_confirmed.each do |booking|
-                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : '', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
+                 table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : '', booking.child_friendly ? 'Yes' : '',booking.deposit_amount.to_s+" "+booking.deposit_code.to_s, " ", booking.notes]
              end
              pdf.table(table_data) do 
                self.width = 530
@@ -328,17 +328,19 @@ class BookingsController < ApplicationController
                columns(0).width = 36
                columns(0).align = :center
                columns(1).font_style = :bold
-               columns(1).width = 155
+               columns(1).width = 133
                columns(2).width = 40 
                columns(2).align = :center
-               columns(3).width = 70 
+               columns(3).width = 47 
                columns(3).align = :center
-               columns(4).width = 44
+               columns(4).width = 40
                columns(4).align = :center
-               columns(5).width = 35
+               columns(5).width = 47
                columns(5).align = :center
-               columns(6).width = 150
-               columns(6).align = :left
+               columns(6).width = 40
+               columns(6).align = :center
+               columns(7).width = 147
+               columns(7).align = :left
               
                
              end
@@ -385,9 +387,10 @@ class BookingsController < ApplicationController
                   pdf.text "\n", size: 10
              
                   table_data = Array.new
-                  table_data << ["Time", "Name", "Diners", "Confirmed?","Child Seat","Table", "Notes"]
+                  table_data << ["Time", "Name", "Diners", "Con-firmed?","Child Seat","Deposit","Table", "Notes"]
                   @bookings_confirmed.each do |booking|
-                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : '', booking.child_friendly ? 'Yes' : '', " ", booking.notes]
+                   
+                      table_data << [booking.booking_date_time.strftime('%H:%M'), booking.name, booking.number_of_diners, booking.confirmation_received? ? 'Yes' : '', booking.child_friendly ? 'Yes' : '', booking.deposit_amount.to_s+" "+booking.deposit_code.to_s, " ", booking.notes]
                     end
                   pdf.table(table_data) do 
                     self.width = 530
@@ -400,17 +403,19 @@ class BookingsController < ApplicationController
                     columns(0).width = 36
                     columns(0).align = :center
                     columns(1).font_style = :bold
-                    columns(1).width = 155
+                    columns(1).width = 133
                     columns(2).width = 40 
                     columns(2).align = :center
-                    columns(3).width = 70 
+                    columns(3).width = 47 
                     columns(3).align = :center
-                    columns(4).width = 44
+                    columns(4).width = 40
                     columns(4).align = :center
-                    columns(5).width = 35
+                    columns(5).width = 47
                     columns(5).align = :center
-                    columns(6).width = 150
-                    columns(6).align = :left
+                    columns(6).width = 40
+                    columns(6).align = :center
+                    columns(7).width = 147
+                    columns(7).align = :left
                
                   end
              
