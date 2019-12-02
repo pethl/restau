@@ -93,7 +93,7 @@ gem 'newrelic_rpm'
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'
-gem "chartkick", "~> 3.2.0"
+gem "chartkick", "~> 3.3.0"
 
 # recommended by github cant see why needed
 #gem "activejob", ">= 4.2.11"
