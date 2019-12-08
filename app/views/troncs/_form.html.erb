@@ -1,0 +1,25 @@
+<%= bootstrap_form_for(@tronc) do |f| %>
+  <% if @tronc.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tronc.errors.count, "error") %> prohibited this tronc from being saved:</h2>
+
+      <ul>
+      <% @tronc.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+    <%= f.date_select :start_date %>
+    <%= f.date_select :end_date %>
+    <%= f.select(:status, Tronc::TRONC_STATUS_TYPES, :label => "Status?") %>
+    <%= f.text_field :foh_split, label: "Front of House %" %>
+    <%= f.text_field :kitchen_split, label: "Kitchen %"  %>
+   
+    <%= f.text_field :total, :disabled => true %>
+
+  <div class="actions">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

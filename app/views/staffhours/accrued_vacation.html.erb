@@ -1,0 +1,145 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+ <!-- Instructions: This is the header section. -->  
+<div class="col-md-10">
+<h2>Accrued Vacation</h2>
+<br>
+<% if Accruel_rate.all.count == 0 %>
+  <h6>No accruel rate loaded, <%= link_to "click here to load a rate", accruel_rates_path, style: 'color:#d3d3d3;'%>
+     </h6>
+     <% else %>          
+<h6>Vacation Year: <%= Date.today.beginning_of_year.strftime(" %d/%m/%Y") %> - <%= Date.today.end_of_year.strftime(" %d/%m/%Y") %></h6>
+ 
+<h4><%= link_to "Print Vacation Accruel Report", download_vacation_accruel_report_pdf_path(:value => Date.today.beginning_of_year, :format => 'pdf'), :style => "color:orange" %>
+<% end %>    
+</div>
+
+ <!-- Instructions: This is the foh section. -->  
+<div class="col-md-10">
+
+<% if @foh_staffhours.nil? %>
+
+  <h6>No records to show<br><br>
+
+ <% else %>
+  <h5>Front of House/ Hourly Rate Staff</h5>
+  <table class = "table table-striped">
+   <thead>
+     <th>Name</th>
+      <th></th>
+       <% @table_dates.each do |date| %>
+         <th style="text-align:right"><small><%= date.strftime(" %d/%m") %></small></th>
+      <% end %>
+       <th style="text-align:right">Totals</th>
+      </thead> 
+   
+ <tbody>
+    <% @foh_staffhours.each do |foh_staff_id, foh_hours| %>
+     <tr>
+       <td><%= Staff.find(foh_staff_id).name %></td>
+       <td><small>accruel</small></td>
+     
+     <% @table_dates.each do |date| %>
+      <td style="text-align:right"><small>  
+        <% foh_hours.each do |foh_hour| %>
+            <% if foh_hour.week_end_date == date %>
+              <%= number_with_precision(foh_hour.wk_accrued_hours, :precision => 3)  %>
+            <% end %>
+         <% end %></small> 
+      </td>
+     <% end %>
+     
+    <td style="text-align:right">
+    <b><%= number_with_precision(foh_hours.map { |h| h[:wk_accrued_hours] }.compact.sum, :precision => 3) %></b></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><small>hrs</small></td>
+      
+    
+    <% @table_dates.each do |date| %>
+     <td style="text-align:right"><small>  
+       <% foh_hours.each do |foh_hour| %>
+           <% if foh_hour.week_end_date == date %>
+             <%= number_with_precision(foh_hour.hours, :precision => 2)  %>
+           <% end %>
+        <% end %></small> 
+     </td>
+    <% end %>
+    
+    <td style="text-align:right"><small>
+   <%= number_with_precision(foh_hours.map { |h| h[:hours] }.compact.sum, :precision => 2) %></small></td>
+  </tr>
+      <% end %>
+      </tbody>
+  </table>
+  
+<% end %>
+<hr>
+ 
+ <!-- Instructions: This is the kitchen section. -->  
+ 
+<% if @kit_staffhours.nil? %>
+
+  <h6>No records to show<br><br>
+
+ <% else %>
+  <h5>Kitchen/ Hourly Rate Staff</h5>
+  <table class = "table table-striped">
+   <thead>
+     <th>Name</th>
+      <th></th>
+       <% @table_dates.each do |date| %>
+         <th style="text-align:right"><small><%= date.strftime(" %d/%m") %></small></th>
+      <% end %>
+       <th style="text-align:right">Totals</th>
+      </thead> 
+   
+ <tbody>
+    <% @kit_staffhours.each do |kit_staff_id, kit_hours| %>
+     <tr>
+       <td><%= Staff.find(kit_staff_id).name %></td>
+       <td><small>accruel</small></td>
+     
+     <% @table_dates.each do |date| %>
+      <td style="text-align:right"><small>  
+        <% kit_hours.each do |kit_hour| %>
+            <% if kit_hour.week_end_date == date %>
+              <%= number_with_precision(kit_hour.wk_accrued_hours, :precision => 3)  %>
+            <% end %>
+         <% end %></small> 
+      </td>
+     <% end %>
+     
+    <td style="text-align:right">
+    <b><%= number_with_precision(kit_hours.map { |h| h[:wk_accrued_hours] }.compact.sum, :precision => 3) %></b></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><small>hrs</small></td>
+      
+    
+    <% @table_dates.each do |date| %>
+     <td style="text-align:right"><small>  
+       <% kit_hours.each do |kit_hour| %>
+           <% if kit_hour.week_end_date == date %>
+             <%= number_with_precision(kit_hour.hours, :precision => 2)  %>
+           <% end %>
+        <% end %></small> 
+     </td>
+    <% end %>
+    
+    <td style="text-align:right"><small>
+   <%= number_with_precision(kit_hours.map { |h| h[:hours] }.compact.sum, :precision => 2) %></small></td>
+  </tr>
+      <% end %>
+      </tbody>
+  </table>
+  
+<% end %>
+<br>
+
+</div></div>

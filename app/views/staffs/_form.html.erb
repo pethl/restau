@@ -1,0 +1,33 @@
+<%= bootstrap_form_for(@staff, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-5") do |f| %>
+  <% if @staff.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@staff.errors.count, "error") %> prohibited this staff from being saved:</h2>
+
+      <ul>
+      <% @staff.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+   
+    <%= f.text_field :name %>
+ 
+    <%= f.select(:status, Staff::STAFF_STATUS_TYPES, :label => "Status?") %>
+ 
+    <%= f.select(:area, Staff::STAFF_AREA_TYPES, :label => "Work Area?", include_blank: "Select area") %>
+   
+    <%= f.text_field :job_title %>
+ 
+    <%= f.select(:payment_terms, Staff::STAFF_PAYMENT_TERMS, :label => "Payment Type?") %>
+    
+    
+ 
+    
+ <div class="col-sm-offset-2 col-sm-10">
+  <div class="actions">
+     <%= f.submit class: "btn btn-primary" %>
+  </div></div>
+<% end %>
+
+

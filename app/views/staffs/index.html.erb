@@ -1,0 +1,56 @@
+<div class="row">
+<div class="col-md-2">staff
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-8">
+
+<h2>Staff</h2>
+<br>
+
+<% @staff_bypaytype.each do |pay_type, staffs| %>
+
+<h4><%= pay_type %></h4>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th style="width: 20%">Name</th>
+      <th style="width: 20%">Status</th>
+         <th style="width: 20%">Area</th>
+      <th style="width: 30%">Job Title</th>
+      <th style="width: 10%" colspan="2"><center>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+ 
+    <% staffs.each do |staff| %>
+      <tr>
+        <td><%= link_to staff.name, staff %></td>
+        <td><%= staff.status %></td>
+        <td><%= staff.area %></td>
+        <td><%= staff.job_title %></td>
+        <td><%= link_to edit_staff_path(staff), class: 'btn btn-success btn-xs' do %>
+                      <span class="fa fa-pencil-square-o""></span>  <% end %>
+           </td>
+            
+        <td> 
+             <%= link_to staff, method: :delete, data: { confirm: 'Are you sure you want to delete this person?' }, class: 'btn btn-danger btn-xs' do %>
+              <span class="fa fa-trash""></span>
+               <% end %> </td>
+                
+           
+          
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<% end %>
+<br>
+<%= link_to 'Add New Staff', new_staff_path, style: 'color:#d3d3d3' %>
+
+
+</div></div>
+
+

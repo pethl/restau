@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Staff:</strong>
+  <%= @staffevent.staff_id %>
+</p>
+
+<p>
+  <strong>Event date:</strong>
+  <%= @staffevent.event_date %>
+</p>
+
+<p>
+  <strong>Event reason:</strong>
+  <%= @staffevent.event_reason %>
+</p>
+
+<p>
+  <strong>Event notes:</strong>
+  <%= @staffevent.event_notes %>
+</p>
+
+<%= link_to 'Edit', edit_staffevent_path(@staffevent) %> |
+<%= link_to 'Back', staffevents_path %>

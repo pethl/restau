@@ -1,0 +1,151 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+ <!-- Instructions: This is the header section. -->  
+<div class="col-md-5">
+<h2>TRONC Allocation</h2>
+<br>
+<% if Accruel_rate.all.count == 0 %>
+  <h6>No accruel rate loaded, <%= link_to "click here to load a rate", accruel_rates_path, style: 'color:#d3d3d3;'%>
+     </h6>
+     <% else %>          
+<h6>Current TRONC Period:<br></h6>
+<br>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+      <td>Dates</td>
+      <td>Front of House</td>
+      <td>Kitchen</td>
+      </tr>
+    </thead>
+  <tbody>
+    <tr> 
+      <td><%= get_tronc_start.strftime(" %d/%m")  %> - <%= get_tronc_end.strftime(" %d/%m")  %></td>
+      <td><%= get_foh_split %>%</td>
+      <td><%= get_kitchen_split %>%</td>
+    </tr>
+    <tr>
+      <td>Total to Date: <%= number_to_currency(@tronc_total, :locale => :en) %></br></td>
+      <td><%= number_to_currency(get_foh_split_of_tronc, :locale => :en) %></td>
+      <td><%= number_to_currency(get_kitchen_split_of_tronc, :locale => :en) %></td>
+    </tr>
+  </tbody>
+  </table>
+
+<h4><%= link_to "Print Tronc Allocation Report", download_tronc_allocation_report_pdf_path(:value => get_tronc_start, :format => 'pdf'), :style => "color:orange" %>
+<% end %>    
+</div>
+
+ <!-- Instructions: This is the foh section. -->  
+<div class="col-md-10">
+
+<% if @foh_staffhours.nil? %>
+
+  <h6>No records to show<br><br>
+
+ <% else %>
+  <h6>Front of House/ Hourly Rate Staff</h6>
+  <table class = "table">
+   <thead>
+     <th>Name</th>
+       <% @table_dates.each do |date| %>
+         <th style="text-align:right"><small><%= date.strftime(" %d/%m") %></small></th>
+      <% end %>
+      <th style="text-align:right">%</th>
+       <th style="text-align:right">Total Hours</th>
+      <th style="text-align:right">TRONC Split</th>
+   </thead> 
+   
+ <tbody>
+    <% @foh_staffhours.each do |foh_staff_id, foh_hours| %>
+      <tr>
+        <td><%= Staff.find(foh_staff_id).name %></td>
+      
+      <% @table_dates.each do |date| %>
+       <td style="text-align:right"><small>  
+         <% foh_hours.each do |foh_hour| %>
+             <% if foh_hour.week_end_date == date %>
+               <%= number_with_precision(foh_hour.hours, :precision => 2)  %>
+             <% end %>
+          <% end %></small> 
+       </td>
+      <% end %>
+      <td style="text-align:right"><small>  
+     <%= number_with_precision(((get_total_hours(foh_hours)/get_total_hours(@pure_foh_staffhours))*100), :precision => 2) %></small></td>
+      
+      <td style="text-align:right">  
+     <b><%= number_with_precision(foh_hours.map { |h| h[:hours] }.compact.sum, :precision => 2) %></b></td>
+      
+     <td style="text-align:right">
+     <% foh_split=((foh_hours.map { |h| h[:hours] }.compact.sum)/(@pure_foh_staffhours.map { |h| h[:hours] }.compact.sum))*get_foh_split_of_tronc%>
+     <%= number_to_currency(foh_split, :locale => :en) %></td>
+     </tr>
+     
+      <% end %>
+      <tr>
+      <td colspan="16" style="text-align:right"><%= @pure_foh_staffhours.map { |h| h[:hours] }.compact.sum %></td>
+      </tr>
+  </tbody>
+  </table>
+  
+<% end %>
+<hr>
+ 
+ <!-- Instructions: This is the kitchen section. -->  
+ 
+<% if @kit_staffhours.nil? %>
+
+  <h6>No records to show<br><br>
+
+ <% else %>
+  <h6>Kitchen/ Hourly Rate Staff</h6>
+  <table class = "table">
+   <thead>
+     <th>Name</th>
+       <% @table_dates.each do |date| %>
+         <th style="text-align:right"><small><%= date.strftime(" %d/%m") %></small></th>
+      <% end %>
+       <th style="text-align:right">%</th>
+      <th style="text-align:right">Total Hours</th>
+      <th style="text-align:right">TRONC Split</th>
+   </thead> 
+   
+ <tbody>
+    <% @kit_staffhours.each do |kit_staff_id, kit_hours| %>
+      <tr>
+        <td><%= Staff.find(kit_staff_id).name %></td>
+      
+      <% @table_dates.each do |date| %>
+       <td style="text-align:right"><small>  
+         <% kit_hours.each do |kit_hour| %>
+             <% if kit_hour.week_end_date == date %>
+               <%= number_with_precision(kit_hour.hours, :precision => 2)  %>
+             <% end %>
+          <% end %></small> 
+       </td>
+      <% end %>
+      <td style="text-align:right"><small>  
+     <%= number_with_precision(((get_total_hours(kit_hours)/get_total_hours(@pure_kit_staffhours))*100), :precision => 2) %></small></td>
+     
+      <td style="text-align:right">  
+     <b><%= number_with_precision(kit_hours.map { |h| h[:hours] }.compact.sum, :precision => 2) %></b></td>
+      
+     <td style="text-align:right">
+     <% kit_split=((kit_hours.map { |h| h[:hours] }.compact.sum)/(@pure_kit_staffhours.map { |h| h[:hours] }.compact.sum))*get_kitchen_split_of_tronc%>
+     <%= number_to_currency(kit_split, :locale => :en) %></td>
+      
+      </tr>
+      <% end %>
+      <tr>
+      <td colspan="16" style="text-align:right"><%= @pure_kit_staffhours.map { |h| h[:hours] }.compact.sum %></td>
+      </tr>
+  </tbody>
+  </table>
+  
+<% end %>
+<br>
+
+</div></div>

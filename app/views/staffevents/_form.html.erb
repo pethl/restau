@@ -1,0 +1,16 @@
+
+<div class="well well-sm" style="background-color: grey;">
+<%= bootstrap_form_for([@staff, @staff.staffevents.build], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-8") do |f| %>
+
+    <%= f.hidden_field :staff_id %>
+    <%= f.date_select :event_date %>
+    <%= f.select(:event_reason, Staffevent::STAFFEVENT_REASONS, :label => "Select?") %>
+   <%= f.text_area :event_notes, :style => "width: 220px; height: 80px"  %>
+
+ <div class="col-sm-offset-2 col-sm-10">
+  <div class="actions">
+     <%= f.submit "Create Event", class: "btn btn-primary" %>
+  </div></div>
+<% end %>
+<br><br><br>
+</div>

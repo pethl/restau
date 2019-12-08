@@ -1,0 +1,40 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-6">
+<h2>Staff Hours</h2><br>
+
+<p>
+  <strong>Week end date:</strong>
+  <%= @staffhour.week_end_date.strftime('%a, %d %b') %>
+</p>
+
+<p>
+  <strong>Staff:</strong>
+  <%= @staffhour.staff.name %>
+</p>
+</p>
+
+<p>
+  <strong>Hours:</strong>
+  <%= @staffhour.hours %>
+</p>
+
+
+<p>
+  <strong>Accruel rate:</strong>
+   <%= Accruel_rate.find(@staffhour.accruel_rate_id).rate %>
+ 
+</p>
+
+<p>
+  <strong>Week Accrued Hours:</strong>
+   <%= number_with_precision((@staffhour.wk_accrued_hours), precision: 4) %><br>
+</p>
+
+<%= link_to 'Edit', edit_staffhour_path(@staffhour), style: 'color:#d3d3d3' %> |
+<%= link_to 'Back', staffhours_path, style: 'color:#d3d3d3' %>
+
+</div></div>

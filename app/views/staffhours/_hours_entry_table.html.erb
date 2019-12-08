@@ -1,0 +1,50 @@
+<% if @staffhours.nil? %>
+
+  <h6>Staff hours missing - report to Lisa<br><br>
+
+ <% else %>
+  
+ <%= form_for :staffhour, :url => update_all_path, :html => { :method => :put } do %>
+  
+  <table class = "table">
+    <thead>
+      <tr>
+      <th style="width: 25%">Staff</th>
+      <th style="width: 25%">Area</th>
+      <th style="width: 6%;text-align:right">Hours</th>
+      <th style="width: 12%;text-align:right">Accruelrate</th>
+      <th style="width: 12%;text-align:right">Week Accrued<br>Hours</th>
+      <th style="width: 6%"></th>
+      <th style="width: 15%" colspan="3"></th>
+      </tr>
+    </thead>
+
+  <tbody>
+  <tr><td colspan="8"><center><b>Hours for week ending: <%= @staffhours.first.week_end_date.strftime('%a, %d %b') %></tr>
+      <% @staffhours.each do |staffhour| %>
+     
+           <%= fields_for "staffhour[]", staffhour do |staffhour_fields| %>
+             
+      <tr>
+        <td><%= staffhour.staff.name %></td>
+        <td><%= staffhour.staff.area %></td>
+        <td style="text-align:right"><%= staffhour_fields.text_field :hours %></td>
+        <td style="text-align:right"><%= Accruel_rate.find(staffhour.accruel_rate_id).rate %></td>
+        <td style="text-align:right"><%= staffhour.wk_accrued_hours %></td>
+        <td></td>
+        <td><%= link_to 'Show', staffhour %></td>
+        <td><%= link_to 'Edit', edit_staffhour_path(staffhour) %></td>
+        <td><%= link_to 'Destroy', staffhour, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+ <div class="col-sm-offset-5 col-sm-4">
+  <div class="actions">
+  <button type="submit" class="btn btn-primary">Save Hours</button>
+  </div></div>
+  <% end %>
+
+<% end %>

@@ -1,0 +1,43 @@
+<div class="row">
+<div class="col-md-2">
+<%= render 'layouts/sidebar' %>
+</div>
+
+<div class="col-md-3">
+<h3>TRONC Period</h3><br>
+<br>
+
+
+<p>
+  <strong>Status:</strong>
+  <%= @tronc.status %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @tronc.start_date.strftime('%d %B %Y')  %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @tronc.end_date.strftime('%d %B %Y')  %>
+</p>
+<br>
+<h6>TRONC Splits</h6>
+<p>
+  <strong>Front of House:</strong>
+  <%= @tronc.foh_split %>%
+</p>
+<p>
+  <strong>Kitchen:</strong>
+  <%= @tronc.kitchen_split %>%
+</p>
+<br>
+<h6>TRONC Final Paid Out Total</h6>
+<p>
+  <strong>Total:</strong>
+  <%= @tronc.total %>
+</p>
+
+<%= link_to 'Edit', edit_tronc_path(@tronc) %> |
+<%= link_to 'Back', troncs_path %>

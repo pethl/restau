@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Staffevents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Staff</th>
+      <th>Event date</th>
+      <th>Event reason</th>
+      <th>Event notes</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @staffevents.each do |staffevent| %>
+      <tr>
+        <td><%= staffevent.staff_id %></td>
+        <td><%= staffevent.event_date %></td>
+        <td><%= staffevent.event_reason %></td>
+        <td><%= staffevent.event_notes %></td>
+        <td><%= link_to 'Show', staffevent %></td>
+        <td><%= link_to 'Edit', edit_staffevent_path(staffevent) %></td>
+        <td><%= link_to 'Destroy', staffevent, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Staffevent', new_staffevent_path %>

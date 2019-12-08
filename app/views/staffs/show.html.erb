@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-md-2">
+    <%= render 'layouts/sidebar' %>
+    </div>
+
+    <div class="col-md-8">  
+    <h2><%= @staff.name %></h2>
+    
+    <p>
+      <strong>Status:</strong>
+      <%= @staff.status %>
+    </p>
+
+    <p>
+      <strong>Area:</strong>
+      <%= @staff.area %>
+    </p>
+
+    <p>
+      <strong>Job title:</strong>
+      <%= @staff.job_title %>
+    </p>
+
+    <p>
+      <strong>Payment terms:</strong>
+      <%= @staff.payment_terms %>
+    </p>
+    <br>
+    <div class="row">  
+     <div class="col-md-10">
+     <% if @staff.staffevents.any? %>    
+         <p><font color=#D3D3D3>Events</font></p>
+        <table class="table table-condensed">
+         <thead>
+           <tr>
+             <th>Date</th>
+             <th>Event</th>
+             <th>Notes</th>
+             <th></th>
+           </tr>
+          </thead>
+          <tbody>
+          <% @staff.staffevents.each do |staffevent| %>
+         <tr>
+             <td><small> <%= staffevent.event_date %></td>
+             <td><small> <%= staffevent.event_reason %></td>
+             <td><small> <%= staffevent.event_notes %></td>
+             <td><%= link_to 'Delete', [staffevent.staff, staffevent], :confirm => 'Really delete row?', :method => :delete %><td>
+        </tr> 
+          <% end %>
+          </tbody>
+         </table>
+       <% end %>
+      </div>
+        </div>
+      
+        <div class="row">
+      <div class="col-md-6">
+       <p>Add New Event</p>
+         <%= render 'staffevents/form' %>
+     </div>
+    
+      </div>
+      
+     
+   <div class="row">
+      <div class="col-md-8">
+   <%= link_to 'Edit', edit_staff_path(@staff), style: 'color:#d3d3d3' %> |
+   <%= link_to 'All Staff', staffs_path, style: 'color:#d3d3d3' %>
+    </div>    </div>

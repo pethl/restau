@@ -1,0 +1,2 @@
+module TroncsHelper
+end

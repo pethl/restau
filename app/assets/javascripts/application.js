@@ -20,7 +20,6 @@
 //= require bootstrap/carousel
 //= require bootstrap/tooltip
 //= require bootstrap/popover
-//= require chartkick.js
 //= require turbolinks
-//= require bootstrap	
+//= require bootstrap
 //= require_tree .

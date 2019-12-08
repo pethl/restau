@@ -4,15 +4,12 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 #recomended by heroku
 ruby '2.3.8'
-# Use sqlite3 as the database for Active Record
-# gem 'sqlite3'
 # Using Postgres database
 gem 'pg', '0.17.1'
 # Use SCSS for stylesheets
 
 # Use Puma as the app server - action to try to remove the procfile error in heroku deploy log.
 gem 'puma'
-
 
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -93,19 +90,9 @@ gem 'newrelic_rpm'
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'
-gem "chartkick", "~> 3.2.0"
+
 
 # recommended by github cant see why needed
 #gem "activejob", ">= 4.2.11"
 gem "rack", ">= 1.6.4" #as was unable to upgrade without causing other errors 
-##gem "ffi", ">= 1.9.24"
-##gem "sprockets", ">= 3.7.2"
-##gem "loofah", ">= 2.2.3"
-##gem "nokogiri", ">= 1.8.5"
-#gem "activerecord", ">= 4.2.7.1"
-#gem "activemodel", ">= 4.2.5.1"
-#gem "actionview", ">= 4.2.11.1"
-##gem "rails-html-sanitizer", ">= 1.0.4"
-#gem "actionpack", ">= 4.2.5.2"
-#gem "activesupport", ">= 4.2.2"
-##gem "rubyzip", ">= 1.2.2"
+

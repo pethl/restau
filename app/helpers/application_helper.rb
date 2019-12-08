@@ -20,5 +20,6 @@ module ApplicationHelper
  def deposit_table_size
    (Rdetail.where(:restaurant_id => 1)[0].deposit_max)+1
 end
+
  
 end

@@ -5,10 +5,8 @@
 
 <div class="col-md-10">
 
-<h2>Staff</h2>
- <% if current_user.admin?  %>
-<b><%= link_to '+ add new User', new_user_path %></b>
-<% end %>
+<h2>System Users</h2>
+<b><%= link_to '+ add new User', new_user_path, style: 'color:#d3d3d3' %></b>
 
 <table class="table table-condensed">
   <thead>
@@ -31,7 +29,7 @@
         <td><%= user.email %></td>
         <td><%= user.phone %></td>
        
-         <% if current_user.admin?  %>
+          <% if current_user.admin? || current_user.super_user? %>
             <% unless user.admin == false %>
               <td><%= user.admin %></td>
             <% else %> <td>- </td><% end %>
@@ -43,7 +41,7 @@
               <% else %> <td>-</td><% end %>
               <% end %>
             
-          <% if current_user.admin?  %>
+          <% if current_user.admin? || current_user.super_user? %>
             <td><%= link_to edit_user_path(user), class: 'btn btn-success btn-xs' do %>
                       <span class="fa fa-pencil-square-o""></span>
                    <% end %> </td>

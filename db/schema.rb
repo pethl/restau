@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191103111334) do
+ActiveRecord::Schema.define(version: 20191205143757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20191103111334) do
     t.string   "phone"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "accruel_rates", force: :cascade do |t|
+    t.datetime "effective_date"
+    t.decimal  "accruel_rate",   precision: 7, scale: 4
+    t.decimal  "decimal",        precision: 7, scale: 4
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.decimal  "rate",           precision: 8, scale: 4
   end
 
   create_table "bookings", force: :cascade do |t|
@@ -277,6 +286,40 @@ ActiveRecord::Schema.define(version: 20191103111334) do
     t.datetime "updated_at",      null: false
   end
 
+  create_table "staffevents", force: :cascade do |t|
+    t.integer  "staff_id"
+    t.datetime "event_date"
+    t.string   "event_reason"
+    t.text     "event_notes"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "staffhours", force: :cascade do |t|
+    t.datetime "week_end_date"
+    t.integer  "staff_id"
+    t.decimal  "hours",            precision: 7,  scale: 2
+    t.decimal  "decimal",          precision: 7,  scale: 2
+    t.string   "payment_terms"
+    t.integer  "accruel_rate_id"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.decimal  "wk_accrued_hours", precision: 15, scale: 10
+  end
+
+  add_index "staffhours", ["accruel_rate_id"], name: "index_staffhours_on_accruel_rate_id", using: :btree
+  add_index "staffhours", ["staff_id"], name: "index_staffhours_on_staff_id", using: :btree
+
+  create_table "staffs", force: :cascade do |t|
+    t.string   "name"
+    t.string   "status"
+    t.string   "job_title"
+    t.string   "payment_terms"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "area"
+  end
+
   create_table "tables", force: :cascade do |t|
     t.integer  "restaurant_id"
     t.string   "reference"
@@ -287,6 +330,17 @@ ActiveRecord::Schema.define(version: 20191103111334) do
     t.boolean  "child_friendly"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "troncs", force: :cascade do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "status"
+    t.decimal  "total"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.decimal  "foh_split",     precision: 6, scale: 3
+    t.decimal  "kitchen_split", precision: 6, scale: 3
   end
 
   create_table "users", force: :cascade do |t|
@@ -305,4 +359,6 @@ ActiveRecord::Schema.define(version: 20191103111334) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
+  add_foreign_key "staffhours", "accruel_rates"
+  add_foreign_key "staffhours", "staffs"
 end

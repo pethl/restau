@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-2">
+  <%= render 'layouts/sidebar' %>
+  </div>
+
+  <div class="col-md-9">
+  <h2>Enter Team Hours</h2><br>
+
+  <h6>Input hours for all <b>Active, Hourly Paid Staff </b>each week. </h6>
+  <br>
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active"><%= link_to (Date.today.end_of_week-7.days).strftime('%d %B %Y'), edit_last_path %></li>
+    <li role="presentation"><%= link_to (Date.today.end_of_week).strftime('%d %B %Y'), edit_all_path %></li>
+    <li role="presentation"><%= link_to (Date.today.end_of_week+7.days).strftime('%d %B %Y'), edit_next_path %></li>
+  </ul>
+ 
+  <%= render 'staffhours/hours_entry_table' %> 
+
+</div></div>

@@ -5,15 +5,45 @@
               <br><br>
               <%= link_to "Log out", logout_path, method: "delete", style: 'color:#d3d3d3;' %><br>
               <br>
-              <b>Company Pages</b><br>
+             
                <% if current_user.admin?  %>
-              <a href="/accounts/">Accounts</a><br>
-                
-              <a href="/restaurants/">Restaurants</a><br>
-                
-              <a href="/rdetails/">Restaurant Details</a><br>
-            
-              <a href="/errors/">Error Messages</a><br>
+                <b>SYS Admin</b><br>
+                <%= link_to "Account", accounts_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "Restaurants", restaurants_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "Restaurant Details", rdetails_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "Errors", errors_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "Accruel Rate", accruel_rates_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <b>Management</b><br>
+               <%= link_to "TRONC periods", troncs_path, style: 'color:#d3d3d3;'%>
+               <br>
+               <%= link_to "TRONC Allocation", show_team_path, style: 'color:#d3d3d3;'%>
+               <br>
+               <%= link_to "Staff", staffs_path, style: 'color:#d3d3d3;'%>
+               <br>
+               <%= link_to "Accrued Vacation", accrued_vacation_path, style: 'color:#d3d3d3;'%>
+               <br>
+               <%= link_to "Enter Staff Hours", edit_all_path, style: 'color:#d3d3d3;'%>
+               <br>
+               <b>General</b><br>
+              <% elsif current_user.super_user?  %>
+                 <b>Management</b><br>
+                <%= link_to "TRONC periods", troncs_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "TRONC Allocation", show_team_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "Staff", staffs_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "Accrued Vacation", accrued_vacation_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "Enter Staff Hours", edit_all_path, style: 'color:#d3d3d3;'%>
+                <br>
+               
+                <b>General</b><br>
               <% end %>
              <%= link_to "Daily Bookings", bookings_url, style: 'color:#d3d3d3;'%>
               <br>
@@ -23,7 +53,7 @@
               <br>
               <%= link_to "Day To View Bookings", day_to_view_bookings_report_path, style: 'color:#d3d3d3;'%>
               <br>
-             <%= link_to "Booking Activity", basic_report_path, style: 'color:#d3d3d3;'%>
+              <%= link_to "Booking Activity", basic_report_path, style: 'color:#d3d3d3;'%>
               <br>
               <%= link_to "Booking Calendar", calendar_path, style: 'color:#d3d3d3;'%>
               <br>
@@ -37,12 +67,13 @@
               <br>
               <%= link_to "Booking Exemptions", exemptions_path, style: 'color:#d3d3d3;'%>
               <br>
-                <%= link_to "System Users", users_url, style: 'color:#d3d3d3;'%>
+              <%= link_to "System Users", users_url, style: 'color:#d3d3d3;'%>
               <br>
               <%= link_to "Expenses Search", expenses_path, style: 'color:#d3d3d3;'%>
               <br>
               <%= link_to "End of Night", dailybanks_path, style: 'color:#d3d3d3;'%>
-              <br><br>
+              <br>
+              <br>
               <b>External Pages </b> <br>
               <%= link_to "Booking Enquiry", new_booking_enquiry_url, style: 'color:#ffffe0;'%>
                 <br>

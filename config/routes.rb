@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+ resources :troncs
+ match 'staffhours/all/edit' => 'staffhours#edit_all', :as => :edit_all, :via => :get
+ match 'staffhours/all/edit_last' => 'staffhours#edit_last', :as => :edit_last, :via => :get
+ match 'staffhours/all/edit_next' => 'staffhours#edit_next', :as => :edit_next, :via => :get
+ match 'staffhours/all' => 'staffhours#update_all', :as => :update_all, :via => :put
+ match 'staffhours/show_team' => 'staffhours#show_team', :as => :show_team, :via => :get
+ match 'staffhours/accrued_vacation' => 'staffhours#accrued_vacation', :as => :accrued_vacation, :via => :get
+
+ resources :staffhours
+ resources :accruel_rates
+ # resources :staffevents
+  resources :staffs do
+    resources :staffevents
+  end  
   resources :expenses do
       collection { get :show_many };
       collection { get :add_new }
@@ -67,6 +81,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'static_pages#hfsk_home'
  
+ 
+ 
  # get '/show_many/:id' => 'expenses#show_many'
   get '/index_full' => 'dailybanks#index_full'
   get '/index_ongoing' => 'dailybanks#index_ongoing'
@@ -109,6 +125,8 @@ Rails.application.routes.draw do
   get '/download_dailybank_tax_accounting_pdf' => "dailybanks#download_dailybank_tax_accounting_pdf"
   get '/download_card_tips_report_pdf' => "dailybanks#download_card_tips_report_pdf" 
   get '/download_expenses_report_pdf' => "expenses#download_expenses_report_pdf" 
+  get '/download_tronc_allocation_report_pdf' => "staffhours#download_tronc_allocation_report_pdf" 
+  get '/download_vacation_accruel_report_pdf' => "staffhours#download_vacation_accruel_report_pdf" 
   
   
   get '/hfsk_home' => 'static_pages#hfsk_home'
