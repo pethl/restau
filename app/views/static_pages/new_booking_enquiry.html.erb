@@ -28,9 +28,9 @@
     <%  ([3,4].include? Date.today.wday) ? (start_date_tomorrow = Date.today.strftime('%d-%m-%Y')) : (start_date_tomorrow = Date.tomorrow.strftime('%d-%m-%Y'))%>
    
      <% last_booking_day = Date.new(2018,12,24).strftime('%d-%m-%Y') %>
-     <% end_date_6_months_away = ((Date.today.end_of_month)+5.months).strftime('%d-%m-%Y')%>
+     <% end_date_3_months_away = ((Date.today.end_of_month)+2.months).strftime('%d-%m-%Y')%>
     <td>
-    <input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]"  type="text"  data-date-format=D,dd-M-yyyy data-date-start-date=[<%= start_date_tomorrow %>] data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-dates-disabled=["24-12-2018","25-12-2018","26-12-2018","27-12-2018","28-12-2018","29-12-2018","30-12-2018","31-12-2018","01-01-2019"] data-date-end-date=[<%= end_date_6_months_away %>] data-date-autoclose=[true]  data-date-today-highlight=true data-date-orientation="bottom" >   
+    <input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]"  type="text"  data-date-format=D,dd-M-yyyy data-date-start-date=[<%= start_date_tomorrow %>] data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-dates-disabled=["24-12-2018","25-12-2018","26-12-2018","27-12-2018","28-12-2018","29-12-2018","30-12-2018","31-12-2018","01-01-2019"] data-date-end-date=[<%= end_date_3_months_away %>] data-date-autoclose=[true]  data-date-today-highlight=true data-date-orientation="bottom" >   
      </td>
     <td></td>
     </tr>
@@ -102,7 +102,7 @@
        <small><small><b><%= date.day %></b></small></small><br>
        
 <!-- Instructions: This is the special dates section. -->        
-       <% last_booking_day = ((Date.today.end_of_month)+5.months) %>
+       <% last_booking_day = ((Date.today.end_of_month)+2.months) %>
         <% xmas_close_start = Date.new(2017,12,23) %>
          <% xmas_close_end = Date.new(2018,1,4) %>
           <% full_1 = Date.new(2016,12,3) %>
