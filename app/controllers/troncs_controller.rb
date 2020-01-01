@@ -71,6 +71,6 @@ class TroncsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tronc_params
-      params.require(:tronc).permit(:start_date, :end_date, :status, :total, :kitchen_split, :foh_split)
+      params.require(:tronc).permit(:start_date, :end_date, :status, :total, :kitchen_split, :foh_split, :card_split, :mgr_split, :foh_method, :kit_method)
     end
 end

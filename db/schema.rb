@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191205143757) do
+ActiveRecord::Schema.define(version: 20191231170900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,6 +341,10 @@ ActiveRecord::Schema.define(version: 20191205143757) do
     t.datetime "updated_at",                            null: false
     t.decimal  "foh_split",     precision: 6, scale: 3
     t.decimal  "kitchen_split", precision: 6, scale: 3
+    t.decimal  "card_split",    precision: 6, scale: 3
+    t.decimal  "mgr_split",     precision: 6, scale: 3
+    t.string   "foh_method"
+    t.string   "kit_method"
   end
 
   create_table "users", force: :cascade do |t|

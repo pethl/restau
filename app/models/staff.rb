@@ -4,7 +4,7 @@ class Staff < ActiveRecord::Base
   
   STAFF_STATUS_TYPES = ["Active", "Inactive"]
   STAFF_PAYMENT_TERMS = ["Salaried", "Hourly Rate"]
-  STAFF_AREA_TYPES = ["Front of House", "Kitchen"]
+  STAFF_AREA_TYPES = ["Front of House", "Kitchen", "Manager"]
    
   validates :name, presence: true
   validates :payment_terms, presence: true

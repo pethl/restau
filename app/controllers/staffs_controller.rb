@@ -6,9 +6,14 @@ class StaffsController < ApplicationController
   # GET /staffs
   # GET /staffs.json
   def index
-    @staffs = Staff.all
+    @staffs = Staff.where('area != ?', 'Manager').where(status: "Active")
     @staffs = @staffs.sort_by { |hsh| hsh[:name] }
-    @staff_bypaytype = @staffs.group_by {|i| i.payment_terms}     
+    @staff_bypaytype = @staffs.group_by {|i| i.payment_terms}
+    @mgrs = Staff.where('area = ?', 'Manager')
+    @mgrs_grouped = @mgrs.group_by {|i| i.area}
+  #  @staff_bypaytype.merge(@mgrs_grouped)
+    @staff_inactive = Staff.where(status: "Inactive")
+       
   end
 
   # GET /staffs/1

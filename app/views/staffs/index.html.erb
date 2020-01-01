@@ -6,8 +6,49 @@
 <div class="col-md-8">
 
 <h2>Staff</h2>
+<%= link_to 'Add New Staff', new_staff_path, style: 'color:#d3d3d3' %>
+<br>
 <br>
 
+<% @mgrs_grouped.each do |area, mgrs| %>
+
+<h4>Managers</h4>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th style="width: 20%">Name</th>
+      <th style="width: 20%">Status</th>
+         <th style="width: 20%">Area</th>
+      <th style="width: 30%">Job Title</th>
+      <th style="width: 10%" colspan="2"><center>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+ 
+    <% mgrs.each do |mgr| %>
+      <tr>
+        <td><%= link_to mgr.name, mgr %></td>
+        <td><%= mgr.status %></td>
+        <td><%= mgr.area %></td>
+        <td><%= mgr.job_title %></td>
+        <td><%= link_to edit_staff_path(mgr), class: 'btn btn-success btn-xs' do %>
+                      <span class="fa fa-pencil-square-o""></span>  <% end %>
+           </td>
+            
+        <td> 
+             <%= link_to mgr, method: :delete, data: { confirm: 'Are you sure you want to delete this person?' }, class: 'btn btn-danger btn-xs' do %>
+              <span class="fa fa-trash""></span>
+               <% end %> </td>
+                
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<br>
+
+<!-- Instructions: This is the non-mgmt section. -->  
 <% @staff_bypaytype.each do |pay_type, staffs| %>
 
 <h4><%= pay_type %></h4>
@@ -38,9 +79,6 @@
              <%= link_to staff, method: :delete, data: { confirm: 'Are you sure you want to delete this person?' }, class: 'btn btn-danger btn-xs' do %>
               <span class="fa fa-trash""></span>
                <% end %> </td>
-                
-           
-          
       </tr>
     <% end %>
   </tbody>
@@ -48,9 +86,41 @@
 <br>
 <% end %>
 <br>
-<%= link_to 'Add New Staff', new_staff_path, style: 'color:#d3d3d3' %>
 
+<h4>Inactive Staff</h4>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th style="width: 20%">Name</th>
+      <th style="width: 20%">Status</th>
+         <th style="width: 20%">Area</th>
+      <th style="width: 30%">Job Title</th>
+      <th style="width: 10%" colspan="2"><center>Action</th>
+    </tr>
+  </thead>
 
+  <tbody>
+ 
+    <% @staff_inactive.each do |stf| %>
+      <tr>
+        <td><%= link_to stf.name, stf %></td>
+        <td><%= stf.status %></td>
+        <td><%= stf.area %></td>
+        <td><%= stf.job_title %></td>
+        <td><%= link_to edit_staff_path(stf), class: 'btn btn-success btn-xs' do %>
+                      <span class="fa fa-pencil-square-o""></span>  <% end %>
+           </td>
+            
+        <td> 
+             <%= link_to stf, method: :delete, data: { confirm: 'Are you sure you want to delete this person?' }, class: 'btn btn-danger btn-xs' do %>
+              <span class="fa fa-trash""></span>
+               <% end %> </td>
+                
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
 </div></div>
 
 

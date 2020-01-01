@@ -10,16 +10,26 @@
       </ul>
     </div>
   <% end %>
- 
-    <%= f.date_select :start_date %>
-    <%= f.date_select :end_date %>
+ <div class="col-md-4">
     <%= f.select(:status, Tronc::TRONC_STATUS_TYPES, :label => "Status?") %>
+    <%= f.date_select :start_date %>
+    <hr>
+    <%= f.text_field :card_split, label: "Card Processing %" %>
+        <hr>
     <%= f.text_field :foh_split, label: "Front of House %" %>
+    <%= f.select(:foh_method, Tronc::TRONC_METHOD_TYPES, :label => "FOH Split Method?") %>
+</div>
+ <div class="col-md-4">
+   <%= f.text_field :total, :disabled => true %>
+   <%= f.date_select :end_date %>
+       <hr>
+    <%= f.text_field :mgr_split, label: "Managers %"  %>
+        <hr>
     <%= f.text_field :kitchen_split, label: "Kitchen %"  %>
-   
-    <%= f.text_field :total, :disabled => true %>
+    <%= f.select(:kit_method, Tronc::TRONC_METHOD_TYPES, :label => "Kitchen Split Method?") %>
 
   <div class="actions">
     <%= f.submit class: "btn btn-primary" %>
   </div>
 <% end %>
+

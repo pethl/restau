@@ -3,20 +3,25 @@
 <%= render 'layouts/sidebar' %>
 </div>
 
- <!-- Instructions: This is the header section. -->  
-<div class="col-md-5">
+ <!-- Instructions: This is the header section. ---------------------------------------------------->  
+<div class="col-md-8">
 <h2>TRONC Allocation</h2>
-<br>
+
 <% if Accruel_rate.all.count == 0 %>
   <h6>No accruel rate loaded, <%= link_to "click here to load a rate", accruel_rates_path, style: 'color:#d3d3d3;'%>
      </h6>
-     <% else %>          
+
+     <% else %>      
+     <h4><%= link_to "Print Tronc Allocation Report", download_tronc_allocation_report_pdf_path(:value => get_tronc_start, :format => 'pdf'), :style => "color:orange" %> 
+  <hr>   
+      
 <h6>Current TRONC Period:<br></h6>
-<br>
   <table class="table table-condensed">
     <thead>
       <tr>
       <td>Dates</td>
+      <td>Card Processing</td>
+      <td>Managers</td>
       <td>Front of House</td>
       <td>Kitchen</td>
       </tr>
@@ -24,30 +29,68 @@
   <tbody>
     <tr> 
       <td><%= get_tronc_start.strftime(" %d/%m")  %> - <%= get_tronc_end.strftime(" %d/%m")  %></td>
+      <td><%= get_card_split %>%</td>
+      <td><%= get_mgr_split %>%</td>
       <td><%= get_foh_split %>%</td>
       <td><%= get_kitchen_split %>%</td>
     </tr>
     <tr>
       <td>Total to Date: <%= number_to_currency(@tronc_total, :locale => :en) %></br></td>
+      <td><%= number_to_currency(get_card_split_of_tronc, :locale => :en) %></td>
+      <td><%= number_to_currency(get_mgr_split_of_tronc, :locale => :en) %></td>
       <td><%= number_to_currency(get_foh_split_of_tronc, :locale => :en) %></td>
       <td><%= number_to_currency(get_kitchen_split_of_tronc, :locale => :en) %></td>
     </tr>
   </tbody>
   </table>
-
-<h4><%= link_to "Print Tronc Allocation Report", download_tronc_allocation_report_pdf_path(:value => get_tronc_start, :format => 'pdf'), :style => "color:orange" %>
-<% end %>    
+  <% end %>   
+  <hr> 
 </div>
 
- <!-- Instructions: This is the foh section. -->  
-<div class="col-md-10">
+<!-- Instructions: This is the mgr section. ----------------------------------------------->  
+ 
+  <% if @mgrs.any? %>
+    <div class="col-md-5">
+     <h6>Managers</h6>
+     
+    <table class="table">
+    <thead>
+    <tr>
+      <td>Name</td>
+      <td>Split</td>
+      <td>Amount</td>
+    </tr>
+    </thead>
+    <tbody>
+     <% @mgrs.each do |mgr| %>
+    <tr>
+      <td><%= mgr.name %></td>
+       <td><%= get_mgr_split/get_mgr_count %>% </td>
+        <td><%= number_to_currency((get_mgr_split_of_tronc/get_mgr_count), :locale => :en) %></td>
+    </tr>
+    <% end %>
+    </tbody>
+    </table>
+    <% end %>
+    <hr>
+ </div>
+ 
+<!-- Instructions: This is the foh section. -------------------------------------------->  
 
 <% if @foh_staffhours.nil? %>
 
   <h6>No records to show<br><br>
 
  <% else %>
-  <h6>Front of House/ Hourly Rate Staff</h6>
+ 
+ <!-- Instructions: This is the BY HOURS SPLIT section. --------------------------------->  
+<div class="col-md-10">
+  
+ <h6>Front of House/ Hourly Rate Staff</h6>
+
+ <% if get_foh_method== "By Hours" %>
+    <h6><small>Method: <%= get_foh_method %></small></h6>
+  
   <table class = "table">
    <thead>
      <th>Name</th>
@@ -90,18 +133,50 @@
       </tr>
   </tbody>
   </table>
+  <hr>
+</div>
+  <% else %>
   
+<!-- Instructions: This is the EVEN SPLIT section. -----------------------------------------------------> 
+ 
+<div class="col-md-5">
+<h6><small>Method: <%= get_foh_method %> between <%= get_foh_hourly_count %> staff</small></h6>
+ 
+  <table class="table">
+   <thead>
+     <th>Name</th>
+     <th style="text-align:right">TRONC Split</th>
+   </thead> 
+   <tbody>
+      <% @foh_staff.each do |foh_staff| %>
+        <tr>
+          <td><%= Staff.find(foh_staff).name %></td>
+          <td style="text-align:right">
+           <%= number_to_currency((get_foh_split_of_tronc/get_foh_hourly_count), :locale => :en)  %>
+         </td>
+       </tr>
+        <% end %>
+    </tbody>
+    </table>
+ 
+  <% end %>
 <% end %>
 <hr>
+</div>
  
- <!-- Instructions: This is the kitchen section. -->  
+ <!-- Instructions: This is the kitchen section. ------------------------------>  
  
 <% if @kit_staffhours.nil? %>
 
   <h6>No records to show<br><br>
 
  <% else %>
-  <h6>Kitchen/ Hourly Rate Staff</h6>
+  
+   <% if get_kit_method== "By Hours" %>
+     <div class="col-md-12">
+       <h6>Kitchen/ Hourly Rate Staff</h6>
+       <h6><small>Method: <%= get_kit_method %></small></h6>
+  
   <table class = "table">
    <thead>
      <th>Name</th>
@@ -144,8 +219,32 @@
       </tr>
   </tbody>
   </table>
+  <hr>
+</div>
+  <% else %>
   
-<% end %>
-<br>
-
-</div></div>
+  <!-- Instructions: This is the EVEN SPLIT section. ----------------------EVEN----------------->  
+  <div class="col-md-5 col-md-offset-2">
+ <h6>Kitchen/ Hourly Rate Staff</h6>
+  <h6><small>Method: <%= get_kit_method %> between <%= get_kit_hourly_count %> staff</small></h6>
+    <table class="table">
+     <thead>
+       <th>Name</th>
+       <th style="text-align:right">TRONC Split</th>
+     </thead> 
+     <tbody>
+        <% @kit_staff.each do |kit_staff| %>
+          <tr>
+            <td><%= Staff.find(kit_staff).name %></td>
+            <td style="text-align:right">
+             <%= number_to_currency((get_kitchen_split_of_tronc/get_kit_hourly_count), :locale => :en)  %>
+           </td>
+         </tr>
+          <% end %>
+      </tbody>
+      </table>
+      </div>
+    <% end %>
+  <% end %>
+<hr>
+</div>
