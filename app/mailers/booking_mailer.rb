@@ -18,7 +18,7 @@ class BookingMailer < ActionMailer::Base
   def booking_confirmation_mgmt(booking)
     @booking = booking
     if @booking
-      mail(to: 'hangfirebarry@gmail.com', subject: "New Booking for: #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: 'contact@hangfiresouthernkitchen.com', subject: "New Booking for: #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
   
@@ -32,7 +32,7 @@ class BookingMailer < ActionMailer::Base
   def booking_cancellation_mgmt(booking)
     @booking = Booking.find(booking)
      if @booking
-      mail(to: 'hangfirebarry@gmail.com', subject: "HFSK Cancellation: Party of #{@booking.number_of_diners}, for #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: 'contact@hangfiresouthernkitchen.com', subject: "HFSK Cancellation: Party of #{@booking.number_of_diners}, for #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
   
@@ -60,7 +60,7 @@ class BookingMailer < ActionMailer::Base
   def booking_deposit_mgmt(booking)
     @booking = Booking.find(booking.id)
      if @booking
-      mail(to: 'hangfirebarry@gmail.com', subject: "Hang Fire Booking 8+ DEPOSIT REQUIRED for: #{@booking.name} at #{@booking.booking_date_time}")
+      mail(to: 'contact@hangfiresouthernkitchen.com', subject: "Hang Fire Booking 8+ DEPOSIT REQUIRED for: #{@booking.name} at #{@booking.booking_date_time}")
     end
   end
 
