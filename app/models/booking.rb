@@ -7,12 +7,13 @@ class Booking < ActiveRecord::Base
   validates :booking_date_time, presence: true 
   validates :number_of_diners, presence: true  
   validates :name, :on => :update, presence: true
-  validates :phone, :on => :update, presence: true   
+ # validates :email, :on => :update, presence: true  
+  validates :phone, :on => :update, presence: true  
+  validates :phone, format: { without: /\s/, message: ":no spaces please."}
   
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, :on => :update, format:  { with: VALID_EMAIL_REGEX }, :exclusion =>  { :in => %w(your@email.com), :message => " : Please enter a contact email." }
-  
-  # Rails.logger.debug("@max_diners_at_same_start_time : #{@max_diners_at_same_start_time}")
+
   
   def self.check_entry_params(params)
     #001) FIRST LINE VALIDATIONS   
@@ -331,15 +332,15 @@ def self.validate_cancellation(params)
 end
   
 def self.all_search(search)
- name = search[:name]
- email = search[:email]
+ name_search = search[:name].downcase
+ email_search = search[:email].downcase
  phone = search[:phone]
  booking_date_time = search[:booking_date_time].to_date
  
  if !name.blank?
-      where("name LIKE ?", "%#{name}%") 
+      where("lower(name) LIKE ?", "%#{name_search}%") 
    elsif !email.blank?
-        where("email LIKE ?", "%#{email}%")  
+        where("lower(email) LIKE ?", "%#{email_search}%")  
     elsif !phone.blank?
         where("phone LIKE ?", "%#{phone}%") 
     elsif !booking_date_time.blank?

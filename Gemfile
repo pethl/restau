@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.6'
 #recomended by heroku
-ruby '2.3.8'
+ruby '2.3.7'
 # Using Postgres database
 gem 'pg', '0.17.1'
 # Use SCSS for stylesheets
