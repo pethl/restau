@@ -334,15 +334,15 @@ end
 def self.all_search(search)
  name_search = search[:name].downcase
  email_search = search[:email].downcase
- phone = search[:phone]
+ phone_search = search[:phone]
  booking_date_time = search[:booking_date_time].to_date
  
- if !name.blank?
+ if !name_search.blank?
       where("lower(name) LIKE ?", "%#{name_search}%") 
-   elsif !email.blank?
+   elsif !email_search.blank?
         where("lower(email) LIKE ?", "%#{email_search}%")  
-    elsif !phone.blank?
-        where("phone LIKE ?", "%#{phone}%") 
+    elsif !phone_search.blank?
+        where("phone LIKE ?", "%#{phone_search}%") 
     elsif !booking_date_time.blank?
         where("booking_date_time > ? AND booking_date_time < ?", "%#{booking_date_time.beginning_of_day}%", "%#{booking_date_time.end_of_day}%") 
       else
