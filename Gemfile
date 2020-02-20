@@ -90,7 +90,7 @@ group :test do
   gem "selenium-webdriver", "~>2.43.0"
 end
 
-gem 'newrelic_rpm'
+#gem 'newrelic_rpm' -- removed 20/02/20
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'
