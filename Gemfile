@@ -91,6 +91,7 @@ group :test do
 end
 
 #gem 'newrelic_rpm' -- removed 20/02/20
+gem 'scout_apm' #added 20/02/2020 to try to trace db search issue on booking search
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'
