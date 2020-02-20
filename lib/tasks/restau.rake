@@ -187,6 +187,46 @@ namespace :restau do
      puts "-------------------------------------------------------------------------------------------"
      puts "\n"
    end   
+   
+   task :week_daily_generate_stats_delete_past_bookings => :environment do
+     @counter = 7
+     loop do
+         if @counter==0 
+           break
+         else
+         puts "\n"
+          puts "----------------------WEEK_DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:START-------------------------"
+          puts "_____Daily job (part A) to generate simple stats from a given day's bookings."
+   
+          @date = get_action_date_for_stats_and_purge
+          puts "_____Date: #{@date}"
+   
+          @day_confirmed = get_confirmed_bookings_by_date(@date)
+          @day_cancelled = get_cancelled_bookings_by_date(@date)
+          puts "_____Cancelled Bookings: #{@day_cancelled.count}"
+          puts "_____Confirmed Bookings: #{@day_confirmed.count}"
+          @deleted_count =(@day_confirmed.count)+(@day_cancelled.count)
+   
+         if @day_confirmed.count > 0
+          puts "_____Diners Fed: #{get_sum_from_array_for_field(@day_confirmed)}"
+          puts "_____Avg HeadCount Per Booking: #{number_with_precision(@day_confirmed.average(:number_of_diners), :precision => 2)} diners"
+          puts "_____Avg Days Prior to Booking: #{number_with_precision(avg_days_between_booking_made_and_taken(@day_confirmed), :precision => 1)} days"
+         end
+        write_stats
+          puts "_____Daily job (part A) table stats have been generated"
+          puts "_____"
+          puts "_____Daily job (part B) to delete the records for the action date."
+          puts "_____Records to be deleted: #{@deleted_count}"
+         Booking.where("booking_date_time BETWEEN ? AND ?", @date.beginning_of_day, @date.end_of_day).destroy_all
+          puts "_____Daily job (part B) complete - records deleted."
+          puts "-------------------------------------------------------------------------------------------"
+          puts "-----Date: #{@date}-----WEEK_DAILY_GENERATE_STATS_DELETE_PAST_BOOKINGS:END------Deleted: #{@deleted_count}-----"
+          puts "-------------------------------------------------------------------------------------------"
+          puts "\n"
+          @counter = @counter-1
+         end
+      end
+    end  
 
    task purge_blank_stats: :environment do
      puts "\n"
