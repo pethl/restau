@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191231170900) do
+ActiveRecord::Schema.define(version: 20200219105737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,10 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.datetime "stripe_deposit_paid_date"
   end
 
+  add_index "bookings", ["booking_date_time"], name: "index_bookings_on_booking_date_time", using: :btree
+  add_index "bookings", ["email"], name: "index_bookings_on_email", using: :btree
+  add_index "bookings", ["table_id"], name: "index_bookings_on_table_id", using: :btree
+
   create_table "cashfloats", force: :cascade do |t|
     t.string   "float_type"
     t.string   "period"
@@ -92,6 +96,8 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.decimal  "cheat",            precision: 7, scale: 2
     t.boolean  "override",                                 default: false
   end
+
+  add_index "cashfloats", ["dailybank_id"], name: "index_cashfloats_on_dailybank_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -155,6 +161,8 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.decimal  "bacs",                  precision: 8, scale: 2
   end
 
+  add_index "dailybanks", ["effective_date"], name: "index_dailybanks_on_effective_date", using: :btree
+
   create_table "dailystats", force: :cascade do |t|
     t.date     "action_date"
     t.integer  "cancelled_bookings"
@@ -212,6 +220,9 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.datetime "updated_at",                           null: false
   end
 
+  add_index "expenses", ["dailybank_id"], name: "index_expenses_on_dailybank_id", using: :btree
+  add_index "expenses", ["ref"], name: "index_expenses_on_ref", using: :btree
+
   create_table "functions", force: :cascade do |t|
     t.string   "status"
     t.date     "event_date"
@@ -247,6 +258,8 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.datetime "updated_at",  null: false
   end
 
+  add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
+
   create_table "rdetails", force: :cascade do |t|
     t.integer  "restaurant_id"
     t.decimal  "booking_duration"
@@ -274,6 +287,8 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.integer  "sun_max_diners"
   end
 
+  add_index "rdetails", ["restaurant_id"], name: "index_rdetails_on_restaurant_id", using: :btree
+
   create_table "restaurants", force: :cascade do |t|
     t.integer  "account_id"
     t.string   "name"
@@ -286,6 +301,8 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.datetime "updated_at",      null: false
   end
 
+  add_index "restaurants", ["account_id"], name: "index_restaurants_on_account_id", using: :btree
+
   create_table "staffevents", force: :cascade do |t|
     t.integer  "staff_id"
     t.datetime "event_date"
@@ -294,6 +311,8 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  add_index "staffevents", ["staff_id"], name: "index_staffevents_on_staff_id", using: :btree
 
   create_table "staffhours", force: :cascade do |t|
     t.datetime "week_end_date"
@@ -331,6 +350,8 @@ ActiveRecord::Schema.define(version: 20191231170900) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
+
+  add_index "tables", ["restaurant_id"], name: "index_tables_on_restaurant_id", using: :btree
 
   create_table "troncs", force: :cascade do |t|
     t.date     "start_date"
