@@ -413,6 +413,7 @@ class DailybanksController < ApplicationController
          table_data << ["Vouchers Used", "£#{(sprintf "%.2f", @dailybank.vouchers_used.to_s)}"]
          table_data << ["Deposits Sold", "£#{(sprintf "%.2f", @dailybank.deposit_sold.to_s)}"]
          table_data << ["Deposits Used", "£#{(sprintf "%.2f", @dailybank.deposit_used.to_s)}"]
+         table_data << ["Coupons Used", "£#{(sprintf "%.2f", @dailybank.coupons_used.to_s)}"]
          table_data << ["Cash", "£#{(sprintf "%.2f", @dailybank.total_expected_cash.to_s)}"]
          table_data << ["Card", "£#{(sprintf "%.2f", @dailybank.total_eft_taken.to_s)}"]
           table_data << [" "]
@@ -425,11 +426,11 @@ class DailybanksController < ApplicationController
            self.width = 200
            self.cell_style = { :inline_format => true, size: 8 } 
            row(0).font_style = :bold
-           row(8).font_style = :bold
+           row(9).font_style = :bold
            columns(0).align = :left
            columns(1).align = :right
-           row(7).border_width = 0
-           row(8).border_width = 2
+           row(8).border_width = 0
+           row(9).border_width = 2
            row(0).border_width = 2
             end 
      send_data pdf.render, filename: 'end_of_night.pdf', type: 'application/pdf', :disposition => 'inline'
@@ -500,7 +501,7 @@ class DailybanksController < ApplicationController
       #SALES_SUMMARY_START
       pdf.text "SUMMARY SALES FIGURES" + "\n", size: 10
         table_data_sales = Array.new
-        table_data_sales << ["Month","Food", "Drink", "Merchandise", "Deposits/\nVouchers", "Total"]
+        table_data_sales << ["Month","Food", "Drink", "Merchandise", "Deposits\nVouchers\nCoupons", "Total"]
          
         @dailybanks_by_month.each do |month, dailybanks|
           table_data_sales << [month, "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", ((dailybanks.map { |h| h[:till_takings] }.compact.sum)+(dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum)).to_s)}"]      
@@ -529,7 +530,7 @@ class DailybanksController < ApplicationController
       pdf.text "Week Number " + week, size: 10, style: :bold 
         
         table_data = Array.new
-        table_data << ["Date", "Takings", "Cash", "Cards", "Expenses", "Var", "Food", "Drink", "Merch", "D & V\nAdjustment"]
+        table_data << ["Date", "Takings", "Cash", "Cards", "Expenses", "Var", "Food", "Drink", "Merch", "D,V&C\nAdjustment"]
         dailybanks.each do |dailybank|
           if ["Locked", "Mgmt Review", "Mgmt re-calc"].include? dailybank.status
             #reject record is status doesn't suggest values will be completed as would cause error
@@ -565,7 +566,7 @@ class DailybanksController < ApplicationController
          @dailybanks_by_month.each do |month, dailybanks|
          pdf.text "\n", size: 8
            table_data = Array.new
-           table_data << [month, "Takings", "Cash", "Cards", "Expenses", "Var", "Food", "Drink", "Merch", "D & V\nAdjustment"]
+           table_data << [month, "Takings", "Cash", "Cards", "Expenses", "Var", "Food", "Drink", "Merch", "D,V&C\nAdjustment"]
            takings_total = ((dailybanks.map { |h| h[:banking] }.compact.sum)+(dailybanks.map { |h| h[:card_payments] }.compact.sum)+(dailybanks.map { |h| h[:expenses_total] }.compact.sum)-(dailybanks.map { |h| h[:calculated_variance] }.compact.sum))
            table_data <<["","£#{(sprintf "%.2f", takings_total.to_s)}" , "£#{(sprintf "%.2f", dailybanks.map { |h| h[:banking] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:card_payments] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:expenses_total] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:calculated_variance] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:dry_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:wet_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:merch_takings] }.compact.sum.to_s)}", "£#{(sprintf "%.2f", dailybanks.map { |h| h[:v_d_adjustments] }.compact.sum.to_s)}"]
         
@@ -602,7 +603,7 @@ class DailybanksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dailybank_params
-      params.require(:dailybank).permit(:user_id, :effective_date, :bacs, :till_cash, :till_float, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :terminal_1, :terminal_2, :tablet_1, :tablet_2, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :gratuity_1, :gratuity_2, :gratuity_total, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
+      params.require(:dailybank).permit(:user_id, :effective_date, :bacs, :till_cash, :till_float, :coupons_used, :card_payments, :card_1, :card_2, :expenses_total, :actual_cash_total, :till_takings_check, :till_takings, :wet_takings, :dry_takings, :merch_takings, :vouchers_sold, :vouchers_used, :deposit_sold, :deposit_used, :actual_till_takings, :reported_till_takings, :v_d_adjustments, :total_eft_taken, :total_expected_cash, :terminal_1, :terminal_2, :tablet_1, :tablet_2, :calculated_variance, :user_variance, :variance_comment, :status, :variance_gap, :gratuity_1, :gratuity_2, :gratuity_total, :banking, :cashfloats_attributes => [:id, :dailybank_id, :float_type, :period, :completed_by, :user_code, :fifties, :twenties, :tens, :fives, :two_pound_single, :pound_single, :fifty_single, :twenty_single, :ten_single, :five_single, :two_single, :one_single, :float_actual, :float_target, :float_gap, :float_comment, :completed, :cheat, :override], :expenses_attributes => [:id, :dailybank_id, :what, :where, :price, :ref, :_destroy] )
     end
     
     def run_calc_rules(dailybank)
@@ -649,8 +650,9 @@ class DailybanksController < ApplicationController
       end 
        
       #good
-      if (!dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank?)
-         dailybank.update_attribute(:v_d_adjustments, ((dailybank.vouchers_sold+dailybank.deposit_sold)-(dailybank.deposit_used+dailybank.vouchers_used)))
+      #shauna change to add coupons - 26/2/2020
+      if (!dailybank.vouchers_sold.blank? && !dailybank.vouchers_used.blank? && !dailybank.deposit_sold.blank? && !dailybank.deposit_used.blank? && !dailybank.coupons_used.blank?)
+         dailybank.update_attribute(:v_d_adjustments, ((dailybank.vouchers_sold+dailybank.deposit_sold)-(dailybank.deposit_used+dailybank.vouchers_used+dailybank.coupons_used)))
         else
       end 
       

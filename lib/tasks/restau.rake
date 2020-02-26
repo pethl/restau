@@ -4,6 +4,23 @@ include ActionView::Helpers::NumberHelper
 
 namespace :restau do
   
+  task update_dailybank: :environment do
+    puts "\n"
+     puts "----------------------UPDATE_DAILYBANK_COUPON:START-------------------------"
+    
+     puts "Update Dailybanks."
+     dailybanks = Dailybank.where("created_at < ?",Date.yesterday.end_of_day)
+     puts "Records to be updated - count: #{dailybanks.count}" 
+       
+     dailybanks.each do |dailybank|
+       dailybank.update(coupons_used: 0)
+     end
+    
+     puts " #{dailybanks.count} Dailybanks have been updated"
+      puts "----------------------UPDATE_DAILYBANK_COUPON:END-------------------------"
+     puts "\n"
+   end
+  
   task purge_held_bookings: :environment do
     puts "\n"
      puts "----------------------PURGE_HELD_BOOKINGS:START-------------------------"

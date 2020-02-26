@@ -1,0 +1,107 @@
+<div class="hfsk-location-background">
+
+<%= render 'layouts/external_header' %>
+<div class="row">
+ <div class="col-md-10 col-md-offset-1  "> 
+ <div class="row">
+  <div class="col-md-4">
+  </div>
+ 
+<!-- Instructions: This is the intro section. -->  
+
+
+  <div class="col-md-6">
+  <h5>FIND MY BOOKING(S) </h5>
+  <br>
+  
+  
+  <h6>If you have lost the details of a future booking, you can retrieve it here:</h6>
+  <br>
+    
+  <!-- Instructions: This is the search section. -->     
+    <div class="well well-sm">
+     <%= form_tag hfsk_find_my_booking_path, method: :get, :class => "form-inline" do %>
+
+         <h6>Please enter telephone or email given when booking was made:<br><br>
+         <%= hidden_field(:booking, :name, :placeholder => "Name", :class=>"form-control input-sm") %>
+         <%= hidden_field(:booking, :booking_date_time, :placeholder => "DateTime", :class=>"form-control input-sm") %>
+ 
+         <%= text_field(:booking, :phone, :placeholder => "Phone", :class=>"form-control input-sm") %>
+         or
+         <%= text_field(:booking, :email, :placeholder => "Email", :class=>"form-control input-sm") %>
+    
+       <br><br>
+       <button type="submit" class="btn btn-primary btn-sm">Search</button>
+     <% end %>
+     </div>
+    
+<!-- Instructions: This is no bookings found section. -->  
+     
+       <% if @bookings==0 || !@bookings.any? %>
+	   
+	    <h5>No bookings found for that input. Please try with any other information you have, <br>
+			else <%= link_to "GET IN TOUCH", hfsk_get_in_touch_path, style: 'color:#d3d3d3;' %> and one of our staff will assist you.</h5>
+
+<!-- Instructions: This is the bookings found section. -->  	
+		   
+	   <% elsif @bookings.any? %>
+     
+     <TABLE class="table table-bordered table-condensed ">
+       <thead>
+         <tr>
+           
+           <th><center><small>When</center></th>
+           <th><small>Status</th>
+           <th><small>Customer</th>
+           <th><center><small>Diners</center></th>
+           <th><center><small>Deposit Due</center></th>
+           <th><center><small>Deposit Paid</center></th>
+           <th><small>Date Booked</th>
+		   <th><small>Send Email<br> Reminder</th>
+           </tr>
+         </thead>
+         <tbody>
+
+         <% @bookings.each do |booking| %>
+    <% if booking.status == "Cancelled" %>
+      <tr class="danger">
+         <% elsif ["Paid in Full", "No Deposit Required"].include? Booking.deposit_amount(booking).first  %>
+      <tr class="success">
+         <% else %>
+      <tr class="default">
+    <% end %>
+         
+        
+         <td><small><center><%= booking.booking_date_time.strftime('%A') %>, <%= booking.booking_date_time.strftime('%H:%M') %><br>
+         <%= booking.booking_date_time.strftime('%d %b %y') %></center></td>
+         <td> <small><%= booking.status %></td>
+         <td><strong><%= booking.name %></strong><br></td>
+         <td><small><center><%= booking.number_of_diners %></center></td>
+         <% if booking.number_of_diners >= Rdetail.deposit_table_size %>
+           <td><small><center>£<%= number_with_precision((booking.number_of_diners*10), :precision => 2) %></center></td>
+         <% else %>
+           <td><small><center>£0</center></td>
+         <% end %>
+        
+         <td><small><center><% if booking.deposit_amount? %>£<%= number_with_precision(booking.deposit_amount, :precision => 2) %></center><% end %></td>
+         
+         <td><small><i><%= booking.created_at.strftime('%d %b %Y') %></small></td>
+         
+	     <td><% if booking.status =="Confirmed" %> <button type="button" class="btn btn-warning btn-sm"><%= link_to 'Send email', send_customer_booking_mail_path(booking) %> </button>
+			 <% else %><% end %></td>
+       </tr>
+    <% end %>  
+   
+  </tbody>
+</table>
+<br>
+
+    <% end %>  
+     <br><br><br><br><br>
+  </div> 
+   </div> 
+    </div>
+
+   
+ 
+ 

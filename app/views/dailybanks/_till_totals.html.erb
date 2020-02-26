@@ -46,6 +46,14 @@
       <div class="col-md-2"><%= f.text_field :deposit_used, :style => "width:74px; text-align:right", :tabindex =>7, :value => (number_with_precision(f.object.deposit_used, :precision => 2)) %></div>   
     </div>
     
+    <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
+      <div class="col-md-3"><font color=#D3D3D3><%= f.label :coupons_used, "Coupons Used" %></font><br></div>
+      <div class="col-md-2"><%= f.text_field :coupons_used, :style => "width:74px; text-align:right", :tabindex =>7, :value => (number_with_precision(f.object.coupons_used, :precision => 2)) %></div>   
+    </div>
+    
      <div class="row">
       <div class="col-md-8"><hr></div>
      </div>
@@ -58,7 +66,7 @@
       <% end %>
       </div>
        <div class="col-md-1"></div>
-      <div class="col-md-3"><b><font color=#D3D3D3>Deposit & Voucher Adjustment</font></b></div>
+      <div class="col-md-3"><b><font color=#D3D3D3>Deposit, Voucher & Coupons Adjustment</font></b></div>
       <div class="col-md-2"><font color=#D3D3D3>
       <b class="text-align:right"><%= number_to_currency(@dailybank.v_d_adjustments, :locale => :en) %></b></div>
     </div>

@@ -11,7 +11,9 @@
     </div>
   <% end %>
    
- <p class="lead">Date: <%= f.date_select :effective_date, :start_year => 2016 %></p>
+<br>
+ <font color=#D3D3D3>Date: </font><%= f.date_select :effective_date, :start_year => 2016 %><br><br>
+ 
   <%= f.hidden_field :user_id, :value => current_user.id%>
   <%= f.hidden_field :status, :value => "Balance Morning Float" %>
     <%= f.fields_for :cashfloats do |builder| %>

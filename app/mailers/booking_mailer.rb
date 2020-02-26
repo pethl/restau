@@ -85,4 +85,11 @@ class BookingMailer < ActionMailer::Base
     end
   end
     
+  def send_customer_booking_mail(booking)
+    @booking = Booking.find(booking.id)
+     if @booking
+      mail(to: @booking[:email], subject: "Your Booking - Hang Fire Southern Kitchen")
+    end
+  end  
+    
 end

@@ -444,7 +444,9 @@ class BookingsController < ApplicationController
                   send_data pdf.render, filename: 'bookings.pdf', type: 'application/pdf', :disposition => 'inline'
                 end
               end
-            end     
+            end    
+            
+ 
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -469,4 +471,5 @@ class BookingsController < ApplicationController
         def booking_made_in_this_month(date)
           Booking.where("booking_date_time BETWEEN ? AND ?", date.beginning_of_month.beginning_of_day, date.end_of_month.end_of_day).where(:status => "Confirmed")
         end
+        
 end

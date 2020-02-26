@@ -160,7 +160,7 @@
    <%= f.text_field :deposit_sold, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.deposit_sold, :precision => 2))  %> <br>
    </div>
    <div class="col-md-2"> 
-   <font color=#D3D3D3><%= f.label :v_d_adjustments, "D/V Adjustment" %></font><br>
+   <font color=#D3D3D3><%= f.label :v_d_adjustments, "D/V/C Adjustment" %></font><br>
    </div>       
    <div class="col-md-2">
    <%= f.text_field :v_d_adjustments, :disabled=>true, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.v_d_adjustments, :precision => 2))  %> <br>
@@ -169,10 +169,12 @@
  
  <div class="row">
    <div class="col-md-2"> 
-   <font color=#D3D3D3><%= f.label :deposit_used, "D's Used"%></font>
+    <font color=#D3D3D3><%= f.label :deposit_used, "D's Used"%></font><br>
+    <font color=#D3D3D3><%= f.label :deposit_used, "Coupons Used"%></font>
    </div>
    <div class="col-md-2">
-   <%= f.text_field :deposit_used, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.deposit_used, :precision => 2))  %> <br>
+     <%= f.text_field :deposit_used, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.deposit_used, :precision => 2))  %> <br>
+     <%= f.text_field :coupons_used, :style => "width:74px; text-align:right", :value => (number_with_precision(f.object.coupons_used, :precision => 2))  %> 
    </div>
    <div class="col-md-2"> 
     <font color=#FFDC00><%= f.label :calculated_variance, "Variance" %> </font>

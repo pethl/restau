@@ -47,7 +47,7 @@
    <th style="text-align:right">Food</th>
    <th style="text-align:right">Drink</th>
    <th style="text-align:right">Merchandise</th>
-   <th style="text-align:right">Deposits/Vouchers</th>
+   <th style="text-align:right">Deposits/Vouchers/Coupons</th>
    <th style="text-align:right">Total</th>
   </tr>
   </thead> 
@@ -109,14 +109,14 @@
        <td ><small><%= dailybank.effective_date.strftime('%A') %></small></td>
        <td ><small><%= dailybank.effective_date.strftime('%d/%m/%y') %></small></td>
        <td style="text-align:right"><%= (dailybank.banking+dailybank.card_payments+dailybank.expenses.sum(:price)-dailybank.calculated_variance) %></td>
-       <td style="text-align:right"><%= dailybank.banking %></td>
-       <td style="text-align:right"><%= dailybank.card_payments %></td>
-       <td style="text-align:right"><%= dailybank.expenses.sum(:price) %></td>
-       <td style="text-align:right"><%= dailybank.calculated_variance %></td>
-       <td style="text-align:right"><%= dailybank.dry_takings %></td>
-       <td style="text-align:right"><%= dailybank.wet_takings %></td>
-       <td style="text-align:right"><%= dailybank.merch_takings %></td>
-       <td style="text-align:right"><%= dailybank.v_d_adjustments %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.banking, :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.card_payments, :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.expenses.sum(:price), :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.calculated_variance, :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.dry_takings, :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.wet_takings, :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.merch_takings, :locale => :en) %></td>
+       <td style="text-align:right"><%= number_to_currency(dailybank.v_d_adjustments, :locale => :en) %></td>
       </tr> 
         <% end %>
   

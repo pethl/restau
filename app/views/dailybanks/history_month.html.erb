@@ -127,6 +127,14 @@
    <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:deposit_used] }.compact.sum, :locale => :en) %></b></td>
   </tr>
   
+  <tr>
+  <td><b>Coupons Used</b></td>
+   <% @dailybanks_by_week.each do |week, dailybanks| %>
+   <td  style="text-align:right"><%= dailybanks.map { |h| h[:coupons_used] }.compact.sum %></td></td>
+   <% end %>
+   <td style="text-align:right"><b> <%= number_to_currency(@dailybanks.map { |h| h[:coupons_used] }.compact.sum, :locale => :en) %></b></td>
+  </tr>
+  
   <tr class="success">
   <td><b>Expected Takings</b></td>
    <% @dailybanks_by_week.each do |week, dailybanks| %>

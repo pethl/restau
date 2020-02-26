@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  before_action :logged_in_user, only: [:function_room_enquiry]
+  before_action :logged_in_user, only: [:function_room_enquiry, :hfsk_pay_deposit, :hfsk_find_my_booking ]
  
   def home
   end
@@ -33,8 +33,49 @@ class StaticPagesController < ApplicationController
   end
   
   def hfsk_confirm_deposit
-     # Rails.logger.debug("xxxxx_static_pages_CONFIRM_DEPOSIT : #{params.inspect}")
          @booking = Booking.find(params["id"])
+  end
+  
+  def hfsk_find_my_booking
+    @error = params["error"]   
+       @bookings =[]   
+      #take params from search on view, note need all params to make use of search code on booking.rb even though some are hidden, or if no search, 
+      #send to Booking.rb model to apply SEARCH function, which retrieves all matching records, any status, past and present
+  
+   Rails.logger.debug("xxxxx_PARAMS : #{params.inspect}")
+    Rails.logger.debug("xxxxx_PARAMS : #{params[:booking].inspect}")
+ # Rails.logger.debug("xxxxx_PARAMS : #{params[:booking][:phone].inspect}")
+
+  if params[:booking].present? 
+ 
+  unless params[:booking][:phone].length == 0 || params[:booking][:phone].length >9
+     redirect_to hfsk_find_my_booking_path(@bookings), :flash => { :warning => "Please enter a phone number of at least 10 digits"}
+  end
+  
+       
+       #if params[:name].present? || params[:email].present?
+         
+         @bookings = Booking.all_search(params[:booking])
+               if @bookings.any?
+                 params[:booking]= []
+                 @bookings_filtered =[]   
+                # code to remove any past bookings
+                 @bookings.each do |booking|
+                   if (booking.booking_date_time > Date.today.end_of_day)
+                     @bookings_filtered << booking
+                   end
+                   @bookings = @bookings_filtered
+                 end
+                 @bookings = @bookings.sort_by { |hsh| hsh[:booking_date_time] }
+               else
+                 params[:booking]= []
+                 @bookings = 0
+               end
+       else
+          @bookings = []
+      
+         params[:booking]= []
+       end
   end
   
   def day_picker
@@ -125,6 +166,14 @@ class StaticPagesController < ApplicationController
       filename: "HF_ENGINE_ROOM_HIRE_T&Cs.pdf",
       type: "application/pdf"
     )
+  end
+  
+ def send_customer_booking_mail(booking)
+     Rails.logger.debug("171_booking : #{booking.inspect}")
+    @booking = booking
+     Rails.logger.debug("171_booking : #{@booking.inspect}")
+      Booking_Mailer.send_customer_booking_mail(@booking).deliver
+    redirect_to hfsk_find_my_booking_path, :flash => { :success => "Your booking details have been sent to the email address on the booking."}
   end
 
 end

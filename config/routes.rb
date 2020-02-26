@@ -142,6 +142,7 @@ Rails.application.routes.draw do
   get '/hfsk_menu' => 'static_pages#hfsk_menu'
   get '/hfsk_holiday_season' => 'static_pages#hfsk_holiday_season'
   get '/hfsk_gift_vouchers' => 'static_pages#hfsk_gift_vouchers'
+  get '/hfsk_find_my_booking' => 'static_pages#hfsk_find_my_booking'
   
   #new pages
   get '/hfsk_home_new' => 'static_pages#hfsk_home_new'
@@ -173,6 +174,7 @@ Rails.application.routes.draw do
   get "static_pages/hfsk_holiday_season"
   get "sessions/new"
   get "static_pages/new_booking_enquiry_new"
+  get "send_customer_booking_mail", to: 'static_pages#send_customer_booking_mail', as: :send_customer_booking_mail
   
   resources :charges
   

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200219105737) do
+ActiveRecord::Schema.define(version: 20200226134404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 20200219105737) do
     t.decimal  "gratuity_2",            precision: 8, scale: 2
     t.decimal  "gratuity_total",        precision: 8, scale: 2
     t.decimal  "bacs",                  precision: 8, scale: 2
+    t.decimal  "coupons_used",          precision: 7, scale: 2
   end
 
   add_index "dailybanks", ["effective_date"], name: "index_dailybanks_on_effective_date", using: :btree

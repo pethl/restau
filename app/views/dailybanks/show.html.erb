@@ -86,13 +86,15 @@
     <b><font color=#D3D3D3>Vouchers Sold</b></font><br>
     <b><font color=#D3D3D3>Vouchers Used</b></font><br>
     <b><font color=#D3D3D3>Deposits Sold</b></font><br>
-    <b><font color=#D3D3D3>Deposits Used</b></font></td>
+    <b><font color=#D3D3D3>Deposits Used</b></font><br>
+    <b><font color=#D3D3D3>Coupons Used</b></font></td>
     
     <td>
     <%= number_to_currency(@dailybank.vouchers_sold, :locale => :en) %><br>
     <%= number_to_currency(@dailybank.vouchers_used, :locale => :en) %><br>
     <%= number_to_currency(@dailybank.deposit_sold, :locale => :en) %><br>
-    <%= number_to_currency(@dailybank.deposit_used, :locale => :en) %></td>
+    <%= number_to_currency(@dailybank.deposit_used, :locale => :en) %><br>
+    <%= number_to_currency(@dailybank.coupons_used, :locale => :en) %></td>
    
     <td></td>
      <td></td>
