@@ -28,7 +28,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 
 gem 'bcrypt-ruby', '3.1.2'
-gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'bootstrap_form'
 
 #datepicker
