@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.11.1'
 #recomended by heroku
-ruby '2.5.0'
+ruby '2.5.7'
 # Using Postgres database
 gem 'pg', '0.17.1'
 # Use SCSS for stylesheets
