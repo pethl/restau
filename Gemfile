@@ -1,17 +1,20 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.11.1'
 #recomended by heroku
-ruby '2.3.7'
+ruby '2.5.0'
 # Using Postgres database
 gem 'pg', '0.17.1'
 # Use SCSS for stylesheets
 
+#problems with rake 1/9/19 fix to pin rake version
+# gem 'rake', '< 11.0'
+
 # Use Puma as the app server - action to try to remove the procfile error in heroku deploy log.
 gem 'puma'
 
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '< 5.0.8'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -19,18 +22,12 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-#problems with rake 1/9/19 fix to pin rake version
-gem 'rake', '< 11.0'
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
 gem 'bcrypt-ruby', '3.1.2'
-# no longer needed according to heroku
-#gem 'heroku'
-
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'bootstrap_form'
 
@@ -52,7 +49,7 @@ group :development do
   # database health for directions read here: https://github.com/gregnavis/active_record_doctor
   #gem 'active_record_doctor'
   # to resolve index problem
-  gem 'lol_dba'
+  #gem 'lol_dba'
 end  
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -74,7 +71,7 @@ group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
   # for testing from the rspec book
-  gem "rspec-rails", "~> 3.1.0"
+  gem "rspec-rails", "~> 3.5.0"
   gem "factory_girl_rails", "~>4.4.1"
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -83,11 +80,11 @@ end
 
 group :test do
   # for testing from the rspec book
-  gem "faker", "~> 1.4.3"
-#  gem "capybara", "~> 2.4.3"
-  gem "database_cleaner", "~> 1.3.0"
-  gem "launchy", "~> 2.4.2"
-  gem "selenium-webdriver", "~>2.43.0"
+  gem "faker"#, "~> 1.4.3"
+#  gem "capybara"#, "~> 2.4.3"
+  gem "database_cleaner"#, "~> 1.3.0"
+  gem "launchy"#, "~> 2.4.2"
+  gem "selenium-webdriver"#, "~>2.43.0"
 end
 
 #gem 'newrelic_rpm' -- removed 20/02/20
@@ -99,5 +96,5 @@ gem 'groupdate'
 
 # recommended by github cant see why needed
 #gem "activejob", ">= 4.2.11"
-gem "rack", ">= 1.6.4" #as was unable to upgrade without causing other errors 
+gem "rack"#, ">= 1.6.4" #as was unable to upgrade without causing other errors 
 
