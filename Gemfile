@@ -12,7 +12,7 @@ gem 'pg', '0.17.1'
 # gem 'rake', '< 11.0'
 
 # Use Puma as the app server - action to try to remove the procfile error in heroku deploy log.
-gem 'puma'
+gem "puma", ">= 4.3.3"
 
 gem 'sass-rails', '< 5.0.8'
 # Use Uglifier as compressor for JavaScript assets
@@ -57,13 +57,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -92,7 +85,6 @@ gem 'scout_apm' #added 20/02/2020 to try to trace db search issue on booking sea
 gem 'prawn'
 gem 'prawn-table'
 gem 'groupdate'
-
 
 # recommended by github cant see why needed
 #gem "activejob", ">= 4.2.11"
