@@ -116,7 +116,7 @@
    <% end %>
  </div>
 
-<% if (@dailybank.till_takings_check==true) && (!@dailybank.total_eft_taken.blank? && !@dailybank.total_expected_cash.blank? && !@dailybank.v_d_adjustments.blank?) %>
+<% if (@dailybank.till_takings_check==true) && (!@dailybank.bacs.blank? && !@dailybank.total_eft_taken.blank? && !@dailybank.total_expected_cash.blank? && !@dailybank.v_d_adjustments.blank?) %>
  <div class="col-md-3 col-md-offset-4">
  <%= form_for @dailybank, :url => { :action => "lock_event", params: {id: @dailybank.id} }, :html => { :method => "post" } do |f| %>
    <%= f.hidden_field :status, :value => "Validate and Lock" %>

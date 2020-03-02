@@ -103,7 +103,7 @@
     <td><b><font color=#FFA500>Total Sales </b></font></td>
     <td><b><%= number_to_currency(@dailybank.till_takings, :locale => :en) %></b></td>
     <td><b><font color=#FFA500>D/V Adjustments </b></font></td>
-    <td><b><%= number_to_currency(((@dailybank.vouchers_sold+@dailybank.deposit_sold)-(@dailybank.vouchers_used+@dailybank.deposit_used)), :locale => :en) %></b></td>
+    <td><b><%= number_to_currency((@dailybank.v_d_adjustments), :locale => :en) %></b></td>
     
     <td><b><font color=#FFA500>Expected Takings </b></font></td>
     <td><h5><%= number_to_currency(@dailybank.actual_till_takings, :locale => :en) %></h5></td>
