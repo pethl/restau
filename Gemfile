@@ -14,7 +14,7 @@ gem 'pg', '0.17.1'
 # gem 'rake', '< 11.0'
 
 # Use Puma as the app server - action to try to remove the procfile error in heroku deploy log.
-gem "puma", ">= 4.3.3"
+gem "puma", ">= 4.3.5"
 
 gem 'sass-rails', '< 5.0.8'
 # Use Uglifier as compressor for JavaScript assets
