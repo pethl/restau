@@ -5,261 +5,58 @@
  <div class="col-md-10 col-md-offset-1  "> 
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6 col-md-offset-1">
   <h5>BOOK A TABLE</h5>
   
+  <h5>
+  <small><font color=#FFD801>
+  Please note: 
+  If you book between 5pm - 7.30pm we will likely need your table back within 2 hours.
   <br>
-  <table class="table table-bordered">
-  <tr><td><center><h6><small>Please select date from calendar, dulled out dates are <b>not</b> available for booking.
- </small></h6></center>
- </td></tr>
+  <small><%= link_to "See Deposit Terms and Conditions", hfsk_deposit_terms_url, style: 'color:#d3d3d3;'%>
+  </small>
+  <br><br>
+  </small>
+  </h5>
   
-  <tr><td> <%= render 'layouts/messages' %></td></tr>
-  <tr><td>
-  <%= form_tag booking_get_times_bookings_path, multipart: true, :class => "form-inline" do %>  
+  </font>
+  </div>  
+</div>
+ 
+ 
+  <div class="row">
+    <div class="col-md-3 col-md-offset-1">
+   
+   <center>
+   
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Belview Restaurants</title>
+  </head>
+  <body>
+    		  <form id="form1" runat="server">
+     			 <div>
+  <iframe src="http://cloudeu01.avenista.net/HangFire/Bookings/hangfire?theme=uidark-t&view=minimal" frameborder="0" allowTransparency="true" width="320" height="370" scrolling="auto"/>
+      			</div>
+     		 </form>
+  </body>
+  </html>
+   </center>
 
-    <table class="table-condensed" style="border: 0; text-align:left; background-color: transparent">
-    <tr><td style="width: 5%"></td><td style="width: 20%"></td><td style="width: 70%"></td><td style="width: 5%"></td></tr>
-    
-    <tr>
-    <td></td>
-    <td>Date</td>
-     <% old_start_date_tomorrow = Date.yesterday.strftime('%d-%m-%Y')%>
-    <%  ([3,4].include? Date.today.wday) ? (start_date_tomorrow = Date.today.strftime('%d-%m-%Y')) : (start_date_tomorrow = Date.tomorrow.strftime('%d-%m-%Y'))%>
-   
-     <% last_booking_day = Date.new(2018,12,24).strftime('%d-%m-%Y') %>
-     <% end_date_3_months_away = ((Date.today.end_of_month)+3.months).strftime('%d-%m-%Y')%>
-    <td>
-    <input style='color:black;' class="datepicker" data-provide='datepicker' id="booking_date" name="booking[booking_date]"  type="text"  data-date-format=D,dd-M-yyyy data-date-start-date=[<%= start_date_tomorrow %>] data-date-days-of-week-disabled=[1,2] data-date-week-start=[1] data-dates-disabled=["24-12-2018","25-12-2018","26-12-2018","27-12-2018","28-12-2018","29-12-2018","30-12-2018","31-12-2018","01-01-2019"] data-date-end-date=[<%= end_date_3_months_away %>] data-date-autoclose=[true]  data-date-today-highlight=true data-date-orientation="bottom" >   
-     </td>
-    <td></td>
-    </tr>
-   
-  <% diner_options = [0,1,2,3,4,5,6,7,8,9,10] %>
-    <tr>
-    <td></td>
-    <td>People</td>
-    <td>
-    <%= select_tag 'booking[number_of_diners]', options_for_select(diner_options), class:"form-control input-sm" %>
-    </td>
-    <td></td>
-    </tr>
-    
-    <input id="restaurant_id" name="booking[restaurant]" type="hidden" value="Hang Fire Southern Kitchen">
-    
-    <tr>
-    <td></td>
-    <td></td>
-    <td>  <%= submit_tag "CHECK FOR AVAILABLE TIMES", name: nil, class: "btn btn-success btn-sm" %>   
-           <% end %></td>
-    <td></td>
-    </tr>
-    </table>
-   
-    </td></tr></table>
-    <h5><small><font color=#FFD801>
-    Please note if you book between 5pm - 7.30pm we will likely need your table back within 2 hours.
-    </font><br><br>
-    GROUP BOOKING DEPOSIT<br>
-    Our largest group booking is no more than 10 people including children. Tables of <%= deposit_table_size %> or more will require 
-    a deposit of £10 per head to secure the booking. 
-    <small><%= link_to "See Deposit Terms and Conditions", hfsk_deposit_terms_url, style: 'color:#d3d3d3;'%>
-    </small>
-    <br><br>
-    </small>
-    </h5>
-    <br><br>
-      </div>
-        <div class="col-md-1">
-        </div>
-
-<!-- Instructions: This is the availability section. -->  
-
-    <div class="col-md-7">
-    <div class="row">
-     
-      <div class="col-md-8">
-      <h5>AVAILABILITY CALENDAR</h5><br>
-      </div>
-      
-      <div class="col-md-4" align="right">
-      <h6><font color="#66ff66">
-   
-          <% if @date.month == DateTime.now.month && @date.year == DateTime.now.year %>
-            <% else %>
-            <%= link_to image_tag("left-arrow-gr.png", size: "20x20"), date: @date.prev_month %>
-            <% end %>
+  </div>
+  </div>
   
-           <%= @date.strftime("%B %Y") %>  
-           <%= link_to image_tag("right-arrow-gr.png", size: "20x20"), date: @date.next_month %>
-       
-          </h6>
-      </div>
-    
-    <div id="bookings">
-
-  <%= calendar @date do |date| %>
-       <small><small><b><%= date.day %></b></small></small><br>
-       
-<!-- Instructions: This is the special dates section. -->        
-       <% last_booking_day = ((Date.today.end_of_month)+3.months) %>
-        <% xmas_close_start = Date.new(2017,12,23) %>
-         <% xmas_close_end = Date.new(2018,1,4) %>
-          <% full_1 = Date.new(2016,12,3) %>
-           <% full_2 = Date.new(2016,12,10) %>
-            <% full_3 = Date.new(2016,12,17) %>
-             <% exemption_days = Exemption.all.pluck(:exempt_day) %>
-   
-       <% if date < DateTime.now-1.day %>
-     
-         <% elsif @date.month != date.month  %>
-     
-<!-- Instructions: This is the closed dates section. --> 
-          <% elsif ([1,2].include? date.wday)  %>
-                   <br><small><font color=#000000>Closed</font></small>
-              
-          <% elsif date > last_booking_day  %> 
-                  <small><i>Not yet taking bookings</i></small>
-    
-              <% elsif (date > xmas_close_start) && (date < xmas_close_end)  %>     
-                     <br><small><font color=#000000>Closed</font></small>
-         
-                     <% elsif (exemption_days.include? date)  %> 
-                            <small><i><font color=#000000>*Closed or Restricted Bookings</font></small></i>
-              
-<!-- Instructions: This is the special december section. --> 
-                  <% elsif (date.month == 12) && ([5,6].include? date.wday) %>
-                   <% if @bookings_by_date.key?(date) %>
-                     <% @day_full_diners = Rdetail.get_value(1, "day_full_diners") %>
-                     <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
-                     <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > @day_full_diners %>
-                           <small>Lunch:</small><small> <font color=#ff0000>Full</font></small>
-                     <% elsif get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > (@day_full_diners/2) %> 
-                           <small>Lunch:</small><small> <font color=#FFA500>Filling up</font></small>
-                     <% else %>
-                           <small>Lunch:</small><small><font color=#33CC33>Availability</font></small>
-                     <% end %>
-
-                     <% if get_sum_from_array_for_field_evening(@bookings_by_date[date]) > @eve_full_diners %>
-                       <small>Eve: </small><small><font color=#ff0000> Full  </font> </small>
-                       <% elsif get_sum_from_array_for_field_evening(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
-                       <small>Eve: </small><small><font color=#FFA500>Filling up</font></small>
-                       <% else %>
-                       <small>Eve: </small><small><font color=#33CC33>Availability</font></small>
-                       <% end %> 
-                       <% else %>     
-                         <br><small><font color=#33CC33>Availability</font></small>
-                        <% end %>
-            
-                     <% elsif (date.month == 12) && ([3,4].include? date.wday) %>     
-                          <% if @bookings_by_date.key?(date) %>
-                            <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
-                                <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @eve_full_diners %>
-                                  <br><small><font color=#ff0000>Full</font></small>
-                                 <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
-                                   <br><small><font color=#FFA500>Filling up</font></small>
-                                 <% else %>
-                                   <br><small><font color=#33CC33>Availability</font></small>
-                                 <% end %> 
-                                 <% else %>     
-                                   <br><small><font color=#33CC33>Availability</font></small>
-                                   <% end %> 
-                  
-                         <% elsif (date.month == 12) && (date.wday == 0) %>
-                         <% if @bookings_by_date.key?(date) %>
-                           <% @afternoon_full_diners = Rdetail.get_value(1, "afternoon_full_diners") %> 
-                             <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @afternoon_full_diners %>
-                                <small>Lunch:</small><small><font color=#ff0000>Full</font></small>
-                                 <br><small>Eve: </small>
-                                 <small><font color=#000000>Closed</font></small>   
-                               <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@afternoon_full_diners/2) %> 
-                                <small>Lunch:</small><small><font color=#FFA500>Filling up </font></small>
-                                <br><small>Eve: </small>
-                                <small><font color=#000000>Closed</font></small>   
-                               <% else %>
-                                <small>Lunch:</small><small><font color=#33CC33>Availability</font></small>
-                                <br><small>Eve: </small>
-                                <small><font color=#000000>Closed</font></small>   
-                                 <% end %> 
-                                 <% else %>     
-                                <small>Lunch:</small><small><font color=#33CC33>Availability</font></small>
-                                <br><small>Eve: </small>
-                                <small><font color=#000000>Closed</font></small>   
-                                  <% end %> 
-                   
-<!-- Instructions: This is the normal dates section. -->                   
-             <% elsif [3,4].include? date.wday %>
-             <% if @bookings_by_date.key?(date) %>
-               <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
-                   <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @eve_full_diners %>
-                     <br><small><font color=#ff0000>Full</font></small>
-                   <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
-                     <br><small><font color=#FFA500>Filling up</font></small>
-                   <% else %>
-                     <br><small><font color=#33CC33>Availability</font></small>
-                   <% end %> 
-                   <% else %>     
-                     <br><small><font color=#33CC33>Availability</font></small>
-                     <% end %> 
-
-            <% elsif [5,6].include? date.wday %>
-             <% if @bookings_by_date.key?(date) %>
-               <% @day_full_diners = Rdetail.get_value(1, "day_full_diners") %>
-               <% @eve_full_diners = Rdetail.get_value(1, "eve_full_diners") %> 
-               <% if get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > @day_full_diners %>
-                     <small>Lunch:</small><small> <font color=#ff0000>Full</font></small><br>
-               <% elsif get_sum_from_array_for_field_lunch(@bookings_by_date[date]) > (@day_full_diners/2) %> 
-                     <small>Lunch:</small><small> <font color=#FFA500>Filling up</font></small>
-               <% else %>
-                     <small>Lunch:</small><small><font color=#33CC33>Availability</font></small>
-               <% end %>
-
-               <% if get_sum_from_array_for_field_evening(@bookings_by_date[date]) > @eve_full_diners %>
-                 <small>Eve: </small><small><font color=#ff0000> Full  </font> </small>
-                 <% elsif get_sum_from_array_for_field_evening(@bookings_by_date[date]) > (@eve_full_diners/2) %> 
-                 <small>Eve: </small><small><font color=#FFA500>Filling up</font></small>
-                 <% else %>
-                 <small>Eve: </small><small><font color=#33CC33>Availability</font></small>
-                 <% end %> 
-                 <% else %>     
-                   <br><small><font color=#33CC33>Availability</font></small>
-                  <% end %>
-
-           <% elsif date.wday == 0 %>
-            <% if @bookings_by_date.key?(date) %>
-             <% @afternoon_full_diners = Rdetail.get_value(1, "afternoon_full_diners") %> 
-               <% if get_sum_from_array_for_field(@bookings_by_date[date]) > @afternoon_full_diners %>
-                   <small>Lunch:</small><small><font color=#ff0000>Full</font></small>   
-                   <br><small>Eve: </small>
-                   <small><font color=#000000>Closed</font></small>   
-                 <% elsif get_sum_from_array_for_field(@bookings_by_date[date]) > (@afternoon_full_diners/2) %> 
-                   <small>Lunch:</small><small><font color=#FFA500>Filling up </font></small>
-                   <br><small>Eve: </small>
-                   <small><font color=#000000>Closed</font></small>   
-                 <% else %>
-                   <small>Lunch:</small><small><font color=#33CC33>Availability</font></small>
-                   <br><small>Eve: </small>
-                   <small><font color=#000000>Closed</font></small>   
-                   <% end %> 
-                   <% else %>     
-                     <small>Lunch:</small><small><font color=#33CC33>Availability</font></small>
-                     <br><small>Eve: </small>
-                     <small><font color=#000000>Closed</font></small>   
-                    <% end %> 
-                
-            <% else %>     
-             <br> <small><font color=#33CC33>Availability</font></small>
-               <% end %>
+  <div class="col-md-5 col-md-offset-1">
+  <h5>BOOK A TABLE</h5>
   
-     </center>   
-     <% end %>
+   
+  
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      </div>
+
+
     </div>
-
-    <h6><center>
-   If you are struggling to book a table at a time that is showing availability<br> please <font color=#FFD801>get in touch</font> and we'll try to help you with a booking.</p></h6>
-    
-  <br><br><br><br>
-</div>
-</div>
-</div>
-</div>
+  </div>
