@@ -1,10 +1,13 @@
-<h3><%= link_to "Hang Fire Southern Kitchen", static_pages_hfsk_home_url %></h3>
-<h1>Log in</h1>
+<h2><%= link_to "Hang Fire Southern Kitchen Restataurant Site - Official use Only", static_pages_hfsk_home_url, :style=>'color:#ffffff;' %></h2>
+
+<br><br><br><br>
+
+<h6>Authorised Staff Log in:</h6>
 
 <div class="row">
-  <div class="span6 offset3">
+  <div class="span2 offset3">
   
-      <%= bootstrap_form_for(:session, url: login_path, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-5") do |f| %>
+      <%= bootstrap_form_for(:session, url: login_path, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-3") do |f| %>
       
       <%= f.text_field :email %>
       <%= f.password_field :password %>
