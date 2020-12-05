@@ -1,5 +1,5 @@
 class StaticPagesController < ApplicationController
-  before_action :logged_in_user, only: [:function_room_enquiry, :hfsk_pay_deposit, :hfsk_find_my_booking, :hfsk_heat_at_home]
+  before_action :logged_in_user, only: [:function_room_enquiry, :hfsk_pay_deposit, :hfsk_find_my_booking]
  
   def home
   end
