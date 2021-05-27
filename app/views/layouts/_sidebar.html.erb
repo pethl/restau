@@ -22,21 +22,7 @@
                 <% end %>
                
           <b>General</b><br>
-             <%= link_to "Daily Bookings", bookings_url, style: 'color:#d3d3d3;'%>
-              <br>
-              <%= link_to "Booking Calendar", calendar_path, style: 'color:#d3d3d3;'%>
-              <br>
-              <%= link_to "Book a Table", new_booking_path, style: 'color:#d3d3d3;'%>
-              <br>
-             
-              <%= link_to "Deposit Report", deposit_report_path, style: 'color:#d3d3d3;'%>
-              <br>
-              <%= link_to "Confirmation Report", confirmation_report_path, style: 'color:#d3d3d3;'%>
-              <br>
-              
-              <%= link_to "Booking Search", search_bookings_path, style: 'color:#d3d3d3;'%>
-              <br>
-              <%= link_to "End of Night", dailybanks_path, style: 'color:#d3d3d3;'%>
+                 <%= link_to "End of Night", dailybanks_path, style: 'color:#d3d3d3;'%>
               <br><br>
             <b>Functions</b><br>
             <%= link_to "Book a Function", new_function_path, style: 'color:#d3d3d3;'%>
@@ -49,40 +35,27 @@
             <b>Management</b><br>
                 <%= link_to "Gift Vouchers Back End", " https://gvsadmin.giftvouchersolutions.co.uk/", :target => "_blank", :style=>'color:#d3d3d3;' %>
                 <br>
-                <%= link_to "Day To View Bookings", day_to_view_bookings_report_path, style: 'color:#d3d3d3;'%>
-                <br>
-                <%= link_to "Booking Activity", basic_report_path, style: 'color:#d3d3d3;'%>
-                <br>
-                <%= link_to "Booking Exemptions", exemptions_path, style: 'color:#d3d3d3;'%>
-                <br>
                 <%= link_to "Expenses Search", expenses_path, style: 'color:#d3d3d3;'%>
-                <br>
-                <%= link_to "TRONC periods", troncs_path, style: 'color:#d3d3d3;'%>
-                <br>
-                <%= link_to "TRONC Allocation", show_team_path, style: 'color:#d3d3d3;'%>
                 <br>
                 <%= link_to "System Users", users_url, style: 'color:#d3d3d3;'%>
                 <br>
-                <%= link_to "Staff", staffs_path, style: 'color:#d3d3d3;'%>
+                <%= link_to "TRONC Periods", troncs_path, style: 'color:#d3d3d3;'%>
                 <br>
-                <%= link_to "Accrued Vacation", accrued_vacation_path, style: 'color:#d3d3d3;'%>
+                <%= link_to "TRONC Allocation", show_team_path, style: 'color:#d3d3d3;'%>
                 <br>
-                <%= link_to "Enter Staff Hours", edit_all_path, style: 'color:#d3d3d3;'%>
+                <%= link_to "TRONC Staff", staffs_path, style: 'color:#d3d3d3;'%>
+                <br>
+                <%= link_to "TRONC Hours", edit_all_path, style: 'color:#d3d3d3;'%>
                 <br>
                 <%= link_to 'EoN / Financial Reports', latest_path, :class => "link", :style => "color:#d3d3d3" %></h6>
               <% end %>
               
-              <br><br>
-              <b>External Pages </b> <br>
-              <%= link_to "Booking Enquiry", new_booking_enquiry_url, style: 'color:#ffffe0;'%>
-                <br>
+              <br>
+              <h6> <small> <b>External Pages </b> <br>
                  <%= link_to "HFSK Home", hfsk_home_url, style: 'color:#ffffe0;'%>
              
              <% else %>
              <%= link_to "Log In", login_url, style: 'color:#FFFFFF;'%><br><br><br>
-             <%= link_to "Booking Enquiry", new_booking_enquiry_url, style: 'color:#ffffe0;'%>
-               <br>
-                <%= link_to "Main Site", hfsk_home_url, style: 'color:#ffffe0;'%>
+                <%= link_to "Main Site", hfsk_home_url, style: 'color:#ffffe0;'%></h6>
                <% end %>
              
-</h6>
